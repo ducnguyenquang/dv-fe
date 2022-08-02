@@ -1,0 +1,14 @@
+{
+  "protocol": "https",
+  "portApi": "7001",
+  "serverURL": "www.second-opinion.tk",
+  "portSocket": "7002",
+  "clientId": "AdnHJVzMtND41Pbr7XmiW-iZKlrQd63jiJl30TFsEqoOx3Oso8_PBR0lFy6t9qQcjxQbnTMk04pxCT1q",
+  "s3WebUrl": "http://so-public.s3-website.eu-central-1.amazonaws.com/",
+  "apiVersion": "v1",
+  "deepLink": "secondopinion://login",
+  "recaptchaKey": "6LerzEgbAAAAAPXKiVKuXrRSDT3KT7gh1HwfxpHD",
+  "restCountriesURL": "https://restcountries.eu/rest/v2",
+  "defaultDateFormat": "DD-MM-YYYY",
+  "defaultTimeFormat": "HH:mm"
+}

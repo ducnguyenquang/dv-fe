@@ -1,0 +1,12 @@
+{
+  "protocol": "http",
+  "portApi": "5000",
+  "serverURL": "localhost",
+  "portSocket": "5002",
+  "clientId": "AfiJDkVDFpO_3hCMBRiHXu_-O0XS9S6ntfAdq7zfW4o4Lcz-jUY5h7tGLNfL8zL5jtSwboC6dS9UjhPM",
+  "s3WebUrl": "http://so-public.s3-website.eu-central-1.amazonaws.com/",
+  "apiVersion": "v1",
+  "deepLink": "secondopinion://login",
+  "recaptchaKey": "6LerzEgbAAAAAPXKiVKuXrRSDT3KT7gh1HwfxpHD",
+  "restCountriesURL": "https://restcountries.eu/rest/v2"
+}

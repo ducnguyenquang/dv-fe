@@ -1,0 +1,12 @@
+{
+    "translations": {
+        "someThing": "default value"
+    },
+    "button": {
+        "login": "Login"
+    },
+    "login": {
+        "email": "Email",
+        "password": "Password"
+    }
+}

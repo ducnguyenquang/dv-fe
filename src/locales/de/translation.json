@@ -1,0 +1,1328 @@
+{
+  "menu": {
+    "top": {
+      "home": "Home",
+      "getSecondOpinion": "Zweitmeinung buchen",
+      "dashboard": "Instrumententafel",
+      "services": "Services",
+      "features": "Eigenschaften",
+      "aboutUs": "Über uns",
+      "downloadApp": "App runterladen"
+    },
+    "nav": {
+      "appointments": "Termine",
+      "settings": "Einstellungen",
+      "certificates": "Zertifikate",
+      "account": "Konto",
+      "others": "Andere",
+      "revenue": "Einnahmen",
+      "uploadedCertificates": "Zertifikat aktualisieren",
+      "management": "Verwaltung",
+      "services": "Services",
+      "dashboard": "Instrumententafel",
+      "schedules": "Zeitpläne",
+      "statistic": "Statistiken",
+      "doctorManagement": "Arzt",
+      "notification": "Benachrichtigung",
+      "customizeNotification": "Anpassen",
+      "systemNotification": "System"
+    }
+  },
+  "button": {
+    "en": "EN",
+    "de": "DE",
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "upload": "Hochladen",
+    "confirm": "Weiter",
+    "save": "Speichern",
+    "update": "Update",
+    "modify": "Ändern",
+    "remove": "Entfernen",
+    "setDefault": "Als Standard festlegen",
+    "createService": "Neuen Service hinzufügen",
+    "approve": "Zustimmen",
+    "decline": "Ablehnen",
+    "close": "Schließen",
+    "ok": "Ok",
+    "delete": "Löschen",
+    "back": "Zurück",
+    "next": "Nächstes",
+    "search": "Suche",
+    "viewInDetail": "Details ansehen",
+    "loadMore": "Mehr laden",
+    "cancel": "Abbrechen",
+    "uploadFrontSide": "Vorderseite hochladen",
+    "uploadBackSide": "Rückseite hochladen",
+    "submit": "Einreichen",
+    "newSchedule": "Neuer Zeitplan",
+    "addService": "Service hinzufügen",
+    "edit": "Bearbeiten",
+    "question": "Frage",
+    "deactivate": "Deaktivieren",
+    "new": "Neu",
+    "chooseAnotherSlot": "Neues Zeitfenster auswählen",
+    "accept": "Akzeptieren",
+    "reject": "Ablehnen",
+    "callConfirm": "Videocall oder Anruf wurde bestätigt",
+    "signOut": "Ausloggen",
+    "no": "Nein",
+    "send": "Senden",
+    "done": "Done"
+  },
+  "text": {
+    "language": "Sprache",
+    "english": "Englisch",
+    "deutsch": "Deutsch",
+    "serviceIncludes": "Dieser Service beinhaltet",
+    "videoCall": "Ergebnisbesprechung per Videocall oder Telefon",
+    "selectAll": "Alle markieren",
+    "suggest": "Vorschlag",
+    "minutes": "Minuten",
+    "servicePrice": "Preis pro Service",
+    "fileUploadSuccess": "Die Datei wurde erfolgreich hochgeladen",
+    "doctorPayment": "Zahlung an den behandelden Arzt",
+    "fileUploadFailed": "Datenupload fehlgeschlagen",
+    "gender": {
+      "male": "männlich",
+      "female": "weiblich",
+      "other": "andere"
+    },
+    "Jan": "Jan",
+    "Feb": "Feb",
+    "Mar": "Mar",
+    "Apr": "Apr",
+    "May": "Mai",
+    "Jun": "Jun",
+    "Jul": "Jul",
+    "Aug": "Aug",
+    "Sep": "Sep",
+    "Oct": "Okt",
+    "Nov": "Nov",
+    "Dec": "Dez",
+    "Mon": "Mon",
+    "Tue": "Di",
+    "Wed": "Mi",
+    "Thu": "Do",
+    "Fri": "Fr",
+    "Sat": "Sa",
+    "Sun": "So",
+    "confirm": "Bestätigen",
+    "increased": "erhöht",
+    "decreased": "verringert",
+    "notChange": "Nicht Ändern",
+    "total": "Summe",
+    "inactive": "Inaktiv",
+    "active": "Aktiv",
+    "banned": "Verboten",
+    "percentage": "Prozent",
+    "number": "Nummer",
+    "nodData": "Keine Daten vorhanden",
+    "compareWidth": "Vergleiche mit",
+    "allCategory": "Alle Kategorien",
+    "service": "Service",
+    "uploadThumbnail": "Thumbnail hochladen",
+    "calendar": "Kalendar",
+    "appointmentWith": "Termin mit ",
+    "appointmentList": "Terminlist",
+    "appointment": "Termine",
+    "callDuration": "Dauer auswählen",
+    "multipleChoice": "Mehrfachauswahl möglich",
+    "openText": "Freitext",
+    "question": "Frage",
+    "makeAppointmentWithList": "Vereinbaren sie einen Termin aus der Serviceaufstellung",
+    "makeAppointmentWithDoctor": "Vereinbaren Sie einen Termin mit einem speziellen Arzt",
+    "SubmissionFailed": "Übermittlung ist fehlgeschlagen",
+    "SubmissionFailed2": "Bitte überprüfen sie folgende Information bevor sie diese erneut einreichen",
+    "currentChoice": "Aktuelle Auswahl",
+    "doctorAvatar": "Doktor Avatar",
+    "timeSlotsOfTheDay": "Tägliches Zeitfenster",
+    "timeForVideoCall": "Zeit für den Videocall",
+    "note": "Anmerkung",
+    "today": "Heute",
+    "doctor": "Arzt",
+    "doctors": "Ärzte",
+    "AppointmentReview": "Terminüberprüfung",
+    "doctorDescSamle": "Erfahrener Arzt mit 9 Jahren Erfahrung im Screening und der Untersuchung von vielen onkologischen Ursachen",
+    "sessionExpiredIn": "Ihre Zahlungssitzung läuft in ab ",
+    "paymentStatus": "Status ihrer Zahlung",
+    "paymentStatusPending": "Ausstehend",
+    "paymentStatusSuccess": "Erfolg",
+    "paymentStatusError": "Error",
+    "newCertificate": "Neues Zertifikat",
+    "newCertificates": "Neue Zertifikate",
+    "error": "Fehler",
+    "bookingNo": "Buchungsnummer",
+    "date": "Datum",
+    "activityLog": "Aktivitäten-Protokoll",
+    "servicePaid": "Service bezahlt",
+    "questionaireAwait": "Fragebogen ausstehend",
+    "questionaireAnswered": "Medizinischer Fragebogen beantwortet",
+    "videoConsulting": "Video-Beratung",
+    "incomingVideoConsulting": "Eingehenden Video-Beratung",
+    "videoConsultationCompleted": "Videoberatung abgeschlossen",
+    "deliverReport": "Medizinischer Report abgeschlossen",
+    "preparingReport": "Medizinischer Report wird vorbereitet",
+    "reportDelivered": "Medizinischer Report wurde geliefert",
+    "completeAndRating": "Abgeschlossen & Bewertung",
+    "confirmingAndRating": "Bestätigen & Bewertung",
+    "completed": "Abgeschlossen",
+    "unknown": "unbekannt",
+    "details": "Einzelheiten",
+    "videoConsultingWith": "Video-Beratung mit",
+    "hasBeenScheduledOn": "ist geplant ",
+    "at": "für ",
+    "answerQuestionNotice": "Bitte füllen sie diesen Anamnese-Fragebogen aus, um ihre Buchung abzuschließen. Der behandelnde Arzt benötigt diese Informationen, um ihre aktuelle Krankheitssituation vor dem Videoanruf besser zu verstehen. Ihre Buchung wird automatisch storniert, wenn sie den Anamnese-Fragebogen nicht innerhalb von 24 Stunden ausfüllen.",
+    "pleaseUploadDiagnosisAndDocument": "Bitte laden Sie relevante Dokumente und Diagnosen hoch",
+    "signInToYourAccount": "Melden Sie sich bei Ihrem Konto an",
+    "youAre": "Sie sind?",
+    "signUpForSecondOpinion": "Melden Sie sich für die zweite Meinung an",
+    "ativeEmailSent": "Eine E-Mail wurde an die E-Mail-Adresse Ihres registrierten Kontos gesendet. Bitte überprüfen Sie Ihre E-Mails, um Ihr Konto zu aktivieren.",
+    "confirmYourEmail": "Bestätige deine E-Mail",
+    "signUpAs": "Melden Sie sich an als ",
+    "registrationAs": "Registrierung als",
+    "backToLogin": "Zurück zur Anmeldung",
+    "youHaveAnAccount": "Sie haben ein Konto?",
+    "notAMember": "Noch nicht registriert?",
+    "signUpHere": "Hier können sie sich registrieren",
+    "forgotPassword": "Passwort vergessen",
+    "signInAs": "Anmelden als",
+    "signInAnotherRole": "Melden Sie sich mit einer anderen Rolle an",
+    "signUpAnotherRole": "Melden Sie sich mit einer anderen Rolle an",
+    "doYouWantToClose": "Möchten Sie schließen?",
+    "suggestedDoctorForTheChoosenCategory": "Vorgeschlagener Arzt für die gewählte Fachrichtung",
+    "all": "Alle",
+    "booked": "Gebucht",
+    "saved": "Gespeicherte",
+    "servicesYouBookedWithThisDoctor": "Dienstleistungen, die Sie bei diesem Arzt gebucht haben",
+    "specializedIn": "Spezialisiert auf",
+    "Dear": "Lieber ",
+    "pleaseChooseTheDiseaseYouAreSuffering": "Bitte wählen Sie die Krankheit, an der Sie leiden:",
+    "oopsSomethingWrong": "Ups, etwas stimmt nicht! Bitte versuche es erneut",
+    "footer": "©2020 Second Opinion - Ein Service der VISION MED GmbH",
+    "youAreLoggedInAs": "Du bist eingeloggt als ",
+    "loggedInSince": "Eingeloggt seit ",
+    "hi": "Hallo, ",
+    "yourEmailWasSuccessfullyVerified": "Ihre E-Mail-Adresse wurde erfolgreich überprüft",
+    "pleaseEnterEmailToResetPassword": "Bitte geben Sie die E-Mail-Adresse ein, an der Sie das Passwort zurücksetzen möchten",
+    "passwordResetEmailSent": "E-Mail zum Zurücksetzen des Passworts gesendet",
+    "weHaveSentALinkToResetPassword": "Wir haben einen Link zum Zurücksetzen Ihres Passworts gesendet. Befolgen Sie die Anweisungen, um Ihr Passwort zurückzusetzen.",
+    "tnC1": "Mit Ihrer Anmeldung erklären Sie sich mit unseren ",
+    "tnC2": " einverstanden. Bitte lesen Sie unsere ",
+    "tnC3": " und unsere Hinweise zu Cookies.",
+    "termsAndConditions": "Allgemeinen Geschäftsbedingungen",
+    "privacyPolicy": "Datenschutzerklärung",
+    "appointmentLog": {
+      "booking_success": "Patient hat Termin erfolgreich gebucht",
+      "pay_success": "Der Patient hat die Anzahlung erfolgreich bezahlt",
+      "question_answered": "Der Patient beantwortete die Frage",
+      "call_complete": "Anrufberatung abgeschlossen",
+      "report_delivered": "Der Arzt lieferte die endgültigen Dokumente",
+      "report_accept": "Der Patient akzeptierte die Abschlussberichte",
+      "report_reject": "Der Patient lehnte die Abschlussberichte ab",
+      "revi-207": "Überprüfung der medizinischen Berichte abgeschlossen",
+      "lite-003": "Literaturrecherche abgeschlossen",
+      "writ-473": "Schriftlicher medizinischer Bericht abgeschlossen"
+    },
+    "certificate": {
+      "viewBackSide": "Rückseite anzeigen",
+      "viewFrontSide": "Vorderseite anzeigen"
+    },
+    "availableTimeSlot": "Verfügbares Zeitfenster",
+    "slotTimeout": "Slot timeout!",
+    "slotTimeoutAlert": "Ihr ausgewählter Slot ist abgelaufen. Bitte erneut auswählen!",
+    "success": "Erfolg",
+    "noNewService": "Kein neuer Service",
+    "numOfNewServices": "{{num}} neue Dienste",
+    "numOfNewService": "{{num}} neuer Service",
+    "conversation": "Konversation",
+    "viewInvoice": "Rechnung anzeigen",
+    "updateTitle": "Titel aktualisieren",
+    "addTitle": "Titel hinzufügen",
+    "updateDescription": "Beschreibung aktualisieren",
+    "addDescription": "Beschreibung hinzufügen",
+    "mandatoryToOfferSerivce": "Pflicht zum Angebot von Zweitmeinungen",
+    "allowedImageFileTypesForCertificate": "Nur die folgenden gängigen Formate wie jpg, png, gif, pdf usw. können hochgeladen werden.",
+    "addOptionTitle": "Optionstitel hinzufügen",
+    "addOptionDescription": "Optionsbeschreibung hinzufügen",
+    "optionTitle": "Optionstitel",
+    "optionDescription": "Optionsbeschreibung",
+    "secondOpinionOncology": "Zweitmeinung Onkologie",
+    "pleaseLogInAs": "Bitte melden Sie sich als Patient oder als Arzt an oder registrieren Sie sich durch klicken auf den Registrierungslink, falls sie noch kein Konto haben",
+    "reload": "Neu laden",
+    "videoConsultation": "Videoberatung",
+    "incomingVideoConsultation": "Incoming Videoberatung",
+    "and": "und",
+    "ourFeeBaseDrContract": "unser kostenpflichtiger Arztvertrag",
+    "overview": "Überblick",
+    "makeAppointmentWithDisease": "Termin für Ihre aktuelle Krankheitskategorie vereinbaren",
+    "videoConsultationWith": "Video",
+    "bookAService": "Buchen Sie einen Service",
+    "joinVideoConsultation": "Nehmen Sie an der Videoberatung teil",
+    "doYouWantToSaveYourChanges": "Willst du deine Änderungen speichern?",
+    "label": {
+      "activate": "aktivieren Sie"
+    },
+    "alertPaymentFailed": "Ihre Zahlung ist fehlgeschlagen. Bitte versuchen Sie es später erneut.",
+    "forReturnPatientOnly": "Nur für Rückkehrpatienten?",
+    "yes": "Jawohl",
+    "no": "Nein",
+    "yourMessageSentSuccessfully": "Ihre Nachricht wurde erfolgreich gesendet.",
+    "yourMessageFailedToSent": "Ihre Nachricht konnte nicht gesendet werden!",
+    "keepInTouch": "Lass uns in Kontakt bleiben",
+    "dontHesitateToTellUs": "Zögern Sie nicht, uns alle Probleme mitzuteilen, die Sie möglicherweise mit der Second Opinion-Plattform haben. Wir werden uns bei Ihnen melden, sobald wir Ihre Nachricht erhalten haben.",
+    "totalPatient": "Gesamtpatienten",
+    "totalRevenue": "Gesamtumsatz",
+    "totalAppointment": "Gesamttermine",
+    "doYouWantToBanDoctor": "Willst du Doktor {{fullName}} verbieten?",
+    "selectedOneItem": "{{num}} Artikel ausgewählt",
+    "selectedManyItem": "{{num}} Artikel ausgewählt",
+    "serviceHasBeenCompleted": "Der Dienst ist abgeschlossen",
+    "chatHasNoLongerAvailable": "Dieser Chat ist nicht mehr verfügbar",
+    "yourAppointmentHasBeenCompleted": "Ihr Termin ist abgeschlossen",
+    "yourAppointmentRatingHere": "Ihre Terminbewertung hier",
+    "doYouConfirmToDeliverReport": "Bestätigen Sie die Übermittlung des Berichts?",
+    "soService": "SO-Dienst",
+    "openLink": "Verbindung öffnen",
+    "uploadFile": "Datei hochladen",
+    "services": "Dienstleistungen",
+    "notPaid": "Nicht bezahlt",
+    "pending": "Ausstehend",
+    "ongoing": "Laufend",
+    "done": "Fertig",
+    "excludeGermanVAT": "excl. German VAT"
+  },
+  "status": {
+    "active": "Aktiv",
+    "pendingApproval": "Bestätigung ausstehend",
+    "reviewing": "in Prüfung",
+    "missingQuestionaire": "Fragebogen ausstehend",
+    "rejected": "Abgelehnt",
+    "deactivated": "Deaktiviert",
+    "unknown": "unbekannt",
+    "expired": "Abgelaufen"
+  },
+  "modal": {
+    "addServiceOption": {
+      "title": "Service Option hinzufügen"
+    },
+    "addBankAccount": {
+      "title": "Bankkonto hinzufügen"
+    },
+    "confirmRemoveAddress": "Adresse entfernen",
+    "updateBillingAddress": "Rechnungsadresse aktualisieren",
+    "addBillingAddress": "Neue Rechnungsadresse hinzufügen",
+    "deleteDoctorService": "Löschung des Service bestätigen",
+    "createService": "Neuen Service hinzufügen",
+    "updateService": "Service aktualisieren",
+    "addCertificate": "Zertifikat hinzufügen",
+    "deleteSchedule": "Zeitplan löschen",
+    "certificateExpired": "Arztausweis ist abgelaufen",
+    "methodAddService": "Neuen Service hinzuzufügen",
+    "proposeService": "Neuen medizinischen Service hinzufügen",
+    "addService": "Service hinzufügen",
+    "addServiceSuccess": "Service erfolgreich hinzugefügt",
+    "deactivateDoctorService": "Deaktivierung eines Services bestätigen",
+    "createQuestionaire": "Anamnese-Fragebogen erstellen",
+    "chooseMethodToMakeAppointment": {
+      "title": "Wählen sie einen Weg um eine Termin zu vereinbaren"
+    },
+    "makeAppointmentFail": {
+      "title": "Terminvereinbarung ist fehlgeschlagen"
+    },
+    "makeAppointment": {
+      "title": "Termin vereinbaren"
+    },
+    "paymentSession": {
+      "title": "Zahlungssitzung"
+    },
+    "answerQuestionaire": "Anamnesebogen beantworten"
+  },
+  "doctorService": {
+    "stepChooseCategory": "Medizinische Fachrichtung",
+    "stepInputDetail": "Service Details erfassen",
+    "stepReview": "Prüfung",
+    "text": {
+      "confirmDeleteService": "Möchten sie diesen Service löschen??",
+      "certificateExpired": "Es tut uns leid, aber ihr Arztausweis ist bereits abgelaufen!",
+      "certificateExpired2": "Sie müssen einen gültigen Arztausweis hochladen, um weiterhin die Dienste der Plattform nutzen zu können",
+      "addServiceFromTemplate": "Neue Service basierend auf Template hinzfügen",
+      "proposeService": "Schlagen Sie einen neuen Zweitmeinungsdienst vor. Ihr Angebot muss zunächst vom Second Opinion Medical Board genehmigt werden, bevor es auf der SO-Plattform angeboten werden kann",
+      "txtAddServiceSuccess": "Dieser Service wurde erfolgreich zu ihrer Serviceliste hinzugefügt. Zunächst müssen sie noch einen Anamnese-Fragebogen erstellen, um die notwendigen Informationen zu dem Krankheitsbild des Patienten vor einem Videoanruf abzufragen. Der Patient muss diesen Fragebogen beantworten, bevor eine Buchung bestätigt wird.",
+      "txtAddServiceSuccess2": "Dieser Service wird erst aktiv, wenn sie einen Anamnese-Fragebogen erstellt haben.",
+      "confirmDeactivateService": "Wollen sie diesen Service deaktivieren?",
+      "loadQuestionaire": "Bestehend Anamnese-Fragebogen laden",
+      "addAQuestion": "Eine Frage hinzufügen",
+      "confirmActivateService": "Möchten Sie diesen Dienst aktivieren?",
+      "createNewQuestionnaire": "Erstellen Sie einen neuen Fragebogen",
+      "subcribeToExistingSOServiceOrPropose": "Bestehenden Second Opinion-Service abonnieren oder neuen Service vorschlagen",
+      "subcribeToExistingSOService": "bestehenden Second Opinion-Service abonnieren"
+    },
+    "title": "Service-Management",
+    "stepChooseService": "Service auswählen",
+    "message": {
+      "success": {
+        "createdSuccess": "Neuer Service erfolgreich erstellt",
+        "deletedSuccess": "Service erfolgreich gelöscht",
+        "updatedSuccess": "Service erfolgreich aktualsiert",
+        "deactivatedSuccess": "Serivce erfolgreich deaktiviert",
+        "proposedSuccess": "Vorgeschlagener Service erfolgreich eingereicht",
+        "updatedProposedSuccess": "Vorgeschlagener Service erfolgreich aktualisiert",
+        "activatedSuccess": "Dienst erfolgreich aktiviert"
+      },
+      "error": {
+        "createdFailed": "Serviceerstellung fehlgeschlagen",
+        "deletedFailed": "Löschung des Service fehlgeschlagen",
+        "updatedFailed": "Aktualisierung des Service fehlgeschlagen",
+        "deactivatedFailed": "Deaktivierung des Service fehlgeschlagen",
+        "activatedFailed": "Der aktivierte Dienst ist fehlgeschlagen"
+      }
+    }
+  },
+  "form": {
+    "serviceTitle": {
+      "label": "Titel",
+      "placeHolder": "Titel für Service eingeben"
+    },
+    "thumbnailImage": {
+      "label": "Thumbnail Bild"
+    },
+    "serviceDescription": {
+      "label": "Beschreibung",
+      "placeHolder": "Service Beschreibung eingeben"
+    },
+    "images": {
+      "label": "Bilder"
+    },
+    "servicePrice": {
+      "label": "Servicepreis zzgl. Deutsche Mehrwertsteuer (19%)",
+      "title": "Preis",
+      "placeHolder": "Servicepreis eingeben"
+    },
+    "category": {
+      "label": "Medizinische Fachrichtung"
+    },
+    "serviceCurrency": {
+      "placeHolder": "Währung auswählen"
+    },
+    "country": {
+      "label": "Land",
+      "placeHolder": "Land auswählen"
+    },
+    "accountName": {
+      "label": "Inhaber des Bankkontos"
+    },
+    "bankName": {
+      "label": "Bankname"
+    },
+    "bankCode": {
+      "label": "BIC/SWIFT"
+    },
+    "accountNumber": {
+      "label": "IBAN"
+    },
+    "address1": {
+      "label": "Zusätzliches Adressefeld 1",
+      "placeHolder": "Zusätzliches Adressefeld 1 eingeben"
+    },
+    "address2": {
+      "label": "Zusätzliches Adressefeld 2",
+      "placeHolder": "Zusätzliches Adressefeld 2 eingeben"
+    },
+    "street": {
+      "label": "Straße",
+      "placeHolder": "Straße eingeben"
+    },
+    "postalCode": {
+      "label": "Postleitzahl",
+      "placeHolder": "Postleitzahl eingeben"
+    },
+    "city": {
+      "label": "Stadt",
+      "placeHolder": "Stadt betreten"
+    },
+    "currentPassword": {
+      "label": "Aktuelles Passwort",
+      "placeHolder": "Bitte aktuelles Passwort eingeben"
+    },
+    "newPassword": {
+      "label": "Neues Passwort",
+      "placeHolder": "Bitte neues Passwort eingeben"
+    },
+    "confirmPassword": {
+      "label": "Passwort bestätigen",
+      "placeHolder": "Bitte neues Passwort erneut eingeben"
+    },
+    "firstName": {
+      "label": "Vorname",
+      "placeHolder": "Bitte Vorname eingeben"
+    },
+    "lastName": {
+      "label": "Nachname",
+      "placeHolder": "Bitte Nachname eingeben"
+    },
+    "birthday": {
+      "label": "Geburtsdatum"
+    },
+    "phoneNumber": {
+      "label": "Telefonnummer"
+    },
+    "gender": {
+      "label": "Geschlecht",
+      "placeHolder": "Geschlecht auswählen"
+    },
+    "attachments": {
+      "label": "Anhänge"
+    },
+    "doctor": {
+      "label": "Arzt"
+    },
+    "proposedDate": {
+      "label": "Vorgeschlagenes Datum"
+    },
+    "searchText": {
+      "placeHolder": "Textsuche eingeben"
+    },
+    "declineReason": {
+      "placeHolder": "Bitte Grund hier erfassen ..."
+    },
+    "certificateName": {
+      "label": "Titel",
+      "placeHolder": "Titel des Zertifikates eingeben"
+    },
+    "certificateDescription": {
+      "label": "Beschreibung",
+      "placeHolder": "Beschreibung des Zertifikates eingeben"
+    },
+    "certificateType": {
+      "label": "Zertifikatstyp"
+    },
+    "type": {
+      "label": "Typ"
+    },
+    "expirationDate": {
+      "label": "Ablaufdatum"
+    },
+    "applyDateRange": {
+      "label": "Datumsbereich anwenden"
+    },
+    "applyServices": {
+      "label": "Neuen Service vorschlagen",
+      "placeHolder": "Services auswählen"
+    },
+    "start": {
+      "label": "Start"
+    },
+    "end": {
+      "label": "Ende"
+    },
+    "startDate": {
+      "label": "Startdatum"
+    },
+    "endDate": {
+      "label": "Enddatum"
+    },
+    "questionaire": {
+      "placeHolder": "Wählen sie einen Fragebogen (Anamnesebogen) aus"
+    },
+    "question": {
+      "placeHolder": "Bitte ihre Fragen hier erfassen"
+    },
+    "choice": {
+      "placeHolder": "Bitte geben sie hier ihre vorgeschlagene Auswahl ein"
+    },
+    "service": {
+      "label": "Bedienung"
+    },
+    "titleSearch": {
+      "placeHolder": "Suche nach Titel"
+    },
+    "doctorSearch": {
+      "placeHolder": "Suche nach Arzt"
+    },
+    "note": {
+      "placeHolder": "Anmerkungen bitte hier eingeben"
+    },
+    "houseNumber": {
+      "label": "Hausnummer",
+      "placeHolder": "Bitte Hausnummer eingeben"
+    },
+    "additionalAddress": {
+      "label": "Zusätzliche Adresse",
+      "placeHolder": "Bitte zusätzliche Adresse eingeben"
+    },
+    "email": {
+      "label": "Email",
+      "placeHolder": "Bitte Email eingeben"
+    },
+    "password": {
+      "label": "Passwort"
+    },
+    "password]": {
+      "placeHolder": "Bitte Passwort eingeben"
+    },
+    "label": {
+      "firstName": "Vorname",
+      "surname": "Nachname",
+      "email": "Email",
+      "phoneNumber": "Telefonnummer",
+      "subject": "Untertan",
+      "message": "Nachricht"
+    },
+    "placeholder": {
+      "yourFirstName": "Ihr Vorname",
+      "yourSurname": "Dein Familienname",
+      "yourEmail": "Deine E-Mail",
+      "yourPhoneNumber": "Deine Telefonnummer",
+      "typeSubjectHere": "Betreff hier eingeben",
+      "typeYourMessageHere": "Schreiben Sie ihre Nachricht hier"
+    },
+    "button": {
+      "submitNow": "Jetzt Absenden"
+    },
+    "dateFormat": {
+      "label": "Datumsformat"
+    },
+    "timeFormat": {
+      "label": "Zeitformat"
+    },
+    "newMessageInBoxChat": {
+      "label": "Neue Nachricht im Box-Chat"
+    },
+    "appointmentUpdate": {
+      "label": "Termin-Update"
+    },
+    "promotion": {
+      "label": "Förderung"
+    }
+  },
+  "error": {
+    "required": {
+      "serviceTitle": "Ein Titel ist erforderlich",
+      "serviceDuration": "Die Auswahl der Laufzeit ist erforderlich",
+      "serviceCurrencty": "Die Auswahl der Währung ist erforderlich",
+      "servicePrice": "Die Auswahl eines Preises ist erforderlich",
+      "country": "Die Auswahl des Landes ist erforderlich",
+      "accountName": "Der Name des Kontoinhabers ist erforderlich",
+      "bankName": "Der Bankname ist erforderlich",
+      "bankCode": "Die Bankleitzahl ist erforderlich",
+      "accountNumber": "Eine Kontonummer ist erforderlich",
+      "currentPassword": "Ihr aktuellest Passwort ist erforderlich",
+      "newPassword": "Ein neues Passwort ist erforderlich",
+      "confirmPassword": "Bitte Passwort bestätigen",
+      "firstName": "Ihr Vorname ist erforderlich",
+      "lastName": "Ihr Nachname ist erforderlich",
+      "certificateName": "Ihr akademischer Titel ist erforderlich",
+      "certificateType": "Die Art des Zertifikates ist erforderlich",
+      "expirationDate": "Ein Ablaufdatum ist erforderlich",
+      "phoneNumber": "Telefonnummer ist erforderlich",
+      "email": "Email ist erforderlich",
+      "password": "Passworr ist erforderlich",
+      "street": "Straße ist erforderlich",
+      "houseNumber": "Hausnummer ist erforderlich",
+      "city": "Stadt ist erforderlich",
+      "postCode": "Postleitzahl ist erforderlich",
+      "surname": "Nachname ist erforderlich",
+      "message": "Nachricht ist erforderlich",
+      "dateFormat": "Datumsformat ist erforderlich",
+      "timeFormat": "Zeitformat ist erforderlich",
+      "serviceOption": "Bitte fügen Sie mindestens eine Serviceoption hinzu"
+    },
+    "length": {
+      "servicePrice": "Der Preis muss aus 2 - 4 Ziffern bestehen",
+      "phoneNumber": "Die Telefonnummer muss mind 6-13 Ziffern beinhalten",
+      "firstName": "Der Vorname muss zwischen {{min}} und {{max}} Zeichen lang sein",
+      "lastName": "Der Nachname muss zwischen {{min}} und {{max}} Zeichen lang sein"
+    },
+    "deleteDefaultAddress": "Die Standardadresse soll nicht gelöscht werden",
+    "invalidRemainingAddress": "Sie brauchen mindestens eine Rechnungsadresse",
+    "removeBillingArressFail": "Entfernen der Rechnungsadresse fehlgeschlagen",
+    "missingThumbnails": "Laden sie bitte ein Thumbnail-Bild hoch",
+    "invalidCertificateAttachment": "Bitte laden sie Vorder- und Rückseite ihres Arztausweises hoch",
+    "noSlotSelected": "Bitte erfassen sie mindestens ein verfügbares Zeitfenster",
+    "noServiceSelected": "Bitte erfassen sie mindestens einen verfügbaren Service",
+    "noRangeSelected": "Bitte Zeit auswählen",
+    "slotEmpty": "Das Zeitfenster darf nicht leer sein",
+    "noCategorySelected": "Bitte Fachrichtung auswählen",
+    "inValidService": "Ungültiger Service",
+    "invalid": {
+      "email": "Email ist ungültig",
+      "number": "Bitte geben Sie eine gültige Nummer ein"
+    },
+    "timeSlotShouldBeDifferent": "Zeitfenster sollte anders sein",
+    "serviceIsUsedInSchedule": "Dieser Service wird im Fahrplan genutzt!",
+    "tooShort": {
+      "message": "Nachricht muss mindestens 10 Zeichen haben"
+    },
+    "incorrect": {
+      "password": "falsche Email oder Passwort"
+    },
+    "nonVidWorkingDay": "Bitte wählen Sie mindestens einen arbeitsfreien Tag aus"
+  },
+  "card": {
+    "bank": {
+      "label": "Bank"
+    },
+    "name": {
+      "label": "Kontoinhaber"
+    },
+    "number": {
+      "label": "IBAN"
+    }
+  },
+  "accountPage": {
+    "tabBank": {
+      "action": {
+        "addBankAccount": "Neues Bankkonto hinzufügen",
+        "addCreditCard": "Neue Kreditkarte hinzufügen"
+      },
+      "bankAccount": {
+        "title": "Bankkonto"
+      },
+      "crediCard": {
+        "title": "Debit- oder Kreditkarte"
+      },
+      "text": {
+        "disclaimer": "Haftungsausschluss",
+        "disclaimer2": "Die Sicherheit ihres Bankkontos oder ihrer Kredit- oder Debitkarte wird durch Second Opinion geschützt",
+        "disclaimer3": "Stellen Sie sicher, dass ihr Name und ihre Kontodaten für spätere Transaktionen korrekt sind"
+      },
+      "title": "Bankkonto"
+    },
+    "tabBilling": {
+      "action": {
+        "addAddress": "Neue Rechnungsadresse hinzufügen",
+        "markAsDefault": "Als Standard festlegen"
+      },
+      "text": {
+        "txtLoadAddress": "Informationen aus Ihrem Profil laden",
+        "defaultAddress": "Standardadresse",
+        "confirmRemoveAddress": "Bitte bestätigen sie die Löschung dieser Adresse"
+      },
+      "title": "Rechnungsadresse"
+    },
+    "message": {
+      "success": {
+        "removeBillingAddress": "Rechungsadresse erfolgreich entfernt",
+        "updateProfile": "Ihr Profil wurde erfolgreich aktualsiert",
+        "updateBankAccount": "Ihr Bankkonto wurde erfolgreich aktualsiert",
+        "deleteBankAccount": "Bankkonto erfolgreich gelöscht",
+        "addBankAccount": "Bankkonto erfolgreich hinzugefügt",
+        "changePassword": "Passwort wurde erfolgreich aktualisiert",
+        "addBillingAddress": "Neue Rechnungsadresse erfolgreich hinzgefügt",
+        "updateSettings": "Updated settings succesfully"
+      },
+      "error": {
+        "updateProfile": "Die Aktualisierung ihres Profiles ist fehlgeschlagen",
+        "updateBankAccount": "Die Aktualisierung ihres Bankkontos ist fehlgeschlagen",
+        "deleteBankAccount": "Die Löschung ihres Bankkontos ist fehlgeschlagen",
+        "addBankAccount": "Das Hinzufügen ihres Bankkontos ist fehlgeschlagen",
+        "changePassword": "Die Änderung ihres Passworts ist fehlgeschlagen",
+        "addBillingAddress": "Das Hinzufügen ihrer neuen Rechnungsadresse ist fehlgeschlagen",
+        "updateSettings": "Updated settings failed"
+      }
+    },
+    "tabChangePassword": {
+      "text": {
+        "changePasswordText": "Ändern ihres Passwort oder aktuelles Passwort wieder herstellen"
+      },
+      "error": {
+        "passwordNotMatch": "Das Passwort stimmt nicht mit dem aktuellen Passwort überein",
+        "currentPasswordNotCorrect": "Das eingegebene Passwort ist nicht korrekt",
+        "samePasswordError": "Das neue Passwort muss sich vom alten Passwort unterscheiden"
+      }
+    },
+    "tabProfile": {
+      "action": {
+        "markAsPublic": "Als öffentlich kennzeichnen",
+        "markAsPublicText": "Wenn sie ihr Profil als öffentlich markiert haben, dann kann der behandelnde Arzt ihr Profil und ihre Kontaktdaten sehen"
+      },
+      "title": "Profil"
+    },
+    "title": "Kontoverwaltung",
+    "tabPayment": {
+      "title": "Zahlungsmethode"
+    },
+    "tabPassword": {
+      "title": "Passwort ändern"
+    },
+    "tabNotification": {
+      "title": "Benachrichtigungen"
+    },
+    "tabSettings": {
+      "text": {
+        "dateTimeFormatSession": "Einstellungen für das Datum-Zeit-Format",
+        "inAppNotification": "In-App-Benachrichtigung",
+        "receiveNotificationEmail": "Benachrichtigung per E-Mail erhalten für",
+        "receiveNotificationAndEmail": "Benachrichtigung und E-Mail erhalten"
+      }
+    },
+    "tabSetting": {
+      "title": "Settings"
+    }
+  },
+  "chart": {
+    "numberOfNewPatientPerMonth": {
+      "title": "Anzahl neuer Patienten pro Monat"
+    },
+    "numberOfNewDoctorPerMonth": {
+      "title": "Anzahl an neuen Ärzten pro Monat"
+    },
+    "doctorWithHighestRevenue": {
+      "title": "Top 10 Ärzte mit den höchsten Umsätzen"
+    },
+    "doctorOfOnlineDoctorPerDay": {
+      "title": "Anzahl an Online Ärzten pro Tag"
+    },
+    "repeatPatient": {
+      "title": "Wiederkehrenden Patienten",
+      "txtReturned": "Zurückgekehr",
+      "txtPatientBookManyTime": "Patient hat bereits mehrfach gebucht",
+      "txtPatientBookOneTime": "Patient hat zum ersten Mal gebucht"
+    },
+    "totalPatient": {
+      "title": "Gesamtsumme an Patienten"
+    },
+    "alreadyBooked": {
+      "title": "Bereits gebucht"
+    },
+    "numberOfPatient": {
+      "title": "Anzahl an Patienten"
+    },
+    "numberOfStarRatingOnService": {
+      "title": "Anzahl an Bewertungssternen für Service"
+    },
+    "numberOfBookedService": {
+      "title": "Anzahl an gebuchten Services"
+    },
+    "revenueChangeOfBookedService": {
+      "title": "Umsatzänderungen aufgrund gebuchter Services"
+    },
+    "revenuePerMonth": {
+      "title": "Umsatz pro Monat (Hundert Euro)"
+    },
+    "topServiceWithHighestBooking": {
+      "title": "Top-Services mit höchster Buchung"
+    },
+    "returnPatient": {
+      "title": "Patient zurückgeben"
+    },
+    "revenuePerMonthEuro": {
+      "title": "Umsatz pro Monat (Euro)"
+    },
+    "description": {
+      "totalPatient": "Gesamtpatient",
+      "returnPatient": "Patient zurückgeben"
+    },
+    "textStarWithNumOfStar": {
+      "singular": "{{num}} Stern",
+      "plural": "{{num}} Sterne"
+    }
+  },
+  "adminService": {
+    "title": "Service Management",
+    "availbleService": {
+      "title": "Verfügbare Services"
+    },
+    "pendingApprovalService": {
+      "title": "Ausstehende Genehmigung für Service"
+    },
+    "stepAddThumbnails": "Miniaturbild hinzufügen",
+    "stepAddDeclinedReason": "Ablehnungsgrund hinzufügen",
+    "stepReviewServiceDetail": "Servicedetails überprüfen",
+    "declineService": "Warum haben Sie diesen Servicevorschlag abgelehnt?",
+    "message": {
+      "success": {
+        "createdSuccess": "Service erfolgreich erstellt",
+        "deletedSuccess": "Dienst erfolgreich gelöscht",
+        "updatedSuccess": "Dienst erfolgreich aktualisiert",
+        "approvedSuccess": "Service erfolgreich genehmigt",
+        "declinedSuccess": "Service erfolgreich abgelehnt"
+      },
+      "error": {
+        "createdFailed": "Fehler beim Erstellen des Dienstes",
+        "deletedFailed": "Gelöschter Dienst fehlgeschlagen",
+        "updatedFailed": "Aktualisierter Dienst fehlgeschlagen"
+      }
+    }
+  },
+  "adminDoctorManagement": {
+    "title": "Arztmanagement",
+    "doctorManagementTable": {
+      "filter": {
+        "searchTextPlaceHolder": "Suche mit Name, E-Mail",
+        "labelGender": "Geschlecht",
+        "labelStatus": "Status"
+      },
+      "header": {
+        "doctor": "Doktor",
+        "gender": "Geschlecht",
+        "email": "Email",
+        "status": "Status",
+        "view": "Ansehen"
+      }
+    },
+    "doctorDetail": {
+      "detailBlock": {
+        "buttonSendNotification": "Benachrichtigung senden",
+        "buttonSendEmail": "E-Mail senden",
+        "buttonBanDoctor": "Arzt verbieten",
+        "buttonDone": "Erledigt"
+      },
+      "tab": {
+        "profile": "Profil",
+        "service": "Service",
+        "appointment": "Termin"
+      },
+      "ProfileBlock": {
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "dob": "Birthdate",
+        "gender": "Geschlecht",
+        "email": "Email",
+        "phoneNumber": "Telefonnummer",
+        "location": "Ort",
+        "status": "Status",
+        "joinDate": "Beitrittsdatum",
+        "class": "Klasse",
+        "language": "Sprache",
+        "certificate": "Zertifikat"
+      },
+      "serviceBlock": {
+        "service": {
+          "title": "Serviceliste",
+          "header": {
+            "title": "Titel",
+            "category": "Kategorie",
+            "status": "Status",
+            "view": "Ansehen"
+          }
+        },
+        "rating": {
+          "title": "Bewertung",
+          "time": "{{time}} mal",
+          "times": "{{time}} times"
+        },
+        "cancelAppointment": {
+          "title": "Termin stornieren",
+          "byDoctor": "Von Doktor",
+          "byPatient": "Von Patient"
+        }
+      },
+      "appointmentBlock": {
+        "appointment": {
+          "title": "Terminliste",
+          "header": {
+            "service": "Service",
+            "doctor": "Doktor",
+            "status": "Status",
+            "code": "Code"
+          }
+        },
+        "cancelAppointment": {
+          "title": "Termin stornieren",
+          "byDoctor": "Von Doktor",
+          "byPatient": "Von Patient"
+        }
+      },
+      "doctorDetail": {
+        "buttonSendNotification": "Send Notificaiton",
+        "buttonSendEmail": "Send Email",
+        "buttonBanDoctor": "Ban Doctor",
+        "buttonDone": "Done",
+        "buttonUnbanDoctor": "Unbann-Arzt"
+      }
+    },
+    "message": {
+      "success": {
+        "banned": "Arzt erfolgreich gesperrt",
+        "unbanned": "Entbannter Arzt erfolgreich"
+      },
+      "error": {
+        "bannedFailed": "Verbotener Arzt hat versagt",
+        "unbannedFailed": "Nicht gesperrter Arzt hat versagt"
+      }
+    }
+  },
+  "adminNotification": {
+    "sentNotification": "Benachrichtigung gesendet",
+    "scheduleNotification": "Terminbenachrichtigung",
+    "notificationTemplate": "Benachrichtigungsvorlagen",
+    "listOfEvent": "Liste der Ereignisse",
+    "recipientList": "Empfängerliste",
+    "templateName": "Vorlagenname",
+    "sendingMethod": "Sendemethode",
+    "sentTime": "Gesendete Zeit",
+    "repeat": "Wiederholen",
+    "scheduleTime": "Planmäßige Zeit",
+    "new": "Neu",
+    "customNotification": "Benutzerdefinierte Benachrichtigung",
+    "systemNotification": "Systembenachrichtigung",
+    "title": "Titel",
+    "scheduleDate": "Terminplan",
+    "notificationTitle": "Benachrichtigungstitel",
+    "deliverySchedule": "Lieferungsplan",
+    "followPerUserTimeZone": "Folgen pro Benutzerzeitzone",
+    "repeatThisSchedule": "Wiederholen Sie diesen Zeitplan",
+    "recipient": "Empfänger",
+    "allUsers": "Alle Nutzer",
+    "savedRecipientList": "Liste der gespeicherten Empfänger",
+    "specificUsers": "Bestimmte Benutzer",
+    "notificationContent": "Benachrichtigungsinhalt",
+    "import": "Importieren",
+    "pushNotification": "Push-Benachrichtigung",
+    "emailNotification": "Email Benachrichtigung",
+    "send": "Senden",
+    "save": "Speichern",
+    "update": "Aktualisieren",
+    "sendAndSaveAsTemplate": "Senden & als Vorlage speichern",
+    "searchWith": "Suche mit",
+    "name": "Name",
+    "email": "Email",
+    "type": "Typ",
+    "gender": "Geschlecht",
+    "time": "Zeit",
+    "newNotification": "Neue Benachrichtigung",
+    "editNotification": "Benachrichtigung bearbeiten",
+    "category": "Kategorie",
+    "event": "Vorfall",
+    "notificationDetail": "Benachrichtigungsdetails",
+    "sendNow": "Schick jetzt",
+    "scheduleANotification": "Planen Sie eine Benachrichtigung",
+    "uploadImageHere": "Bild hier hochladen",
+    "numberOfRecipients": "Anzahl der Empfänger",
+    "action": "Handlung",
+    "clearFilter": "Filter löschen",
+    "uploadAnImageLink": "Bild hochladen (Dateityp PDF, PNG, PGE oder JPEG, maximal 10 MB)",
+    "message": {
+      "confirm": {
+        "delete": "Möchten Sie es löschen?",
+        "saveAndSend": "Möchten Sie die neue Benachrichtigungsvorlage vor dem Senden speichern?"
+      },
+      "success": {
+        "createdSuccess": "Erfolgreich erstellt",
+        "deletedSuccess": "Erfolgreich gelöscht",
+        "updatedSuccess": "Erfolgreich geupdated",
+        "sentSuccess": "Erfolgreich gesendet",
+        "uploadSuccess": "Erfolgreich hochgeladen",
+        "copyUrlImageToClipboardSuccess": "URL-Bild erfolgreich in die Zwischenablage kopiert"
+      },
+      "error": {
+        "createdFailed": "Fehler beim Erstellen",
+        "deletedFailed": "Gelöscht fehlgeschlagen",
+        "updatedFailed": "Update fehlgeschlagen",
+        "sentFailed": "Gesendet fehlgeschlagen"
+      }
+    }
+  },
+  "s": {
+    "stepNextStep": "Nächste Schritte"
+  },
+  "doctorAppointment": {
+    "title": "Terminverwaltung"
+  },
+  "doctorCertificate": {
+    "title": "Zertifikate",
+    "stepInformation": "Zertifikatinformationen",
+    "stepReview": "Prüfung",
+    "button": {
+      "uploadCertificate": "Zertifikat hochladen"
+    },
+    "message": {
+      "error": {
+        "fetchedListFailed": "Liste der Zertifkate fehlgeschlagen",
+        "uploadedFailed": "Upload des Zertifkates fehlgeschlagen",
+        "updatedFailed": "Hochgeladenes Zertifkates fehlerhaft",
+        "removedFailed": "Löschen des Zertifikates fehlgeschlagen"
+      },
+      "success": {
+        "uploadedSuccess": "Zertifikat erfolgreich hochgeladen",
+        "updatedSuccess": "Zertifikat erfolgreich aktualisiert",
+        "removedSuccess": "Zertifikat erfolgreich entfernt",
+        "uploadedFrontSuccess": "Vorderseite des Zertifikats erfolgreich hochgeladen",
+        "uploadedFrontFailed": "Hochgeladene Vorderseite des Zertifikats fehlgeschlagen",
+        "uploadedBackFailed": "Hochgeladene Rückseite des Zertifikats fehlgeschlagen",
+        "uploadedBackSuccess": "Uploaded back side of certificate successfully"
+      }
+    },
+    "type": {
+      "physician": "Arztausweis",
+      "other": "Andere",
+      "board": "Board-Zertifikat (zertifizierte Spezialisten)"
+    }
+  },
+  "doctorCertifcate": {
+    "text": {
+      "dearDoctor": "Lieber Arzt(in), ",
+      "dearDoctor2": "um eine hohe Qualität unseres Serviceangebots zu gewährleisten, muss ihr Arztausweis überprüft werden. Bitte laden sie die Vorder- und Rückseite ihres Arztausweises in das Portal hoch. Nachdem sie ihren Arztausweise hochgeladen haben, wird dieser geprüft. Sobald wir ihren Ausweis genehmigt haben, können sie ihre medizinischen Services auf unserer Plattform anbieten. Danke für ihre Kooperation."
+    }
+  },
+  "doctorSchedule": {
+    "title": "Terminplan",
+    "text": {
+      "setUpSchedule": "Erfassen sie ihren Terminplan",
+      "confirmDeleteSchedule": "Wollen sie ihren Terminplan tatsächlich löschen?"
+    },
+    "message": {
+      "success": {
+        "createdSuccess": "Zeitplan erfolgreich erstellt",
+        "deletedSuccess": "Zeitplan erfolgreich gelöscht",
+        "updatedSuccess": "Zeitplan erfolgreich aktualisiert"
+      },
+      "error": {
+        "createdFailed": "Zeitplan erstellen fehlgeschlagen",
+        "deletedFailed": "Zeitplan zum Löschen fehlgeschlagen",
+        "updatedFailed": "Update-Zeitplan fehlgeschlagen",
+        "onlyUpdateService": "Nur Ihre angewandten Dienste werden aktualisiert",
+        "duplicateSingleSchedule": "",
+        "duplicateMultipleSchedule": ""
+      }
+    }
+  },
+  "MONDAY": "Montag",
+  "TUESDAY": "Dienstag",
+  "WEDNESDAY": "Mittwoch",
+  "THURSDAY": "Donnerstag",
+  "FRIDAY": "Freitag",
+  "SATURDAY": "Samstag",
+  "SUNDAY": "Sonntag",
+  "patientAppointment": {
+    "title": "Terminverwaltung"
+  },
+  "makeAppointment": {
+    "stepChooseCategory": "Fachrichtung auswählen",
+    "stepChooseService": "Service auswählen",
+    "stepChooseDateForVideoCall": "Datum für einen Telefon- oder Videoanruf auswählen",
+    "stepChooseDoctorAndTimeSlot": "Arzt und Zeitfenster auswählen",
+    "stepChooseDoctor": "Arzt auswählen",
+    "stepPayment": "Bezahlung",
+    "stepChooseDateAndTimeSlot": "Datum und Zeit auswählen",
+    "stepChooseDate": "Datum auswählen",
+    "stepChooseTimeSlot": "Zeitfenster auswählen"
+  },
+  "tilte": {
+    "calendar": "Kalender"
+  },
+  "uploadedCertificate": {
+    "title": "Zertifikat aktualisieren",
+    "message": {
+      "error": {
+        "fetchedListFailed": "Listenzertifikat abrufen fehlgeschlagen",
+        "rejectedFailed": "Abgelehntes Zertifikat fehlgeschlagen",
+        "approvedFailed": "Genehmigtes Zertifikat fehlgeschlagen"
+      },
+      "success": {
+        "approvedSuccess": "Genehmigtes Zertifikat erfolgreich",
+        "rejectedSuccess": "Zertifikat erfolgreich abgelehnt"
+      }
+    }
+  },
+  "appointmentTracking": {
+    "title": "Terminverfolgung",
+    "label": {
+      "contactInformation": "Kontaktinformation",
+      "inboxChat": "Inbox Chat",
+      "videoCall": "Videoanruf",
+      "phone": "Telefon",
+      "email": "Email",
+      "haveAnyTrouble": "Probleme haben",
+      "readFAQ": "Lesen Sie unsere FAQs",
+      "contactAdmin": "Wenden Sie sich an den Administrator",
+      "uploadedDocument": "Hochgeladene Dokumente",
+      "viewAnswers": "Antworten anzeigen",
+      "callPatient": "Patienten anrufen",
+      "age": "Alter",
+      "gender": "Geschlecht",
+      "patientDocuments": "Patientendokumente",
+      "payNow": "Zahlen Sie jetzt",
+      "doctorReport": "Arztberichte",
+      "confirm": "Bestätigen",
+      "patientAnswers": "Antworten des Patienten",
+      "answerQuestionaire": "Fragebogen beantworten"
+    },
+    "description": {
+      "drDeliveredReport": "Der abschließende schriftliche Bericht von {{name}} wurde geliefert. Bitte akzeptieren Sie die Zustellung des Berichts oder wenden Sie sich an Ihren Arzt, wenn Sie weitere Fragen zur Zustellung des Berichts haben.",
+      "askFinalReportStatus": "Haben Sie den endgültigen schriftlichen medizinischen Bericht für Ihren Patienten erstellt? Bitte bestätigen Sie unten, um dem Patienten den Bericht zur Verfügung zu stellen",
+      "remindCall": "Ihr Patient hat die Frage beantwortet. Bitte beachten Sie die Anrufzeit und rufen Sie Ihren Patienten an.",
+      "endPaymentSession": "Ihre Zahlungssitzung für Ihren Dienst ist leider abgelaufen. Bitte nehmen Sie eine neue Servicebuchung auf der Second Opinion Plattform oder der Second Opinion App vor",
+      "askForPayment": "Sie müssen die Zahlung leisten, um fortzufahren",
+      "askToAnswerQuestion": "Sie müssen den Fragebogen beantworten, um die Buchung für diesen Termin zu bestätigen.",
+      "clickOrDragUpload": "Klicken oder ziehen Sie die Datei in diesen Bereich, um sie hochzuladen",
+      "limitFilesReport": "Neues Dokument hochladen (nur PDF-, DOC- oder JPEG-Dateityp, maximal 20 MB)",
+      "limitFilesDocument": "Neuen Bericht hochladen (nur PDF-, DOC- oder JPEG-Dateityp, maximal 20 MB)",
+      "waitForCompletion": "Warten auf den kompletten Service des Patienten. Oder es wird so eingestellt, dass es nach {{day}} Tagen abgeschlossen ist.",
+      "patientAnsweredQuestions": "Der Patient hat Ihre Fragen beantwortet.",
+      "drPreparingReport": "{{fullName}} bereitet jetzt den schriftlichen Arztbericht für Sie vor. Den schriftlichen Arztbericht finden Sie, nachdem der Arzt den Bericht hochgeladen hat, auf der rechten Seite."
+    },
+    "answerQuestionaire": "Fragebogen beantworten",
+    "text": {
+      "nextStep": "Nächster Schritt"
+    }
+  },
+  "success": {
+    "fileDownloadedSuccess": "Datei Download erfolgreich",
+    "fileDeletedSuccess": "Datei erfolgreich gelöscht",
+    "ingredientCompletedSuccess": "Service-Bestandteile vollständig",
+    "deliveredReportsSuccess": "Medizinischer Bericht erfolgreich geliefert",
+    "callConfirmedSuccess": "Telefon oder Videoanruf erfolgreich bestätigt"
+  },
+  "phone": {
+    "code": {
+      "required": "Phone code is required"
+    }
+  },
+  "doctorCertificateDear": {
+    "text": {
+      "dearDoctor": "Dear {{fullName}}",
+      "dearDoctor2": " to ensure a high quality of our service offering, it is required to verify your physician ID. Please upload the front and backside of your physician ID below. After you have uploaded your ID we will verify the ID and approve it promptly. Once we have approved your ID, you are able to offer your medical service on our platform. Thank you for your cooperation."
+    }
+  },
+  "label": {
+    "rating": "Bewertung",
+    "deliveredServices": "Vom Arzt zu liefernde Servicekomponenten",
+    "doctorsUploadedReports": "Hochgeladene Berichte des Arztes",
+    "numOfDoctor": "Anzahl der Ärzte",
+    "appointment": "Geplanter Termin",
+    "serviceDescription": "Leistungsbeschreibung",
+    "serviceTitle": "Diensttitel",
+    "general": "Allgemein",
+    "statistic": "Statistiken",
+    "numberOfStarRatingOnService": "Anzahl der Sternebewertungen für den Service",
+    "topServiceWithHighestBooking": "Top-Service mit höchster Buchung",
+    "returnPatient": "Patient zurückgeben",
+    "revenuePerMonthEuro": "Umsatz pro Monat (Euro)"
+  },
+  "role": {
+    "doctor": "Arzt",
+    "patient": "Patient",
+    "admin": "Admin"
+  },
+  "signUp": {
+    "message": {
+      "error": {
+        "existedEmail": "Diese E-Mail wurde bereits bei Second Opinion registriert. Bitte versuche es erneut",
+        "signUpError": "Anmeldefehler"
+      }
+    },
+    "title": "Registrieren"
+  },
+  "forgotPassword": {
+    "title": "Passwort Vergessen",
+    "message": {
+      "error": {
+        "emailNotExist": "Email existiert nicht"
+      }
+    }
+  },
+  "resetPassword": {
+    "title": "Passwort Zurücksetzen",
+    "success": {
+      "resetSuccess": "Wenn das Passwort erfolgreich wiederhergestellt wurde, werden Sie nach 5 Sekunden umgeleitet, um sich anzumelden"
+    }
+  },
+  "signIn": {
+    "title": "Einloggen"
+  },
+  "emailConfirmed": {
+    "titleVerifiedFailed": "E-Mail konnte nicht überprüft werden",
+    "message": {
+      "error": {
+        "verifiedFailed": "Ihre E-Mail konnte nicht überprüft werden. Bitte versuchen Sie es erneut.",
+        "userAlreadyActivated": "Benutzer ist bereits aktiviert worden",
+        "requestFailed": "Die Anforderung zum Zurücksetzen des Passworts konnte nicht gesendet werden."
+      }
+    }
+  },
+  "booking": {
+    "title": {
+      "slotStatus": "Zeitfensterstatus"
+    }
+  },
+  "description": {
+    "availableSlot": "Verfügbares Zeitfenster",
+    "bookedSlot": "Zeitfenster ist gebucht",
+    "choosingSlot": "Jemand wählt dieses Zeitfenster"
+  },
+  "appointment": {
+    "status": {
+      "not_paid": "Unbezahlt",
+      "paid_deposit": "Bezahlte Kaution",
+      "answered_questionaire": "Frage beantwortet",
+      "call_success": "Videokonsultation erfolgreich",
+      "delivered_final_document": "Bericht geliefert",
+      "completed": "Abgeschlossen"
+    }
+  },
+  "doctorRevenue": {
+    "title": "Einnahmen auf der Second Opinion-Plattform",
+    "label": {
+      "serviceTitle": "Servicetitel",
+      "patient": "Geduldig",
+      "completionDate": "Fertigstellungstermin",
+      "price": "Preis",
+      "month": "Monat",
+      "year": "Jahr",
+      "subtotal": "Zwischensumme",
+      "serviceFee": "Servicegebühr",
+      "vatServiceFee": "Mehrwertsteuer Servicegebühr",
+      "total": "Gesamt",
+      "viewYourInvoice": "Zeigen Sie Ihre Rechnung an",
+      "getTheExcel": "Holen Sie sich das Excel",
+      "export": "Export"
+    },
+    "placeholder": {
+      "searchTitle": "Suche mit Titel"
+    }
+  },
+  "apppointmentTracking": {
+    "label": {
+      "online": "Online"
+    }
+  },
+  "appointmentEvent": {
+    "text": {
+      "appointmentOn": "Termin am"
+    }
+  },
+  "accountManagement": {
+    "label": {
+      "uploadAvatar": "Avatar hochladen",
+      "uploadHere": "Hier hochladen"
+    }
+  },
+  "message": {
+    "uploadSuccess": "Hochladen erfolgreich",
+    "uploadFailed": "Upload fehlgeschlagen",
+    "saveAnswerSuccessful": "Antwort erfolgreich speichern",
+    "signInError": "Anmeldefehler",
+    "alertPriceRange": "Preis muss größer als {{min}} und kleiner als {{max}} sein",
+    "pleaseSelectCategory": "Bitte Kategorie auswählen",
+    "pleaseSelectService": "Bitte Service auswählen",
+    "pleaseUploadValidImageFile": "Bitte laden Sie gültige Bilddateitypen hoch",
+    "alertInvalidPrice": "Bitte geben Sie eine gültige Nummer ein"
+  },
+  "file": {
+    "name": "Dateiname",
+    "uploadedOn": "hochgeladen am"
+  },
+  "pagination": {
+    "rangeData": "{{start}}-{{end}} von {{total}} Artikeln"
+  },
+  "translations": {
+    "someThing": "default value"
+  },
+  "doctorOnboarding": {
+    "title": "Du bist noch nicht bereit!",
+    "certificate": {
+      "noUploadedPhysicianId": "Ihr Arztausweis ist erforderlich, wenn Sie Dienstleistungen auf der Second Opinion-Plattform erbringen möchten. Bitte laden Sie es zuerst hoch und wählen Sie dann auf der Seite \"Service Management\" aus, welche Servicearten Sie zu Ihrer eigenen Serviceliste hinzufügen möchten. ",
+      "noExistActivePhysicianId": "Ihr Arztausweis ist erforderlich, wenn Sie Dienstleistungen auf der Second Opinion-Plattform erbringen möchten. Bitte warten Sie, bis das Zertifikat vom Systemadministrator von Second Opinion genehmigt wurde und wählen Sie dann auf der Seite \"Service Management\" aus, welche Servicearten Sie zu Ihrer eigenen Serviceliste hinzufügen möchten. "
+    },
+    "service": {
+      "noExistService": "Ihr Service ist erforderlich, wenn Sie den Serviceplan auf der Second Opinion-Plattform erstellen möchten. Bitte erstellen Sie es zuerst."
+    }
+  },
+  "questionnaireAnswer": {
+    "dontWantToChangeThisLevel": "Wenn Sie diese Stufe nicht ändern möchten, klicken Sie auf diese Schaltfläche",
+    "keepThis": "Behalte das"
+  }
+}
