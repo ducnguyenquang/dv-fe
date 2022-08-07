@@ -1,7 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { Provider } from 'react-redux';
 // import * as serviceWorker from 'serviceWorker';
+import { ToastContainer, Slide } from 'react-toastify';
+// import store from 'config/configureStore';
+import createInterceptors from 'config/axiosInterceptors';
 
 import './index.css';
 // import App from './App';
@@ -11,23 +16,52 @@ import reportWebVitals from './reportWebVitals';
 import { HelmetProvider } from 'react-helmet-async';
 import { configureAppStore } from './store/configureStore';
 
+
+// import LanguageProvider from './app/components/LanguageProvider/LanguageProvider';
+
 // const root = ReactDOM.createRoot(
 //   document.getElementById('root') as HTMLElement
 // );
 
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // cacheTime: 1000 * 30,
+      staleTime: 1000 * 10,
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+  },
+});
+
 const store = configureAppStore();
+// createInterceptors(store);
+
 // const store = null;
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
   // <Provider store={store}>
-  <Provider store={store}>
-    <HelmetProvider>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </HelmetProvider>
-  </Provider>
+  // <QueryClientProvider client={queryClient}>
+  //   <ReactQueryDevtools />
+    <Provider store={store}>
+      {/* <LanguageProvider> */}
+        <HelmetProvider>
+          {/* <React.StrictMode> */}
+            <ToastContainer
+              autoClose={5000}
+              hideProgressBar
+              transition={Slide}
+              draggable={false}
+              pauseOnFocusLoss={false}
+              limit={10}
+            />
+            <App />
+          {/* </React.StrictMode> */}
+        </HelmetProvider>
+      {/* </LanguageProvider> */}
+    </Provider>
+  // </QueryClientProvider>
   ,MOUNT_NODE
 );
 

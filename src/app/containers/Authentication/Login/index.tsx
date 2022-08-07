@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { _t } from '../../../../utils/messages';
 
-// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 // import { reducer, authActions, sliceKey } from '../slice';
@@ -20,8 +20,11 @@ import { _t } from '../../../../utils/messages';
 // import { LoginForm } from '../shared/components/LoginForm';
 import { Button, Col, Form, Input, notification, Row } from 'antd';
 import { Link } from 'react-router-dom';
+import { usersApi } from '../api';
+import { LoginPayload } from 'models/user';
 // import { TESTID } from '../../../../config/test';
-import { messages } from './messages';
+// import { messages } from './messages';
+
 // import { useHistory, useLocation } from 'react-router-dom';
 // import { TUserRole } from '../types';
 
@@ -70,7 +73,7 @@ export function Login(props: Props) {
   // const history = useHistory();
 
   // // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   // // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const { t, i18n } = useTranslation();
@@ -147,6 +150,19 @@ export function Login(props: Props) {
   //   return null;
   // }
   const { t, i18n } = useTranslation();
+  const onFinish = async (user: LoginPayload) => {
+    await usersApi.login(user)
+    // dispatch(authActions.getLoginStart({ ...user }));
+  };
+  // const { data, isLoading, isFetching } = productsHooks.useProducts({
+  //   // ...debouncedFilters,
+  //   pagination: {
+  //     limit: 10,
+  //     offset: 0,
+  //   },
+  //   // sort: sortBy[0],
+  // });
+  
 
   return (
     // <GoogleReCaptchaProvider
@@ -191,7 +207,7 @@ export function Login(props: Props) {
             name="login-form"
             size="large"
             initialValues={{ remember: true }}
-            // onFinish={onFinish}
+            onFinish={onFinish}
           >
             {/* <span className="form-title">
               {t(...messages.txtSignInAs)}{' '}
@@ -239,7 +255,8 @@ export function Login(props: Props) {
                 htmlType="submit"
                 className="login-form-button"
               >
-                {t('button.login', 'login')}
+                {/* <FormattedMessage id="general.welcomeToSoniQ" /> */}
+                Đăng nhập
               </Button>
             </Form.Item>
             {/* <Row

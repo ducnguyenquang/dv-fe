@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, withRouter, RouteProps } from 'react-router-dom';
+import { Route, Routes, RouteProps } from 'react-router-dom';
 // import { NotFoundPage } from 'app/components/NotFoundPage';
 // import { AdminServices } from 'app/containers/AdminServices';
 // import { UploadedCertificate } from 'app/containers/UploadedCertificate';
@@ -64,13 +64,13 @@ export const adminPaths = adminRoutes
 export function MainApp(_props: Props) {
   return (
     <div className="app-container">
-      <Switch>
+      <Routes>
         {adminRoutes.map(route => (
           <Route {...route} />
         ))}
-      </Switch>
+      </Routes>
     </div>
   );
 }
 
-export default withRouter(MainApp);
+export default MainApp;

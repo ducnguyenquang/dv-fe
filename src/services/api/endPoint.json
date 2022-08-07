@@ -1,0 +1,5 @@
+{
+    "backendUrl": "http://localhost:4001",
+    "getProductsApi": "/products",
+    "loginApi": "/login"
+}

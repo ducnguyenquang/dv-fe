@@ -1,0 +1,91 @@
+@import './colors.less';
+//-------------------------------------------
+// 🌌 Spacing
+// ------------------------------------------
+//
+//   Size in px based on 16px base
+//   ==========================================
+//   xs   ||  8px
+//   sm   ||  12px
+//   md   ||  16px
+//   lg   ||  24px
+//   xl   ||  32px
+//   ==========================================
+
+// SPACINGS
+@spacing-baseline: 16px;
+@spacing-xxs: @spacing-baseline * 0.25; // 4px
+@spacing-xs: @spacing-baseline * 0.5; // 8px
+@spacing-sm: @spacing-baseline * 0.75; // 12px
+@spacing-md: @spacing-baseline; // 16px
+@spacing-xmd: @spacing-baseline * 1.125; // 18px
+@spacing-lg: @spacing-baseline * 1.5; // 24px
+@spacing-xl: @spacing-baseline * 2; // 32px
+
+@layoutHeaderSpacing-lg: @spacing-baseline * 3; // 48px
+@layoutHeaderSpacing-md: @spacing-baseline * 2; // 32px
+@layoutHeaderSpacing-sm: @spacing-baseline * 1.5; // 24px
+
+@layoutSideSpacing-md: @spacing-baseline * 1.5; // 24px
+@layoutSideSpacing-lg: @spacing-baseline * 2.5; // 40px
+@layoutSideSpacing-xlg: @spacing-baseline * 4; // 64px
+@layoutSideSpacing-max: @spacing-baseline * 6; // 96px
+
+// FONTS
+@roboto: 'Roboto', sans-serif;
+
+// FONT-SIZE
+@font-base: 10px;
+@font-size-sm: @font-base * 1.2; // 12px
+@font-size-md: @font-base * 1.4; // 14px
+@font-size-lg: @font-base * 1.6; // 16px
+@font-size-xl: @font-base * 2.4; // 24px
+@font-size-xxl: @font-base * 3.2; // 32px
+
+// BORDER-RADIUS
+@border-base: 4px;
+@border-chip: @border-base * 4; // 16px
+
+// BOX SHADOWS
+@boxshadow--elevation1: 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.13);
+@boxshadow--elevation2: 0px 0.5px 2px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.13);
+@boxshadow--elevation3: 0px 1px 4px rgba(0, 0, 0, 0.1), 0px 6px 12px rgba(0, 0, 0, 0.13);
+@boxshadow--elevation4: 0px 4px 8px rgba(0, 0, 0, 0.1), 0px 12px 40px rgba(0, 0, 0, 0.13);
+
+// ANIMATIONS
+@ease-in: cubic-bezier(0.25, 0, 1, 1); // Used primarily for removing elements from the screen.
+@ease-out: cubic-bezier(
+  0,
+  0,
+  0.25,
+  1
+); // Used for adding elements to the screen or changing on-screen states at a users's input.
+@ease-out: cubic-bezier(
+  0,
+  0,
+  0.25,
+  1
+); // Used for adding elements to the screen or changing on-screen states at a users's input.
+@transition--base: 200ms;
+@transition--expansion: 100ms;
+@transition--hover: cubic-bezier(0.4, 0, 0.2, 1);
+
+// SKELETON
+// @skeleton: rgba(@color__main-51, 0.1);
+
+// LAYOUTS
+@layoutSidebarMenuCollapsedWidth: 64px;
+@layoutSidebarMenuWidth: 240px;
+@layoutSidebarMenuWidth-tablet: 248px;
+@layoutHeaderHeight: 64px;
+@pageHeaderHeightAndPadding: 56px;
+
+// BREAKPOINTS
+@small: ~'only screen and (max-width: 576px)'; // Extra small devices (portrait phones, less than 576px)
+@medium: ~'only screen and (max-width: 768px)'; // Small devices (landscape phones, less than 768px)
+@large: ~'only screen and (max-width: 992px)'; // Medium devices (tablets, less than 992px)
+@xLarge: ~'only screen and (max-width: 1200px)'; // Large devices (desktops, less than 1200px)
+@max: ~'only screen and (min-width: 1400px)'; // Super Large devices (desktops, less than 1400px)
+
+// COMMONS
+@CommonHeaderHeight: 64px;

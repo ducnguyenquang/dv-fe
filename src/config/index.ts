@@ -2,19 +2,19 @@ import developmentConfigs from './env/dev.json';
 import testingConfigs from './env/tst.json';
 import stagingConfigs from './env/stg.json';
 import productionConfigs from './env/prd.json';
-import RoutesConfig from './routes';
+// import RoutesConfig from './routes';
 
 class AppConfig {
   config: { protocol: string; portApi: string; serverURL: string; portSocket: string; clientId: string; s3WebUrl: string; apiVersion: string; deepLink: string; recaptchaKey: string; restCountriesURL: string; defaultDateFormat: string; defaultTimeFormat: string; };
-  Routes: {
-    Home: { _: string; }; ForgotPassword: { _: string; }; ResetPassword: { _: string; }; Service: { _: string; }; SignIn: { _: string; Admin: string; }; SignUp: { _: string; }; Dashboard: {
-      _: string; Service: { _: string; }; Appointment: { _: string; }; // set configration for production docker environtment
-      UploadedCertificate: { _: string; }; Setting: { _: string; }; Revenue: { _: string; }; Account: { _: string; }; DoctorManagement: {
-        _: string; // set configration for development/testing docker environtment
-      }; CustomizeNotification: { _: string; }; SystemNotification: { _: string; };
-    };
-    Login: { _: string; };
-  };
+  // Routes: {
+  //   Home: { _: string; }; ForgotPassword: { _: string; }; ResetPassword: { _: string; }; Service: { _: string; }; SignIn: { _: string; Admin: string; }; SignUp: { _: string; }; Dashboard: {
+  //     _: string; Service: { _: string; }; Appointment: { _: string; }; // set configration for production docker environtment
+  //     UploadedCertificate: { _: string; }; Setting: { _: string; }; Revenue: { _: string; }; Account: { _: string; }; DoctorManagement: {
+  //       _: string; // set configration for development/testing docker environtment
+  //     }; CustomizeNotification: { _: string; }; SystemNotification: { _: string; };
+  //   };
+  //   Login: { _: string; };
+  // };
   constructor() {
     console.log(`Stage running: "${process.env.REACT_APP_STAGE}"`);
     // if (process.env === 'production') {
@@ -32,7 +32,7 @@ class AppConfig {
       this.config = developmentConfigs;
     }
 
-    this.Routes = RoutesConfig;
+    // this.Routes = RoutesConfig;
   }
   getEnv() {
     return process.env.REACT_APP_STAGE;

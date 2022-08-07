@@ -8,16 +8,16 @@
 
  import * as React from 'react';
  import { Helmet } from 'react-helmet-async';
- import { Switch, Route, BrowserRouter, useLocation } from 'react-router-dom';
+ import { Routes, Route, BrowserRouter, useLocation } from 'react-router-dom';
  import moment from 'moment';
  
  import { GlobalStyle } from '../styles/global-styles';
  
 //  import { NotFoundPage } from './components/NotFoundPage/Loadable';
- import { useTranslation } from 'react-i18next';
+//  import { useTranslation } from 'react-i18next';
  import 'antd/dist/antd.less';
 //  import { Navbar } from './components/Navbar';
- import Routes from '../config/routes';
+//  import Routes from '../config/routes';
 //  import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 //  import { PrivateRoute } from './components/PrivateRoute';
 //  import AdminRoute from 'routes/admin';
@@ -25,7 +25,9 @@
 //  import DoctorRoute from 'routes/doctor';
 //  import { ROLES } from 'config/constant';
 //  import { EmailConfirmed } from './containers/Authentication/EmailConfirmed';
- import { Login } from './containers/Authentication/Login';
+ import { Login } from 'app/containers/Authentication/Login';
+//  import Product from 'app/containers/Product/Product';
+
 //  import { SignUp } from './containers/Authentication/SignUp';
 //  import { ForgotPassword } from './containers/Authentication/ForgotPassword';
 //  import { ResetPassword } from './containers/Authentication/ResetPassword';
@@ -37,6 +39,7 @@
 //  import deDE from 'antd/lib/locale/de_DE';
 //  import 'moment/locale/de';
  import { useDispatch, useSelector } from 'react-redux';
+// import LanguageProvider from './components/LanguageProvider/LanguageProvider';
 //  import { selectAuth } from './containers/Authentication/selectors';
 //  import { UserGuides } from './containers/UserGuides/Loadable';
 //  import { ThePlatform } from './containers/ThePlatform/Loadable';
@@ -66,7 +69,7 @@
 //    useInjectSaga({ key: sliceKey, saga: authSaga });
  
    /** I18n HOOKS **/
-   const { i18n } = useTranslation();
+  //  const { i18n } = useTranslation();
     console.log('==== cus APP')
    /** REDUX HOOKS **/
 //    const { actions: authActions } = useAuth();
@@ -125,14 +128,15 @@
          <Helmet
            titleTemplate="%s - Dai Viet"
            defaultTitle="Dai Viet"
-           htmlAttributes={{ lang: i18n.language }}
+          //  htmlAttributes={{ lang: i18n.language }}
          >
            <meta name="description" content="Dai Viet" />
          </Helmet>
  
          <ScrollToTop />
+         {/* <LanguageProvider> */}
  
-         <Switch>
+         <Routes>
            {/* <Route
              exact
              path={process.env.PUBLIC_URL + Routes.Home._}
@@ -173,11 +177,17 @@
                </React.Fragment>
              )}
            /> */}
+           
            <Route
-              exact
+              // exact
               path={'/login'}
-              component={Login}
+              element={<Login />}
            />
+           {/* <Route
+              // exact
+              path={'/product'}
+              element={<Product />}
+           /> */}
            {/* <Route
              path={process.env.PUBLIC_URL + Routes.SignIn.Admin}
              component={SignIn}
@@ -200,9 +210,9 @@
            /> */}
            {/* {getPrivateRoutes()} */}
            {/* <Route component={NotFoundPage} /> */}
-         </Switch>
+         </Routes>
          {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}
- 
+         {/* </LanguageProvider> */}
          <GlobalStyle />
        </BrowserRouter>
      </ConfigProvider>
