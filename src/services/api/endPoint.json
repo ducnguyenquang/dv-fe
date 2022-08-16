@@ -1,5 +1,17 @@
 {
     "backendUrl": "http://localhost:4001",
-    "getProductsApi": "/products",
-    "loginApi": "/login"
+    "loginApi": "/login",
+    "getProductsApi": "/product/list",
+    "getProductApi": "/product",
+    "createProductApi": "/product/add",
+    "updateProductApi": "/product/update",
+    "getCategoriesApi": "/category/list",
+    "getCategoryApi": "/category",
+    "createCategoryApi": "/category/add",
+    "updateCategoryApi": "/category/update",
+    "getUsersApi": "/user/list",
+    "getUserApi": "/user",
+    "createUserApi": "/user/add",
+    "updateUserApi": "/user/update",
+    "uploadImages": "/upload"
 }

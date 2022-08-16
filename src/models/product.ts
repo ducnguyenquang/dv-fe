@@ -1,24 +1,8 @@
-// export enum UserState {
-//   ACTIVE = 'ACTIVE',
-//   DELETED = 'DELETED',
-//   INACTIVE = 'INACTIVE',
-//   NEW = 'NEW',
-// }
 
-// export enum UserRole {
-//   CUSTOMER = 'CUSTOMER',
-//   MANAGER = 'MANAGER',
-//   ADMIN = 'ADMIN',
-// }
+import type { UploadFile } from 'antd/es/upload/interface';
 
-// export enum UserCreateOptions {
-//   NEW_USER = 'NEW_USER',
-//   IMPORT_CSV = 'IMPORT_CSV',
-// }
+import { Category } from "./category";
 
-// export type TUserCreateOptions = keyof typeof UserCreateOptions;
-
-// TODO: will we need uuid (in messenger) ?
 export interface Product {
   id?: string;
   name?: string;
@@ -26,20 +10,21 @@ export interface Product {
   description?: string;
   brand?: string;
   sku?: string;
-  images?: string[];
-  groups?: string[];
+  images?: UploadFile[];
+  categories?: Category[];
+  _id?: string;
 }
 
 export type ProductCreatePayload = Pick<
 Product,
-  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'groups'
+  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories'
 > & {
   sendActivationEmail: boolean;
 };
 
 export type ProductUpdatePayload = Pick<
   Product,
-  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'groups'
+  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories' | 'id' | '_id' 
 >;
 
 type ProductQueryBase = {
@@ -59,25 +44,13 @@ type ProductQueryBase = {
 
 export type ProductQueryPayload = Partial<ProductQueryBase>;
 
-// export type UserSettingsPayload = Pick<
-//   User,
-//   'firstName' | 'lastName' | 'email' | 'phoneNumber' | 'defaultPrivacyLevel'
-// >;
+export type ProductDetailPayload = Pick<Product, 'id'> & {
+  category?: string;
+  _id?: string;
+};
 
-// export type LoginPayload = Pick<Product, 'email'> & {
-//   password: string;
-// };
+export type ProductDeletePayload = Pick<Product, 'id'>;
 
-// export type LoginResponse = {
-//   token: string;
-//   refreshToken: string;
-//   tokenType: string;
-// };
-
-// export type FormType = 'core' | 'profile';
-
-// export type RegisterPayload = Pick<User, 'username' | 'password' | 'firstName' | 'lastName'>;
 export type AllProductsQueryPayload = {
   search: string;
-  // role?: UserRole;
 };

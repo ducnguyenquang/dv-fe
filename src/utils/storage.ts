@@ -13,7 +13,7 @@ export const STORAGE_COOKIE_KEYS = {
   // CALENDAR_LOCATION: 'calendar-location',
   // CALENDAR_VIEW: 'calendar-view',
   // ACCESS_TOKEN: 'access-token',
-  // LANGUAGE: 'language',
+  LANGUAGE: 'language',
 };
 
 export default {
@@ -54,9 +54,9 @@ export default {
   //   Cookies.set(STORAGE_COOKIE_KEYS.CALENDAR_VIEW, location, { expires: 365 });
   // },
   // getCalendarView: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.CALENDAR_VIEW),
-  // setLanguage: (language: string): CookiesResponse =>
-  //   Cookies.set(STORAGE_COOKIE_KEYS.LANGUAGE, language, { expires: 365 }),
-  // getLanguage: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.LANGUAGE),
+  setLanguage: (language: string): CookiesResponse =>
+    Cookies.set(STORAGE_COOKIE_KEYS.LANGUAGE, language, { expires: 365 }),
+  getLanguage: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.LANGUAGE),
   clear: (): CookiesResponse => {
     Cookies.remove(STORAGE_COOKIE_KEYS.REFRESH_TOKEN);
     Cookies.remove(STORAGE_COOKIE_KEYS.AUTH_TOKEN);
@@ -67,5 +67,7 @@ export default {
     // Cookies.remove(STORAGE_COOKIE_KEYS.CUSTOMER_COLUMN_ORDER);
     // Cookies.remove(STORAGE_COOKIE_KEYS.EMPLOYEE_COLUMN_ORDER);
     Cookies.remove(STORAGE_COOKIE_KEYS.ACCESS_TOKEN);
+    Cookies.remove(STORAGE_COOKIE_KEYS.LANGUAGE);
+
   },
 };

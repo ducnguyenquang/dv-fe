@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import { productsReducer } from 'app/containers/Product';
-// import { reducer as authCognitoReducer } from 'Components/AuthCognito/redux/slice';
-// import { reducer as messengerReducer } from 'Components/Messenger/redux/slice';
+import { productsReducer as adminProductsReducer } from 'app/containers/Admin/Product';
+import { categoriesReducer as adminCategoriesReducer } from 'app/containers/Admin/Category';
 // import { reducer as usersReducer } from 'Components/Users/redux/slice';
 // import { reducer as customersReducer } from 'Components/Customers/redux/slice';
 // import { reducer as equipmentsReducer } from 'Components/Equipments/redux/slice';
@@ -12,7 +12,7 @@ import { productsReducer } from 'app/containers/Product';
 // import { reducer as taskAndRoomtypesReducer } from 'Components/TasksAndRoomtypes/redux/slice';
 // import { reducer as roombookReducer } from 'Components/Roombook/redux/slice';
 // import { reducer as mvpReducer } from 'Components/Commons/redux/slice';
-// import { reducer as languageReducer } from 'I18n/redux/slice';
+import { reducer as languageReducer } from 'I18n/redux/slice';
 
 // import { queryClient } from 'Components/App/App';
 
@@ -20,6 +20,9 @@ import { productsReducer } from 'app/containers/Product';
 const createReducer = (injectedReducers = {}): any => {
   const appReducer = combineReducers({
     product: productsReducer,
+    adminProducts: adminProductsReducer,
+    adminCategories: adminCategoriesReducer,
+    language: languageReducer,
     ...injectedReducers,
   });
 

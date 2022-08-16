@@ -17,7 +17,7 @@ class BaseService {
     return GET(this.requestURL, options);
   }
 
-  post(payload: any, options: any) {
+  post(payload: any, options?: any) {
     return POST(this.requestURL, payload, options);
   }
 

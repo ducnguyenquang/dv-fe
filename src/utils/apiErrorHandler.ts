@@ -1,4 +1,5 @@
 import { errorMessage } from 'common/components/Toast';
+import { message } from 'antd';
 import { Error } from 'models/error';
 
 export const apiErrorHandler = (errors: Array<Error>): void => {
@@ -9,9 +10,12 @@ export const apiErrorHandler = (errors: Array<Error>): void => {
 
       if (error?.errorInfo?.errorCode === 'EMPLOYEE_DUPLICATE_PHONE_NUMBER') {
         errorMessage({ id: 'errors.employees.duplicate_phone' });
+        message.error(error.message);
       } else if (error?.errorInfo?.errorCode === 'EMPLOYEE_DUPLICATE_EMAIL') {
         errorMessage({ id: 'errors.employees.duplicate_email' });
+        message.error(error.message);
       } else {
+        message.error(error.message);
         errorMessage({ errorMessage: error.message });
       }
     });

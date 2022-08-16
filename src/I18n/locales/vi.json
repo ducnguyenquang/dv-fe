@@ -1,0 +1,24 @@
+{
+  "category.categoryName": "Tên Phân Loại",
+
+  "user.firstName": "Tên",
+  "user.lastName": "Họ",
+  "user.email": "Email",
+  "user.role": "Chức danh",
+  "user.role.admin": "Quản trị",
+  "user.role.sale": "Bán hàng",
+  "user.role.customer": "Khách hàng",
+
+  "user.phone": "Số điện thoại",
+  "user.confirmModal.title": "Bạn có chắc xoá người dùng này?",
+  "user.confirmModal.okButton": "Đồng ý",
+  "user.confirmModal.cancelButton": "Huỷ",
+  "user.confirmModal.deleteButton": "Xoá",
+  "user.addUserButton": "Thêm người dùng",
+  "user.validation.require.field": "Xin hãy nhập {name}",
+  "user.validation.invalid.email": "Vui lòng nhập đúng email",
+
+
+  "languages.english": "English",
+  "languages.german": "Deutsch"
+}

@@ -12,16 +12,16 @@ const Product = (): JSX.Element => {
 //   const showEquipmentReports = currentPathName === 'equipments-reports';
   // const debouncedFilters = useDebounce(filters);
 
-  const { data, isLoading, isFetching } = productsHooks.useProducts({
-    // ...debouncedFilters,
-    pagination: {
-      limit: 10,
-      offset: 0,
-    },
-    // sort: sortBy[0],
-  });
+  // const { data, isLoading, isFetching } = productsHooks.useProducts({
+  //   // ...debouncedFilters,
+  //   pagination: {
+  //     limit: 10,
+  //     offset: 0,
+  //   },
+  //   // sort: sortBy[0],
+  // });
 
-  console.log('==== data', data)
+  // console.log('==== data', data)
   return (
     <div className={cx('company-equipments')}>
       <h1 className="page-title page-main-title heading1">
