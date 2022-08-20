@@ -11,6 +11,7 @@ import {
   Select,
   Upload,
   Image as ImageAntd,
+  Card,
 } from 'antd';
 import { PAGE, PAGE_SIZE } from 'constants/products';
 import { Category } from 'models/category';
@@ -24,6 +25,8 @@ import { UploadOutlined } from '@ant-design/icons';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import endPoint from 'services/api/endPoint.json';
+import { useIntl } from 'react-intl';
+import { Helmet } from 'react-helmet-async';
 // import { productsActions } from 'app/containers/Admin';
 
 // interface IProps {
@@ -76,6 +79,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
   // const { id } = useParams();
   // const isUpdate = id ? true : false;
   const productDetailParam = useSelector(productsSelectors.getProduct);
+  const intl = useIntl();
 
   console.log('==== productDetailParam', productDetailParam);
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
@@ -125,102 +129,108 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
   console.log('==== initialValues', initialValues);
 
   return (
-    <Form
-      {...formItemLayout}
-      form={form}
-      name="update"
-      onFinish={(values) => onFinish({
-        ...values,
-        images: fileList,
-      })}
-      initialValues={initialValues}
-      scrollToFirstError
-    >
-      <Form.Item
-        name="name"
-        label="Product Name"
-        rules={[
-          {
-            required: true,
-            message: 'Please input Product Name',
-          },
-        ]}
+    <>
+      <Helmet title={intl.formatMessage({ id: 'page.name.productDetail' })} />
+      <Card
+        title={intl.formatMessage({ id: 'page.name.productDetail' })}
+        extra={
+          <Button type="ghost" htmlType="submit" onClick={() => (window.history.back())}>
+            {intl.formatMessage({ id: 'common.button.back' })}
+          </Button>
+        }
       >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="slug"
-        label="Slug"
-        rules={[
-          {
-            required: true,
-            message: 'Please input Product Slug',
-          },
-        ]}
-        hasFeedback
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="brand"
-        label="Brand"
-        rules={[
-          {
-            required: true,
-            message: 'Please input Product Brand',
-          },
-        ]}
-        hasFeedback
-      >
-        <Input />
-      </Form.Item>
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="update"
+          onFinish={(values) => onFinish({
+            ...values,
+            images: fileList,
+          })}
+          initialValues={initialValues}
+          scrollToFirstError
+        >
+          <Form.Item
+            name="name"
+            label={intl.formatMessage({ id: 'product.productName' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'product.productName' })}),
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="slug"
+            label={intl.formatMessage({ id: 'product.slug' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'product.slug' })}),
+              },
+            ]}
+            hasFeedback
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="brand"
+            label={intl.formatMessage({ id: 'product.brand' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'product.brand' })}),
+              },
+            ]}
+            hasFeedback
+          >
+            <Input />
+          </Form.Item>
 
-      <Form.Item
-        name="description"
-        label="Description"
-        rules={[
-          {
-            required: true,
-            message: 'Please input Intro',
-          },
-        ]}
-      >
-        <Input.TextArea showCount maxLength={100} value={initialValues?.description} />
-      </Form.Item>
+          <Form.Item
+            name="description"
+            label={intl.formatMessage({ id: 'product.description' })}
+          >
+            <Input.TextArea showCount maxLength={100} value={initialValues?.description} />
+          </Form.Item>
 
-      <Form.Item name="categories" label="Categories">
-        <Select key='categorySelect' allowClear mode="multiple" placeholder="select Product Categories">
-          {categories &&
-            categories.map((item: any) => (
-              <Option key={item?._id} value={item?._id}>
-                {item?.name}
-              </Option>
-            ))}
-        </Select>
-      </Form.Item>
+          <Form.Item name="categories" label={intl.formatMessage({ id: 'product.categories' })}>
+            <Select key='categorySelect' allowClear mode="multiple" placeholder={intl.formatMessage({ id: 'product.categories.placeholder' })}>
+              {categories &&
+                categories.map((item: any) => (
+                  <Option key={item?._id} value={item?._id}>
+                    {item?.name}
+                  </Option>
+                ))}
+            </Select>
+          </Form.Item>
 
-      <Form.Item label="Images">
-        <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-          <ImgCrop rotate>
-            <Upload
-              // action={`${endPoint.backendUrl}${endPoint.uploadImages}`}
-              {...props}
-              listType="picture-card"
-              onChange={onChange}
-              onPreview={onPreview}
-            >
-              {fileList?.length < 5 && '+ Select File'}
-            </Upload>
-          </ImgCrop>
-        </Form.Item>
-      </Form.Item>
+          <Form.Item label={intl.formatMessage({ id: 'product.images' })}>
+            <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
+              <ImgCrop rotate>
+                <Upload
+                  // action={`${endPoint.backendUrl}${endPoint.uploadImages}`}
+                  {...props}
+                  listType="picture-card"
+                  onChange={onChange}
+                  onPreview={onPreview}
+                >
+                  {fileList?.length < 5 && `+ ${intl.formatMessage({ id: 'product.button.addImages' })}`}
+                </Upload>
+              </ImgCrop>
+            </Form.Item>
+          </Form.Item>
 
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit" loading={isLoading}>
-          {isUpdate ? 'Update' : 'Add'}
-        </Button>
-      </Form.Item>
-    </Form>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit" loading={isLoading}>
+              {isUpdate ? intl.formatMessage({ id: 'common.button.update' }) : intl.formatMessage({ id: 'common.button.add' })}
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    </>
   );
 };
 

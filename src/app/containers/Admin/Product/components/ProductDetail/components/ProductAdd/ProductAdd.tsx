@@ -67,7 +67,7 @@ const tailFormItemLayout = {
 
 const ProductAdd = (): JSX.Element => {
   const { mutateAsync: createProduct, isLoading: isLoadingCreateProduct } = productsHooks.useCreateProduct();
-  const productDetailParam = useSelector(productsSelectors.getProduct);
+  // const productDetailParam = useSelector(productsSelectors.getProduct);
 
   const { data: categoriesData, isLoading: isLoadingCategories } = productsHooks.useCategories({
     pagination: {
@@ -81,7 +81,7 @@ const ProductAdd = (): JSX.Element => {
     window.location.href = `/admin/product/${data?.data?.slug}`;
   },[createProduct]);
 
-  return <ProductDetailForm key={'productAdd'} categories={categoriesData?.data} onFinish={onFinish} isLoading={isLoadingCreateProduct} />;
+  return <ProductDetailForm key={'productAdd'} categories={categoriesData?.data} onFinish={onFinish} isLoading={isLoadingCreateProduct || isLoadingCategories} />;
 };
 
 export default ProductAdd;

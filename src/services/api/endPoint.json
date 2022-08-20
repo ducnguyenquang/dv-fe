@@ -13,5 +13,9 @@
     "getUserApi": "/user",
     "createUserApi": "/user/add",
     "updateUserApi": "/user/update",
+    "getOrdersApi": "/order/list",
+    "getOrderApi": "/order",
+    "createOrderApi": "/order/add",
+    "updateOrderApi": "/order/update",
     "uploadImages": "/upload"
 }

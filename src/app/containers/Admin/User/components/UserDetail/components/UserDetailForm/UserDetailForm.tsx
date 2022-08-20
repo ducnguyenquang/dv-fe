@@ -1,10 +1,4 @@
-import {
-  Button,
-  Form,
-  Input,
-  Select,
-  Upload,
-} from 'antd';
+import { Button, Card, Form, Input, Select, Upload } from 'antd';
 import { ROLE_DROPDOWN_OPTIONS } from 'constants/user';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -13,6 +7,7 @@ import { usersSelectors } from 'app/containers/Admin/User';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import { useIntl } from 'react-intl';
+import { Helmet } from 'react-helmet-async';
 // import { productsActions } from 'app/containers/Admin';
 
 // interface IProps {
@@ -116,136 +111,142 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
   // console.log('==== initialValues', initialValues);
 
   return (
-    <Form
-      {...formItemLayout}
-      form={form}
-      name="update"
-      onFinish={(values) => onFinish({
-        ...values,
-        images: fileList,
-      })}
-      initialValues={initialValues}
-      scrollToFirstError
-    >
-      <Form.Item
-        name="firstName"
-        label={intl.formatMessage({ id: 'user.firstName' })}
-        rules={[
-          {
-            required: true,
-            message: intl.formatMessage({ id: 'user.validation.require.field' }, {name: intl.formatMessage({ id: 'user.firstName' })}),
-          },
-        ]}
+    <>
+      <Helmet title={intl.formatMessage({ id: 'page.name.userDetail' })} />
+      <Card
+        title={intl.formatMessage({ id: 'page.name.userDetail' })}
+        extra={
+          <Button type="ghost" htmlType="submit" onClick={() => (window.history.back())}>
+            {intl.formatMessage({ id: 'common.button.back' })}
+          </Button>
+        }
       >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="lastName"
-        label={intl.formatMessage({ id: 'user.lastName' })}
-        rules={[
-          {
-            required: true,
-            message: intl.formatMessage({ id: 'user.validation.require.field' }, {name: intl.formatMessage({ id: 'user.lastName' })}),
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="email"
-        label={intl.formatMessage({ id: 'user.email' })}
-        rules={[
-          {
-            required: true,
-            message: intl.formatMessage({ id: 'user.validation.require.field' }, {name: intl.formatMessage({ id: 'user.email' })}),
-            
-          },
-          {
-            type: 'email',
-            message: intl.formatMessage({ id: 'user.validation.invalid.email' }),
-            
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="role"
-        label={intl.formatMessage({ id: 'user.role' })}
-        rules={[
-          {
-            required: true,
-            message: intl.formatMessage({ id: 'user.validation.require.field' }, {name: intl.formatMessage({ id: 'user.role' })}),
-          },
-        ]}
-      >
-        <Select key='categorySelect' allowClear placeholder="select Product Categories">
-          {ROLE_DROPDOWN_OPTIONS &&
-            ROLE_DROPDOWN_OPTIONS.map((item: any) => (
-              <Option key={item?.value} value={item?.value}>
-                {intl.formatMessage({ id: item?.label })}
-              </Option>
-            ))}
-        </Select>
-      </Form.Item>
-      <Form.Item
-        name="phone"
-        label={intl.formatMessage({ id: 'user.phone' })}
-        rules={[
-          {
-            required: true,
-            message: intl.formatMessage({ id: 'user.validation.require.field' }, {name: intl.formatMessage({ id: 'user.phone' })}),
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      {/* <Form.Item
-        name="description"
-        label="Description"
-        rules={[
-          {
-            required: true,
-            message: 'Please input Intro',
-          },
-        ]}
-      >
-        <Input.TextArea showCount maxLength={100} value={initialValues?.description} />
-      </Form.Item> */}
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="update"
+          onFinish={values =>
+            onFinish({
+              ...values,
+              images: fileList,
+            })
+          }
+          initialValues={initialValues}
+          scrollToFirstError
+        >
+          <Form.Item
+            name="firstName"
+            label={intl.formatMessage({ id: 'user.firstName' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'user.firstName' }) }
+                ),
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="lastName"
+            label={intl.formatMessage({ id: 'user.lastName' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'user.lastName' }) }
+                ),
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label={intl.formatMessage({ id: 'user.email' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'user.email' }) }
+                ),
+              },
+              {
+                type: 'email',
+                message: intl.formatMessage({ id: 'user.validation.invalid.email' }),
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="role"
+            label={intl.formatMessage({ id: 'user.role' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'user.role' }) }
+                ),
+              },
+            ]}
+          >
+            <Select key="roleSelect" allowClear placeholder={intl.formatMessage({ id: 'user.role.placeholder' })}>
+              {ROLE_DROPDOWN_OPTIONS &&
+                ROLE_DROPDOWN_OPTIONS.map((item: any) => (
+                  <Option key={item?.value} value={item?.value}>
+                    {intl.formatMessage({ id: item?.label })}
+                  </Option>
+                ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="phone"
+            label={intl.formatMessage({ id: 'user.phone' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'user.phone' }) }
+                ),
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-      {/* <Form.Item name="categories" label="Categories">
-        <Select key='categorySelect' allowClear mode="multiple" placeholder="select Product Categories">
-          {categories &&
-            categories.map((item: any) => (
-              <Option key={item?._id} value={item?._id}>
-                {item?.name}
-              </Option>
-            ))}
-        </Select>
-      </Form.Item> */}
+          <Form.Item label={intl.formatMessage({ id: 'user.images' })}>
+            <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
+              <ImgCrop rotate>
+                <Upload
+                  // action={`${endPoint.backendUrl}${endPoint.uploadImages}`}
+                  {...props}
+                  listType="picture-card"
+                  onChange={onChange}
+                  onPreview={onPreview}
+                >
+                  {fileList?.length < 1 && `+ ${intl.formatMessage({ id: 'user.button.addImages' })}`}
+                </Upload>
+              </ImgCrop>
+            </Form.Item>
+          </Form.Item>
 
-      <Form.Item label="Images">
-        <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-          <ImgCrop rotate>
-            <Upload
-              // action={`${endPoint.backendUrl}${endPoint.uploadImages}`}
-              {...props}
-              listType="picture-card"
-              onChange={onChange}
-              onPreview={onPreview}
-            >
-              {fileList?.length < 1 && '+ Select File'}
-            </Upload>
-          </ImgCrop>
-        </Form.Item>
-      </Form.Item>
-
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit" loading={isLoading}>
-          {isUpdate ? 'Update' : 'Add'}
-        </Button>
-      </Form.Item>
-    </Form>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit" loading={isLoading}>
+              {isUpdate
+                ? intl.formatMessage({ id: 'common.button.update' })
+                : intl.formatMessage({ id: 'common.button.add' })}
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    </>
   );
 };
 

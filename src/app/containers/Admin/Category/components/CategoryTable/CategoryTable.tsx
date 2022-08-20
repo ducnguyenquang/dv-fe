@@ -1,4 +1,4 @@
-import { Button, Space, Table, Tag, Popconfirm } from 'antd';
+import { Button, Space, Table, Tag, Popconfirm, Card } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { categoriesHooks, categoriesActions, categoriesApi } from 'app/containers/Admin/Category';
 import { ServiceTable } from 'common/components/ServiceTable';
@@ -8,6 +8,7 @@ import { useIntl } from 'react-intl';
 // import { Product } from 'models/product';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
 
 interface DataType {
   key: string;
@@ -66,59 +67,65 @@ const CategoryTable = (): JSX.Element => {
       ),
     },
     {
-      title: 'Slug',
+      title: intl.formatMessage({ id: 'category.slug' }),
       dataIndex: 'slug',
       key: 'slug',
     },
     {
-      title: 'Description',
+      title: intl.formatMessage({ id: 'category.description' }),
       dataIndex: 'description',
       key: 'description',
     },
     {
-      title: 'Action',
+      title: intl.formatMessage({ id: 'category.action' }),
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
           {/* <a>Invite {record.name}</a> */}
           <Popconfirm
-            title="Are you sure delete this category?"
+            title={intl.formatMessage({ id: 'common.confirmModal.title' }, { name: record?.name })}
             onVisibleChange={() => console.log('visible change')}
             onConfirm={() => onDeleteCategory(record._id)}
             // onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
+            okText={intl.formatMessage({ id: 'common.button.ok' })}
+            cancelText={intl.formatMessage({ id: 'common.button.cancel' })}
           >
-            <a href="#">
-              Delete
-            </a>
+            <a href="#">{intl.formatMessage({ id: 'common.button.delete' })}</a>
           </Popconfirm>
-          
         </Space>
       ),
     },
   ];
 
-  return <>
-    <Button type="primary" htmlType="submit" onClick={() => window.location.href = '/admin/category/add'}>
-      Add Category
-    </Button>
-    <ServiceTable
-      columns={columns}
-      dataSource={categories}
-      total={data?.pagination?.totalCount}
-      isLoading={isLoading}
-      page={page}
-      pageSize={pageSize}
-      onChangePagination={(page, pageSize) => {
-        setPage(page);
-        setPageSize(pageSize);
-      }}
-      onShowSizeChange={pageSize => {
-        setPageSize(pageSize);
-      }}
-    />
-  </>;
+  return (
+    <>
+      <Helmet title={intl.formatMessage({ id: 'page.name.category' })} />
+      <Card
+        title={intl.formatMessage({ id: 'page.name.category' })}
+        extra={
+          <Button type="primary" htmlType="submit" onClick={() => (window.location.href = '/admin/category/add')}>
+            {intl.formatMessage({ id: 'category.button.addCategory' })}
+          </Button>
+        }
+      >
+        <ServiceTable
+          columns={columns}
+          dataSource={categories}
+          total={data?.pagination?.totalCount}
+          isLoading={isLoading}
+          page={page}
+          pageSize={pageSize}
+          onChangePagination={(page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          }}
+          onShowSizeChange={pageSize => {
+            setPageSize(pageSize);
+          }}
+        />
+      </Card>
+    </>
+  );
 };
 
 export default CategoryTable;

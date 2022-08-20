@@ -1,18 +1,7 @@
-import {
-  Button,
-  Form,
-  Input,
-  Select,
-} from 'antd';
-// import { productsSelectors } from '../../../../redux/selectors';
-// import { productsActions } from 'app/containers/Admin';
+import { Button, Card, Form, Input, Select } from 'antd';
+import { Helmet } from 'react-helmet-async';
+import { useIntl } from 'react-intl';
 
-// interface IProps {
-//   caterogy?: string;
-//   id?: string;
-// }
-
-const { Option } = Select;
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -52,64 +41,90 @@ interface IProps {
 }
 
 const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
+  const intl = useIntl();
   const [form] = Form.useForm();
   return (
-    <Form
-      {...formItemLayout}
-      form={form}
-      name="update"
-      onFinish={(values) => onFinish({
-        ...values,
-        // images: fileList,
-      })}
-      initialValues={initialValues}
-      scrollToFirstError
-    >
-      <Form.Item
-        name="name"
-        label="Category Name"
-        rules={[
-          {
-            required: true,
-            message: 'Please input Category Name',
-          },
-        ]}
+    <>
+      <Helmet title={intl.formatMessage({ id: 'page.name.categoryDetail' })} />
+      <Card
+        title={intl.formatMessage({ id: 'page.name.categoryDetail' })}
+        extra={
+          <Button type="ghost" htmlType="submit" onClick={() => window.history.back()}>
+            {intl.formatMessage({ id: 'common.button.back' })}
+          </Button>
+        }
       >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="slug"
-        label="Category Slug"
-        rules={[
-          {
-            required: true,
-            message: 'Please input Category Slug',
-          },
-        ]}
-        hasFeedback
-      >
-        <Input />
-      </Form.Item>
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="update"
+          onFinish={values =>
+            onFinish({
+              ...values,
+              // images: fileList,
+            })
+          }
+          initialValues={initialValues}
+          scrollToFirstError
+        >
+          <Form.Item
+            name="name"
+            label={intl.formatMessage({ id: 'category.categoryName' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'category.categoryName' }) }
+                ),
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="slug"
+            label={intl.formatMessage({ id: 'category.slug' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'category.slug' }) }
+                ),
+              },
+            ]}
+            hasFeedback
+          >
+            <Input />
+          </Form.Item>
 
-      <Form.Item
-        name="description"
-        label="Description"
-        rules={[
-          {
-            required: true,
-            message: 'Please input Intro',
-          },
-        ]}
-      >
-        <Input.TextArea showCount maxLength={100} value={initialValues?.description} />
-      </Form.Item>
+          <Form.Item
+            name="description"
+            label={intl.formatMessage({ id: 'category.description' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'category.description' }) }
+                ),
+              },
+            ]}
+          >
+            <Input.TextArea showCount maxLength={100} value={initialValues?.description} />
+          </Form.Item>
 
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit" loading={isLoading}>
-          {isUpdate ? 'Update' : 'Add'}
-        </Button>
-      </Form.Item>
-    </Form>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit" loading={isLoading}>
+              {isUpdate
+                ? intl.formatMessage({ id: 'common.button.update' })
+                : intl.formatMessage({ id: 'common.button.add' })}
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    </>
   );
 };
 

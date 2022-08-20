@@ -1,4 +1,4 @@
-import { Button, Space, Table, Tag, Popconfirm } from 'antd';
+import { Button, Space, Table, Tag, Popconfirm, Card } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { productsHooks, productsActions, productsApi } from 'app/containers/Admin/Product';
 import { ServiceTable } from 'common/components/ServiceTable';
@@ -6,6 +6,8 @@ import { PAGE, PAGE_SIZE } from 'constants/products';
 import { Category } from 'models/category';
 import { Product } from 'models/product';
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
 interface DataType {
@@ -22,6 +24,7 @@ interface DataType {
 const ProductTable = (): JSX.Element => {
   const dispatch = useDispatch();
   const [products, setProducts] = useState<any>([]);
+  const intl = useIntl();
 
   const [page, setPage] = React.useState(PAGE);
   const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
@@ -56,7 +59,7 @@ const ProductTable = (): JSX.Element => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: 'Name',
+      title: intl.formatMessage({ id: 'product.productName' }),
       dataIndex: 'name',
       key: 'name',
       render: (_, record) => (
@@ -66,69 +69,77 @@ const ProductTable = (): JSX.Element => {
       ),
     },
     {
-      title: 'Slug',
+      title: intl.formatMessage({ id: 'product.slug' }),
       dataIndex: 'slug',
       key: 'slug',
     },
     {
-      title: 'Description',
+      title: intl.formatMessage({ id: 'product.description' }),
       dataIndex: 'description',
       key: 'description',
     },
     {
-      title: 'Brand',
+      title: intl.formatMessage({ id: 'product.brand' }),
       dataIndex: 'brand',
       key: 'brand',
     },
     {
-      title: 'Sku',
+      title: intl.formatMessage({ id: 'product.sku' }),
       dataIndex: 'sku',
       key: 'sku',
     },
     {
-      title: 'Action',
+      title: intl.formatMessage({ id: 'product.action' }),
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
           {/* <a>Invite {record.name}</a> */}
           <Popconfirm
-            title="Are you sure delete this product?"
+            title={intl.formatMessage({ id: 'common.confirmModal.title' }, {name: record?.name})}
             onVisibleChange={() => console.log('visible change')}
             onConfirm={() => onDeleteProduct(record._id)}
             // onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
+            okText={intl.formatMessage({ id: 'common.button.ok' })}
+            cancelText={intl.formatMessage({ id: 'common.button.cancel' })}
           >
-            <a href="#">
-              Delete
-            </a>
+            <a href="#">{intl.formatMessage({ id: 'common.button.delete' })}</a>
           </Popconfirm>
-          
         </Space>
       ),
     },
   ];
 
-  return <>
-    <Button type="primary" htmlType="submit" onClick={() => window.location.href = '/admin/product/add'}>
-      Add Product
-    </Button>
-    <ServiceTable
-      columns={columns}
-      dataSource={products}
-      total={data?.pagination?.totalCount}
-      isLoading={isLoading}
-      page={page}
-      pageSize={pageSize}
-      onChangePagination={(page, pageSize) => {
-        setPage(page);
-        setPageSize(pageSize);
-      }}
-      onShowSizeChange={pageSize => {
-        setPageSize(pageSize);
-      }}
-    />
-  </>;
+  return (
+    <>
+      <Helmet
+        title={intl.formatMessage({ id: 'page.name.product' })}
+      />
+      <Card
+        title={intl.formatMessage({ id: 'page.name.product' })}
+        extra={
+          <Button type="primary" htmlType="submit" onClick={() => (window.location.href = '/admin/product/add')}>
+            {intl.formatMessage({ id: 'product.button.addProduct' })}
+          </Button>
+        }
+      >
+        <ServiceTable
+          columns={columns}
+          dataSource={products}
+          total={data?.pagination?.totalCount}
+          isLoading={isLoading}
+          page={page}
+          pageSize={pageSize}
+          onChangePagination={(page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          }}
+          onShowSizeChange={pageSize => {
+            setPageSize(pageSize);
+          }}
+        />
+      </Card>
+    </>
+  );
 };
 
 export default ProductTable;

@@ -12,15 +12,15 @@ import { initialState } from './slice';
 // const getKarcherEquipment = (state: RootState): EquipmentKarcher => state.equipments.karcherEquipment;
 // const getOriginEquipmentDetail = (state: RootState): Equipment => state.equipments.originEquipmentDetail;
 // const getEquipmentFileView = (state: RootState): EquipmentFileView => state.equipments.fileViewType;
-const getProductsPagination = (state: RootState): TPagination => state.adminProducts.pagination;
-const getProducts = (state: RootState): TPagination => state.adminProducts.products;
-const getProduct = (state: RootState) => state.adminProducts.productDetail;
-const getIsLoading = (state: RootState): Boolean => state.adminProducts.isLoading;
+const getOrdersPagination = (state: RootState): TPagination => state.adminOrders.pagination;
+const getOrders = (state: RootState): TPagination => state.adminOrders.orders;
+const getOrder = (state: RootState) => state.adminOrders.orderDetail;
+const getIsLoading = (state: RootState): Boolean => state.adminOrders.isLoading;
 
 
-export const productsSelectors = {
-  getProductsPagination,
-  getProducts,
+export const ordersSelectors = {
+  getOrdersPagination,
+  getOrders,
   getIsLoading,
-  getProduct,
+  getOrder,
 };

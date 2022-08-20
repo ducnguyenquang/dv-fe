@@ -18,6 +18,7 @@ export const apiErrorHandler = (errors: Array<Error>): void => {
         message.error(error.message);
         errorMessage({ errorMessage: error.message });
       }
+      message.error(error?.message);
     });
   }
 };

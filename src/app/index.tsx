@@ -26,10 +26,16 @@ import 'antd/dist/antd.less';
 //  import DoctorRoute from 'routes/doctor';
 //  import { ROLES } from 'config/constant';
 //  import { EmailConfirmed } from './containers/Authentication/EmailConfirmed';
+import { AdminTemplate } from 'app/containers/Template';
+
 import { Login } from 'app/containers/Authentication/Login';
 import { AdminProductTable, AdminProductAdd, AdminProductUpdate } from 'app/containers/Admin/Product';
 import { AdminCategoryTable, AdminCategoryAdd, AdminCategoryUpdate } from 'app/containers/Admin/Category';
 import { AdminUserTable, AdminUserAdd, AdminUserUpdate } from 'app/containers/Admin/User';
+import { AdminOrderTable, AdminOrderAdd, AdminOrderUpdate } from 'app/containers/Admin/Order';
+import { Common as AdminCommon } from 'app/containers/Admin/Setting';
+
+
 
 
 //  import { SignUp } from './containers/Authentication/SignUp';
@@ -44,6 +50,7 @@ import { ConfigProvider } from 'antd';
 //  import 'moment/locale/de';
 import { useDispatch, useSelector } from 'react-redux';
 import LanguageProvider from './components/LanguageProvider/LanguageProvider';
+import { useIntl } from 'react-intl';
 //  import { selectAuth } from './containers/Authentication/selectors';
 //  import { UserGuides } from './containers/UserGuides/Loadable';
 //  import { ThePlatform } from './containers/ThePlatform/Loadable';
@@ -83,6 +90,7 @@ export function App() {
   // const { profile } = null;
   const dispatch = useDispatch();
   const [cookieIsAccepted, setCookieIsAccepted] = React.useState(localStorage.getItem('acceptCookie'));
+  // const intl = useIntl();
 
   /** ROUTER HOOKS **/
   // const history = useHistory();
@@ -128,11 +136,11 @@ export function App() {
     <ConfigProvider>
       <BrowserRouter>
         <Helmet
-          titleTemplate="%s - Dai Viet"
-          defaultTitle="Dai Viet"
+          titleTemplate="%s - Đại Việt"
+          defaultTitle="Đại Việt"
           //  htmlAttributes={{ lang: i18n.language }}
         >
-          <meta name="description" content="Dai Viet" />
+          <meta name="description" content="Đại Việt" />
         </Helmet>
 
         <ScrollToTop />
@@ -147,49 +155,69 @@ export function App() {
           <Route
             // exact
             path={'/admin/products'}
-            element={<AdminProductTable />}
+            element={<AdminTemplate content={<AdminProductTable />} />}
           />
           <Route
             // exact
             path={'/admin/product/:id'}
-            element={<AdminProductUpdate />}
+            element={<AdminTemplate content={<AdminProductUpdate />} />}
           />
           <Route
             // exact
             path={'/admin/product/add'}
-            element={<AdminProductAdd />}
+            element={<AdminTemplate content={<AdminProductAdd />} />}
           />
           
           <Route
             // exact
             path={'/admin/categories'}
-            element={<AdminCategoryTable />}
+            element={<AdminTemplate content={<AdminCategoryTable />} />}
           />
           <Route
             // exact
             path={'/admin/category/:id'}
-            element={<AdminCategoryUpdate />}
+            element={<AdminTemplate content={<AdminCategoryUpdate />} />}
           />
           <Route
             // exact
             path={'/admin/category/add'}
-            element={<AdminCategoryAdd />}
+            element={<AdminTemplate content={<AdminCategoryAdd />} />}
           />
 
           <Route
             // exact
             path={'/admin/users'}
-            element={<AdminUserTable />}
+            element={<AdminTemplate content={<AdminUserTable />} />}
           />
           <Route
             // exact
             path={'/admin/user/:id'}
-            element={<AdminUserUpdate />}
+            element={<AdminTemplate content={<AdminUserUpdate />} />}
           />
           <Route
             // exact
             path={'/admin/user/add'}
-            element={<AdminUserAdd />}
+            element={<AdminTemplate content={<AdminUserAdd />} />}
+          />
+          <Route
+            // exact
+            path={'/admin/orders'}
+            element={<AdminTemplate content={<AdminOrderTable />} />}
+          />
+          <Route
+            // exact
+            path={'/admin/order/:id'}
+            element={<AdminTemplate content={<AdminOrderUpdate />} />}
+          />
+          <Route
+            // exact
+            path={'/admin/order/add'}
+            element={<AdminTemplate content={<AdminOrderAdd />} />}
+          />
+          <Route
+            // exact
+            path={'/admin/setting/common'}
+            element={<AdminTemplate content={<AdminCommon />} />}
           />
         </Routes>
         {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}

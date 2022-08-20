@@ -66,33 +66,11 @@ const tailFormItemLayout = {
 };
 
 const ProductUpdate = (): JSX.Element => {
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
   const { id } = useParams();
-  const isUpdate = id ? true : false;
-
+  // const isUpdate = id ? true : false;
   const { mutateAsync: updateProduct, isLoading: isLoadingUpdateProduct } = productsHooks.useUpdateProduct();
-  // const { mutateAsync: createProduct, isLoading: isLoadingCreateProduct } = productsHooks.useCreateProduct();
 
-  console.log('==== id', id);
-
-  // console.log('==== category', category)
-
-  // props.match.params.genreId,
-
-  // const suffixSelector = (
-  //   <Form.Item name="suffix" noStyle>
-  //     <Select
-  //       style={{
-  //         width: 70,
-  //       }}
-  //     >
-  //       <Option value="USD">$</Option>
-  //       <Option value="CNY">¥</Option>
-  //     </Select>
-  //   </Form.Item>
-  // );
-  // let [searchParams, setSearchParams] = useSearchParams();
-  // const [categories, setCategories] = useState<Array<any>>([]);
   const [productDetail, setProductDetail] = useState<Product>({});
   const [defaultValue, setDefaultValue] = useState<any>();
 
@@ -130,19 +108,6 @@ const ProductUpdate = (): JSX.Element => {
       });
     });
   }, [productDetailData, updateProduct])
-  // const productDetail = productsSelectors.getProduct();
-
-  // useEffect(() => {
-  //   if (categoriesData && !isLoadingCategories) {
-  //     setCategories(categoriesData);
-  //   }
-  // }, [categoriesData, isLoadingCategories]);
-
-
-  // const adapteCategoryDataSelection = (data: Category[]) => {
-    
-
-  // }
 
   useEffect(() => {
     if (productDetailData && !isLoadingProductDetail) {
@@ -158,86 +123,6 @@ const ProductUpdate = (): JSX.Element => {
       });
     }
   }, [productDetailData, isLoadingProductDetail, categoriesData]);
-
-  // console.log('==== categories', categories)
-  // console.log('==== isUpdate', isUpdate);
-  // const initialValues = {
-  //   ...productDetail,
-  //   categories: productDetail?.categories?.map(item => {
-  //     return { value: item._id, label: item.name };
-  //   }),
-  // };
-  // console.log('==== initialValues', initialValues);
-
-  // const normFile = (e: any) => {
-  //   console.log('Upload event:', e);
-  //   if (Array.isArray(e)) {
-  //     return e;
-  //   }
-  //   return e?.fileList;
-  // };
-
-  // const handleUpload = () => {
-  //   const formData = new FormData();
-  //   fileList.forEach(file => {
-  //     formData.append('files[]', file as RcFile);
-  //   });
-  //   // setUploading(true);
-  //   // You can use any AJAX library you like
-  //   fetch('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
-  //     method: 'POST',
-  //     body: formData,
-  //   })
-  //     .then(res => res.json())
-  //     .then(() => {
-  //       setFileList([]);
-  //   console.log('upload successfully.');
-
-  //       // message.success('upload successfully.');
-  //     })
-  //     .catch(() => {
-  //   console.log('upload failed.');
-  //     })
-  //     .finally(() => {
-  //       // setUploading(false);
-  //     });
-  // };
-
-  // const props: UploadProps = {
-  //   onRemove: file => {
-  //     const index = fileList.indexOf(file);
-  //     const newFileList = fileList.slice();
-  //     newFileList.splice(index, 1);
-  //     setFileList(newFileList);
-  //   },
-  //   beforeUpload: file => {
-  //     setFileList([...fileList, file]);
-
-  //     return false;
-  //   },
-  //   listType: 'picture-card',
-  //   fileList,
-  // };
-
-  // const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-  //   setFileList(newFileList);
-  // };
-
-  // const onPreview = async (file: UploadFile) => {
-  //   let src = file.url as string;
-  //   if (!src) {
-  //     src = await new Promise(resolve => {
-  //       const reader = new FileReader();
-  //       reader.readAsDataURL(file.originFileObj as RcFile);
-  //       reader.onload = () => resolve(reader.result as string);
-  //     });
-  //   }
-  //   const image = new Image();
-  //   image.src = src;
-  //   const imgWindow = window.open(src);
-  //   imgWindow?.document.write(image.outerHTML);
-  // };
-      console.log('==== initialValues', defaultValue)
 
   return defaultValue && <ProductDetailForm key={'productUpdate'} isUpdate={true} categories={categoriesData?.data} initialValues={defaultValue} onFinish={onFinish} isLoading={isLoadingProductDetail || isLoadingUpdateProduct} />
 };
