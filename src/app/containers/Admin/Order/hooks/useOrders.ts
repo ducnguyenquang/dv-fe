@@ -23,7 +23,7 @@ export const useOrders = (params: OrderQueryPayload): UseQueryResult<{ data: any
     ordersApi.ordersKeys.list(params),
     async () => {
       const data = await ordersApi.getOrders(params);
-      console.log('==== useOrders data', data)
+      // console.log('==== useOrders data', data)
       // storeEquipmentPaginationModals(data?.page);
 
       return data.data;

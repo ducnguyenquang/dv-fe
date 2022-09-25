@@ -126,7 +126,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
-  console.log('==== initialValues', initialValues);
+  // console.log('==== initialValues', initialValues);
 
   return (
     <>

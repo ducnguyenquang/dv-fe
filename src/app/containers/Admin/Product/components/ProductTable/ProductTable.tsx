@@ -23,7 +23,7 @@ interface DataType {
 
 const ProductTable = (): JSX.Element => {
   const dispatch = useDispatch();
-  const [products, setProducts] = useState<any>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const intl = useIntl();
 
   const [page, setPage] = React.useState(PAGE);
@@ -31,7 +31,7 @@ const ProductTable = (): JSX.Element => {
   const { data, isLoading } = productsHooks.useProducts({
     pagination: {
       limit: pageSize,
-      offset: page - 1,
+      offset: page * pageSize,
     },
   });
 
@@ -39,10 +39,11 @@ const ProductTable = (): JSX.Element => {
 
   useEffect(() => {
     if (data && !isLoading) {
-      console.log('==== data.data 111', data);
-      setProducts(data.data);
+      // console.log('==== data.data 111', data);
+      setProducts(data?.data);
     }
   }, [data, isLoading]);
+  // console.log('==== products', products);
 
   const getProductDetail = async (row: DataType) => {
     await dispatch(productsActions.setProductDetail(row));
@@ -130,11 +131,18 @@ const ProductTable = (): JSX.Element => {
           page={page}
           pageSize={pageSize}
           onChangePagination={(page, pageSize) => {
+            console.log('==== onChangePagination page', page);
+            console.log('==== onChangePagination pageSize', pageSize);
+
+
             setPage(page);
             setPageSize(pageSize);
           }}
-          onShowSizeChange={pageSize => {
-            setPageSize(pageSize);
+          onShowSizeChange={size => {
+            console.log('==== onShowSizeChange', size);
+
+            // setPage(0);
+            // setPageSize(size);
           }}
         />
       </Card>

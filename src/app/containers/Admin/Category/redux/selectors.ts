@@ -12,10 +12,10 @@ import { initialState } from './slice';
 // const getKarcherEquipment = (state: RootState): EquipmentKarcher => state.equipments.karcherEquipment;
 // const getOriginEquipmentDetail = (state: RootState): Equipment => state.equipments.originEquipmentDetail;
 // const getEquipmentFileView = (state: RootState): EquipmentFileView => state.equipments.fileViewType;
-const getCategoriesPagination = (state: RootState): TPagination => state.admin_products.pagination;
-const getCategories = (state: RootState): TPagination => state.admin_products.products;
-const getCategory = (state: RootState) => state.admin_products.productDetail;
-const getIsLoading = (state: RootState): Boolean => state.admin_products.isLoading;
+const getCategoriesPagination = (state: RootState): TPagination => state.adminCategories.pagination;
+const getCategories = (state: RootState): TPagination => state.adminCategories.products;
+const getCategory = (state: RootState) => state.adminCategories.productDetail;
+const getIsLoading = (state: RootState): Boolean => state.adminCategories.isLoading;
 
 
 export const categoriesSelectors = {

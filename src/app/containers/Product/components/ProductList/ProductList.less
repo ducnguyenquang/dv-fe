@@ -1,0 +1,31 @@
+.product-list {
+  .ant-list-items {
+    .ant-list-item {
+      flex-direction: row-reverse;
+      &-extra {
+        margin-left: 0;
+        margin-right: 40px;
+      }
+    }
+  }
+}
+
+.ant-list-grid {
+  .ant-row {
+    .ant-col {
+      .ant-list-item {
+        display: flex;
+        flex-direction: column-reverse;
+        &-extra {
+          margin-left: 0;
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
+
+.ant-segmented-item-selected, .ant-segmented-item:hover{
+    color: @primary-color;
+}

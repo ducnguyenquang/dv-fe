@@ -7,22 +7,22 @@ import { productsApi, productsActions } from 'app/containers/Product';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
 
-export const useProducts = (params: ProductQueryPayload): UseQueryResult<{ data: Product[] }> => {
-  // const dispatch = useDispatch();
+export const useProducts = (params: ProductQueryPayload): UseQueryResult<{ data: any, pagination: any }> => {
+  const dispatch = useDispatch();
 
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
+  const storeProductPaginationModals = useCallback(
+    ({data, pagination}: {data: any, pagination: any}) => {
+      dispatch(productsActions.setProducts({data, pagination}));
+    },
+    [dispatch]
+  );
 
   return useQuery(
     productsApi.productsKeys.list(params),
     async () => {
-      const data = await productsApi.getProducts(params);
+      const { data } = await productsApi.getProducts(params);
       console.log('==== data', data)
-      // storeEquipmentPaginationModals(data?.page);
+      storeProductPaginationModals(data);
 
       return data;
     },

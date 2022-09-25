@@ -21,10 +21,10 @@ export const useOrder = (params: OrderDetailPayload): UseQueryResult<any> => {
   return useQuery(
     ordersApi.ordersKeys.detail(params),
     async () => {
-      console.log('==== useOrder params', params)
+      // console.log('==== useOrder params', params)
       const data = await ordersApi.getOrder(params);
       // storeEquipmentPaginationModals(data?.page);
-      console.log('==== useOrder data', data)
+      // console.log('==== useOrder data', data)
 
       return data?.data;
     },

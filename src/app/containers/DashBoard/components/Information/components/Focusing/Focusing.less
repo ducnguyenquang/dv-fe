@@ -1,0 +1,42 @@
+.focusingBlog {
+  .focusingItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    .itemImage{
+      margin-right: 2%;
+
+      .ant-image-img{
+        object-fit: cover;
+      }
+    }
+    .itemBlog {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .item {
+        display: flex;
+        flex-direction: row;
+    
+        .itemIcon {
+          font-size: 90px;
+          margin-right: 10px;
+          color: #FF7043;
+        }
+        .itemInfo{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          .title {
+            font-size: 24px;
+          }
+          .content {
+            font-size: 14px;
+            color: #777777;
+          }
+        }
+      }
+    }
+  }
+}

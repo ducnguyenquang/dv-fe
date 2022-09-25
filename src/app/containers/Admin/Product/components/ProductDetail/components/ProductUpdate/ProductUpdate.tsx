@@ -81,12 +81,12 @@ const ProductUpdate = (): JSX.Element => {
   const { data: categoriesData, isLoading: isLoadingCategories } = productsHooks.useCategories({
     pagination: {
       limit: pageSize,
-      offset: page - 1,
+      offset: page > 1 ? page - 1 : page,
     },
   });
   // productsSelectors.getProduct()
   const { data: productDetailData, isLoading: isLoadingProductDetail } = productsHooks.useProduct({ id });
-  // console.log('==== productDetailParam', productDetailParam);
+  console.log('==== categoriesData', categoriesData);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const onFinish = useCallback(async (values: any) => {
@@ -94,7 +94,7 @@ const ProductUpdate = (): JSX.Element => {
       ...values,
       _id: productDetailData?._id,
       // images: fileList,
-      // categories: values.categories.map((item: any) => item.value),
+      categories: values.categories.map((item: any) => item.value),
     }).then((item: any) => {
       setProductDetail(item?.data);
       setFileList(item?.data?.images);
@@ -111,7 +111,7 @@ const ProductUpdate = (): JSX.Element => {
 
   useEffect(() => {
     if (productDetailData && !isLoadingProductDetail) {
-      console.log('==== productDetailData', productDetailData)
+      // console.log('==== productDetailData', productDetailData)
       setProductDetail(productDetailData);
       setFileList(productDetailData?.images);
       setDefaultValue({

@@ -37,7 +37,7 @@ const CategoryTable = (): JSX.Element => {
 
   useEffect(() => {
     if (data && !isLoading) {
-      console.log('==== data.data 111', data);
+      // console.log('==== data.data 111', data);
       setCategories(data.data);
     }
   }, [data, isLoading]);

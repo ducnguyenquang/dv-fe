@@ -30,51 +30,33 @@ export const initialState = {
     totalCount: 0,
     count: 0,
   },
-  accessToken: storage.getAccessToken(),
+  // accessToken: storage.getAccessToken(),
   // karcherEquipment: null,
   // originEquipmentDetail: {},
   // fileViewType: EquipmentFileView.LIST,
+  products: [],
+  productDetail: {},
 };
 
 const productsSlice = createSlice({
-  name: 'product',
+  name: 'products',
   initialState,
   reducers: {
-    setEquipmentPagination: (state, { payload }) => {
-      state.pagination = payload;
+    setProductsPagination: (state, { payload }) => {
+      // state.products = payload.data;
+      state.pagination = payload.pagination;
     },
-    // setModalData: (state, { payload: { modalName, modalData } }) => {
-    //   state.modalsData[modalName] = modalData;
-    // },
-    // closeModals: state => {
-    //   state.modalsData = modalsData;
-    // },
-    // setEquipmentsTableColumnOrder: (state, { payload }) => {
-    //   storage.setEquipmentFilters(JSON.stringify(payload));
-    //   state.equipmentsTableColumns = payload;
-    // },
-    // selectEquipment: (state, { payload }) => {
-    //   state.selectedEquipment = state.selectedEquipment.concat(payload);
-    // },
-    // deselectEquipment: (state, { payload }) => {
-    //   state.selectedEquipment = state.selectedEquipment.filter((e: Equipment) => e?.id !== payload?.id);
-    // },
-    // deselectAllEquipment: state => {
-    //   state.selectedEquipment = [];
-    // },
-    // setAccessToken: (state, { payload }) => {
-    //   storage.setAccessToken(JSON.stringify(payload));
-    //   state.accessToken = payload;
-    // },
-    // setKarcherEquipment: (state, { payload }) => {
-    //   state.karcherEquipment = payload;
-    // },
-    // setOriginEquipmentDetail: (state, { payload }) => {
-    //   state.originEquipmentDetail = payload;
-    // },
-    // setEquipmentFileView: (state, { payload }) => {
-    //   state.fileViewType = payload;
-    // },
+    setProducts: (state, { payload }) => {
+      state.products = payload.data;
+      state.pagination = payload.pagination;
+    },
+    setIsLoading: (state, { payload }) => {
+      state.isLoading = payload;
+    },
+    setProductDetail: (state, { payload }) => {
+      // console.log('==== setProductDetail', payload)
+      state.productDetail = payload;
+    },
   },
 });
 

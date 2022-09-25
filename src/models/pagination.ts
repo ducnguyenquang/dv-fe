@@ -5,4 +5,5 @@ export type TPagination = {
   count: number;
   limit: number;
   offset: number;
+  currentPage: number;
 };

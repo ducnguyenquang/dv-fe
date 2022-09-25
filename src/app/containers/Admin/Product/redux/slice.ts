@@ -1,6 +1,6 @@
-// import { Equipment, EquipmentFileView } from 'Models/equipment';
+// import { Product } from 'models/product';
 import { createSlice } from '@reduxjs/toolkit';
-import { storage } from 'utils';
+// import { storage } from 'utils';
 
 // export const modalDataKeys = {
 //   createEquipment: 'createEquipment',

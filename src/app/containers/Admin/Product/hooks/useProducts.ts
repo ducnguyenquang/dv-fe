@@ -8,24 +8,23 @@ import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
 
 export const useProducts = (params: ProductQueryPayload): UseQueryResult<{ data: any, pagination: any }> => {
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== useProducts params', params)
+  const dispatch = useDispatch();
+  
+  const storeProductPaginationModals = useCallback(
+    ({data, pagination}: {data: any, pagination: any}) => {
+      dispatch(productsActions.setProducts({data, pagination}));
+    },
+    [dispatch]
+  );
 
   return useQuery(
     productsApi.productsKeys.list(params),
     async () => {
       const data = await productsApi.getProducts(params);
-      console.log('==== data', data)
-      // storeEquipmentPaginationModals(data?.page);
+      // console.log('==== data', data)
+      storeProductPaginationModals(data);
 
-      return data.data;
+      return data;
     },
     {
       keepPreviousData: true,

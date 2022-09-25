@@ -16,7 +16,8 @@ import { GlobalStyle } from '../styles/global-styles';
 
 //  import { NotFoundPage } from './components/NotFoundPage/Loadable';
 //  import { useTranslation } from 'react-i18next';
-import 'antd/dist/antd.less';
+// import 'antd/dist/antd.less';
+import './app.less';
 //  import { Navbar } from './components/Navbar';
 //  import Routes from '../config/routes';
 //  import { useInjectReducer, useInjectSaga } from 'redux-injectors';
@@ -26,14 +27,20 @@ import 'antd/dist/antd.less';
 //  import DoctorRoute from 'routes/doctor';
 //  import { ROLES } from 'config/constant';
 //  import { EmailConfirmed } from './containers/Authentication/EmailConfirmed';
-import { AdminTemplate } from 'app/containers/Template';
+import { AdminTemplate, Template } from 'app/containers/Template';
 
-import { Login } from 'app/containers/Authentication/Login';
+import { AdminLogin, AdminSignUp } from 'app/containers/Admin/Authentication';
 import { AdminProductTable, AdminProductAdd, AdminProductUpdate } from 'app/containers/Admin/Product';
 import { AdminCategoryTable, AdminCategoryAdd, AdminCategoryUpdate } from 'app/containers/Admin/Category';
 import { AdminUserTable, AdminUserAdd, AdminUserUpdate } from 'app/containers/Admin/User';
 import { AdminOrderTable, AdminOrderAdd, AdminOrderUpdate } from 'app/containers/Admin/Order';
+import { AdminBrandTable, AdminBrandAdd, AdminBrandUpdate } from 'app/containers/Admin/Brand';
 import { Common as AdminCommon } from 'app/containers/Admin/Setting';
+import { ProductList, ProductDetail } from 'app/containers/Product';
+
+import { Cart } from 'app/containers/Cart';
+import { DashBoard } from 'app/containers/DashBoard';
+
 
 
 
@@ -81,7 +88,7 @@ export function App() {
 
   /** I18n HOOKS **/
   //  const { i18n } = useTranslation();
-  console.log('==== cus APP');
+  // console.log('==== cus APP');
   /** REDUX HOOKS **/
   //    const { actions: authActions } = useAuth();
   //    let { role, user } = useSelector(selectAuth);
@@ -131,6 +138,12 @@ export function App() {
   //      }
   //      // eslint-disable-next-line react-hooks/exhaustive-deps
   //    }, [profile?.user]);
+  // ConfigProvider.config({
+  //   // prefixCls: 'custom',
+  //   theme: {
+  //     primaryColor: '#E5704B',
+  //   },
+  // });
 
   return (
     <ConfigProvider>
@@ -149,8 +162,18 @@ export function App() {
         <Routes>
           <Route
             // exact
-            path={'/login'}
-            element={<Login />}
+            path={'/'}
+            element={<DashBoard />}
+          />
+          <Route
+            // exact
+            path={'/admin/login'}
+            element={<AdminLogin />}
+          />
+          <Route
+            // exact
+            path={'/admin/signup'}
+            element={<AdminSignUp />}
           />
           <Route
             // exact
@@ -216,8 +239,38 @@ export function App() {
           />
           <Route
             // exact
+            path={'/admin/brands'}
+            element={<AdminTemplate content={<AdminBrandTable />} />}
+          />
+          <Route
+            // exact
+            path={'/admin/brand/:id'}
+            element={<AdminTemplate content={<AdminBrandUpdate />} />}
+          />
+          <Route
+            // exact
+            path={'/admin/brand/add'}
+            element={<AdminTemplate content={<AdminBrandAdd />} />}
+          />
+          <Route
+            // exact
             path={'/admin/setting/common'}
             element={<AdminTemplate content={<AdminCommon />} />}
+          />
+          <Route
+            // exact
+            path={'/products'}
+            element={<Template content={<ProductList />} />}
+          />
+          <Route
+            // exact
+            path={'/product/:id'}
+            element={<Template content={<ProductDetail />} />}
+          />
+          <Route
+            // exact
+            path={'/cart'}
+            element={<Template content={<Cart />} />}
           />
         </Routes>
         {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}

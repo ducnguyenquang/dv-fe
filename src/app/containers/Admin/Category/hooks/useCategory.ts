@@ -22,7 +22,7 @@ export const useCategory = (params: CategoryDetailPayload): UseQueryResult<any> 
     categoriesApi.categoriesKeys.detail(params),
     async () => {
       const data = await categoriesApi.getCategory(params);
-      console.log('==== data', data)
+      // console.log('==== data', data)
       // storeEquipmentPaginationModals(data?.page);
 
       return data?.data;

@@ -1,6 +1,6 @@
 import type { RootState } from 'config/configureStore';
 // import { Equipment, EquipmentKarcher, EquipmentFileView } from 'models/product';
-// import { TPagination } from 'models/pagination';
+import { TPagination } from 'models/pagination';
 import { initialState } from './slice';
 
 // const getEquipmentsModalsData = (state: RootState): typeof modalsData => state.equipments.modalsData;
@@ -12,14 +12,15 @@ import { initialState } from './slice';
 // const getKarcherEquipment = (state: RootState): EquipmentKarcher => state.equipments.karcherEquipment;
 // const getOriginEquipmentDetail = (state: RootState): Equipment => state.equipments.originEquipmentDetail;
 // const getEquipmentFileView = (state: RootState): EquipmentFileView => state.equipments.fileViewType;
+const getProductsPagination = (state: RootState): TPagination => state.products.pagination;
+const getProducts = (state: RootState): TPagination => state.products.products;
+const getProduct = (state: RootState) => state.products.productDetail;
+const getIsLoading = (state: RootState): Boolean => state.products.isLoading;
+
 
 export const productsSelectors = {
-  // getEquipmentsModalsData,
-  // getEquipmentsTableColumns,
-  // getSelectedEquipment,
-  // getEquipmentPagination,
-  // getAccessToken,
-  // getKarcherEquipment,
-  // getOriginEquipmentDetail,
-  // getEquipmentFileView,
+  getProductsPagination,
+  getProducts,
+  getIsLoading,
+  getProduct,
 };

@@ -27,7 +27,7 @@ export const useCreateCategory = (): any => {
       onSuccess: (data) => {
         // Reset list of equipments
         // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
-        console.log('==== useCreateProduct onSuccess data', data)
+        // console.log('==== useCreateProduct onSuccess data', data)
         return data;
         // successMessage({ value: 'Update Successfully' });
       },

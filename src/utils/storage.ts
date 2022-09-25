@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import Cookies from 'js-cookie';
 
 export type CookiesResponse = string | undefined | void;
@@ -6,13 +7,7 @@ export const STORAGE_COOKIE_KEYS = {
   AUTH_TOKEN: 'dv-auth-token',
   ACCESS_TOKEN: 'access-token',
   REFRESH_TOKEN: 'refresh-token',
-  // EQUIPMENT_FILTERS: 'equipment-filters',
-  // LOCATION_COLUMN_ORDER: 'location-column-order',
-  // CUSTOMER_COLUMN_ORDER: 'customer-column-order',
-  // EMPLOYEE_COLUMN_ORDER: 'employee-column-order',
-  // CALENDAR_LOCATION: 'calendar-location',
-  // CALENDAR_VIEW: 'calendar-view',
-  // ACCESS_TOKEN: 'access-token',
+  SHOPPING_CART: 'shopping-cart',
   LANGUAGE: 'language',
 };
 
@@ -33,6 +28,11 @@ export default {
     Cookies.set(STORAGE_COOKIE_KEYS.ACCESS_TOKEN, accessToken, { expires: 365 });
   },
   getAccessToken: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.ACCESS_TOKEN),
+
+  setShoppingCart: (item: string): CookiesResponse => {
+    Cookies.set(STORAGE_COOKIE_KEYS.SHOPPING_CART, item, { expires: 365 });
+  },
+  getShoppingCart: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.SHOPPING_CART),
 
   // setLocationColumns: (location: string): CookiesResponse => {
   //   Cookies.set(STORAGE_COOKIE_KEYS.LOCATION_COLUMN_ORDER, location, { expires: 365 });

@@ -73,7 +73,7 @@ const CategoryAdd = (): JSX.Element => {
     console.log('Received values of form: ', values);
     
     const data = await createCategory(values);
-    console.log('==== createProduct productDetail', data);
+    // console.log('==== createProduct productDetail', data);
     window.location.href = `/admin/category/${data?.data?.slug}`;
     
   },[createCategory]);

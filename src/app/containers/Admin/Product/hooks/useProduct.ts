@@ -22,7 +22,7 @@ export const useProduct = (params: ProductDetailPayload): UseQueryResult<any> =>
     productsApi.productsKeys.detail(params),
     async () => {
       const data = await productsApi.getProduct(params);
-      console.log('==== data', data)
+      // console.log('==== data', data)
       // storeEquipmentPaginationModals(data?.page);
 
       return data?.data;

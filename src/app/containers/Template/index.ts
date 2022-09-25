@@ -1,2 +1,4 @@
 export { AdminTemplate } from './components/AdminTemplate';
-//   export { ProductDetail as AdminProductDetail } from './components/Menu/';
+export { Template } from './components/Template';
+export { NavTopMenu } from './components/Template/components/NavTopMenu';
+
