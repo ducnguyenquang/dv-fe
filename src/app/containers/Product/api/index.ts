@@ -1,16 +1,12 @@
 import { ProductQueryPayload, ProductDetailPayload } from 'models/product';
 
-// import { fetchEquipments } from './fetchEquipments';
-// import { fetchEquipment } from './fetchEquipment';
-// import { createEquipment } from './createEquipment';
-// import { uploadEquipmentImage } from './uploadEquipmentImage';
-// import { editEquipment } from './editEquipment';
 import { getProducts } from './getProducts';
 import { getProduct } from './getProduct';
 import { createProduct } from './createProduct';
 import { updateProduct } from './updateProduct';
 import { getCaterogies } from './getCaterogies';
 import { deleteProduct } from './deleteProduct';
+import { getBrands } from './getBrands';
 
 export const productsKeys = {
   all: ['products'] as const,
@@ -28,4 +24,5 @@ export const productsApi = {
   getProduct,
   updateProduct,
   deleteProduct,
+  getBrands,
 };

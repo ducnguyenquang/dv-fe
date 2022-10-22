@@ -18,24 +18,15 @@ import { storage } from 'utils';
 
 export const initialState = {
   isLoading: false,
-  // modalsData,
-  // equipmentsTableColumns: {
-  //   columnOrder: equipmentFiltersData ? JSON.parse(equipmentFiltersData)?.columnOrder : [],
-  //   hiddenColumns: equipmentFiltersData ? JSON.parse(equipmentFiltersData)?.hiddenColumns : [],
-  // },
-  // selectedEquipment: [],
   pagination: {
     hasPreviousPage: false,
     hasNextPage: false,
     totalCount: 0,
     count: 0,
   },
-  // accessToken: storage.getAccessToken(),
-  // karcherEquipment: null,
-  // originEquipmentDetail: {},
-  // fileViewType: EquipmentFileView.LIST,
   products: [],
   productDetail: {},
+  filters: {},
 };
 
 const productsSlice = createSlice({
@@ -43,7 +34,6 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     setProductsPagination: (state, { payload }) => {
-      // state.products = payload.data;
       state.pagination = payload.pagination;
     },
     setProducts: (state, { payload }) => {
@@ -54,8 +44,10 @@ const productsSlice = createSlice({
       state.isLoading = payload;
     },
     setProductDetail: (state, { payload }) => {
-      // console.log('==== setProductDetail', payload)
       state.productDetail = payload;
+    },
+    setFilters: (state, { payload }) => {
+      state.filters = payload;
     },
   },
 });

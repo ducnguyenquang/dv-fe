@@ -2,12 +2,12 @@ import { useQuery, UseQueryResult } from 'react-query';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { LoginPayload, User } from 'models/user';
+import { LoginPayload, UserAuthentication } from 'models/user';
 import { authenticationActions, authenticationApi } from 'app/containers/Admin/Authentication';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
 
-export const useLogin = (params: LoginPayload): UseQueryResult<any> => {
+export const useLogin = (params: LoginPayload): UseQueryResult<UserAuthentication> => {
   const dispatch = useDispatch();
 
   // const storeEquipmentPaginationModals = useCallback(
@@ -16,11 +16,13 @@ export const useLogin = (params: LoginPayload): UseQueryResult<any> => {
   //   },
   //   [dispatch]
   // );
-  // console.log('==== useProducts params', params)
+  console.log('==== useLogin params', params)
 
   return useQuery(
-    authenticationApi.authenticationKeys.login(),
+    authenticationApi.authenticationKeys.login(params),
     async () => {
+      console.log('==== params', params)
+      if (!params.email || !params.password) return;
       const data = await authenticationApi.login(params);
       // console.log('==== data', data)
       // storeEquipmentPaginationModals(data?.page);
@@ -28,8 +30,8 @@ export const useLogin = (params: LoginPayload): UseQueryResult<any> => {
       return data.data;
     },
     {
-      keepPreviousData: true,
-      cacheTime: 0,
+      // keepPreviousData: true,
+      // cacheTime: 0,
       onError: (error: ErrorResponse) => {
         if (error?.response?.errors?.length) {
           apiErrorHandler(error?.response?.errors);

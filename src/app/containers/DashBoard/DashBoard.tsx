@@ -2,8 +2,13 @@ import { Layout } from 'antd';
 import { Header, Content, Footer } from 'antd/lib/layout/layout';
 import { Banner } from './components/Banner'
 import { Header as TemplateHeader } from '../Template/components/Template/components/Header';
+import { Footer as TemplateFooter } from '../Template/components/Template/components/Footer';
+
 import { Vision } from './components/Vision';
 import { Information } from './components/Information';
+import { Construction } from './components/Construction';
+import { Faq } from './components/Faq';
+
 
 const DashBoard = (): JSX.Element => {
   return <Layout>
@@ -15,8 +20,12 @@ const DashBoard = (): JSX.Element => {
     <Banner />
     <Vision />
     <Information />
+    <Construction />
+    <Faq />
   </Content>
-  <Footer style={{ textAlign: 'center', fontSize: '13px' }}>Copyright © {new Date().getFullYear()} Công ty Cổ phần chiếu sáng & Thiết bị điện Đại Việt. All rights reserved.</Footer>
+  <Footer style={{ textAlign: 'center', fontSize: '13px' }}>
+    <TemplateFooter />
+  </Footer>
 </Layout>
 }
 

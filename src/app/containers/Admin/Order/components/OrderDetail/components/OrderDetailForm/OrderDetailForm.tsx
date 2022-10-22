@@ -84,10 +84,10 @@ const OrderDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
           // title={`${intl.formatMessage({ id: 'order.detail.title' })} [${initialValues.orderNumber}]`}
           bordered
         >
-          <Descriptions.Item label={intl.formatMessage({ id: 'order.email' })}>{initialValues.email}</Descriptions.Item>
+          <Descriptions.Item label={intl.formatMessage({ id: 'order.email' })}>{initialValues.customer.email}</Descriptions.Item>
           <Descriptions.Item label={intl.formatMessage({ id: 'order.total' })}>{initialValues.total}</Descriptions.Item>
           <Descriptions.Item label={intl.formatMessage({ id: 'order.createdBy' })}>
-            {initialValues.createdBy}
+            {initialValues.customer.name}
           </Descriptions.Item>
           <Descriptions.Item label={intl.formatMessage({ id: 'order.status' })} span={3}>
             <Badge status="processing" text={initialValues.status} />

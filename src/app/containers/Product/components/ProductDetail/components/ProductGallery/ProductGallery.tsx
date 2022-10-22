@@ -3,49 +3,50 @@ import { UploadFile } from 'antd/es/upload/interface';
 import React from 'react';
 
 const contentStyle: React.CSSProperties = {
+  // height: '160px',
+  // color: '#fff',
+  // lineHeight: '160px',
+  // textAlign: 'center',
+  // background: '#364d79',
   height: '436px',
+  // width: ;
   color: '#fff',
   // lineHeight: '160px',
   // textAlign: 'center',
   // background: '#364d79',
   background: '#fff',
+
 };
 
 interface IProps {
   images?: UploadFile[];
 }
 
+
 const ProductGallery = ({ images }: IProps): JSX.Element => {
+  console.log('==== images', images)
+
   return (
-    <div>
-      <Carousel autoplay>
-        {images?.map(item => {
-          return (
-            <div style={contentStyle}>
+    <Carousel autoplay>
+      {images?.map(item => {
+        return (
+          <div>
+            <h3>
               <Image
                 key={item.uid}
+                preview={false}
                 // style={contentStyle}
-                width={contentStyle.height}
-                src={item.thumbUrl}
+                width={400}
+                height={400}
+                src={item?.thumbUrl}
+                className='image'
+                // style={contentStyle}
               />
-            </div>
-          );
-        })}
-
-        {/* <div>
-          <h3 style={contentStyle}>1</h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>2</h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>3</h3>
-        </div>
-        <div>
-          <h3 style={contentStyle}>4</h3>
-        </div> */}
-      </Carousel>
-    </div>
+            </h3>
+          </div>
+        );
+      })}
+    </Carousel>
   );
 };
 

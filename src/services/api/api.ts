@@ -59,7 +59,9 @@ const getRequestHeaders = async () => {
   // headers['Content-type'] = 'application/x-www-form-urlencoded';
   headers['Cache-control'] =
     'no-cache,no-store,must-revalidate,max-age=-1,private';
-  headers['Authorization'] = `Bearer ${localStorage.getItem('Token') || ''}`;
+  // headers['Authorization'] = `Bearer ${localStorage.getItem('Token') || ''}`;
+  headers['x-access-token'] = `${localStorage.getItem('Token') || ''}`;
+
   // headers['lang'] = localStorage.getItem('i18nextLng') || 'en';
 
   return headers;

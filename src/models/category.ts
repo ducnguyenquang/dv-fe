@@ -28,7 +28,10 @@ type CategoryQueryBase = {
     id: string;
     desc: boolean;
   };
-  search?: string;
+  search?: {
+    searchText: string;
+    searchColumn: string;
+  };
   roles?: string[];
   states?: string[];
 };

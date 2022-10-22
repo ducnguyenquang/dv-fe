@@ -1,11 +1,47 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input, Checkbox, Button, Image } from 'antd';
+import { LoginPayload } from 'models/user';
+import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
+import { authenticationHooks } from '../../hooks';
 import './Login.less';
 
 const Login = (): JSX.Element => {
   const intl = useIntl();
+  const [loginData, setLoginData] = useState<LoginPayload>({
+    email: '',
+    password: '',
+  });
+
+  // const onFinish = () => {
+  //   const { data: brandDetailData, isLoading: isLoadingBrandDetailData } = authenticationHooks.useLogin({ id });
+
+  // }
+
+  console.log('==== loginData', loginData); //return;
+  const { data: userLogin, isLoading: isLoadingUserLogin } = authenticationHooks.useLogin(loginData);
+  console.log('==== userLogin', userLogin); //return;
+
+
+  const onFinish = useCallback(
+    async (values: any) => {
+      // console.log('==== values', values); return;
+      setLoginData(values);
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (userLogin && !isLoadingUserLogin) {
+      // console.log('==== userLogin', userLogin); return;
+      localStorage.setItem('Token', userLogin.token as string)
+      window.location.href = `/admin`;
+    }
+
+    if (localStorage.getItem('Token')) window.location.href = '/admin/';
+  }, [userLogin, isLoadingUserLogin]);
+
 
   return (
     <>
@@ -15,7 +51,7 @@ const Login = (): JSX.Element => {
         <div className="bg-image">
           <img
             src={
-              'https://cdn.elearningindustry.com/wp-content/uploads/2021/01/increase-sales-with-proven-elearning-elements.png'
+              '/images/increase-sales.jpg'
             }
             alt={'Dai Viet'}
           />
@@ -26,9 +62,9 @@ const Login = (): JSX.Element => {
             name="normal_login"
             className="login-form"
             initialValues={{ remember: true }}
-            // onFinish={onFinish}
+            onFinish={onFinish}
           >
-            <Form.Item name="username" rules={[{ required: true, message: 'Please input your Username!' }]}>
+            <Form.Item name="email" rules={[{ required: true, message: 'Please input your Username!' }]}>
               <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder={intl.formatMessage({ id: 'login.username' })} />
             </Form.Item>
             <Form.Item name="password" rules={[{ required: true, message: 'Please input your Password!' }]}>
@@ -51,44 +87,6 @@ const Login = (): JSX.Element => {
               {intl.formatMessage({ id: 'login.text.let' })} <a href="./signup">{intl.formatMessage({ id: 'login.link.enroll' })}</a>
             </Form.Item>
           </Form>
-          {/* <Form
-            name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
-            // onFinish={onFinish}
-            // onFinishFailed={onFinishFailed}
-            autoComplete="off"
-            className="loginForm"
-          >
-            <Form.Item
-              label={intl.formatMessage({ id: 'login.username' })}
-              name="username"
-              rules={[{ required: true, message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'login.username' })}) }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label={intl.formatMessage({ id: 'login.password' })}
-              name="password"
-              rules={[{ required: true, message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'login.password' })}) }]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item name="forgetPassword" wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="link" >
-                  {intl.formatMessage({ id: 'login.link.forgetPassword' })}
-                </Button>
-            </Form.Item>
-
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
-                {intl.formatMessage({ id: 'login.button.submit' })}
-              </Button>
-            </Form.Item>
-          </Form> */}
         </div>
       </div>
     </>

@@ -16,8 +16,8 @@ import {
 import { PAGE, PAGE_SIZE } from 'constants/products';
 import { Category } from 'models/category';
 import { Product } from 'models/product';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { productsHooks, productsSelectors, productsActions } from 'app/containers/Admin/Product';
 // import { productsSelectors } from '../../../../redux/selectors';
@@ -27,12 +27,23 @@ import ImgCrop from 'antd-img-crop';
 import endPoint from 'services/api/endPoint.json';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
+import ReactQuill, { Quill } from 'react-quill';
+import QuillBetterTable from 'quill-better-table';
+// import { Parser as HtmlToReactParser } from "html-to-react";
+import 'react-quill/dist/quill.snow.css';
+import { brandsHooks } from 'app/containers/Admin/Brand';
+import { Brand } from 'models/brand';
 // import { productsActions } from 'app/containers/Admin';
 
 // interface IProps {
 //   caterogy?: string;
 //   id?: string;
 // }
+
+// import "react-quill-with-table/dist/quill.snow.css";
+// import "react-quill-with-table/dist/quill.bubble.css";
+
+// var htmlToReactParser = new HtmlToReactParser();
 
 const { Option } = Select;
 const formItemLayout = {
@@ -74,14 +85,61 @@ interface IProps {
   categories?: Category[];
 }
 
+// Quill.register({
+//   'modules/better-table': QuillBetterTable
+// }, true);
+
+// const editorModules = {
+//   table: false, // disable table module
+//   "better-table": {
+//     operationMenu: {
+//       items: {
+//         unmergeCells: {
+//           text: "Another unmerge cells name"
+//         }
+//       }
+//     }
+//   },
+//   keyboard: {
+//     bindings: QuillBetterTable.keyboardBindings
+//   }
+// };
+
 const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categories }: IProps): JSX.Element => {
+  // const editor = useRef();
+  const intl = useIntl();
+
+  const dispatch = useDispatch();
+
+  const [text, setText] = useState('');
+  // var reactElement = HtmlToReactParser.parse(text);
+  // useEffect(() => {
+  //   const editon = editor.current.getEditor();
+  //   //console.log(editon.getModule("toolbar"));
+  //   let tableModule = editon.getModule("better-table");
+  //   tableModule.insertTable(3, 3);
+  //   console.log(tableModule);
+  // }, []);
+
   const [form] = Form.useForm();
   // const { id } = useParams();
   // const isUpdate = id ? true : false;
-  const productDetailParam = useSelector(productsSelectors.getProduct);
-  const intl = useIntl();
+  const [description, setDescription] = useState('');
+  const [specification, setspecification] = useState('');
 
-  console.log('==== productDetailParam', productDetailParam);
+  const productDetailParam = useSelector(productsSelectors.getProduct);
+
+  const [brands, setBrands] = useState<Brand[]>([]);
+
+  const [page, setPage] = React.useState(PAGE);
+  const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
+  const { data: brandsData, isLoading: isLoadingBrandsData } = brandsHooks.useBrands({
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+  });
+
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
 
   const normFile = (e: any) => {
@@ -91,6 +149,13 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
     }
     return e?.fileList;
   };
+
+  useEffect(() => {
+    if (brandsData && !isLoadingBrandsData) {
+      // console.log('==== data.data 111', data);
+      setBrands(brandsData.data);
+    }
+  }, [brandsData, isLoadingBrandsData]);
 
   const props: UploadProps = {
     onRemove: file => {
@@ -126,7 +191,15 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
-  // console.log('==== initialValues', initialValues);
+
+  // useEffect(() => {
+  //   const editon = editor.current.getEditor();
+  //   //console.log(editon.getModule("toolbar"));
+  //   let tableModule = editon.getModule("better-table");
+  //   tableModule.insertTable(3, 3);
+  //   console.log(tableModule);
+  // }, []);
+  console.log('==== brands', brands);
 
   return (
     <>
@@ -134,7 +207,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
       <Card
         title={intl.formatMessage({ id: 'page.name.productDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => (window.history.back())}>
+          <Button type="ghost" htmlType="submit" onClick={() => window.history.back()}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -143,10 +216,17 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={(values) => onFinish({
-            ...values,
-            images: fileList,
-          })}
+          onFinish={values =>
+            {
+              // console.log('==== onFinish values', values); return;
+              onFinish({
+              ...values,
+              description: encodeURIComponent(values.description),
+              specification: encodeURIComponent(values.specification),
+              slug: encodeURIComponent(values.slug),
+              images: fileList,
+            })}
+          }
           initialValues={initialValues}
           scrollToFirstError
         >
@@ -156,7 +236,10 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'product.productName' })}),
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'product.productName' }) }
+                ),
               },
             ]}
           >
@@ -168,7 +251,10 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'product.slug' })}),
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'product.slug' }) }
+                ),
               },
             ]}
             hasFeedback
@@ -181,23 +267,66 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'product.brand' })}),
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'product.brand' }) }
+                ),
               },
             ]}
             hasFeedback
           >
-            <Input />
+            <Select allowClear placeholder={intl.formatMessage({ id: 'product.brand.placeholder' })}>
+              {brands &&
+                brands?.map((item: Brand) => (
+                  <Option key={item?._id} value={item?._id}>
+                    {item?.name}
+                  </Option>
+                ))}
+            </Select>
           </Form.Item>
 
-          <Form.Item
-            name="description"
-            label={intl.formatMessage({ id: 'product.description' })}
-          >
-            <Input.TextArea showCount maxLength={100} value={initialValues?.description} />
+          <Form.Item name="summary" label={intl.formatMessage({ id: 'product.summary' })}>
+            <Input.TextArea showCount maxLength={100} value={initialValues?.summary} />
+          </Form.Item>
+
+          <Form.Item name="description" label={intl.formatMessage({ id: 'product.description' })}>
+            {/* <Input.TextArea showCount maxLength={100} value={initialValues?.description} /> */}
+            <ReactQuill
+              // ref={editor}
+              theme="snow"
+              value={description}
+              // value={text}
+
+              onChange={setDescription}
+              // onChange={(value) => setText(value)}
+
+              // modules={editorModules}
+            />
+            {/* {reactElement} */}
+          </Form.Item>
+          <Form.Item name="specification" label={intl.formatMessage({ id: 'product.specification' })}>
+            {/* <Input.TextArea showCount maxLength={100} value={initialValues?.description} /> */}
+            <ReactQuill
+              // ref={editor}
+              theme="snow"
+              value={specification}
+              // value={text}
+
+              onChange={setDescription}
+              // onChange={(value) => setText(value)}
+
+              // modules={editorModules}
+            />
+            {/* {reactElement} */}
           </Form.Item>
 
           <Form.Item name="categories" label={intl.formatMessage({ id: 'product.categories' })}>
-            <Select key='categorySelect' allowClear mode="multiple" placeholder={intl.formatMessage({ id: 'product.categories.placeholder' })}>
+            <Select
+              key="categorySelect"
+              allowClear
+              mode="multiple"
+              placeholder={intl.formatMessage({ id: 'product.categories.placeholder' })}
+            >
               {categories &&
                 categories.map((item: any) => (
                   <Option key={item?._id} value={item?._id}>
@@ -225,7 +354,9 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
 
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" loading={isLoading}>
-              {isUpdate ? intl.formatMessage({ id: 'common.button.update' }) : intl.formatMessage({ id: 'common.button.add' })}
+              {isUpdate
+                ? intl.formatMessage({ id: 'common.button.update' })
+                : intl.formatMessage({ id: 'common.button.add' })}
             </Button>
           </Form.Item>
         </Form>

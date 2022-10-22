@@ -33,37 +33,37 @@ import { useCallback } from 'react';
 //   id?: string;
 // }
 
-const { Option } = Select;
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 8,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
+// const { Option } = Select;
+// const formItemLayout = {
+//   labelCol: {
+//     xs: {
+//       span: 24,
+//     },
+//     sm: {
+//       span: 8,
+//     },
+//   },
+//   wrapperCol: {
+//     xs: {
+//       span: 24,
+//     },
+//     sm: {
+//       span: 16,
+//     },
+//   },
+// };
+// const tailFormItemLayout = {
+//   wrapperCol: {
+//     xs: {
+//       span: 24,
+//       offset: 0,
+//     },
+//     sm: {
+//       span: 16,
+//       offset: 8,
+//     },
+//   },
+// };
 
 const ProductUpdate = (): JSX.Element => {
   // const [form] = Form.useForm();
@@ -90,22 +90,29 @@ const ProductUpdate = (): JSX.Element => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const onFinish = useCallback(async (values: any) => {
+    console.log('==== onFinish values', values)
     await updateProduct({
       ...values,
       _id: productDetailData?._id,
       // images: fileList,
+      // brand: values.brand.value,
       categories: values.categories.map((item: any) => item.value),
     }).then((item: any) => {
       setProductDetail(item?.data);
       setFileList(item?.data?.images);
       setDefaultValue({
         ...productDetailData,
+        description: decodeURIComponent(productDetailData?.description),
+        specification: decodeURIComponent(productDetailData?.specification),
+        slug: decodeURIComponent(productDetailData?.slug),
         categories: productDetailData?.categories?.map((item: Category) => {
           // categories.filter()
           return { value: item._id, label: item.name };
 
         }),
       });
+      window.location.href = `/admin/products`;
+
     });
   }, [productDetailData, updateProduct])
 
@@ -116,6 +123,9 @@ const ProductUpdate = (): JSX.Element => {
       setFileList(productDetailData?.images);
       setDefaultValue({
         ...productDetailData,
+        description: decodeURIComponent(productDetailData?.description),
+        specification: decodeURIComponent(productDetailData?.specification),
+        slug: decodeURIComponent(productDetailData?.slug),
         categories: productDetailData?.categories.map((item: Category) => {
           // console.log('==== includes', productDetailData?.categories?.map((category: Category) => category._id)?.includes(item._id))
           return { value: item._id, label: item.name };

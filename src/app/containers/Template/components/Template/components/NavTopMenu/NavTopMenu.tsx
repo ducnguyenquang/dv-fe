@@ -8,7 +8,7 @@ interface IProps {
 }
 const NavTopMenu = ({ content }: IProps): JSX.Element => {
   const intl = useIntl();
-//   intl.formatMessage({ id: 'menu.left.setting' })
+
   const items1: MenuProps['items'] = [
     {
         key: 'product',

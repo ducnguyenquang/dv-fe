@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult, useMutation } from 'react-query';
+import { useQuery, UseQueryResult, useMutation, useQueryClient } from 'react-query';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -9,6 +9,7 @@ import { ErrorResponse } from 'models/error';
 import { successMessage } from 'common/components/Toast';
 
 export const useUpdateProduct = (): any => {
+  const queryClient = useQueryClient();
   // const dispatch = useDispatch();
 
   // const storeEquipmentPaginationModals = useCallback(
@@ -20,20 +21,24 @@ export const useUpdateProduct = (): any => {
   // console.log('==== useProducts params', params)
 
   return useMutation(
-    (params: ProductUpdatePayload) => {
+    async (params: ProductUpdatePayload) => {
       console.log('==== useMutation params',params)
 
-      return productsApi.updateProduct(params);
+      const data = await productsApi.updateProduct(params);
+      return data;
     },
     {
       onSuccess: (data) => {
         // Reset list of equipments
-        // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
+        queryClient.invalidateQueries(productsApi.productsKeys.lists());
+
         console.log('==== useUpdateProduct onSuccess data', data)
-        return data;
-        // successMessage({ value: 'Update Successfully' });
+        successMessage({ id: 'product.message.update.success' });
+        // return data;
       },
       onError: (error: ErrorResponse) => {
+        apiErrorHandler(error);
+
         if (error?.response?.errors?.length) {
           apiErrorHandler(error?.response?.errors);
         }

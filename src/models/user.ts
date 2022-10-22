@@ -49,7 +49,7 @@ type UserQueryBase = {
 export type UserQueryPayload = Partial<UserQueryBase>;
 
 export type LoginPayload = Pick<User, 'email'> & {
-  password: string;
+  password?: string;
 };
 
 export type UserDetailPayload = Pick<User, 'id' | 'firstName' | 'lastName' | 'role' | 'email' | 'phone'> & {
@@ -61,4 +61,8 @@ export type UserDeletePayload = Pick<User, 'id'>;
 export type AllUsersQueryPayload = {
   search: string;
   role?: UserRole;
+};
+
+export type UserAuthentication = Partial<User> & {
+  token?: string;
 };

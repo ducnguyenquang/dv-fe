@@ -7,12 +7,13 @@ import {
   SolutionOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
-import { Card, Layout, Menu } from 'antd';
+import { Card, Layout, Menu, Image } from 'antd';
 // import { Header, Content } from "antd/lib/layout/layout";
 // import Sider from "antd/lib/layout/Sider";
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import './AdminTemplate.less';
+import UserDropDown from './components/UserDropDown/UserDropDown';
 
 interface IProps {
   content?: any;
@@ -33,6 +34,8 @@ const Template = ({ content }: IProps): JSX.Element => {
     if (window.location.pathname.includes('/admin/setting/')) {
       // setInlineCollapsed(true);
     }
+
+    if (!localStorage.getItem('Token')) window.location.href = '/admin/login';
   }, []);
 
   const getNavSelected = () => {
@@ -60,7 +63,6 @@ const Template = ({ content }: IProps): JSX.Element => {
         break;
       case '/admin/setting/common':
         result = 'common';
-        // setCollapsed(true);
         break;
       case '/admin/brands':
       case '/admin/brand/add':
@@ -72,22 +74,22 @@ const Template = ({ content }: IProps): JSX.Element => {
       case '/admin/advertisement/update':
         result = 'advertisement';
         break;
-      case '/admin/setting/emailTemplates':
+      case '/admin/setting/emailTemplate':
       case '/admin/setting/emailTemplate/add':
       case '/admin/setting/emailTemplate/update':
         result = 'emailTemplate';
         break;
-      case '/admin/setting/menuPopup':
-      case '/admin/setting/menuPopup/add':
-      case '/admin/setting/menuPopup/update':
-        result = 'menuPopup';
+      case '/admin/setting/popupMenu':
+      case '/admin/setting/popupMenu/add':
+      case '/admin/setting/popupMenu/update':
+        result = 'popupMenu';
         break;
       case '/admin/setting/support':
       case '/admin/setting/support/add':
       case '/admin/setting/support/update':
         result = 'support';
         break;
-      case '/admin/setting/tagSeo':
+      case '/admin/setting/tagSeos':
       case '/admin/setting/tagSeo/add':
       case '/admin/setting/tagSeo/update':
         result = 'tagSeo';
@@ -99,7 +101,7 @@ const Template = ({ content }: IProps): JSX.Element => {
     return [result];
   };
 
-  const getSubNavSelectd = () => {
+  const getSubNavSelected = () => {
     let result = '';
     switch (window.location.pathname) {
       case '/admin/setting/common':
@@ -117,12 +119,12 @@ const Template = ({ content }: IProps): JSX.Element => {
   return (
     <Layout>
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-        <div className="logo" />
+        <Image width={50} preview={false} src="/images/logodv-8769.gif" />
         <Menu
           mode="inline"
           defaultSelectedKeys={['category']}
           selectedKeys={[...getNavSelected()]}
-          defaultOpenKeys={[...getSubNavSelectd()]}
+          defaultOpenKeys={[...getSubNavSelected()]}
           items={[
             {
               key: 'category',
@@ -192,10 +194,10 @@ const Template = ({ content }: IProps): JSX.Element => {
                   },
                 },
                 {
-                  key: 'menuPopup',
+                  key: 'popupMenu',
                   label: intl.formatMessage({ id: 'menu.left.setting.menuPopup' }),
                   onClick: () => {
-                    navMenuClick({ name: 'emailTemplate', url: '/admin/setting/emailTemplate' });
+                    navMenuClick({ name: 'menuPopup', url: '/admin/setting/popupMenu' });
                   },
                 },
                 {
@@ -223,6 +225,7 @@ const Template = ({ content }: IProps): JSX.Element => {
             className: 'trigger',
             onClick: () => setCollapsed(!collapsed),
           })} */}
+          <UserDropDown />
         </Header>
         <Content
           className="site-layout-background"

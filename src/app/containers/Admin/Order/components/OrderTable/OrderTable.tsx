@@ -9,14 +9,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
+import { Customer } from 'models/customer';
 
 interface DataType {
   key: string;
   orderNumber: string;
-  email: string;
+  // email: string;
   total: string;
   orderItems: OrderItem[];
-  createdBy: string;
+  customer: Customer;
   _id: string;
 }
 
@@ -33,6 +34,8 @@ const OrderTable = (): JSX.Element => {
       offset: page - 1,
     },
   });
+
+  console.log('==== OrderTable data', data)
 
   const { mutateAsync: deleteOrder, isLoading: isLoadingDeleteOrder } = ordersHooks.useDeleteOrder();
 
@@ -65,9 +68,20 @@ const OrderTable = (): JSX.Element => {
       ),
     },
     {
+      title: intl.formatMessage({ id: 'order.phone' }),
+      dataIndex: 'phone',
+      // key: 'custome',
+      render: (_, record) => (
+        <div>{record?.customer?.phone}</div>
+      ),
+    },
+    {
       title: intl.formatMessage({ id: 'order.email' }),
       dataIndex: 'email',
-      key: 'email',
+      // key: 'custome',
+      render: (_, record) => (
+        <div>{record?.customer?.email}</div>
+      ),
     },
     {
       title: intl.formatMessage({ id: 'order.total' }),
@@ -75,9 +89,12 @@ const OrderTable = (): JSX.Element => {
       key: 'total',
     },
     {
-      title: intl.formatMessage({ id: 'order.createdBy' }),
-      dataIndex: 'createdBy',
-      key: 'createdBy',
+      title: intl.formatMessage({ id: 'order.customer' }),
+      dataIndex: 'customer',
+      // key: 'customer',
+      render: (_, record) => (
+        <div>{record?.customer?.name}</div>
+      ),
     },
     {
       title: intl.formatMessage({ id: 'order.action' }),

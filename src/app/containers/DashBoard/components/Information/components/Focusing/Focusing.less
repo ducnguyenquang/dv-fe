@@ -1,10 +1,17 @@
 .focusingBlog {
+  // padding: 0 3%;
+
   .focusingItem {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    
     .itemImage{
       margin-right: 2%;
+
+      &:last-child {
+        margin-right: unset;
+      }
 
       .ant-image-img{
         object-fit: cover;

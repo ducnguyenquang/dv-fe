@@ -9,6 +9,8 @@ export {
   export { productsHooks } from './hooks';
   export { ProductList } from './components/ProductList';
   export { ProductDetail } from './components/ProductDetail';
+  export { ProductFilter } from './components/ProductFilter';
+
 
   // export { ProductDetailForm as AdminProductDetailForm } from './components/ProductDetail/components/ProductDetailForm';
   // export { ProductAdd as AdminProductAdd } from './components/ProductDetail/components/ProductAdd';

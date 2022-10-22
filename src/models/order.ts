@@ -9,35 +9,39 @@
 //   ACTIVED = 'ACTIVED',
 //   REJECTED = 'REJECTED',
 // }
+import { Customer } from './customer';
 import { Product } from './product';
 
 export interface OrderItem {
   id?: string;
-  quantity?: string;
-  total?: string;
+  quantity: number;
+  total: number;
   order?: Order;
   product?: Product;
   createdBy?: string;
+  _id?: string;
 }
 
 export interface Order {
   id?: string;
-  email?: string;
   total?: string;
+  customer?: Customer;
   orderItems?: OrderItem[];
   orderNumber?: string;
-  createdBy?: string;
+  payment?: string;
+  status?: string;
+  note?: string;
+  // customer: {type: mongoose.Schema.ObjectId, ref: 'customer'},
 }
 
 export type OrderCreatePayload = Pick<
   Order,
-  'email' | 'total' | 'orderItems' | 'orderNumber' | 'createdBy'
-> & {
-};
+  'total' | 'orderItems' | 'orderNumber' | 'payment' | 'status' | 'note' | 'customer'
+> & {};
 
 export type OrderUpdatePayload = Pick<
   Order,
-  'id' | 'email' | 'total' | 'orderItems' | 'orderNumber' | 'createdBy'
+  'total' | 'orderItems' | 'orderNumber' | 'payment' | 'status' | 'note' | 'customer'
 >;
 
 type OrderQueryBase = {
@@ -57,13 +61,11 @@ type OrderQueryBase = {
 
 export type OrderQueryPayload = Partial<OrderQueryBase>;
 
-export type LoginPayload = Pick<Order, 'email'> & {
-  password: string;
-};
+// export type LoginPayload = Pick<Order, 'email'> & {
+//   password: string;
+// };
 
-export type OrderDetailPayload = Pick<
-  Order, 
-  'id' | 'email' | 'total' | 'orderItems' | 'orderNumber' | 'createdBy'> & {
+export type OrderDetailPayload = Pick<Order, 'id'> & {
   _id?: string;
 };
 

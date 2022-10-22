@@ -1,8 +1,8 @@
-import ProductInfomation from './components/ProductInfomation/ProductInfomation';
+import ProductInformation from './components/ProductInformation/ProductInformation';
 
 const ProductDetail = (): JSX.Element => {
     return <div className=''>
-        <ProductInfomation />
+        <ProductInformation />
     </div>
 }
 

@@ -78,7 +78,7 @@ const ProductAdd = (): JSX.Element => {
 
   const onFinish = useCallback(async (values: any) => {
     const data = await createProduct(values);
-    window.location.href = `/admin/product/${data?.data?.slug}`;
+    window.location.href = `/admin/products`;
   },[createProduct]);
 
   return <ProductDetailForm key={'productAdd'} categories={categoriesData?.data} onFinish={onFinish} isLoading={isLoadingCreateProduct || isLoadingCategories} />;

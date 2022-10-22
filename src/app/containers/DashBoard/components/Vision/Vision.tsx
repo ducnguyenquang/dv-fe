@@ -1,7 +1,7 @@
 import {
   EyeOutlined,
   CarryOutOutlined,
-  CrownOutlined,
+  SketchOutlined,
 } from '@ant-design/icons';
 import './Vision.less'
 import { useIntl } from 'react-intl';
@@ -21,7 +21,7 @@ const Vision = (): JSX.Element => {
     </div>
     <div className='item'>
       <div className='itemIcon'>
-        <CrownOutlined />
+        <SketchOutlined />
       </div>
       <div className='itemInfo'>
         <div className='title'>{intl.formatMessage({ id: 'dashboard.vision.coreValue' })}</div>

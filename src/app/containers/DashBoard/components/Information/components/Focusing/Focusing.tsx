@@ -1,5 +1,5 @@
 import { Image } from 'antd';
-import { TrophyOutlined, SafetyCertificateOutlined, ShopOutlined, AlertOutlined, ApiOutlined } from '@ant-design/icons';
+import { TrophyOutlined, ShopOutlined, AlertOutlined, ApiOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
 import './Focusing.less';
 
@@ -18,8 +18,8 @@ const Focusing = (): JSX.Element => {
               <TrophyOutlined />
             </div>
             <div className="itemInfo">
-              <div className="title">{intl.formatMessage({ id: 'dashboard.information.history.item1.title' })}</div>
-              <div className="content">{intl.formatMessage({ id: 'dashboard.information.history.item1.content' })}</div>
+              <div className="title">{intl.formatMessage({ id: 'dashboard.information.focusing.item1.title' })}</div>
+              <div className="content">{intl.formatMessage({ id: 'dashboard.information.focusing.item1.content' })}</div>
             </div>
           </div>
           <div className="item">
@@ -27,8 +27,8 @@ const Focusing = (): JSX.Element => {
               <ShopOutlined />
             </div>
             <div className="itemInfo">
-              <div className="title">{intl.formatMessage({ id: 'dashboard.information.history.item2.title' })}</div>
-              <div className="content">{intl.formatMessage({ id: 'dashboard.information.history.item2.content' })}</div>
+              <div className="title">{intl.formatMessage({ id: 'dashboard.information.focusing.item2.title' })}</div>
+              <div className="content">{intl.formatMessage({ id: 'dashboard.information.focusing.item2.content' })}</div>
             </div>
           </div>
         </div>
@@ -40,8 +40,8 @@ const Focusing = (): JSX.Element => {
               <AlertOutlined />
             </div>
             <div className="itemInfo">
-              <div className="title">{intl.formatMessage({ id: 'dashboard.information.history.item3.title' })}</div>
-              <div className="content">{intl.formatMessage({ id: 'dashboard.information.history.item3.content' })}</div>
+              <div className="title">{intl.formatMessage({ id: 'dashboard.information.focusing.item3.title' })}</div>
+              <div className="content">{intl.formatMessage({ id: 'dashboard.information.focusing.item3.content' })}</div>
             </div>
           </div>
           <div className="item">
@@ -49,8 +49,8 @@ const Focusing = (): JSX.Element => {
               <ApiOutlined />
             </div>
             <div className="itemInfo">
-              <div className="title">{intl.formatMessage({ id: 'dashboard.information.history.item4.title' })}</div>
-              <div className="content">{intl.formatMessage({ id: 'dashboard.information.history.item4.content' })}</div>
+              <div className="title">{intl.formatMessage({ id: 'dashboard.information.focusing.item4.title' })}</div>
+              <div className="content">{intl.formatMessage({ id: 'dashboard.information.focusing.item4.content' })}</div>
             </div>
           </div>
         </div>

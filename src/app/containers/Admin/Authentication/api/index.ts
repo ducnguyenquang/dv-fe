@@ -13,7 +13,7 @@ export const authenticationKeys = {
   // detail: (params: CategoryDetailPayload) => [...authenticationKeys.details(), { params }] as const,
   // lists: () => [...authenticationKeys.all, 'list'] as const,
   // list: (params: CategoryQueryPayload) => [...authenticationKeys.lists(), { params }] as const,
-  login: () => [...authenticationKeys.all, 'login'] as const,
+  login: (params: LoginPayload) => [...authenticationKeys.details(), { params }] as const,
 
 };
 

@@ -62,7 +62,7 @@ const AdvertisementAdd = (): JSX.Element => {
     async (values: any) => {
       // console.log('Received values of form: ', values);
       const data = await createAdvertisement(values);
-      window.location.href = `/admin/advertisement/${data?.data?.slug}`;
+      window.location.href = `/admin/advertisement/${data?.data?._id}`;
     },
     [createAdvertisement]
   );

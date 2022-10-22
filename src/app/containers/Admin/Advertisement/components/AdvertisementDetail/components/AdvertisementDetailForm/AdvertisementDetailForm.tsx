@@ -47,7 +47,7 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
   const intl = useIntl();
   const [form] = Form.useForm();
 
-  const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.logo : []);
+  const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.image : []);
 
   const normFile = (e: any) => {
     console.log('Upload event:', e);
@@ -110,7 +110,7 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
           onFinish={values =>
             onFinish({
               ...values,
-              logo: fileList,
+              image: fileList,
             })
           }
           initialValues={initialValues}
@@ -158,7 +158,7 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
                   onChange={onChange}
                   onPreview={onPreview}
                 >
-                  {fileList?.length < 1 && `+ ${intl.formatMessage({ id: 'advertisement.button.addImages' })}`}
+                  {fileList?.length === 0 && `+ ${intl.formatMessage({ id: 'advertisement.button.addImages' })}`}
                 </Upload>
               </ImgCrop>
             </Form.Item>

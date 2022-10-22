@@ -36,14 +36,23 @@ import { AdminUserTable, AdminUserAdd, AdminUserUpdate } from 'app/containers/Ad
 import { AdminOrderTable, AdminOrderAdd, AdminOrderUpdate } from 'app/containers/Admin/Order';
 import { AdminBrandTable, AdminBrandAdd, AdminBrandUpdate } from 'app/containers/Admin/Brand';
 import { Common as AdminCommon } from 'app/containers/Admin/Setting';
-import { ProductList, ProductDetail } from 'app/containers/Product';
+import {
+  AdminEmailTemplateTable,
+  AdminEmailTemplateAdd,
+  AdminEmailTemplateUpdate,
+} from 'app/containers/Admin/EmailTemplate';
+import { AdminPopupMenuTable, AdminPopupMenuAdd, AdminPopupMenuUpdate } from 'app/containers/Admin/PopupMenu';
+import {
+  AdminAdvertisementTable,
+  AdminAdvertisementAdd,
+  AdminAdvertisementUpdate,
+} from 'app/containers/Admin/Advertisement';
+import { AdminSupportTable, AdminSupportAdd, AdminSupportUpdate } from 'app/containers/Admin/Support';
+
+import { ProductList, ProductDetail, ProductFilter } from 'app/containers/Product';
 
 import { Cart } from 'app/containers/Cart';
 import { DashBoard } from 'app/containers/DashBoard';
-
-
-
-
 
 //  import { SignUp } from './containers/Authentication/SignUp';
 //  import { ForgotPassword } from './containers/Authentication/ForgotPassword';
@@ -58,6 +67,7 @@ import { ConfigProvider } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import LanguageProvider from './components/LanguageProvider/LanguageProvider';
 import { useIntl } from 'react-intl';
+import { Slide, ToastContainer } from 'react-toastify';
 //  import { selectAuth } from './containers/Authentication/selectors';
 //  import { UserGuides } from './containers/UserGuides/Loadable';
 //  import { ThePlatform } from './containers/ThePlatform/Loadable';
@@ -158,122 +168,194 @@ export function App() {
 
         <ScrollToTop />
         <LanguageProvider>
+          <ToastContainer
+            autoClose={5000}
+            hideProgressBar
+            transition={Slide}
+            draggable={false}
+            pauseOnFocusLoss={false}
+            limit={10}
+          />
+          <Routes>
+            <Route
+              // exact
+              path={'/'}
+              element={<DashBoard />}
+            />
+            <Route
+              // exact
+              path={'/admin'}
+              element={<AdminTemplate content={<AdminProductTable />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/login'}
+              element={<AdminLogin />}
+            />
+            <Route
+              // exact
+              path={'/admin/signup'}
+              element={<AdminSignUp />}
+            />
+            <Route
+              // exact
+              path={'/admin/products'}
+              element={<AdminTemplate content={<AdminProductTable />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/product/:id'}
+              element={<AdminTemplate content={<AdminProductUpdate />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/product/add'}
+              element={<AdminTemplate content={<AdminProductAdd />} />}
+            />
 
-        <Routes>
-          <Route
-            // exact
-            path={'/'}
-            element={<DashBoard />}
-          />
-          <Route
-            // exact
-            path={'/admin/login'}
-            element={<AdminLogin />}
-          />
-          <Route
-            // exact
-            path={'/admin/signup'}
-            element={<AdminSignUp />}
-          />
-          <Route
-            // exact
-            path={'/admin/products'}
-            element={<AdminTemplate content={<AdminProductTable />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/product/:id'}
-            element={<AdminTemplate content={<AdminProductUpdate />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/product/add'}
-            element={<AdminTemplate content={<AdminProductAdd />} />}
-          />
-          
-          <Route
-            // exact
-            path={'/admin/categories'}
-            element={<AdminTemplate content={<AdminCategoryTable />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/category/:id'}
-            element={<AdminTemplate content={<AdminCategoryUpdate />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/category/add'}
-            element={<AdminTemplate content={<AdminCategoryAdd />} />}
-          />
+            <Route
+              // exact
+              path={'/admin/categories'}
+              element={<AdminTemplate content={<AdminCategoryTable />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/category/:id'}
+              element={<AdminTemplate content={<AdminCategoryUpdate />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/category/add'}
+              element={<AdminTemplate content={<AdminCategoryAdd />} />}
+            />
 
-          <Route
-            // exact
-            path={'/admin/users'}
-            element={<AdminTemplate content={<AdminUserTable />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/user/:id'}
-            element={<AdminTemplate content={<AdminUserUpdate />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/user/add'}
-            element={<AdminTemplate content={<AdminUserAdd />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/orders'}
-            element={<AdminTemplate content={<AdminOrderTable />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/order/:id'}
-            element={<AdminTemplate content={<AdminOrderUpdate />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/order/add'}
-            element={<AdminTemplate content={<AdminOrderAdd />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/brands'}
-            element={<AdminTemplate content={<AdminBrandTable />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/brand/:id'}
-            element={<AdminTemplate content={<AdminBrandUpdate />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/brand/add'}
-            element={<AdminTemplate content={<AdminBrandAdd />} />}
-          />
-          <Route
-            // exact
-            path={'/admin/setting/common'}
-            element={<AdminTemplate content={<AdminCommon />} />}
-          />
-          <Route
-            // exact
-            path={'/products'}
-            element={<Template content={<ProductList />} />}
-          />
-          <Route
-            // exact
-            path={'/product/:id'}
-            element={<Template content={<ProductDetail />} />}
-          />
-          <Route
-            // exact
-            path={'/cart'}
-            element={<Template content={<Cart />} />}
-          />
-        </Routes>
-        {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}
+            <Route
+              // exact
+              path={'/admin/users'}
+              element={<AdminTemplate content={<AdminUserTable />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/user/:id'}
+              element={<AdminTemplate content={<AdminUserUpdate />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/user/add'}
+              element={<AdminTemplate content={<AdminUserAdd />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/orders'}
+              element={<AdminTemplate content={<AdminOrderTable />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/order/:id'}
+              element={<AdminTemplate content={<AdminOrderUpdate />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/order/add'}
+              element={<AdminTemplate content={<AdminOrderAdd />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/brands'}
+              element={<AdminTemplate content={<AdminBrandTable />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/brand/:id'}
+              element={<AdminTemplate content={<AdminBrandUpdate />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/brand/add'}
+              element={<AdminTemplate content={<AdminBrandAdd />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/common'}
+              element={<AdminTemplate content={<AdminCommon />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/emailTemplate'}
+              element={<AdminTemplate content={<AdminEmailTemplateTable />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/emailTemplate/:id'}
+              element={<AdminTemplate content={<AdminEmailTemplateUpdate />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/emailTemplate/add'}
+              element={<AdminTemplate content={<AdminEmailTemplateAdd />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/popupMenu'}
+              element={<AdminTemplate content={<AdminPopupMenuTable />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/popupMenu/:id'}
+              element={<AdminTemplate content={<AdminPopupMenuUpdate />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/popupMenu/add'}
+              element={<AdminTemplate content={<AdminPopupMenuAdd />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/support'}
+              element={<AdminTemplate content={<AdminSupportTable />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/support/:id'}
+              element={<AdminTemplate content={<AdminSupportUpdate />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/support/add'}
+              element={<AdminTemplate content={<AdminSupportAdd />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/advertisements'}
+              element={<AdminTemplate content={<AdminAdvertisementTable />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/advertisement/:id'}
+              element={<AdminTemplate content={<AdminAdvertisementUpdate />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/advertisement/add'}
+              element={<AdminTemplate content={<AdminAdvertisementAdd />} />}
+            />
+            <Route
+              // exact
+              path={'/products'}
+              element={<Template leftMenu={<ProductFilter />} content={<ProductList />} />}
+            />
+            <Route
+              // exact
+              path={'/product/:id'}
+              element={<Template content={<ProductDetail />} />}
+            />
+            <Route
+              // exact
+              path={'/cart'}
+              element={<Template content={<Cart />} />}
+            />
+          </Routes>
+          {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}
         </LanguageProvider>
         <GlobalStyle />
       </BrowserRouter>

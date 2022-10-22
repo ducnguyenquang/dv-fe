@@ -29,7 +29,10 @@ type BrandQueryBase = {
     id: string;
     desc: boolean;
   };
-  search?: string;
+  search?: {
+    searchText: string;
+    searchColumn: string;
+  };
 };
 
 export type BrandQueryPayload = Partial<BrandQueryBase>;

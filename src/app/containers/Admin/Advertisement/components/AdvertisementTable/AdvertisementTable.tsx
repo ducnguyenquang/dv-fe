@@ -3,7 +3,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { advertisementsHooks, advertisementsActions, advertisementsApi } from 'app/containers/Admin/Advertisement';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/pagination';
-import { Brand } from 'models/brand';
+import { Advertisement } from 'models/advertisement';
 import { useIntl } from 'react-intl';
 // import { Product } from 'models/product';
 import React, { useEffect, useState } from 'react';
@@ -13,8 +13,8 @@ import { Helmet } from 'react-helmet-async';
 interface DataType {
   key: string;
   name: string;
-  description: string;
-  slug: string;
+  url: string;
+  position: string;
   _id: string;
 }
 
@@ -22,7 +22,7 @@ const AdvertisementTable = (): JSX.Element => {
   const intl = useIntl();
 
   const dispatch = useDispatch();
-  const [brands, setBrands] = useState<any>([]);
+  const [advertisements, setAdvertisements] = useState<any>([]);
 
   const [page, setPage] = React.useState(PAGE);
   const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
@@ -38,46 +38,46 @@ const AdvertisementTable = (): JSX.Element => {
   useEffect(() => {
     if (data && !isLoading) {
       // console.log('==== data.data 111', data);
-      setBrands(data.data);
+      setAdvertisements(data.data);
     }
   }, [data, isLoading]);
 
-  const getBrandDetail = async (row: DataType) => {
+  const getAdvertisementDetail = async (row: DataType) => {
     await dispatch(advertisementsActions.setAdvertisementDetail(row));
-    window.location.href = `/admin/advertisement/${row?.slug}`;
+    window.location.href = `/admin/advertisement/${row?._id}`;
 
     // dispatch(productsApi.setEquipmentPagination(pagination));
   };
 
-  const onDeleteBrand = async (id: string) => {
+  const onDeleteAdvertisement = async (id: string) => {
     await deleteAdvertisement(id);
-    setBrands([...brands]);
-    // window.location.reload();
+    setAdvertisements([...advertisements]);
+    window.location.reload();
   };
 
   const columns: ColumnsType<DataType> = [
     {
-      title: intl.formatMessage({ id: 'brand.name' }),
+      title: intl.formatMessage({ id: 'advertisement.name' }),
       dataIndex: 'name',
       key: 'name',
       render: (_, record) => (
-        <a href="#" onClick={() => getBrandDetail(record)}>
+        <a href="#" onClick={() => getAdvertisementDetail(record)}>
           {record.name}
         </a>
       ),
     },
     {
-      title: intl.formatMessage({ id: 'brand.slug' }),
-      dataIndex: 'slug',
-      key: 'slug',
+      title: intl.formatMessage({ id: 'advertisement.url' }),
+      dataIndex: 'url',
+      key: 'url',
     },
     {
-      title: intl.formatMessage({ id: 'brand.description' }),
-      dataIndex: 'description',
-      key: 'description',
+      title: intl.formatMessage({ id: 'advertisement.position' }),
+      dataIndex: 'position',
+      key: 'position',
     },
     {
-      title: intl.formatMessage({ id: 'brand.action' }),
+      title: intl.formatMessage({ id: 'advertisement.action' }),
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
@@ -85,7 +85,7 @@ const AdvertisementTable = (): JSX.Element => {
           <Popconfirm
             title={intl.formatMessage({ id: 'common.confirmModal.title' }, { name: record?.name })}
             onVisibleChange={() => console.log('visible change')}
-            onConfirm={() => onDeleteBrand(record._id)}
+            onConfirm={() => onDeleteAdvertisement(record._id)}
             // onCancel={cancel}
             okText={intl.formatMessage({ id: 'common.button.ok' })}
             cancelText={intl.formatMessage({ id: 'common.button.cancel' })}
@@ -99,18 +99,18 @@ const AdvertisementTable = (): JSX.Element => {
 
   return (
     <>
-      <Helmet title={intl.formatMessage({ id: 'page.name.brand' })} />
+      <Helmet title={intl.formatMessage({ id: 'page.name.advertisement' })} />
       <Card
-        title={intl.formatMessage({ id: 'page.name.brand' })}
+        title={intl.formatMessage({ id: 'page.name.advertisement' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => (window.location.href = '/admin/brand/add')}>
-            {intl.formatMessage({ id: 'brand.button.addBrand' })}
+          <Button type="primary" htmlType="submit" onClick={() => (window.location.href = '/admin/advertisement/add')}>
+            {intl.formatMessage({ id: 'advertisement.button.add' })}
           </Button>
         }
       >
         <ServiceTable
           columns={columns}
-          dataSource={brands}
+          dataSource={advertisements}
           total={data?.pagination?.totalCount}
           isLoading={isLoading}
           page={page}

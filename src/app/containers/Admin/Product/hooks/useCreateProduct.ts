@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult, useMutation } from 'react-query';
+import { useQuery, UseQueryResult, useMutation, useQueryClient } from 'react-query';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -7,8 +7,11 @@ import { productsApi, productsActions } from 'app/containers/Admin/Product';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
 import { successMessage } from 'common/components/Toast';
+import ToastMessage from 'app/containers/Template/components/AdminTemplate/components/ToastMessage/ToastMessage';
 
 export const useCreateProduct = (): any => {
+  const queryClient = useQueryClient();
+
   // const dispatch = useDispatch();
 
   // const storeEquipmentPaginationModals = useCallback(
@@ -26,12 +29,16 @@ export const useCreateProduct = (): any => {
     {
       onSuccess: (data) => {
         // Reset list of equipments
-        // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
+        queryClient.invalidateQueries(productsApi.productsKeys.lists());
         console.log('==== useCreateProduct onSuccess data', data)
-        return data;
+        ToastMessage({type:'success', content: 'product.message.success'})
+
+        // return data;
         // successMessage({ value: 'Update Successfully' });
       },
-      onError: (error: ErrorResponse) => {
+      onError: (error: any) => {
+        console.log('==== useCreateProduct error', error)
+        apiErrorHandler(error);
         if (error?.response?.errors?.length) {
           apiErrorHandler(error?.response?.errors);
         }

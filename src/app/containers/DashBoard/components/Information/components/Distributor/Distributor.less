@@ -1,0 +1,31 @@
+.distributor {
+  height: 450px;
+  background-color: #ededed;
+  display: flex;
+  flex-direction: column;
+  .title {
+    font-size: 24px;
+    padding: 4% 0;
+    text-align: center;
+  }
+  .content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    .item {
+      &:hover {
+        opacity: 70%;
+      }
+
+      .icon {
+        font-size: 120px;
+        color: #ff7043;
+      }
+      .text {
+        font-size: 14px;
+        color: #777;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 
 import type { UploadFile } from 'antd/es/upload/interface';
+import { Brand } from './brand';
 
 import { Category } from "./category";
 
@@ -8,23 +9,37 @@ export interface Product {
   name?: string;
   slug?: string;
   description?: string;
-  brand?: string;
+  summary?: string;
+  specification?: string;
+  brand?: Brand;
   sku?: string;
   images?: UploadFile[];
   categories?: Category[];
+  pricing?: number;
   _id?: string;
+}
+
+export type RangeNumber = {
+  min?: number,
+  max?: number,
+}
+
+export type ProductFilters = {
+  brands?: string[];
+  review?: number;
+  pricing?: number[];
 }
 
 export type ProductCreatePayload = Pick<
 Product,
-  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories'
+  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories' | 'summary' | 'specification'
 > & {
   sendActivationEmail: boolean;
 };
 
 export type ProductUpdatePayload = Pick<
   Product,
-  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories' | 'id' | '_id' 
+  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories' | 'id' | '_id' | 'summary' | 'specification'
 >;
 
 type ProductQueryBase = {
@@ -34,10 +49,10 @@ type ProductQueryBase = {
     limit: number;
   };
   sort?: {
-    id: string;
-    desc: boolean;
+    // id: string;
+    // desc: boolean;
   };
-  search?: string;
+  search?: {};
   roles?: string[];
   states?: string[];
 };
@@ -54,3 +69,5 @@ export type ProductDeletePayload = Pick<Product, 'id'>;
 export type AllProductsQueryPayload = {
   search: string;
 };
+
+

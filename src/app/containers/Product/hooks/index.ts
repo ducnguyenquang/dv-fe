@@ -4,6 +4,8 @@ import { useProduct } from './useProduct';
 import { useCreateProduct } from './useCreateProduct';
 import { useUpdateProduct } from './useUpdateProduct';
 import { useDeleteProduct } from './useDeleteProduct';
+import { useBrands } from './useBrands';
+
 
 
 export const productsHooks = {
@@ -13,4 +15,5 @@ export const productsHooks = {
   useProduct,
   useUpdateProduct,
   useDeleteProduct,
+  useBrands
 };
