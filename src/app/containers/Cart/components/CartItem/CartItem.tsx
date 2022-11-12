@@ -25,7 +25,7 @@ const CartItem = ({ data, onDelete}: IProps): JSX.Element => {
       />
       <div className='inputBlock'>
         <InputNumber className='quantity' value={quantity} onChange={setQuantity}/>
-        <div className='pricing'>{data?.product?.pricing}</div>
+        {/* <div className='pricing'>{data?.product?.pricing}</div> */}
       </div>
     </Card>
   </>

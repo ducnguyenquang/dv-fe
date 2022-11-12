@@ -24,7 +24,7 @@ export const useDeleteBrand = (): any => {
       onSuccess: () => {
         // Reset list of equipments
         // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
-        console.log('==== onSuccess')
+        // console.log('==== onSuccess')
         message.success('Delete Successfully');
         // successMessage({ value: 'Update Successfully' });
       },

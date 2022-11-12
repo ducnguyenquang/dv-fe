@@ -27,7 +27,7 @@ export const useCreateUser = (): any => {
       onSuccess: (data) => {
         // Reset list of equipments
         // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
-        console.log('==== createUser onSuccess data', data)
+        // console.log('==== createUser onSuccess data', data)
         return data;
         // successMessage({ value: 'Update Successfully' });
       },

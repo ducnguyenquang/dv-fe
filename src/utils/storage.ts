@@ -31,11 +31,11 @@ export default {
 
   setShoppingCart: (item: string): CookiesResponse => {
     
-    console.log('==== set ShoppingCart', item)
+    // console.log('==== set ShoppingCart', item)
     Cookies.set(STORAGE_COOKIE_KEYS.SHOPPING_CART, item, { expires: 365 });
     
 
-    console.log('==== get ShoppingCart ',Cookies.get(STORAGE_COOKIE_KEYS.SHOPPING_CART))
+    // console.log('==== get ShoppingCart ',Cookies.get(STORAGE_COOKIE_KEYS.SHOPPING_CART))
   },
   getShoppingCart: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.SHOPPING_CART),
 

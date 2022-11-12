@@ -1,4 +1,4 @@
-import { Button, Space, Table, Tag, Popconfirm, Card, Input, InputRef } from 'antd';
+import { Button, Space, Popconfirm, Card, Input, InputRef, Image } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import { productsHooks, productsActions, productsApi } from 'app/containers/Admin/Product';
 import { ServiceTable } from 'common/components/ServiceTable';
@@ -24,13 +24,6 @@ interface DataType {
   categories: Category[];
   _id: string;
 }
-
-// interface DataType {
-//   key: string;
-//   name: string;
-//   age: number;
-//   address: string;
-// }
 
 type DataIndex = keyof DataType;
 
@@ -62,8 +55,8 @@ const ProductTable = (): JSX.Element => {
   const { mutateAsync: deleteProduct, isLoading: isLoadingDeleteProduct } = productsHooks.useDeleteProduct();
 
   useEffect(() => {
-    console.log('==== useEffect data', data)
-    console.log('==== useEffect isLoading', isLoading)
+    // console.log('==== useEffect data', data)
+    // console.log('==== useEffect isLoading', isLoading)
 
     if (data && !isLoading) {
       setDataSource(data?.data);
@@ -82,9 +75,6 @@ const ProductTable = (): JSX.Element => {
   };
 
   const handleChange = (pagination: any, filters: any, sorter: any) => {
-    console.log('==== handleChange pagination', pagination)
-    console.log('==== handleChange filters', filters)
-    console.log('==== handleChange sorter', sorter)
     setIsChanged(true)
     if (sorter.hasOwnProperty("column")) {
       const params: any = {};
@@ -157,17 +147,6 @@ const ProductTable = (): JSX.Element => {
           >
             Reset
           </Button>
-          {/* <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              setSearchText((selectedKeys as string[])[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button> */}
         </Space>
       </div>
     ),
@@ -225,28 +204,18 @@ const ProductTable = (): JSX.Element => {
         <>{decodeURIComponent(record.slug)}</>
       ),
     },
-    // {
-    //   title: intl.formatMessage({ id: 'product.description' }),
-    //   dataIndex: 'description',
-    //   key: 'description',
-    // },
     {
       title: intl.formatMessage({ id: 'product.brand' }),
       dataIndex: 'brand.name',
       key: 'brand.name',
       ...getColumnSearchProps('brand'),
-      sorter: (a, b) => a.name.length - b.name.length,
+      sorter: (a, b) => (a?.brand?.name as string).length - (b?.brand?.name as string).length,
       sortDirections: ['descend', 'ascend'],
       showSorterTooltip: false,
       render: (_, record) => (
-        <>{record.brand.name}</>
+        record.brand?.logo ? <Image src={record.brand?.logo?.[0].thumbUrl} className='logo' /> : record.brand?.name
       ),
     },
-    // {
-    //   title: intl.formatMessage({ id: 'product.sku' }),
-    //   dataIndex: 'sku',
-    //   key: 'sku',
-    // },
     {
       title: intl.formatMessage({ id: 'product.action' }),
       key: 'action',

@@ -1,49 +1,20 @@
-import {
-  AutoComplete,
-  Button,
-  Cascader,
-  Checkbox,
-  Col,
-  Form,
-  Input,
-  InputNumber,
-  Row,
-  Select,
-  Upload,
-  Image as ImageAntd,
-  Card,
-} from 'antd';
+import { Button, Form, Input, Select, Upload, Card } from 'antd';
 import { PAGE, PAGE_SIZE } from 'constants/products';
 import { Category } from 'models/category';
-import { Product } from 'models/product';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { productsHooks, productsSelectors, productsActions } from 'app/containers/Admin/Product';
+import { productsHooks, productsSelectors } from 'app/containers/Admin/Product';
 // import { productsSelectors } from '../../../../redux/selectors';
-import { UploadOutlined } from '@ant-design/icons';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
-import endPoint from 'services/api/endPoint.json';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
-import ReactQuill, { Quill } from 'react-quill';
-import QuillBetterTable from 'quill-better-table';
+import ReactQuill from 'react-quill';
 // import { Parser as HtmlToReactParser } from "html-to-react";
 import 'react-quill/dist/quill.snow.css';
 import { brandsHooks } from 'app/containers/Admin/Brand';
 import { Brand } from 'models/brand';
-// import { productsActions } from 'app/containers/Admin';
-
-// interface IProps {
-//   caterogy?: string;
-//   id?: string;
-// }
-
-// import "react-quill-with-table/dist/quill.snow.css";
-// import "react-quill-with-table/dist/quill.bubble.css";
-
-// var htmlToReactParser = new HtmlToReactParser();
+import { TYPE_OPTIONS } from 'constants/type';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -82,57 +53,39 @@ interface IProps {
   onFinish?: any;
   initialValues?: any;
   isLoading?: boolean;
-  categories?: Category[];
+  // categories?: Category[];
 }
 
-// Quill.register({
-//   'modules/better-table': QuillBetterTable
-// }, true);
-
-// const editorModules = {
-//   table: false, // disable table module
-//   "better-table": {
-//     operationMenu: {
-//       items: {
-//         unmergeCells: {
-//           text: "Another unmerge cells name"
-//         }
-//       }
-//     }
-//   },
-//   keyboard: {
-//     bindings: QuillBetterTable.keyboardBindings
-//   }
-// };
-
-const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categories }: IProps): JSX.Element => {
-  // const editor = useRef();
+const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
   const intl = useIntl();
-
   const dispatch = useDispatch();
 
   const [text, setText] = useState('');
-  // var reactElement = HtmlToReactParser.parse(text);
-  // useEffect(() => {
-  //   const editon = editor.current.getEditor();
-  //   //console.log(editon.getModule("toolbar"));
-  //   let tableModule = editon.getModule("better-table");
-  //   tableModule.insertTable(3, 3);
-  //   console.log(tableModule);
-  // }, []);
 
   const [form] = Form.useForm();
   // const { id } = useParams();
   // const isUpdate = id ? true : false;
   const [description, setDescription] = useState('');
-  const [specification, setspecification] = useState('');
+  const [specification, setSpecification] = useState('');
+  const [search, setSearch] = useState({
+    type: initialValues.type,
+  });
 
   const productDetailParam = useSelector(productsSelectors.getProduct);
 
   const [brands, setBrands] = useState<Brand[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  const [page, setPage] = React.useState(PAGE);
-  const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
+  // const [page, setPage] = React.useState(PAGE);
+  // const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
+  const { data: categoriesData, isLoading: isLoadingCategories } = productsHooks.useCategories({
+    search: search,
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+  });
+
   const { data: brandsData, isLoading: isLoadingBrandsData } = brandsHooks.useBrands({
     pagination: {
       limit: 1000,
@@ -156,6 +109,15 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
       setBrands(brandsData.data);
     }
   }, [brandsData, isLoadingBrandsData]);
+
+  useEffect(() => {
+    // console.log('==== useEffect data', data)
+    // console.log('==== useEffect isLoading', isLoading)
+
+    if (categoriesData && !isLoadingCategories) {
+      setCategories(categoriesData.data);
+    }
+  }, [categoriesData, isLoadingCategories]);
 
   const props: UploadProps = {
     onRemove: file => {
@@ -192,14 +154,13 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
     imgWindow?.document.write(image.outerHTML);
   };
 
-  // useEffect(() => {
-  //   const editon = editor.current.getEditor();
-  //   //console.log(editon.getModule("toolbar"));
-  //   let tableModule = editon.getModule("better-table");
-  //   tableModule.insertTable(3, 3);
-  //   console.log(tableModule);
-  // }, []);
-  console.log('==== brands', brands);
+  const onSelectedType = (value: string) => {
+    console.log('==== onSelectedType value', value);
+    const searchData = {
+      type: value,
+    };
+    setSearch(searchData);
+  };
 
   return (
     <>
@@ -216,17 +177,16 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={values =>
-            {
-              // console.log('==== onFinish values', values); return;
-              onFinish({
+          onFinish={values => {
+            // console.log('==== onFinish values', values); return;
+            onFinish({
               ...values,
               description: encodeURIComponent(values.description),
               specification: encodeURIComponent(values.specification),
               slug: encodeURIComponent(values.slug),
               images: fileList,
-            })}
-          }
+            });
+          }}
           initialValues={initialValues}
           scrollToFirstError
         >
@@ -319,10 +279,23 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading, categ
             />
             {/* {reactElement} */}
           </Form.Item>
-
+          <Form.Item name="type" label={intl.formatMessage({ id: 'product.type' })}>
+            <Select
+              // key="TypeSelect"
+              allowClear
+              placeholder={intl.formatMessage({ id: 'product.type.placeholder' })}
+              onChange={value => onSelectedType(value)}
+            >
+              {TYPE_OPTIONS.map((item: any) => (
+                <Option key={item?.value} value={item?.value}>
+                  {item?.label}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
           <Form.Item name="categories" label={intl.formatMessage({ id: 'product.categories' })}>
             <Select
-              key="categorySelect"
+              // key="categorySelect"
               allowClear
               mode="multiple"
               placeholder={intl.formatMessage({ id: 'product.categories.placeholder' })}

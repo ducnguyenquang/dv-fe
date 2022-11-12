@@ -74,14 +74,14 @@ const getRequestHeaders = async () => {
  */
 
 const handleResponseData = (data: AxiosResponse<any, any>) => {
-  console.log('==== handleResponseData', data)
+  // console.log('==== handleResponseData', data)
 
   if ((data && data.status === 200) || data.status === 201) {
-    console.log('==== handleResponseData 111')
+    // console.log('==== handleResponseData 111')
 
     return Promise.resolve(data);
   }
-  console.log('==== handleResponseData 222')
+  // console.log('==== handleResponseData 222')
 
   return Promise.reject(data);
 };
@@ -127,12 +127,12 @@ export const POST = async (path: string, payload: any, options?: {responseType: 
     })
     .then(
       data => {
-        console.log('==== POST data', data)
+        // console.log('==== POST data', data)
 
         return handleResponseData(data);
       },
       err => {
-        console.log('==== POST err', err)
+        // console.log('==== POST err', err)
 
         return handleError(err);
       },

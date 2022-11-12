@@ -52,7 +52,7 @@ const EmailTemplateTable = (): JSX.Element => {
   };
 
   const onDeleteEmailTemplate = async (id: string) => {
-    console.log('==== onDeleteEmailTemplate id', id)
+    // console.log('==== onDeleteEmailTemplate id', id)
     await deleteEmailTemplate(id);
     setEmailTemplates([...emailTemplates]);
     window.location.reload();
@@ -122,7 +122,7 @@ const EmailTemplateTable = (): JSX.Element => {
             setPageSize(pageSize);
           }}
           onShowSizeChange={size => {
-            console.log('==== onShowSizeChange', size);
+            // console.log('==== onShowSizeChange', size);
 
             // setPage(0);
             // setPageSize(size);

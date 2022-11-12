@@ -22,7 +22,7 @@ export const useUpdateProduct = (): any => {
 
   return useMutation(
     async (params: ProductUpdatePayload) => {
-      console.log('==== useMutation params',params)
+      // console.log('==== useMutation params',params)
 
       const data = await productsApi.updateProduct(params);
       return data;
@@ -32,7 +32,7 @@ export const useUpdateProduct = (): any => {
         // Reset list of equipments
         queryClient.invalidateQueries(productsApi.productsKeys.lists());
 
-        console.log('==== useUpdateProduct onSuccess data', data)
+        // console.log('==== useUpdateProduct onSuccess data', data)
         successMessage({ id: 'product.message.update.success' });
         // return data;
       },

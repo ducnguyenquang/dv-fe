@@ -9,8 +9,6 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Routes, Route, BrowserRouter, useLocation } from 'react-router-dom';
-import moment from 'moment';
-import { useTranslation } from 'react-i18next';
 
 import { GlobalStyle } from '../styles/global-styles';
 
@@ -53,20 +51,13 @@ import { ProductList, ProductDetail, ProductFilter } from 'app/containers/Produc
 
 import { Cart } from 'app/containers/Cart';
 import { DashBoard } from 'app/containers/DashBoard';
-
-//  import { SignUp } from './containers/Authentication/SignUp';
-//  import { ForgotPassword } from './containers/Authentication/ForgotPassword';
-//  import { ResetPassword } from './containers/Authentication/ResetPassword';
-//  import { reducer, sliceKey, useAuth } from './containers/Authentication/slice';
-//  import { authSaga } from './containers/Authentication/saga';
+import { Contact } from 'app/containers/Contact';
+import { AboutUs } from 'app/containers/AboutUs';
+import { Faq } from 'app/containers/Faq';
+import { SiteMap } from 'app/containers/SiteMap';
 import { ConfigProvider } from 'antd';
-//  import { LandingPage } from './containers/LandingPage';
-//  import enGB from 'antd/lib/locale/en_GB';
-//  import viVN from 'antd/lib/locale/vi_VN';
-//  import 'moment/locale/de';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import LanguageProvider from './components/LanguageProvider/LanguageProvider';
-import { useIntl } from 'react-intl';
 import { Slide, ToastContainer } from 'react-toastify';
 //  import { selectAuth } from './containers/Authentication/selectors';
 //  import { UserGuides } from './containers/UserGuides/Loadable';
@@ -92,68 +83,14 @@ export default function ScrollToTop() {
 }
 
 export function App() {
-  /** INJECTION **/
-  //    useInjectReducer({ key: sliceKey, reducer: reducer });
-  //    useInjectSaga({ key: sliceKey, saga: authSaga });
-
-  /** I18n HOOKS **/
-  //  const { i18n } = useTranslation();
-  // console.log('==== cus APP');
-  /** REDUX HOOKS **/
-  //    const { actions: authActions } = useAuth();
-  //    let { role, user } = useSelector(selectAuth);
-  //    const { profile } = useSelector(selectAccountManagement);
-  // let { role, user } = null;
-  // const { profile } = null;
   const dispatch = useDispatch();
   const [cookieIsAccepted, setCookieIsAccepted] = React.useState(localStorage.getItem('acceptCookie'));
-  // const intl = useIntl();
-
-  /** ROUTER HOOKS **/
-  // const history = useHistory();
-
-  /** FUNCTIONS **/
+  
   const onAcceptCookie = () => {
     const acceptCookieVal = 'true';
     localStorage.setItem('acceptCookie', acceptCookieVal);
     setCookieIsAccepted(acceptCookieVal);
   };
-  //    const getPrivateRoutes = () => {
-  //      switch (role) {
-  //        case ROLES.patient:
-  //          return <PrivateRoute component={PatientRoute} />;
-  //        case ROLES.doctor:
-  //          return <PrivateRoute component={DoctorRoute} />;
-  //        case ROLES.admin:
-  //          return <PrivateRoute component={AdminRoute} />;
-  //        default:
-  //          return <PrivateRoute component={AdminRoute} />;
-  //      }
-  //    };
-
-  // Get FCM
-  //  React.useEffect(() => {
-  //    moment.locale(i18n.language);
-  //  }, [i18n.language]);
-
-  //  React.useEffect(() => {
-  //    // const lang = localStorage.getItem('i18nextLng');
-  //    // const updatedLang = lang ? lang?.split('-')[0] : 'en';
-  //    i18n.changeLanguage('en');
-  //  }, [i18n]);
-
-  //    React.useEffect(() => {
-  //      if (!user?.profile && profile?.user) {
-  //        dispatch(authActions.setUser(profile.user));
-  //      }
-  //      // eslint-disable-next-line react-hooks/exhaustive-deps
-  //    }, [profile?.user]);
-  // ConfigProvider.config({
-  //   // prefixCls: 'custom',
-  //   theme: {
-  //     primaryColor: '#E5704B',
-  //   },
-  // });
 
   return (
     <ConfigProvider>
@@ -341,7 +278,7 @@ export function App() {
             />
             <Route
               // exact
-              path={'/products'}
+              path={'/product'}
               element={<Template leftMenu={<ProductFilter />} content={<ProductList />} />}
             />
             <Route
@@ -353,6 +290,26 @@ export function App() {
               // exact
               path={'/cart'}
               element={<Template content={<Cart />} />}
+            />
+            <Route
+              // exact
+              path={'/contact'}
+              element={<Template content={<Contact />} />}
+            />
+            <Route
+              // exact
+              path={'/aboutUs'}
+              element={<Template content={<AboutUs />} />}
+            />
+            <Route
+              // exact
+              path={'/faq'}
+              element={<Template content={<Faq />} />}
+            />
+            <Route
+              // exact
+              path={'/siteMap'}
+              element={<Template content={<SiteMap />} />}
             />
           </Routes>
           {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}

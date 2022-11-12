@@ -1,9 +1,7 @@
 import { List } from 'antd';
 import { Product } from 'models/product';
-// import Sider from 'antd/lib/layout/Sider';
-// import React, { useState } from 'react';
-// import { useIntl } from 'react-intl';
 import { ListItemComponent } from '../ListItemComponent';
+import { GridItemComponent } from '../GridItemComponent';
 import './ListComponent.less';
 
 interface IProps {
@@ -33,7 +31,9 @@ const ListComponent = ({ products, viewType }: IProps): JSX.Element => {
       itemLayout="vertical"
       size="large"
       dataSource={products}
-      renderItem={(item: Product) => <ListItemComponent data={item} />}
+      renderItem={(item: Product) => {
+        return viewType === 'list' ? <ListItemComponent key={item._id} data={item} /> : <GridItemComponent key={item._id} data={item} />
+      }}
       {...attributes}
     />
   );

@@ -21,7 +21,7 @@ export const useUpdateUser = (): any => {
 
   return useMutation(
     (params: UserUpdatePayload) => {
-      console.log('==== useMutation params',params)
+      // console.log('==== useMutation params',params)
 
       return usersApi.updateUser(params);
     },
@@ -29,7 +29,7 @@ export const useUpdateUser = (): any => {
       onSuccess: (data) => {
         // Reset list of equipments
         // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
-        console.log('==== useUpdateProduct onSuccess data', data)
+        // console.log('==== useUpdateProduct onSuccess data', data)
         return data;
         // successMessage({ value: 'Update Successfully' });
       },

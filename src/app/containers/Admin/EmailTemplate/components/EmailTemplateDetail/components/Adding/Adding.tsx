@@ -63,7 +63,7 @@ const Adding = (): JSX.Element => {
     window.location.href = `/admin/setting/emailTemplate/${data?._id}`;
   },[createEmailTemplate]);
 
-  console.log('==== Adding');
+  // console.log('==== Adding');
   return <EmailTemplateDetailForm key={'EmailTemplateAdd'} onFinish={onFinish} isLoading={isLoadingCreateEmailTemplate} />;
 };
 

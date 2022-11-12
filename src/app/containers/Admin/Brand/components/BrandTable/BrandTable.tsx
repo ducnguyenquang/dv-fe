@@ -1,4 +1,4 @@
-import { Button, Space, Table, Tag, Popconfirm, Card } from 'antd';
+import { Button, Space, Popconfirm, Card, Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { brandsHooks, brandsActions, brandsApi } from 'app/containers/Admin/Brand';
 import { ServiceTable } from 'common/components/ServiceTable';
@@ -9,12 +9,13 @@ import { useIntl } from 'react-intl';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-
+import './BrandTable.less'
 interface DataType {
   key: string;
   name: string;
   description: string;
   slug: string;
+  logo: any;
   _id: string;
 }
 
@@ -37,7 +38,6 @@ const BrandTable = (): JSX.Element => {
 
   useEffect(() => {
     if (data && !isLoading) {
-      // console.log('==== data.data 111', data);
       setBrands(data.data);
     }
   }, [data, isLoading]);
@@ -45,13 +45,13 @@ const BrandTable = (): JSX.Element => {
   const getBrandDetail = async (row: DataType) => {
     await dispatch(brandsActions.setBrandDetail(row));
     window.location.href = `/admin/brand/${row?.slug}`;
-
-    // dispatch(productsApi.setEquipmentPagination(pagination));
   };
 
   const onDeleteBrand = async (id: string) => {
-    await deleteBrand(id);
-    setBrands([...brands]);
+    if (!isLoadingDeleteBrand) {
+      await deleteBrand(id);
+      setBrands([...brands]);
+    }
     // window.location.reload();
   };
 
@@ -61,9 +61,7 @@ const BrandTable = (): JSX.Element => {
       dataIndex: 'name',
       key: 'name',
       render: (_, record) => (
-        <a href="#" onClick={() => getBrandDetail(record)}>
-          {record.name}
-        </a>
+        <Button type="link" onClick={() => getBrandDetail(record)}>{record.name}</Button>
       ),
     },
     {
@@ -72,9 +70,13 @@ const BrandTable = (): JSX.Element => {
       key: 'slug',
     },
     {
-      title: intl.formatMessage({ id: 'brand.description' }),
-      dataIndex: 'description',
-      key: 'description',
+      title: intl.formatMessage({ id: 'brand.logo' }),
+      dataIndex: 'logo',
+      key: 'logo',
+      render: (_, record) => (
+        <Image src={record.logo?.[0].thumbUrl} className='logo' />
+      ),
+      
     },
     {
       title: intl.formatMessage({ id: 'brand.action' }),
@@ -98,7 +100,7 @@ const BrandTable = (): JSX.Element => {
   ];
 
   return (
-    <>
+    <div className='brandTableAdmin'>
       <Helmet title={intl.formatMessage({ id: 'page.name.brand' })} />
       <Card
         title={intl.formatMessage({ id: 'page.name.brand' })}
@@ -124,7 +126,7 @@ const BrandTable = (): JSX.Element => {
           }}
         />
       </Card>
-    </>
+    </div>
   );
 };
 

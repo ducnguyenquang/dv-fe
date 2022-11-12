@@ -166,7 +166,7 @@ const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
 
           <Form.Item label={intl.formatMessage({ id: 'brand.logo' })}>
             <Form.Item name="logo" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-              <ImgCrop rotate>
+              <ImgCrop rotate aspect={1.5/1} grid quality={0.3} minZoom={0.1} cropperProps={{ restrictPosition: false }}>
                 <Upload
                   // action={`${endPoint.backendUrl}${endPoint.uploadImages}`}
                   {...props}

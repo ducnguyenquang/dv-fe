@@ -110,7 +110,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
   const EmailTemplateDetailParam = useSelector(settingsSelectors.getEmailTemplate);
   const intl = useIntl();
 
-  console.log('==== initialValues', initialValues);
+  // console.log('==== initialValues', initialValues);
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
 
   const normFile = (e: any) => {

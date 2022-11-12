@@ -22,7 +22,7 @@ export const useUsers = (params: UserQueryPayload): UseQueryResult<{ data: any, 
     usersApi.usersKeys.list(params),
     async () => {
       const data = await usersApi.getUsers(params);
-      console.log('==== data', data)
+      // console.log('==== data', data)
       // storeEquipmentPaginationModals(data?.page);
 
       return data.data;

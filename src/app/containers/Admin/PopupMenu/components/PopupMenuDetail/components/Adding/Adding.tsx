@@ -63,7 +63,7 @@ const Adding = (): JSX.Element => {
     window.location.href = `/admin/setting/popupMenu/${data?._id}`;
   },[createPopupMenu]);
 
-  console.log('==== Adding');
+  // console.log('==== Adding');
   return <PopupMenuDetailForm key={'PopupMenuAdd'} onFinish={onFinish} isLoading={isLoadingCreatePopupMenu} />;
 };
 

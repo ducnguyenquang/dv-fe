@@ -1,102 +1,43 @@
-import {
-  AutoComplete,
-  Button,
-  Cascader,
-  Checkbox,
-  Col,
-  Form,
-  Input,
-  InputNumber,
-  Row,
-  Select,
-  Upload,
-  Image as ImageAntd,
-} from 'antd';
 import { PAGE, PAGE_SIZE } from 'constants/products';
 import { Category } from 'models/category';
 import { Product } from 'models/product';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-// import { productsHooks } from '../../../hooks';
-// import { productsSelectors } from '../../../redux/selectors';
-import { UploadOutlined } from '@ant-design/icons';
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import ImgCrop from 'antd-img-crop';
-import endPoint from 'services/api/endPoint.json';
-import { productsActions, productsHooks, productsSelectors } from 'app/containers/Admin/Product';
+import type { UploadFile } from 'antd/es/upload/interface';
+import { productsHooks } from 'app/containers/Admin/Product';
 import { ProductDetailForm } from '../ProductDetailForm';
 import { useCallback } from 'react';
 
-// interface IProps {
-//   caterogy?: string;
-//   id?: string;
-// }
-
-// const { Option } = Select;
-// const formItemLayout = {
-//   labelCol: {
-//     xs: {
-//       span: 24,
-//     },
-//     sm: {
-//       span: 8,
-//     },
-//   },
-//   wrapperCol: {
-//     xs: {
-//       span: 24,
-//     },
-//     sm: {
-//       span: 16,
-//     },
-//   },
-// };
-// const tailFormItemLayout = {
-//   wrapperCol: {
-//     xs: {
-//       span: 24,
-//       offset: 0,
-//     },
-//     sm: {
-//       span: 16,
-//       offset: 8,
-//     },
-//   },
-// };
-
 const ProductUpdate = (): JSX.Element => {
-  // const [form] = Form.useForm();
   const { id } = useParams();
-  // const isUpdate = id ? true : false;
   const { mutateAsync: updateProduct, isLoading: isLoadingUpdateProduct } = productsHooks.useUpdateProduct();
 
   const [productDetail, setProductDetail] = useState<Product>({});
   const [defaultValue, setDefaultValue] = useState<any>();
+  const [categories, setCategories] = useState<Category[]>([]);
+
 
   const [page, setPage] = React.useState(PAGE);
   const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
-  // const productDetailParam = useSelector(productsSelectors.getProduct);
 
   const { data: categoriesData, isLoading: isLoadingCategories } = productsHooks.useCategories({
     pagination: {
-      limit: pageSize,
-      offset: page > 1 ? page - 1 : page,
+      limit: 1000,
+      offset: 0,
     },
   });
   // productsSelectors.getProduct()
   const { data: productDetailData, isLoading: isLoadingProductDetail } = productsHooks.useProduct({ id });
-  console.log('==== categoriesData', categoriesData);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const onFinish = useCallback(async (values: any) => {
-    console.log('==== onFinish values', values)
+    // console.log('==== onFinish values', values);return;
     await updateProduct({
       ...values,
       _id: productDetailData?._id,
       // images: fileList,
       // brand: values.brand.value,
-      categories: values.categories.map((item: any) => item.value),
+      // categories: values.categories.map((item: any) => item.value),
     }).then((item: any) => {
       setProductDetail(item?.data);
       setFileList(item?.data?.images);
@@ -126,15 +67,21 @@ const ProductUpdate = (): JSX.Element => {
         description: decodeURIComponent(productDetailData?.description),
         specification: decodeURIComponent(productDetailData?.specification),
         slug: decodeURIComponent(productDetailData?.slug),
-        categories: productDetailData?.categories.map((item: Category) => {
+        categories: productDetailData?.categories?.map((item: Category) => {
           // console.log('==== includes', productDetailData?.categories?.map((category: Category) => category._id)?.includes(item._id))
-          return { value: item._id, label: item.name };
+          return { value: item?._id, label: item?.name };
         }),
       });
     }
   }, [productDetailData, isLoadingProductDetail, categoriesData]);
 
-  return defaultValue && <ProductDetailForm key={'productUpdate'} isUpdate={true} categories={categoriesData?.data} initialValues={defaultValue} onFinish={onFinish} isLoading={isLoadingProductDetail || isLoadingUpdateProduct} />
+  useEffect(() => {
+    if (categoriesData && !isLoadingCategories) {
+      setCategories(categoriesData.data)
+    }
+  }, [categoriesData, isLoadingCategories])
+
+  return defaultValue && <ProductDetailForm key={'productUpdate'} isUpdate={true} initialValues={defaultValue} onFinish={onFinish} isLoading={isLoadingProductDetail || isLoadingUpdateProduct} />
 };
 
 export default ProductUpdate;

@@ -20,7 +20,7 @@ const ReviewFilter = ({ onReviewSelected, defaultValue }: IProp): JSX.Element =>
 
   return (
     <div className='reviewFilter'>
-      <h1>{intl.formatMessage({ id: 'template.leftMenu.reviewFilter.title' })}</h1>
+      {/* <h1>{intl.formatMessage({ id: 'template.leftMenu.reviewFilter.title' })}</h1> */}
       <Rate onChange={onReviewSelected} value={value} />
     </div>
   );

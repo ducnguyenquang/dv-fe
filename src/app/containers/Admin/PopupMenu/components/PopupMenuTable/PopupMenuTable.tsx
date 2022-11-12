@@ -52,7 +52,7 @@ const PopupMenuTable = (): JSX.Element => {
   };
 
   const onDeletePopupMenu = async (id: string) => {
-    console.log('==== onDeletePopupMenu id', id)
+    // console.log('==== onDeletePopupMenu id', id)
     await deletePopupMenu(id);
     setPopupMenus([...popupMenus]);
     window.location.reload();
@@ -122,7 +122,7 @@ const PopupMenuTable = (): JSX.Element => {
             setPageSize(pageSize);
           }}
           onShowSizeChange={size => {
-            console.log('==== onShowSizeChange', size);
+            // console.log('==== onShowSizeChange', size);
 
             // setPage(0);
             // setPageSize(size);

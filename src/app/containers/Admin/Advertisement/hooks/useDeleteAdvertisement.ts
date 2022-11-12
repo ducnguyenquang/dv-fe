@@ -6,16 +6,6 @@ import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
 
 export const useDeleteAdvertisement = (): any => {
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== useProducts params', params)
-
   return useMutation(
     (params: AdvertisementDeletePayload) => {
       return advertisementsApi.deleteAdvertisement(params);

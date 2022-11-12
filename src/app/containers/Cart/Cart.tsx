@@ -1,17 +1,17 @@
 import { Space, Popconfirm, Button, Form, Input, InputNumber, Select } from 'antd';
-import { ColumnsType } from 'antd/lib/table';
-import { ServiceTable } from 'common/components/ServiceTable';
-import { PAGE, PAGE_SIZE } from 'constants/products';
+// import { ColumnsType } from 'antd/lib/table';
+// import { ServiceTable } from 'common/components/ServiceTable';
+// import { PAGE, PAGE_SIZE } from 'constants/products';
 import { Cart as CartModel } from 'models/cart';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Product } from '../DashBoard/components/Product';
+// import { Product } from '../DashBoard/components/ProductList';
 // import { cartActions, cartHooks } from "../Cart";
 import CartItem from './components/CartItem/CartItem';
 import type { UploadFile } from 'antd/es/upload/interface';
 import layout from 'antd/lib/layout';
 import './Cart.less';
-import { storage } from 'utils';
+// import { storage } from 'utils';
 import { useDispatch } from 'react-redux';
 import { ordersHooks } from '../Admin/Order';
 import { getCities, getWards } from 'utils/location/location';
@@ -88,7 +88,7 @@ const Cart = (): JSX.Element => {
           };
         }),
       }).then((item: any) => {
-        console.log('==== item', item);
+        // console.log('==== item', item);
       });
     },
     [cart, createOrder]
@@ -142,6 +142,9 @@ const Cart = (): JSX.Element => {
         <div className="title">{intl.formatMessage({ id: 'cart.customer.title' })}</div>
 
         <Form
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 14 }}
+          layout="horizontal"
           className=""
           title={intl.formatMessage({ id: 'cart.customer.title' })}
           {...layout}

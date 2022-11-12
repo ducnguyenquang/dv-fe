@@ -13,9 +13,9 @@ const PricingFilter = ({ onPricingSelected, defaultValue }: IProp): JSX.Element 
   const intl = useIntl();
 
   const [inputValue, setInputValue] = useState<[number, number]>(defaultValue);
-  console.log('==== PricingFilter inputValue', inputValue)
+  // console.log('==== PricingFilter inputValue', inputValue)
   const onChange = (newValue: [number, number]) => {
-    console.log('==== newValue', newValue)
+    // console.log('==== newValue', newValue)
     setInputValue(newValue);
     onPricingSelected(newValue)
   };
@@ -30,7 +30,7 @@ const PricingFilter = ({ onPricingSelected, defaultValue }: IProp): JSX.Element 
   
   return (
     <div className='pricingFilter'>
-      <h1>{intl.formatMessage({ id: 'template.leftMenu.pricingFilter.title' })}</h1>
+      {/* <h1>{intl.formatMessage({ id: 'template.leftMenu.pricingFilter.title' })}</h1> */}
       <Slider
           onChange={onChange}
           value={inputValue}

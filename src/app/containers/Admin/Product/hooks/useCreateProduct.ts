@@ -30,14 +30,14 @@ export const useCreateProduct = (): any => {
       onSuccess: (data) => {
         // Reset list of equipments
         queryClient.invalidateQueries(productsApi.productsKeys.lists());
-        console.log('==== useCreateProduct onSuccess data', data)
+        // console.log('==== useCreateProduct onSuccess data', data)
         ToastMessage({type:'success', content: 'product.message.success'})
 
         // return data;
         // successMessage({ value: 'Update Successfully' });
       },
       onError: (error: any) => {
-        console.log('==== useCreateProduct error', error)
+        // console.log('==== useCreateProduct error', error)
         apiErrorHandler(error);
         if (error?.response?.errors?.length) {
           apiErrorHandler(error?.response?.errors);

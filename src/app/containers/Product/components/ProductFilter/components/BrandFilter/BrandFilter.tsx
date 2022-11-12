@@ -1,10 +1,7 @@
-// import { SolutionOutlined } from '@ant-design/icons';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Menu, MenuProps } from 'antd';
-import Sider from 'antd/lib/layout/Sider';
+import { Checkbox } from 'antd';
 import { productsHooks } from 'app/containers/Product';
 import { Brand } from 'models/brand';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import type { CheckboxValueType, CheckboxOptionType } from 'antd/lib/checkbox/Group';
 
@@ -30,7 +27,7 @@ const BrandFilter = ({ onBrandSelected, defaultValue }: IProp): JSX.Element => {
 
   const plainOptions = brands
     ? brands.map(item => {
-        return { label: item.name, value: item.name } as CheckboxOptionType;
+        return { label: item.name, value: item.slug, key: item._id } as CheckboxOptionType;
       })
     : undefined;
 
@@ -56,10 +53,11 @@ const BrandFilter = ({ onBrandSelected, defaultValue }: IProp): JSX.Element => {
 
   return (
     <div className="brandFilter">
-      <h1>{intl.formatMessage({ id: 'template.leftMenu.brandFilter.title' })}</h1>
+      {/* <h1>{intl.formatMessage({ id: 'template.leftMenu.brandFilter.title' })}</h1> */}
       {brands && <Checkbox.Group options={plainOptions} onChange={onChange} value={checkedList} />}
     </div>
   );
 };
 
 export default BrandFilter;
+

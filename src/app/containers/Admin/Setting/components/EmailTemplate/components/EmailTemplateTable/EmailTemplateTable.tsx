@@ -138,7 +138,7 @@ const EmailTemplateTable = (): JSX.Element => {
             setPageSize(pageSize);
           }}
           onShowSizeChange={size => {
-            console.log('==== onShowSizeChange', size);
+            // console.log('==== onShowSizeChange', size);
 
             // setPage(0);
             // setPageSize(size);

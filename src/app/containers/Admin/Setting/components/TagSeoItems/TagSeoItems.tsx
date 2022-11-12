@@ -63,7 +63,7 @@ const TagSeoItems = ({ data, onChangeTagSeo } : IProps): JSX.Element => {
     // const newTags = tags.filter(tag => tag.name !== name);
     const removeTag = tags.find(tag => tag.name === name);
 
-    console.log('==== handleClose newTags', removeTag);
+    // console.log('==== handleClose newTags', removeTag);
     const tag = await deleteTagSeo(removeTag);
     const newTags = tags.filter(item => item.name !== tag.name);
     setTags(newTags);
@@ -79,9 +79,9 @@ const TagSeoItems = ({ data, onChangeTagSeo } : IProps): JSX.Element => {
   };
 
   const handleInputConfirm = async () => {
-    console.log('==== handleInputConfirm inputValue', inputValue)
+    // console.log('==== handleInputConfirm inputValue', inputValue)
     const tagSeoExisting = tags?.filter(item => item.name === inputValue)
-    console.log('==== handleInputConfirm tagSeoExisting', tagSeoExisting)
+    // console.log('==== handleInputConfirm tagSeoExisting', tagSeoExisting)
 
     // const newTagSeo = { name: inputValue }
 
@@ -89,7 +89,7 @@ const TagSeoItems = ({ data, onChangeTagSeo } : IProps): JSX.Element => {
       
       // onChangeTagSeo(tagUpdate);
       const tag = await createTagSeo({ name: inputValue });
-      console.log('==== tag', tag);
+      // console.log('==== tag', tag);
       const tagUpdate = [...tags, tag]
       setTags(tagUpdate);
     } else {

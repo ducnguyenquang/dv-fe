@@ -1,3 +1,5 @@
+import type { UploadFile } from 'antd/es/upload/interface';
+
 export enum UserRole {
   CUSTOMER = 'CUSTOMER',
   MANAGER = 'MANAGER',
@@ -17,6 +19,7 @@ export interface User {
   role?: UserRole;
   phone?: string;
   status?: UserStatus;
+  images?: UploadFile[];
 }
 
 export type UserCreatePayload = Pick<

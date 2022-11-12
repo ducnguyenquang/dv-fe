@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Form, Input, Checkbox, Button, Image } from 'antd';
+import { Form, Input, Button, Image } from 'antd';
 import { LoginPayload } from 'models/user';
 import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -13,20 +13,9 @@ const Login = (): JSX.Element => {
     email: '',
     password: '',
   });
-
-  // const onFinish = () => {
-  //   const { data: brandDetailData, isLoading: isLoadingBrandDetailData } = authenticationHooks.useLogin({ id });
-
-  // }
-
-  console.log('==== loginData', loginData); //return;
   const { data: userLogin, isLoading: isLoadingUserLogin } = authenticationHooks.useLogin(loginData);
-  console.log('==== userLogin', userLogin); //return;
-
-
   const onFinish = useCallback(
     async (values: any) => {
-      // console.log('==== values', values); return;
       setLoginData(values);
     },
     []
@@ -34,7 +23,7 @@ const Login = (): JSX.Element => {
 
   useEffect(() => {
     if (userLogin && !isLoadingUserLogin) {
-      // console.log('==== userLogin', userLogin); return;
+      localStorage.setItem('CurrentUser', JSON.stringify(userLogin))
       localStorage.setItem('Token', userLogin.token as string)
       window.location.href = `/admin`;
     }
@@ -71,11 +60,7 @@ const Login = (): JSX.Element => {
               <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder={intl.formatMessage({ id: 'login.password' })} />
             </Form.Item>
             <Form.Item>
-              {/* <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item> */}
-
-              <a className="login-form-forgot" href="">
+              <a className="login-form-forgot" href="#">
                 {intl.formatMessage({ id: 'login.link.forgetPassword' })}
               </a>
             </Form.Item>

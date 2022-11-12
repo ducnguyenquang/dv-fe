@@ -21,7 +21,7 @@ export const useUpdateOrder = (): any => {
 
   return useMutation(
     (params: OrderUpdatePayload) => {
-      console.log('==== useUpdateOrder params',params)
+      // console.log('==== useUpdateOrder params',params)
 
       return ordersApi.updateOrder(params);
     },
@@ -29,7 +29,7 @@ export const useUpdateOrder = (): any => {
       onSuccess: (data) => {
         // Reset list of equipments
         // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
-        console.log('==== useUpdateOrder onSuccess data', data)
+        // console.log('==== useUpdateOrder onSuccess data', data)
         message.success('Delete Successfully');
         return data;
         // successMessage({ value: 'Update Successfully' });

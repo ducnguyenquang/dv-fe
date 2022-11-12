@@ -1,9 +1,8 @@
-import { Button, Space, Table, Tag, Popconfirm, Card } from 'antd';
+import { Button, Space, Popconfirm, Card } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { advertisementsHooks, advertisementsActions, advertisementsApi } from 'app/containers/Admin/Advertisement';
+import { advertisementsHooks, advertisementsActions } from 'app/containers/Admin/Advertisement';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/pagination';
-import { Advertisement } from 'models/advertisement';
 import { useIntl } from 'react-intl';
 // import { Product } from 'models/product';
 import React, { useEffect, useState } from 'react';
@@ -37,7 +36,6 @@ const AdvertisementTable = (): JSX.Element => {
 
   useEffect(() => {
     if (data && !isLoading) {
-      // console.log('==== data.data 111', data);
       setAdvertisements(data.data);
     }
   }, [data, isLoading]);
@@ -45,8 +43,6 @@ const AdvertisementTable = (): JSX.Element => {
   const getAdvertisementDetail = async (row: DataType) => {
     await dispatch(advertisementsActions.setAdvertisementDetail(row));
     window.location.href = `/admin/advertisement/${row?._id}`;
-
-    // dispatch(productsApi.setEquipmentPagination(pagination));
   };
 
   const onDeleteAdvertisement = async (id: string) => {
@@ -81,7 +77,6 @@ const AdvertisementTable = (): JSX.Element => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          {/* <a>Invite {record.name}</a> */}
           <Popconfirm
             title={intl.formatMessage({ id: 'common.confirmModal.title' }, { name: record?.name })}
             onVisibleChange={() => console.log('visible change')}

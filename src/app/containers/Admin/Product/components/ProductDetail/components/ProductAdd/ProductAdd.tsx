@@ -81,7 +81,7 @@ const ProductAdd = (): JSX.Element => {
     window.location.href = `/admin/products`;
   },[createProduct]);
 
-  return <ProductDetailForm key={'productAdd'} categories={categoriesData?.data} onFinish={onFinish} isLoading={isLoadingCreateProduct || isLoadingCategories} />;
+  return <ProductDetailForm key={'productAdd'} onFinish={onFinish} isLoading={isLoadingCreateProduct || isLoadingCategories} />;
 };
 
 export default ProductAdd;

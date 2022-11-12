@@ -150,7 +150,7 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
 
           <Form.Item label={intl.formatMessage({ id: 'advertisement.image' })}>
             <Form.Item name="image" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-              <ImgCrop rotate>
+              <ImgCrop rotate aspect={16/10} grid quality={0.5} minZoom={0.1}>
                 <Upload
                   // action={`${endPoint.backendUrl}${endPoint.uploadImages}`}
                   {...props}

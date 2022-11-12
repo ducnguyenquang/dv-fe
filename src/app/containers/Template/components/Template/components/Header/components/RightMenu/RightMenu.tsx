@@ -1,33 +1,40 @@
-import { Menu } from 'antd';
+import { Menu, Input, Dropdown, Space } from 'antd';
+import { DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
 import './RightMenu.less';
-
+import UserDropDown from 'app/containers/Template/components/AdminTemplate/components/UserDropDown/UserDropDown';
 
 const RightMenu = (): JSX.Element => {
   const intl = useIntl();
 
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: <a href="#">{intl.formatMessage({ id: 'template.userDropDown.information' })}</a>,
+          key: '0',
+          icon: <UserOutlined />,
+        },
+        {
+          type: 'divider',
+        },
+        {
+          label: <a>{intl.formatMessage({ id: 'template.userDropDown.logout' })}</a>,
+          key: '1',
+          icon: <LogoutOutlined />,
+        },
+      ]}
+    />
+  );
+
   return (
-    <div className='rightMenu'>
-      <Menu mode="horizontal">
-        <Menu.Item key="product">
-          {intl.formatMessage({ id: 'template.header.rightMenu.product' })}
-        </Menu.Item>
-        <Menu.Item key="consultant">
-          {intl.formatMessage({ id: 'template.header.rightMenu.consultant' })}
-        </Menu.Item>
-        <Menu.Item key="catalogue">
-          {intl.formatMessage({ id: 'template.header.rightMenu.catalogue' })}
-        </Menu.Item>
-        <Menu.Item key="pricing">
-          {intl.formatMessage({ id: 'template.header.rightMenu.pricing' })}
-        </Menu.Item>
-        <Menu.Item key="project">
-          {intl.formatMessage({ id: 'template.header.rightMenu.project' })}
-        </Menu.Item>
-        <Menu.Item key="partner">
-          {intl.formatMessage({ id: 'template.header.rightMenu.partner' })}
-        </Menu.Item>
-      </Menu>
+    <div className="rightMenu">
+      {/* <div className="userContainer">
+        <Input.Search placeholder="input search text" style={{ width: 200 }} />
+      </div> */}
+      <div className="userContainer">
+        <UserDropDown />
+      </div>
     </div>
   );
 };

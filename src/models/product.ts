@@ -28,6 +28,9 @@ export type ProductFilters = {
   brands?: string[];
   review?: number;
   pricing?: number[];
+  categories?: string[];
+  types?: string[];
+  ledAttributes?: string[];
 }
 
 export type ProductCreatePayload = Pick<

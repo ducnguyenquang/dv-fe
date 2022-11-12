@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 // import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ProductGallery from '../ProductGallery/ProductGallery';
-import { PlusOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import './ProductInformation.less';
 // import { setShoppingCart, getShoppingCart } from 'utils/storage';
 import { Cart } from 'models/cart';
@@ -125,7 +125,7 @@ const ProductInformation = (): JSX.Element => {
               <InputNumber min={1} defaultValue={1} onChange={onChange} addonAfter={selectAfter} />
             </Form.Item>
             <Form.Item>
-            <Button type="primary" htmlType="submit" icon={<PlusOutlined />} >
+            <Button type="primary" htmlType="submit" icon={<ShoppingCartOutlined />} >
               {intl.formatMessage({ id: 'product.button.cart' })}
             </Button>
           </Form.Item>

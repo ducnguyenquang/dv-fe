@@ -7,8 +7,8 @@ const Links = (): JSX.Element => {
 
   return <div className="links">
     <div className='linkColumn'>
-      <a href='/'>{intl.formatMessage({ id: 'template.footer.product' })}</a>
-      <a href='/'>{intl.formatMessage({ id: 'template.footer.project' })}</a>
+      <a href='/product'>{intl.formatMessage({ id: 'template.footer.product' })}</a>
+      <a href='/project'>{intl.formatMessage({ id: 'template.footer.project' })}</a>
       <a href='/'>{intl.formatMessage({ id: 'template.footer.news' })}</a>
     </div>
     <div className='linkColumn'>
@@ -17,9 +17,9 @@ const Links = (): JSX.Element => {
       <a href='/'>{intl.formatMessage({ id: 'template.footer.partner' })}</a>
     </div>
     <div className='linkColumn'>
-      <a href='/'>{intl.formatMessage({ id: 'template.footer.aboutUs' })}</a>
-      <a href='/'>{intl.formatMessage({ id: 'template.footer.faq' })}</a>
-      <a href='/'>{intl.formatMessage({ id: 'template.footer.contact' })}</a>
+      <a href='/aboutUs'>{intl.formatMessage({ id: 'template.footer.aboutUs' })}</a>
+      <a href='/faq'>{intl.formatMessage({ id: 'template.footer.faq' })}</a>
+      <a href='/contact'>{intl.formatMessage({ id: 'template.footer.contact' })}</a>
     </div>
   </div>;
 }

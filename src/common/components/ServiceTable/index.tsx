@@ -28,7 +28,7 @@ export function ServiceTable(props: Props) {
   const [data, setData] = React.useState(props.dataSource);
 
   useEffect(() => {
-    console.log('==== useEffect props.dataSource', props.dataSource)
+    // console.log('==== useEffect props.dataSource', props.dataSource)
 
     setData(props.dataSource);
     // if (props.dataSource) {
@@ -37,13 +37,13 @@ export function ServiceTable(props: Props) {
   // const { t } = useTranslation();
 
   // const data = props.dataSource ? JSON.parse(JSON.stringify(props.dataSource)) : undefined
-  console.log('==== props.dataSource', props.dataSource)
+  // console.log('==== props.dataSource', props.dataSource)
   return (
     <div className="table-container">
       <Table
         rowKey={row => row._id}
         loading={props.isLoading}
-        dataSource={[...data]}
+        dataSource={data}
         columns={props.columns}
         pagination={false}
         onChange={props.onChange}

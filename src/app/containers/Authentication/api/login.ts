@@ -18,10 +18,10 @@ export const login = async (user: LoginPayload): Promise<any> => {
   //   url: `${API_KARCHER_EQUIPMENT}/${normalizedMaterialNum}?accessKey=${accessKey}&locale=${locale}&include=${include}`,
   // });
   const api = new BaseService(endPoint.backendUrl, endPoint.loginApi)
-  console.log('==== login api', api)
+  // console.log('==== login api', api)
 
   const data = api.post(user, {})
-  console.log('==== login data', data)
+  // console.log('==== login data', data)
   return {
     data: data,
   };
