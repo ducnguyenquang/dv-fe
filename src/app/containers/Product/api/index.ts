@@ -7,6 +7,7 @@ import { updateProduct } from './updateProduct';
 import { getCaterogies } from './getCaterogies';
 import { deleteProduct } from './deleteProduct';
 import { getBrands } from './getBrands';
+import { getSupports } from './getSupports';
 
 export const productsKeys = {
   all: ['products'] as const,
@@ -14,6 +15,7 @@ export const productsKeys = {
   detail: (params: ProductDetailPayload) => [...productsKeys.details(), { params }] as const,
   lists: () => [...productsKeys.all, 'list'] as const,
   list: (params: ProductQueryPayload) => [...productsKeys.lists(), { params }] as const,
+  supports: () => ['supports'] as const,
 };
 
 export const productsApi = {
@@ -25,4 +27,5 @@ export const productsApi = {
   updateProduct,
   deleteProduct,
   getBrands,
+  getSupports,
 };

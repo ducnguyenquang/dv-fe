@@ -1,6 +1,8 @@
 {
     "backendUrl": "http://localhost:4001",
     "loginApi": "/login",
+    "changePasswordApi": "/changePassword",
+    "registerApi": "/register",
     "getProductsApi": "/product/list",
     "getProductApi": "/product",
     "createProductApi": "/product/add",

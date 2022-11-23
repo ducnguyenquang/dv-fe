@@ -20,14 +20,13 @@ export interface User {
   phone?: string;
   status?: UserStatus;
   images?: UploadFile[];
+  _id?: string;
 }
 
 export type UserCreatePayload = Pick<
   User,
   'firstName' | 'lastName' | 'role' | 'email' | 'phone'
-> & {
-  sendActivationEmail: boolean;
-};
+>;
 
 export type UserUpdatePayload = Pick<
   User,
@@ -53,6 +52,11 @@ export type UserQueryPayload = Partial<UserQueryBase>;
 
 export type LoginPayload = Pick<User, 'email'> & {
   password?: string;
+};
+
+export type ChangePasswordPayload = Pick<User, 'email'> & {
+  password?: string;
+  oldPassword?: string;
 };
 
 export type UserDetailPayload = Pick<User, 'id' | 'firstName' | 'lastName' | 'role' | 'email' | 'phone'> & {

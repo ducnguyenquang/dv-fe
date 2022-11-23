@@ -1,4 +1,3 @@
-
 import { Checkbox } from 'antd';
 import { productsHooks } from 'app/containers/Product';
 import { Brand } from 'models/brand';
@@ -17,15 +16,20 @@ const TypeFilter = ({ onTypeSelected, defaultValue }: IProp): JSX.Element => {
   const intl = useIntl();
 
   const [types, setTypes] = useState([
-    {_id: 'cap-dien', value: 'cap-dien', label: 'Cáp điện'},
-    {_id: 'den-led', value: 'den-led', label: 'Đèn led'},
+    { _id: 'cap-dien', value: 'cap-dien', label: 'Cáp điện' },
+    { _id: 'den-led', value: 'den-led', label: 'Đèn led' },
   ]);
 
   const plainOptions = types
     ? types.map(item => {
-        return { label: item.label, value: item._id, key: `type-${item._id}` } as CheckboxOptionType;
+        // return { label: item.label, value: item._id, key: `type-${item._id}` } as CheckboxOptionType;
+        return { label: item.label, value: JSON.stringify(item), key: `type-${item._id}` } as CheckboxOptionType;
       })
     : undefined;
+
+  useEffect(() => {
+    setCheckedList(defaultValue?.map((item: any) => JSON.stringify(item)));
+  }, [defaultValue]);
 
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>(defaultValue);
 
@@ -34,7 +38,7 @@ const TypeFilter = ({ onTypeSelected, defaultValue }: IProp): JSX.Element => {
     // const checkedData = checkedValues.map((item: any) => item._id) as string[]
 
     setCheckedList(checkedValues);
-    onTypeSelected(checkedValues)
+    onTypeSelected(checkedValues);
   };
 
   return (

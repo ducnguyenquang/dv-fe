@@ -1,9 +1,8 @@
-import { Button, Space, Table, Tag, Popconfirm, Card } from 'antd';
+import { Button, Space, Popconfirm, Card } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { settingsHooks, settingsActions, settingsApi } from 'app/containers/Admin/Setting';
+import { settingsHooks, settingsActions } from 'app/containers/Admin/Setting';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/products';
-import { Category } from 'models/category';
 import { EmailTemplate } from 'models/emailTemplate';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -13,11 +12,8 @@ import { useDispatch } from 'react-redux';
 interface DataType {
   key: string;
   name: string;
-  description: string;
-  brand: string;
-  sku: string;
-  slug: string;
-  categories: Category[];
+  subject: string;
+  body: string;
   _id: string;
 }
 
@@ -31,11 +27,12 @@ const EmailTemplateTable = (): JSX.Element => {
   const { data, isLoading } = settingsHooks.useEmailTemplates({
     pagination: {
       limit: pageSize,
-      offset: page * pageSize,
+      offset: (page - 1) * pageSize,
     },
   });
 
   const { mutateAsync: deleteEmailTemplate, isLoading: isLoadingDeleteEmailTemplate } = settingsHooks.useDeleteEmailTemplate();
+  // console.log('==== data', data);
 
   useEffect(() => {
     if (data && !isLoading) {
@@ -43,16 +40,19 @@ const EmailTemplateTable = (): JSX.Element => {
       setEmailTemplates(data?.data);
     }
   }, [data, isLoading]);
+  // console.log('==== data', data)
+
   // console.log('==== EmailTemplates', EmailTemplates);
 
   const getEmailTemplateDetail = async (row: DataType) => {
     await dispatch(settingsActions.setEmailTemplateDetail(row));
-    window.location.href = `/admin/emailTemplate/${encodeURIComponent(row?._id)}`;
+    window.location.href = `/admin/setting/emailTemplate/${row?._id}`;
 
     // dispatch(EmailTemplatesApi.setEquipmentPagination(pagination));
   };
 
   const onDeleteEmailTemplate = async (id: string) => {
+    // console.log('==== onDeleteEmailTemplate id', id)
     await deleteEmailTemplate(id);
     setEmailTemplates([...emailTemplates]);
     window.location.reload();
@@ -60,7 +60,7 @@ const EmailTemplateTable = (): JSX.Element => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: intl.formatMessage({ id: 'EmailTemplate.EmailTemplateName' }),
+      title: intl.formatMessage({ id: 'setting.emailTemplate.name' }),
       dataIndex: 'name',
       key: 'name',
       render: (_, record) => (
@@ -70,30 +70,12 @@ const EmailTemplateTable = (): JSX.Element => {
       ),
     },
     {
-      title: intl.formatMessage({ id: 'EmailTemplate.sku' }),
-      dataIndex: 'slug',
-      key: 'slug',
-      render: (_, record) => (
-        <>{decodeURIComponent(record.slug)}</>
-      )
+      title: intl.formatMessage({ id: 'setting.emailTemplate.subject' }),
+      dataIndex: 'subject',
+      key: 'subject',
     },
-    // {
-    //   title: intl.formatMessage({ id: 'EmailTemplate.description' }),
-    //   dataIndex: 'description',
-    //   key: 'description',
-    // },
     {
-      title: intl.formatMessage({ id: 'EmailTemplate.brand' }),
-      dataIndex: 'brand',
-      key: 'brand',
-    },
-    // {
-    //   title: intl.formatMessage({ id: 'EmailTemplate.sku' }),
-    //   dataIndex: 'sku',
-    //   key: 'sku',
-    // },
-    {
-      title: intl.formatMessage({ id: 'EmailTemplate.action' }),
+      title: intl.formatMessage({ id: 'setting.emailTemplate.action' }),
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
@@ -101,7 +83,7 @@ const EmailTemplateTable = (): JSX.Element => {
           <Popconfirm
             title={intl.formatMessage({ id: 'common.confirmModal.title' }, {name: record?.name})}
             onVisibleChange={() => console.log('visible change')}
-            onConfirm={() => onDeleteEmailTemplate(record._id)}
+            onConfirm={() => onDeleteEmailTemplate(record?._id)}
             // onCancel={cancel}
             okText={intl.formatMessage({ id: 'common.button.ok' })}
             cancelText={intl.formatMessage({ id: 'common.button.cancel' })}
@@ -113,22 +95,24 @@ const EmailTemplateTable = (): JSX.Element => {
     },
   ];
 
+  // console.log('==== emailTemplates', emailTemplates)
+
   return (
     <>
       <Helmet
-        title={intl.formatMessage({ id: 'page.name.EmailTemplate' })}
+        title={intl.formatMessage({ id: 'page.name.emailTemplate' })}
       />
       <Card
-        title={intl.formatMessage({ id: 'page.name.EmailTemplate' })}
+        title={intl.formatMessage({ id: 'page.name.emailTemplate' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => (window.location.href = '/admin/EmailTemplate/add')}>
-            {intl.formatMessage({ id: 'EmailTemplate.button.addEmailTemplate' })}
+          <Button type="primary" htmlType="submit" onClick={() => (window.location.href = '/admin/setting/emailTemplate/add')}>
+            {intl.formatMessage({ id: 'setting.emailTemplate.button.addEmailTemplate' })}
           </Button>
         }
       >
         <ServiceTable
           columns={columns}
-          dataSource={emailTemplates}
+          dataSource={emailTemplates || undefined}
           total={data?.pagination?.totalCount}
           isLoading={isLoading}
           page={page}
@@ -138,10 +122,8 @@ const EmailTemplateTable = (): JSX.Element => {
             setPageSize(pageSize);
           }}
           onShowSizeChange={size => {
-            // console.log('==== onShowSizeChange', size);
-
-            // setPage(0);
-            // setPageSize(size);
+            setPage(0);
+            setPageSize(size);
           }}
         />
       </Card>

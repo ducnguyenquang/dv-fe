@@ -114,7 +114,7 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
         >
           <Input />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="password"
           label={intl.formatMessage({ id: 'signup.password' })}
           rules={[
@@ -157,7 +157,7 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
           ]}
         >
           <Input.Password />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item
           name="phone"
           label={intl.formatMessage({ id: 'signup.phone' })}

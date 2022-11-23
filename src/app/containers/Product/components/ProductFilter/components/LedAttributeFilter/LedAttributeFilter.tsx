@@ -24,11 +24,15 @@ const LedAttributeFilter = ({ onLedAttributeSelected, defaultValue }: IProp): JS
 
   const plainOptions = colors
     ? colors.map(item => {
-        return { label: item.label, value: item.value, key: `type-${item.value}` } as CheckboxOptionType;
+        return { label: item.label, value: JSON.stringify(item), key: `type-${item.value}` } as CheckboxOptionType;
       })
     : undefined;
 
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>(defaultValue);
+
+  useEffect(() => {
+    setCheckedList(defaultValue?.map((item: any) => JSON.stringify(item)))
+  }, [defaultValue]);
 
   const onChange = (checkedValues: CheckboxValueType[]) => {
     console.log('checked = ', checkedValues);

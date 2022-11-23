@@ -14,7 +14,7 @@ import { Customer } from 'models/customer';
 interface DataType {
   key: string;
   orderNumber: string;
-  // email: string;
+  status: string;
   total: string;
   orderItems: OrderItem[];
   customer: Customer;
@@ -97,6 +97,14 @@ const OrderTable = (): JSX.Element => {
       ),
     },
     {
+      title: intl.formatMessage({ id: 'order.status' }),
+      dataIndex: 'status',
+      // key: 'customer',
+      render: (_, record) => (
+        <div>{intl.formatMessage({ id: `order.status.${record?.status}` })}</div>
+      ),
+    },
+    {
       title: intl.formatMessage({ id: 'order.action' }),
       key: 'action',
       render: (_, record) => (
@@ -105,7 +113,7 @@ const OrderTable = (): JSX.Element => {
           <Popconfirm
             title={intl.formatMessage({ id: 'common.confirmModal.title' }, { name: record?.orderNumber })}
             onVisibleChange={() => console.log('visible change')}
-            onConfirm={() => onDeleteOrder(record._id)}
+            onConfirm={() => onDeleteOrder(record.orderNumber)}
             // onCancel={cancel}
             okText={intl.formatMessage({ id: 'common.button.ok' })}
             cancelText={intl.formatMessage({ id: 'common.button.cancel' })}

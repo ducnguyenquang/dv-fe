@@ -46,11 +46,11 @@ const ProductUpdate = (): JSX.Element => {
         description: decodeURIComponent(productDetailData?.description),
         specification: decodeURIComponent(productDetailData?.specification),
         slug: decodeURIComponent(productDetailData?.slug),
-        categories: productDetailData?.categories?.map((item: Category) => {
-          // categories.filter()
-          return { value: item._id, label: item.name };
+        // categories: productDetailData?.categories?.map((item: Category) => {
+        //   // categories.filter()
+        //   return { value: item._id, label: item.name };
 
-        }),
+        // }),
       });
       window.location.href = `/admin/products`;
 

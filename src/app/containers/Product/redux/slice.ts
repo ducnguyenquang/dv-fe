@@ -26,7 +26,8 @@ export const initialState = {
   },
   products: [],
   productDetail: {},
-  filters: {},
+  filters: undefined,
+  filtersApply: undefined,
 };
 
 const productsSlice = createSlice({
@@ -48,6 +49,9 @@ const productsSlice = createSlice({
     },
     setFilters: (state, { payload }) => {
       state.filters = payload;
+    },
+    setFiltersApply: (state, { payload }) => {
+      state.filtersApply = payload;
     },
   },
 });

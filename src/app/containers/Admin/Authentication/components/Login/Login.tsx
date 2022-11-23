@@ -24,8 +24,12 @@ const Login = (): JSX.Element => {
   useEffect(() => {
     if (userLogin && !isLoadingUserLogin) {
       localStorage.setItem('CurrentUser', JSON.stringify(userLogin))
-      localStorage.setItem('Token', userLogin.token as string)
-      window.location.href = `/admin`;
+      if (userLogin.token) {
+        localStorage.setItem('Token', userLogin.token as string)
+        window.location.href = `/admin`;
+      } else {
+        window.location.href = `/admin/changePassword`;
+      }
     }
 
     if (localStorage.getItem('Token')) window.location.href = '/admin/';
@@ -35,7 +39,6 @@ const Login = (): JSX.Element => {
   return (
     <>
       <Helmet title={intl.formatMessage({ id: 'page.name.login' })} />
-      <div>{/*  {t(...messages.someThing)}  */}</div>
       <div className="signin-page">
         <div className="bg-image">
           <img

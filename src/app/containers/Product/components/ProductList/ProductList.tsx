@@ -1,4 +1,4 @@
-import { Divider, Skeleton, Segmented } from 'antd';
+import { Divider, Skeleton, Segmented, Pagination } from 'antd';
 import React, { useCallback } from 'react';
 import { BarsOutlined, AppstoreOutlined } from '@ant-design/icons';
 import './ProductList.less';
@@ -21,6 +21,7 @@ const ProductList = (): JSX.Element => {
   const [viewType, setViewType] = React.useState('list');
   const [search, setSearch] = React.useState();
   const productFilter = useSelector(productsSelectors.getFilters);
+  const [isLoadMoreData, setIsLoadMoreData] = React.useState(false);
 
   const [productPagination, setProductPagination] = React.useState<{
     totalCount?: number;
@@ -29,9 +30,8 @@ const ProductList = (): JSX.Element => {
     limit?: number;
   }>({});
   const intl = useIntl();
-  console.log('==== search', search);
 
-  const { data, isLoading } = productsHooks.useProducts({
+  const { data: productData, isLoading: isProductDataLoading } = productsHooks.useProducts({
     search,
     pagination: {
       limit: pageSize,
@@ -40,27 +40,36 @@ const ProductList = (): JSX.Element => {
   });
 
   useEffect(() => {
-    if (data && !isLoading) {
-      setProducts([...products, ...data?.data]);
-      setProductPagination(data?.pagination);
+    if (productData && !isProductDataLoading) {
+      // if (isLoadMoreData) {
+      //   setIsLoadMoreData(false);
+      //   setProducts([...products, ...productData?.data]);
+      // } else {
+        setProducts(productData?.data);
+      // }
+      setProductPagination(productData?.pagination);
     }
-  }, [data, isLoading]);
+  }, [productData, isProductDataLoading, products, isLoadMoreData]);
 
   useEffect(() => {
     if (productFilter) {
       let searchData: any = {};
-    // if (searchData) {
+      // if (searchData) {
       // searchData[dataIndex] = selectedKeys?.[0];
       for (const [key, value] of Object.entries(productFilter)) {
-        switch (key) {
-          case 'categories':
-            searchData[key] = (value as Category[]).map((item: any) => item.name).join('|')
-            break;
-          case 'brands':
-            searchData['brand'] = (value as Brand[]).map((item: any) => item.name).join('|')
-            break;
-          default:
-            break;
+        if (value) {
+          switch (key) {
+            case 'categories':
+              // searchData['categories'] = (value as Category[]).map((item: any) => item._id).join('|')
+              searchData['categories'] = (value as Category[]).map((item: any) => item._id);
+              break;
+            case 'brands':
+              // searchData['brand'] = (value as Brand[]).map((item: any) => item._id).join('|')
+              searchData['brand'] = (value as Brand[]).map((item: any) => item._id);
+              break;
+            default:
+              break;
+          }
         }
         // console.log(`${key}: ${value}`);
       }
@@ -72,18 +81,19 @@ const ProductList = (): JSX.Element => {
   const loadMoreData = () => {
     // console.log('==== loadMoreData page + 1', page + 1);
     setPage(page + 1);
+    setIsLoadMoreData(true);
   };
 
   return (
     <div className="productList">
       <FilterApplied />
       <div className="modeBlock">
-        <div className='numberItem'>
+        <div className="numberItem">
           <span>{productPagination.totalCount}</span>
           <FormattedMessage id="common.filter.product" />
         </div>
         <Segmented
-          className='modeFilter'
+          className="modeFilter"
           onChange={value => setViewType(value as string)}
           options={[
             {
@@ -118,6 +128,27 @@ const ProductList = (): JSX.Element => {
           <ListComponent products={products} viewType={viewType} />
         </InfiniteScroll>
       </div>
+      <Pagination
+        className='pagination'
+        total={productData?.pagination?.totalCount || 10}
+        showTotal={(total, range) => {
+          return intl.formatMessage(
+            { id: 'common.pagination.rangeData' },
+            { 
+              start: range[0] || 1,
+              end: range[1] || productData?.pagination?.pageSize,
+              total,
+            }
+          )
+        }}
+        defaultPageSize={productData?.pagination?.pageSize}
+        current={page}
+        onChange={(page, pageSize) =>
+          setPage(page)
+        }
+        showSizeChanger
+        onShowSizeChange={(pageSize) => productData?.pagination?.onShowSizeChange?.(pageSize)}
+      />
     </div>
   );
 };

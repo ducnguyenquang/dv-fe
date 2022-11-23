@@ -9,6 +9,7 @@ const getProducts = (state: RootState): TPagination => state.products.products;
 const getProduct = (state: RootState) => state.products.productDetail;
 const getIsLoading = (state: RootState): Boolean => state.products.isLoading;
 const getFilters = (state: RootState): ProductFilters  => state.products.filters;
+const getFiltersApply = (state: RootState): ProductFilters  => state.products.filtersApply;
 
 
 export const productsSelectors = {
@@ -17,4 +18,5 @@ export const productsSelectors = {
   getIsLoading,
   getProduct,
   getFilters,
+  getFiltersApply,
 };

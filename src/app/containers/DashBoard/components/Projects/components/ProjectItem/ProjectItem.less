@@ -1,27 +1,17 @@
 .projectItem {
   display: flex;
   flex-direction: column;
-  // width: 100%;
   border: unset;
-  // margin-right: 30px;
-  // margin-bottom: 20px;
   width: 30%;
   padding: 10px;
   min-width: 300px;
   flex: 1;
-  // width: fit-content;
-  // justify-content: space-between;
-  // justify-items: ;
+
   &:hover {
     border: 1px solid #e5704b;
   }
 
   .image {
-    // flex: 1;
-    // width: 100%;
-    // width: 236px;
-    // min-width: 236px;
-    // margin-right: 20px;
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
@@ -38,6 +28,8 @@
     padding: 5px;
     .information {
       margin-bottom: 10px;
+      text-align: center;
+
       .title {
         font-size: 18px;
         color: #151515;
@@ -49,9 +41,8 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        // min-width: 20%;
-        // max-width: 70%;
-        width: 230px;
+        width: 300px;
+        margin: 0 auto;
       }
       .rate {
         .ant-rate {

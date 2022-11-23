@@ -11,13 +11,25 @@ const Distributor = (): JSX.Element => {
     <div className='content'>
       <a href='#'>
         <div className='item'>
-          <div className='icon'><ApiOutlined /></div>
+          <div className='icon'><img
+            src={
+              '/images/cable.png'
+            }
+            width={200}
+            alt={'Dai Viet'}
+          /></div>
           <div className='text'>{intl.formatMessage({ id: 'dashboard.information.distributor.item1.title' })}</div>
         </div>
       </a>
       <a href='#'>
         <div className='item'>
-          <div className='icon'><AlertOutlined /></div>
+          <div className='icon'><img
+            src={
+              '/images/led_lights.png'
+            }
+            width={200}
+            alt={'Dai Viet'}
+          /></div>
           <div className='text'>{intl.formatMessage({ id: 'dashboard.information.distributor.item2.title' })}</div>
         </div>
       </a>

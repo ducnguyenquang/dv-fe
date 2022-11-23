@@ -1,11 +1,7 @@
-import { LoginPayload } from 'models/user';
-
-// import { fetchEquipments } from './fetchEquipments';
-// import { fetchEquipment } from './fetchEquipment';
-// import { createEquipment } from './createEquipment';
-// import { uploadEquipmentImage } from './uploadEquipmentImage';
-// import { editEquipment } from './editEquipment';
+import { LoginPayload, ChangePasswordPayload } from 'models/user';
+import { changePassword } from './changePassword';
 import { login } from './login';
+import { register } from './register';
 
 export const authenticationKeys = {
   all: ['authentication'] as const,
@@ -14,10 +10,12 @@ export const authenticationKeys = {
   // lists: () => [...authenticationKeys.all, 'list'] as const,
   // list: (params: CategoryQueryPayload) => [...authenticationKeys.lists(), { params }] as const,
   login: (params: LoginPayload) => [...authenticationKeys.details(), { params }] as const,
-
+  changePassword: (params: ChangePasswordPayload) => [...authenticationKeys.details(), { params }] as const,
 };
 
 export const authenticationApi = {
   authenticationKeys,
   login,
+  changePassword,
+  register,
 };

@@ -1,19 +1,13 @@
 import { Button, Descriptions, Form, InputNumber, Rate, Select, Tabs } from 'antd';
-import { productsHooks, productsSelectors } from 'app/containers/Admin/Product';
+import { productsHooks } from 'app/containers/Admin/Product';
 import { Product } from 'models/product';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-// import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ProductGallery from '../ProductGallery/ProductGallery';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import './ProductInformation.less';
-// import { setShoppingCart, getShoppingCart } from 'utils/storage';
 import { Cart } from 'models/cart';
-// import { storage } from 'utils';
-// import { brandsHooks } from 'app/containers/Admin/Brand';
-// import { PAGE, PAGE_SIZE } from 'constants/products';
-// import { ROLE_DROPDOWN_OPTIONS } from 'constants/user';
 const { TabPane } = Tabs;
 const { Option } = Select;
 
@@ -50,9 +44,10 @@ const ProductInformation = (): JSX.Element => {
   };
 
   const selectAfter = (
-    <Select defaultValue="USD" style={{ width: 60 }}>
-      <Option value="USD">$</Option>
-    </Select>
+    <div>số lượng</div>
+    // <Select defaultValue="USD" style={{ width: 60 }}>
+    //   <Option value="USD">$</Option>
+    // </Select>
   );
 
   const onFinish = async (value: any) => {
@@ -106,7 +101,7 @@ const ProductInformation = (): JSX.Element => {
               {productDetail?.brand?.name}
             </Descriptions.Item>
             <Descriptions.Item label={intl.formatMessage({ id: 'product.categories' })}>
-              {productDetail?.categories?.map(item => item.name)}
+              {productDetail?.categories ? productDetail?.categories?.map(item => item.name) : ''}
             </Descriptions.Item>
           </Descriptions>
           <Form
@@ -123,12 +118,10 @@ const ProductInformation = (): JSX.Element => {
               name="total"
             >
               <InputNumber min={1} defaultValue={1} onChange={onChange} addonAfter={selectAfter} />
+              <Button type="primary" htmlType="submit" icon={<ShoppingCartOutlined />} >
+                {intl.formatMessage({ id: 'product.button.cart' })}
+              </Button>
             </Form.Item>
-            <Form.Item>
-            <Button type="primary" htmlType="submit" icon={<ShoppingCartOutlined />} >
-              {intl.formatMessage({ id: 'product.button.cart' })}
-            </Button>
-          </Form.Item>
           </Form>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Space, Popconfirm, Button, Form, Input, InputNumber, Select } from 'antd';
+import { Space, Popconfirm, Button, Form, Input, InputNumber, Select, notification, Empty } from 'antd';
 // import { ColumnsType } from 'antd/lib/table';
 // import { ServiceTable } from 'common/components/ServiceTable';
 // import { PAGE, PAGE_SIZE } from 'constants/products';
@@ -15,57 +15,27 @@ import './Cart.less';
 import { useDispatch } from 'react-redux';
 import { ordersHooks } from '../Admin/Order';
 import { getCities, getWards } from 'utils/location/location';
+import { statusOrder } from 'constants/order';
+// import ToastMessage from '../Template/components/AdminTemplate/components/ToastMessage/ToastMessage';
 
-interface DataType {
-  images: UploadFile[];
-  name: string;
-  quantity: string;
-  total: string;
-  _id: string;
-}
+// interface DataType {
+//   images: UploadFile[];
+//   name: string;
+//   quantity: string;
+//   total: string;
+//   _id: string;
+// }
 
 const Cart = (): JSX.Element => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const { mutateAsync: createOrder, isLoading: isLoadingCreateOrder } = ordersHooks.useCreateOrder();
 
-  // const temp: OrderItem[] = [
-  //   {
-  //     product: {
-  //       id: '1',
-  //       name: 'abc',
-  //       pricing: 0,
-  //     },
-  //     quantity: '1',
-  //     // total: '1000',
-  //   },
-  //   {
-  //     product: {
-  //       id: '2',
-  //       name: 'def',
-  //       pricing: 0,
-  //     },
-  //     quantity: '2',
-  //     // total: '2000',
-  //   }
-  // ];
-
   const [cart, setCart] = React.useState<CartModel>();
   const [cities, setCities] = React.useState(getCities());
   const [wards, setWards] = React.useState<any[]>();
 
-  // const [page, setPage] = React.useState(PAGE);
-  // const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
-  // const { data, isLoading } = productsHooks.useProducts({
-  //   pagination: {
-  //     limit: pageSize,
-  //     offset: page * pageSize,
-  //   },
-  // });
-
-  // const cartStringData = storage.getShoppingCart();
   const cartStringData = localStorage.getItem('shoppingCart');
-  // console.log('==== cartStringData', cartStringData);
   useEffect(() => {
     if (cartStringData) {
       const cartData: CartModel = JSON.parse(cartStringData);
@@ -73,12 +43,21 @@ const Cart = (): JSX.Element => {
     }
   }, [cartStringData]);
 
+  const openNotificationWithIcon = useCallback((type: NotificationType, item: any) => {
+    notification[type]({
+      message: intl.formatMessage(
+        { id: 'common.event.message.success' },
+        { name: intl.formatMessage({ id: 'cart.notification.content.adding.success' }, { name: item.orderNumber }) }
+      ),
+      // onClick: () => {
+      //   window.location.href = '/cart'
+      // }
+    });
+  }, [intl]);
+
   const onFinish = useCallback(
     async (values: any) => {
-      // console.log('===== onFinish values', values);
-      // console.log('===== onFinish cart', cart);
-      // return;
-      await createOrder({
+      const order = await createOrder({
         ...cart,
         ...values,
         orderItems: cart?.orderItems?.map(item => {
@@ -87,12 +66,18 @@ const Cart = (): JSX.Element => {
             product: item?.product?._id,
           };
         }),
-      }).then((item: any) => {
-        // console.log('==== item', item);
+        status: statusOrder.NEW,
       });
+      openNotificationWithIcon('success', order)
+      localStorage.setItem('shoppingCart', '');
+      window.location.href = '/';
     },
-    [cart, createOrder]
+    [cart, createOrder, openNotificationWithIcon]
   );
+
+  type NotificationType = 'success' | 'info' | 'warning' | 'error';
+  
+  
 
   const onDelete = (id: string) => {
     const indexItem = cart?.orderItems?.findIndex(item => item.product?._id === id);
@@ -113,20 +98,10 @@ const Cart = (): JSX.Element => {
       return cart ? localStorage.setItem('shoppingCart', JSON.stringify(result)) : null;
     }
   };
-  // console.log('==== cart', cart);
-
-  // const children: React.ReactNode[] = [];
-  // const cities = getCities()
-  // cities.map(city => children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>))
-  // for (let i = 10; i < 36; i++) {
-  //   children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-  // }
-  // console.log('==== cities', cities);
 
   const handleCityChange = (value: string) => {
     console.log(`selected ${value}`);
     setWards([]);
-    // const code = value.split('-');
     setWards(getWards(value));
   };
 
@@ -134,9 +109,9 @@ const Cart = (): JSX.Element => {
     <div className="cart">
       <div className="cartItems">
         <div className="title">{intl.formatMessage({ id: 'cart.cart.title' })}</div>
-        {cart?.orderItems?.map(item => (
+        {cart?.orderItems && cart?.orderItems?.length > 0 ? cart?.orderItems?.map(item => (
           <CartItem data={item} onDelete={onDelete} />
-        ))}
+        )) : <Empty description={'Không có sản phẩm'} />}
       </div>
       <div className="customerInfo">
         <div className="title">{intl.formatMessage({ id: 'cart.customer.title' })}</div>
@@ -154,19 +129,54 @@ const Cart = (): JSX.Element => {
           <Form.Item
             name={['customer', 'name']}
             label={intl.formatMessage({ id: 'cart.customer.name' })}
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'cart.customer.name' }) }
+                ),
+              },
+            ]}
+            hasFeedback
           >
             <Input />
           </Form.Item>
-          <Form.Item name={['customer', 'phone']} label={intl.formatMessage({ id: 'cart.customer.phone' })}>
+          <Form.Item
+            name={['customer', 'phone']}
+            label={intl.formatMessage({ id: 'cart.customer.phone' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'cart.customer.phone' }) }
+                ),
+              },
+            ]}
+            hasFeedback
+          >
             <Input />
           </Form.Item>
-          <Form.Item name={['customer', 'city']} label={intl.formatMessage({ id: 'cart.customer.city' })}>
+          <Form.Item
+            name={['customer', 'city']}
+            label={intl.formatMessage({ id: 'cart.customer.city' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'cart.customer.city' }) }
+                ),
+              },
+            ]}
+            hasFeedback
+          >
             <Select
               // mode="multiple"
               allowClear
               style={{ width: '100%' }}
-              placeholder="Please select"
+              placeholder={intl.formatMessage({ id: 'common.select.placeholder' })}
               // defaultValue={['a10', 'c12']}
               onChange={handleCityChange}
             >
@@ -176,12 +186,25 @@ const Cart = (): JSX.Element => {
                 })}
             </Select>
           </Form.Item>
-          <Form.Item name={['customer', 'ward']} label={intl.formatMessage({ id: 'cart.customer.ward' })}>
+          <Form.Item
+            name={['customer', 'ward']}
+            label={intl.formatMessage({ id: 'cart.customer.ward' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'cart.customer.ward' }) }
+                ),
+              },
+            ]}
+            hasFeedback
+          >
             <Select
               // mode="multiple"
               allowClear
               style={{ width: '100%' }}
-              placeholder="Please select"
+              placeholder={intl.formatMessage({ id: 'common.select.placeholder' })}
               // defaultValue={['a10', 'c12']}
               // onChange={handleChange}
             >
@@ -191,13 +214,35 @@ const Cart = (): JSX.Element => {
                 })}
             </Select>
           </Form.Item>
-          <Form.Item name={['customer', 'address']} label={intl.formatMessage({ id: 'cart.customer.address' })}>
+          <Form.Item
+            name={['customer', 'address']}
+            label={intl.formatMessage({ id: 'cart.customer.address' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'cart.customer.address' }) }
+                ),
+              },
+            ]}
+            hasFeedback
+          >
             <Input />
           </Form.Item>
           <Form.Item
             name={['customer', 'email']}
             label={intl.formatMessage({ id: 'cart.customer.email' })}
-            rules={[{ type: 'email' }]}
+            rules={[
+              {
+                type: 'email',
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'cart.customer.email' }) }
+                ),
+              },
+            ]}
+            hasFeedback
           >
             <Input />
           </Form.Item>

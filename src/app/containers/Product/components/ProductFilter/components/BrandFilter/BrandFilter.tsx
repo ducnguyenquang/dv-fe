@@ -13,10 +13,8 @@ interface IProp {
 }
 
 const BrandFilter = ({ onBrandSelected, defaultValue }: IProp): JSX.Element => {
-  const intl = useIntl();
-
   const [brands, setBrands] = useState<Brand[]>([]);
-  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>(defaultValue);
+  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>();
 
   const { data, isLoading } = productsHooks.useBrands({
     pagination: {
@@ -27,7 +25,8 @@ const BrandFilter = ({ onBrandSelected, defaultValue }: IProp): JSX.Element => {
 
   const plainOptions = brands
     ? brands.map(item => {
-        return { label: item.name, value: item.slug, key: item._id } as CheckboxOptionType;
+        // return { label: item.name, value: item.slug, key: item._id } as CheckboxOptionType;
+        return { label: item.name, value: JSON.stringify(item), key: item._id } as CheckboxOptionType;
       })
     : undefined;
 
@@ -38,22 +37,22 @@ const BrandFilter = ({ onBrandSelected, defaultValue }: IProp): JSX.Element => {
   }, [data, isLoading]);
 
   useEffect(() => {
-    setCheckedList(defaultValue)
+    setCheckedList(defaultValue?.map((item: any) => JSON.stringify(item)))
   }, [defaultValue]);
 
   // console.log('==== BrandFilter checkedList', checkedList)
 
   const onChange = (checkedValues: CheckboxValueType[]) => {
-    console.log('checked = ', checkedValues);
+    // console.log('checked = ', checkedValues);
     setCheckedList(checkedValues);
     if(checkedValues && checkedValues.length > 0) {
-      onBrandSelected(checkedValues as string[])
+      // onBrandSelected(checkedValues as string[])
+      onBrandSelected(checkedValues)
     }
   };
 
   return (
     <div className="brandFilter">
-      {/* <h1>{intl.formatMessage({ id: 'template.leftMenu.brandFilter.title' })}</h1> */}
       {brands && <Checkbox.Group options={plainOptions} onChange={onChange} value={checkedList} />}
     </div>
   );

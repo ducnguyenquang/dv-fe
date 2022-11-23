@@ -91,11 +91,18 @@ const ProductTable = (): JSX.Element => {
     confirm();
     setSearchText(selectedKeys?.[0]);
     setSearchedColumn(dataIndex);
+    console.log('==== handleSearch')
+    console.log('==== handleSearch selectedKeys', selectedKeys)
+    console.log('==== handleSearch search', search)
+    console.log('==== handleSearch dataIndex', dataIndex)
+
+
     const searchData: any = search;
-    // if (searchData) {
-      searchData[dataIndex] = selectedKeys?.[0];
-      setSearch(searchData);
+    // if (searchData?.[dataIndex]) {
+      searchData[`${dataIndex}`] = selectedKeys?.[0];
     // }
+    
+    setSearch(searchData && Object.keys(searchData).length > 0 ? searchData : '');
   };
 
   const handleReset = (
@@ -206,14 +213,14 @@ const ProductTable = (): JSX.Element => {
     },
     {
       title: intl.formatMessage({ id: 'product.brand' }),
-      dataIndex: 'brand.name',
-      key: 'brand.name',
+      dataIndex: 'brand',
+      key: 'brand',
       ...getColumnSearchProps('brand'),
       sorter: (a, b) => (a?.brand?.name as string).length - (b?.brand?.name as string).length,
       sortDirections: ['descend', 'ascend'],
       showSorterTooltip: false,
       render: (_, record) => (
-        record.brand?.logo ? <Image src={record.brand?.logo?.[0].thumbUrl} className='logo' /> : record.brand?.name
+        record.brand?.name
       ),
     },
     {

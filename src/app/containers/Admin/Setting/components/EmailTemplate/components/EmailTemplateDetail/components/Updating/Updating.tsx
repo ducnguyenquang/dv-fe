@@ -59,8 +59,8 @@ const Updating = (): JSX.Element => {
   const [emailTemplateDetail, setEmailTemplateDetail] = useState<EmailTemplate>({});
   const [defaultValue, setDefaultValue] = useState<any>();
 
-  const [page, setPage] = React.useState(PAGE);
-  const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
+  // const [page, setPage] = React.useState(PAGE);
+  // const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
   // const EmailTemplateDetailParam = useSelector(EmailTemplatesSelectors.getEmailTemplate);
 
   // const { data: categoriesData, isLoading: isLoadingCategories } = EmailTemplatesHooks.useCategories({
@@ -78,14 +78,14 @@ const Updating = (): JSX.Element => {
       ...values,
       _id: emailTemplateDetailData?._id,
       // images: fileList,
-      categories: values.categories.map((item: any) => item.value),
+      // categories: values.categories.map((item: any) => item.value),
     }).then((item: any) => {
       setEmailTemplateDetail(item?.data);
-      setFileList(item?.data?.images);
+      // setFileList(item?.data?.images);
       setDefaultValue({
         ...emailTemplateDetailData,
-        subject: decodeURIComponent(emailTemplateDetailData?.description),
-        body: decodeURIComponent(emailTemplateDetailData?.specification),
+        // subject: decodeURIComponent(emailTemplateDetailData?.description),
+        body: decodeURIComponent(emailTemplateDetailData?.body),
       });
     });
   }, [emailTemplateDetailData, updateEmailTemplate])
@@ -94,11 +94,11 @@ const Updating = (): JSX.Element => {
     if (emailTemplateDetailData && !isLoadingEmailTemplateDetail) {
       // console.log('==== emailTemplateDetailData', emailTemplateDetailData)
       setEmailTemplateDetail(emailTemplateDetailData);
-      setFileList(emailTemplateDetailData?.images);
+      // setFileList(emailTemplateDetailData?.images);
       setDefaultValue({
         ...emailTemplateDetailData,
-        subject: decodeURIComponent(emailTemplateDetailData?.description),
-        body: decodeURIComponent(emailTemplateDetailData?.specification),
+        // subject: decodeURIComponent(emailTemplateDetailData?.description),
+        body: decodeURIComponent(emailTemplateDetailData?.body),
       });
     }
   }, [emailTemplateDetailData, isLoadingEmailTemplateDetail]);

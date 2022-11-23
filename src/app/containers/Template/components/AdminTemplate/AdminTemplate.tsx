@@ -183,7 +183,7 @@ const Template = ({ content }: IProps): JSX.Element => {
                   key: 'common',
                   label: intl.formatMessage({ id: 'menu.left.setting.common' }),
                   onClick: () => {
-                    navMenuClick({ name: 'common', url: '/admin/setting/common' });
+                    navMenuClick({ name: 'common', url: '/admin/setting/information' });
                   },
                 },
                 {

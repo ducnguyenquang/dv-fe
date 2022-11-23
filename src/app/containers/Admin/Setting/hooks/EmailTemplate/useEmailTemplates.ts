@@ -24,7 +24,7 @@ export const useEmailTemplates = (params: EmailTemplateQueryPayload): UseQueryRe
       // console.log('==== data', data)
       // storeEmailTemplatePaginationModals(data);
 
-      return data?.data;
+      return data;
     },
     {
       keepPreviousData: true,

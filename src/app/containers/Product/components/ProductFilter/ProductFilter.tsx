@@ -1,46 +1,50 @@
 import { Button, Collapse } from 'antd';
-import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import { ProductFilters, RangeNumber } from 'models/product';
-import React, { useCallback, useEffect } from 'react';
+import { ProductFilters } from 'models/product';
+import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { productsActions, productsSelectors } from '../..';
 import { BrandFilter } from './components/BrandFilter';
 import { LedAttributeFilter } from './components/LedAttributeFilter';
-// import { PricingFilter } from './components/PricingFilter';
-// import { ReviewFilter } from './components/ReviewFilter';
 import { CategoryFilter } from './components/CategoryFilter';
 import { TypeFilter } from './components/TypeFilter';
 
 import './ProductFilter.less';
-import { Category } from 'models/category';
-import { Brand } from 'models/brand';
+interface IProps {
+  extendChildren?: any;
+}
 
-const ProductFilter = (): JSX.Element => {
+const ProductFilter = ({extendChildren}: IProps): JSX.Element => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
   const productFilter = useSelector(productsSelectors.getFilters);
 
-  const [filters, setFilters] = React.useState<ProductFilters>();
+  // const [filters, setFilters] = React.useState<ProductFiltersId>();
+  const [filters, setFilters] = useState<ProductFilters>();
+  const [isShowLedAttribute, setIsShowLedAttribute] = useState(false);
 
   const onTypeSelected = useCallback(
     (types: string[]) => {
+      const data = types.map(item => JSON.parse(item));
       setFilters({
         ...filters,
-        types,
+        types: data ? data : undefined,
         categories: undefined,
         ledAttributes: undefined,
       });
+      const isShowLedAttribute = data?.filter(item => /den\-led/gi.test(item._id));
+      setIsShowLedAttribute(isShowLedAttribute.length > 0);
     },
     [filters]
   );
 
   const onBrandSelected = useCallback(
     (brands: string[]) => {
+      const data = brands.map(item => JSON.parse(item));
       setFilters({
         ...filters,
-        brands,
+        brands: data ? data : undefined,
       });
     },
     [filters]
@@ -48,9 +52,10 @@ const ProductFilter = (): JSX.Element => {
 
   const onCategoySelected = useCallback(
     (categories: string[]) => {
+      const data = categories.map(item => JSON.parse(item));
       setFilters({
         ...filters,
-        categories,
+        categories: data ? data : undefined,
       });
     },
     [filters]
@@ -58,9 +63,11 @@ const ProductFilter = (): JSX.Element => {
 
   const onLedAttributeSelected = useCallback(
     (ledAttributes: string[]) => {
+      const data = ledAttributes.map(item => JSON.parse(item));
+
       setFilters({
         ...filters,
-        ledAttributes,
+        ledAttributes: data ? data : undefined,
       });
     },
     [filters]
@@ -68,22 +75,24 @@ const ProductFilter = (): JSX.Element => {
 
   useEffect(() => {
     if (productFilter) {
+      const isShowLedAttribute: any = productFilter?.types?.filter(item => /den\-led/gi.test(item._id));
+
       setFilters(productFilter);
+      setIsShowLedAttribute(isShowLedAttribute?.length > 0);
     }
   }, [productFilter]);
 
   const onApply = useCallback(() => {
+    dispatch(productsActions.setFiltersApply(filters));
     dispatch(productsActions.setFilters(filters));
   }, [dispatch, filters]);
 
   const onReset = useCallback(() => {
-    // console.log('==== onReset filters', filters);
-
     dispatch(productsActions.setFilters(undefined));
-    setFilters(undefined)
+    dispatch(productsActions.setFiltersApply(undefined));
+    setFilters(undefined);
   }, [dispatch]);
 
-  console.log('==== filters', filters);
   return (
     <div className="productFilter">
       <Collapse>
@@ -94,48 +103,27 @@ const ProductFilter = (): JSX.Element => {
           <TypeFilter onTypeSelected={onTypeSelected} defaultValue={filters?.types} />
         </Collapse.Panel>
         <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.categoryFilter.title' })} key="category">
-          <CategoryFilter onCategorySelected={onCategoySelected} filters={filters} />
+          <CategoryFilter onCategorySelected={onCategoySelected} filters={filters}/>
         </Collapse.Panel>
-        {filters?.types?.includes('den-led') && 
-          <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.ledAttributeFilter.title' })} key="ledAttribute">
+        {isShowLedAttribute && (
+          <Collapse.Panel
+            header={intl.formatMessage({ id: 'template.leftMenu.ledAttributeFilter.title' })}
+            key="ledAttribute"
+          >
             <LedAttributeFilter onLedAttributeSelected={onLedAttributeSelected} defaultValue={filters?.ledAttributes} />
           </Collapse.Panel>
-        }
+        )}
       </Collapse>
       <div className="filters">
-        <Button type="primary" onClick={onApply} disabled={!filters}>
+        <Button type="primary" onClick={onApply} disabled={!!filters === false}>
           {intl.formatMessage({ id: 'common.button.apply' })}
         </Button>
         <Button type="ghost" onClick={onReset}>
           {intl.formatMessage({ id: 'common.button.cancel' })}
         </Button>
       </div>
+      {extendChildren}
     </div>
-    // <div className="productFilter">
-    //   <div className="filters">
-    //     <TypeFilter onTypeSelected={onTypeSelected} defaultValue={filters?.types}/>
-    //   </div>
-    //   <div className="filters">
-    //     <BrandFilter onBrandSelected={onBrandSelected} defaultValue={filters?.brands}/>
-    //   </div>
-    //   <div className="filters">
-    //     <CategoryFilter onCategorySelected={onCategoySelected} defaultValue={filters?.categories}/>
-    //   </div>
-    //   <div className="filters">
-    //     <ReviewFilter onReviewSelected={onReviewSelected} defaultValue={filters?.review} />
-    //   </div>
-    //   <div className="filters">
-    //     <PricingFilter onPricingSelected={onPricingSelected} defaultValue={filters?.pricing}/>
-    //   </div>
-    //   <div className="filters">
-    //     <Button type="primary" onClick={onApply} disabled={!filters}>
-    //       {intl.formatMessage({ id: 'common.button.apply' })}
-    //     </Button>
-    //     <Button type="ghost" onClick={onReset}>
-    //       {intl.formatMessage({ id: 'common.button.cancel' })}
-    //     </Button>
-    //   </div>
-    // </div>
   );
 };
 

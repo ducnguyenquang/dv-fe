@@ -21,8 +21,10 @@
   "page.name.tagSeoDetail": "Chi tiết thẻ SEO",
   "page.name.setting": "Thiết lập",
   "page.name.setting.tagSeo": "Các tag SEO",
+  "page.name.setting.information": "Thông tin",
   "page.name.login": "Đăng nhập",
   "page.name.signup": "Đăng ký",
+  "page.name.changePassword": "Đổi mật khẩu",
   "page.name.emailTempate": "Biểu mẫu Email",
   "page.name.emailTempateDetail": "Biểu mẫu chi tiết Email",
   "page.name.popupMenu": "Danh mục popup",
@@ -35,6 +37,10 @@
   "page.name.faq": "Câu hỏi thường gặp",
   "page.name.siteMap": "Sơ đồ website",
   "page.name.admin": "Quản trị hệ thống",
+  "page.name.consulting": "Tư vấn",
+  "page.name.catalogues": "Catalogues",
+  "page.name.pricing": "Báo giá",
+  "page.name.project": "Dự án",
 
   "menu.top.consult": "Tư vấn",
   "menu.top.catalogues": "Catalogues",
@@ -84,7 +90,7 @@
   "product.categories.placeholder": "Chọn Danh mục",
   "product.button.addImages": "Thêm hình",
   "product.button.addProduct": "Thêm sản phẩm",
-  "product.button.cart": "Giỏ hàng",
+  "product.button.cart": "Mua hàng",
   "product.detail": "Chi tiết",
   "product.message.add.success": "Thêm sản phẩm thành công",
   "product.message.update.success": "Cập nhật sản phẩm thành công",
@@ -113,6 +119,11 @@
   "order.orderNumber": "Mã đơn hàng",
   "order.customer": "Người mua",
   "order.status": "Tình trạng",
+  "order.status.placeholder": "Hãy chọn",
+  "order.status.new": "Mới",
+  "order.status.inprogress": "Đang xử lý",
+  "order.status.done": "Hoàn thành",
+
   "order.products": "Sản phẩm",
   "order.action": "Chức năng",
   "order.button.addOrder": "Thêm đơn hàng",
@@ -137,6 +148,7 @@
   "common.filter.product": "Sản phẩm",
   "common.pagination.rangeData": "{start}-{end} of {total} items",
   "common.price.contactPlease": "Liên hệ",
+  "common.select.placeholder": "Hãy chọn",
 
   "login.username": "Tên người dùng",
   "login.password": "Mật khẩu",
@@ -219,7 +231,7 @@
   "dashboard.information.focusing.item1.content": "Nhiều năm liền là nhà bán lẻ hàng đầu thị trường phía Nam",
   "dashboard.information.focusing.item2.title": "Nhà cung cấp uy tín cho các công trình",
   "dashboard.information.focusing.item2.content": "Năng lực cung ứng sản phẩm và đã được nhiều nhà thầu tin dùng",
-  "dashboard.information.focusing.item3.title": "Nhà phân phối đèn LED",
+  "dashboard.information.focusing.item3.title": "Nhà phân phối và sản xuất đèn LED",
   "dashboard.information.focusing.item3.content": "Phân phối các loại đèn led tuýp và đèn led sân vườn",
   "dashboard.information.focusing.item4.title": "Nhà phân phối cáp điện Cadivi",
   "dashboard.information.focusing.item4.content": "Phân phối các loại dây cáp điện Cadivi công nghiệp và dân dụng",
@@ -263,6 +275,8 @@
   "cart.customer.email": "Email",
   "cart.customer.note": "Ghi chú",
   "cart.button.book": "Đặt hàng",
+  "cart.notification.content.adding.success": "Bạn đã thêm [{name}] vào giỏ hàng",
+
 
   "contact.company.title": "CÔNG TY CP CHIẾU SÁNG & THIẾT BỊ ĐIỆN ĐẠI VIỆT",
   "contact.customer.title": "Thông tin liên hệ",
@@ -318,6 +332,10 @@
   "filter.brands": "Thương hiệu",
   "filter.review": "Đánh giá",
   "filter.pricing": "Giá",
+  "filter.categories": "Danh mục",
+  "filter.types": "Phân loại",
+  "filter.ledAttributes": "Thông số led",
+
   "filter.ledAttribute.2k7-3k": "Vàng 2.7k-3k",
   "filter.ledAttribute.4k": "Vàng nhạt 4k",
   "filter.ledAttribute.6k-6k5": "Trắng 6k-6.5k",
@@ -333,6 +351,10 @@
   "aboutUs.history.daiViet": "Công ty cổ phần Chiếu sáng & Thiết bị điện Đại Việt",
   "aboutUs.history.thienAn": "Công ty TNHH Thương mại – Xây dựng Điện công nghiệp THIÊN ÂN",
   "aboutUs.history.kimSang": "Công ty TNHH Sản xuất – Thương mại Thiết bị điện KIM SANG",
+
+  "common.emptyPage.content": "Xin lỗi, Trang bạn truy cập không tồn tại",
+  "common.MaintenancePage.content": "Tính năng đang được nâng cấp",
+  "common.button.goBack": "Về trang chủ",
 
   "end": "---"
 }

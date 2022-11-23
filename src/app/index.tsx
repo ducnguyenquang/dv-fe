@@ -27,18 +27,24 @@ import './app.less';
 //  import { EmailConfirmed } from './containers/Authentication/EmailConfirmed';
 import { AdminTemplate, Template } from 'app/containers/Template';
 
-import { AdminLogin, AdminSignUp } from 'app/containers/Admin/Authentication';
+import { AdminLogin, AdminSignUp, AdminChangePassword } from 'app/containers/Admin/Authentication';
 import { AdminProductTable, AdminProductAdd, AdminProductUpdate } from 'app/containers/Admin/Product';
 import { AdminCategoryTable, AdminCategoryAdd, AdminCategoryUpdate } from 'app/containers/Admin/Category';
 import { AdminUserTable, AdminUserAdd, AdminUserUpdate } from 'app/containers/Admin/User';
 import { AdminOrderTable, AdminOrderAdd, AdminOrderUpdate } from 'app/containers/Admin/Order';
 import { AdminBrandTable, AdminBrandAdd, AdminBrandUpdate } from 'app/containers/Admin/Brand';
-import { Common as AdminCommon } from 'app/containers/Admin/Setting';
 import {
-  AdminEmailTemplateTable,
-  AdminEmailTemplateAdd,
-  AdminEmailTemplateUpdate,
-} from 'app/containers/Admin/EmailTemplate';
+  TagSeo as AdminTagSeo,
+  Information as AdminInformation,
+  EmailTemplateTable as AdminEmailTemplateTable,
+  EmailTemplateAdding as AdminEmailTemplateAdd,
+  EmailTemplateUpdating as AdminEmailTemplateUpdate,
+} from 'app/containers/Admin/Setting';
+// import {
+//   AdminEmailTemplateTable,
+//   AdminEmailTemplateAdd,
+//   AdminEmailTemplateUpdate,
+// } from 'app/containers/Admin/EmailTemplate';
 import { AdminPopupMenuTable, AdminPopupMenuAdd, AdminPopupMenuUpdate } from 'app/containers/Admin/PopupMenu';
 import {
   AdminAdvertisementTable,
@@ -47,7 +53,7 @@ import {
 } from 'app/containers/Admin/Advertisement';
 import { AdminSupportTable, AdminSupportAdd, AdminSupportUpdate } from 'app/containers/Admin/Support';
 
-import { ProductList, ProductDetail, ProductFilter } from 'app/containers/Product';
+import { ProductList, ProductDetail, ProductFilter, SupportMenu } from 'app/containers/Product';
 
 import { Cart } from 'app/containers/Cart';
 import { DashBoard } from 'app/containers/DashBoard';
@@ -59,6 +65,9 @@ import { ConfigProvider } from 'antd';
 import { useDispatch } from 'react-redux';
 import LanguageProvider from './components/LanguageProvider/LanguageProvider';
 import { Slide, ToastContainer } from 'react-toastify';
+import { MaintenancePage } from 'app/containers/CommonPages/MaintenancePage';
+import { EmptyPage } from 'app/containers/CommonPages/EmptyPage';
+
 //  import { selectAuth } from './containers/Authentication/selectors';
 //  import { UserGuides } from './containers/UserGuides/Loadable';
 //  import { ThePlatform } from './containers/ThePlatform/Loadable';
@@ -85,7 +94,7 @@ export default function ScrollToTop() {
 export function App() {
   const dispatch = useDispatch();
   const [cookieIsAccepted, setCookieIsAccepted] = React.useState(localStorage.getItem('acceptCookie'));
-  
+
   const onAcceptCookie = () => {
     const acceptCookieVal = 'true';
     localStorage.setItem('acceptCookie', acceptCookieVal);
@@ -133,6 +142,11 @@ export function App() {
               // exact
               path={'/admin/signup'}
               element={<AdminSignUp />}
+            />
+            <Route
+              // exact
+              path={'/admin/changePassword'}
+              element={<AdminChangePassword />}
             />
             <Route
               // exact
@@ -211,11 +225,7 @@ export function App() {
               path={'/admin/brand/add'}
               element={<AdminTemplate content={<AdminBrandAdd />} />}
             />
-            <Route
-              // exact
-              path={'/admin/setting/common'}
-              element={<AdminTemplate content={<AdminCommon />} />}
-            />
+            
             <Route
               // exact
               path={'/admin/setting/emailTemplate'}
@@ -263,6 +273,16 @@ export function App() {
             />
             <Route
               // exact
+              path={'/admin/setting/information'}
+              element={<AdminTemplate content={<AdminInformation />} />}
+            />
+            <Route
+              // exact
+              path={'/admin/setting/tagSeo'}
+              element={<AdminTemplate content={<AdminTagSeo />} />}
+            />
+            <Route
+              // exact
               path={'/admin/advertisements'}
               element={<AdminTemplate content={<AdminAdvertisementTable />} />}
             />
@@ -279,12 +299,12 @@ export function App() {
             <Route
               // exact
               path={'/product'}
-              element={<Template leftMenu={<ProductFilter />} content={<ProductList />} />}
+              element={<Template leftMenu={<ProductFilter extendChildren={<SupportMenu />}/>} content={<ProductList />} />}
             />
             <Route
               // exact
               path={'/product/:id'}
-              element={<Template content={<ProductDetail />} />}
+              element={<Template leftMenu={<SupportMenu />} content={<ProductDetail />} />}
             />
             <Route
               // exact
@@ -311,6 +331,28 @@ export function App() {
               path={'/siteMap'}
               element={<Template content={<SiteMap />} />}
             />
+            <Route
+              // exact
+              path={'/consulting'}
+              element={<Template content={<MaintenancePage />} />}
+            />
+            <Route
+              // exact
+              path={'/catalogues'}
+              element={<Template content={<MaintenancePage />} />}
+            />
+            <Route
+              // exact
+              path={'/pricing'}
+              element={<Template content={<MaintenancePage />} />}
+            />
+            <Route
+              // exact
+              path={'/projects'}
+              element={<Template content={<MaintenancePage />} />}
+            />
+            <Route path="*" element={<Template content={<EmptyPage />} />} />
+            <Route path="/admin/*" element={<AdminTemplate content={<EmptyPage />} />} />
           </Routes>
           {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}
         </LanguageProvider>

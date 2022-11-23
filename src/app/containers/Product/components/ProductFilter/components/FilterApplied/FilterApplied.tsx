@@ -9,23 +9,22 @@ import './FilterApplied.less';
 const FilterApplied = (): JSX.Element => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const productFilter = useSelector(productsSelectors.getFilters);
+  const productFilter = useSelector(productsSelectors.getFiltersApply);
 
   const onReset = useCallback(() => {
     dispatch(productsActions.setFilters(undefined));
+    dispatch(productsActions.setFiltersApply(undefined));
   }, [dispatch]);
 
   const renderFilter = () => {
     const allFilters = [];
     if (productFilter) {
       for (const [key, value] of Object.entries(productFilter)) {
-        // console.log(`${key}: ${value}`);
-
         allFilters.push(
           <div className="filter">
             <div className="title">{intl.formatMessage({ id: `filter.${key}` })}</div>
             <div className="items">
-              <div>{typeof value === 'object' ? value.map((item: any) => item.name).join(', ') : value}</div>
+              <div>{typeof value === 'object' ? value.map(item => item.name || item.label).join(', ') : value}</div>
             </div>
           </div>
         );

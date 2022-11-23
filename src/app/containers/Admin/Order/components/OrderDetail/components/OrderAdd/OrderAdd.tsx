@@ -14,15 +14,15 @@ import { useCallback } from 'react';
 
 
 
-const UserAdd = (): JSX.Element => {
-  const { mutateAsync: createUser, isLoading: isLoadingCreateUser } = ordersHooks.useCreateOrder();
+const OrderAdd = (): JSX.Element => {
+  const { mutateAsync: createOrder, isLoading: isLoadingCreateOrder } = ordersHooks.useCreateOrder();
 
   const onFinish = useCallback(async (values: any) => {
-    const data = await createUser(values);
+    const data = await createOrder(values);
     window.location.href = `/admin/order/${data?.data?.orderNumber}`;
-  },[createUser]);
+  },[createOrder]);
 
-  return <OrderDetailForm key={'userAdd'} isLoading={isLoadingCreateUser} />;
+  return <OrderDetailForm key={'orderAdd'} isLoading={isLoadingCreateOrder} onFinish={onFinish} />;
 };
 
-export default UserAdd;
+export default OrderAdd;

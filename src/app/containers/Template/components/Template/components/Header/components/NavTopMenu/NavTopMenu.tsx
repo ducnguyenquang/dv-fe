@@ -20,18 +20,30 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
     {
       key: 'consult',
       label: intl.formatMessage({ id: 'menu.top.consult' }),
+      onClick: () => {
+        window.location.href = '/consulting';
+      },
     },
     {
       key: 'catalogues',
       label: intl.formatMessage({ id: 'menu.top.catalogues' }),
+      onClick: () => {
+        window.location.href = '/catalogues';
+      },
     },
     {
       key: 'pricing',
       label: intl.formatMessage({ id: 'menu.top.pricing' }),
+      onClick: () => {
+        window.location.href = '/pricing';
+      },
     },
     {
       key: 'project',
       label: intl.formatMessage({ id: 'menu.top.project' }),
+      onClick: () => {
+        window.location.href = '/project';
+      },
     },
     {
       key: 'sitemap',

@@ -16,6 +16,7 @@ export interface Product {
   images?: UploadFile[];
   categories?: Category[];
   pricing?: number;
+  type?: string;
   _id?: string;
 }
 
@@ -24,25 +25,34 @@ export type RangeNumber = {
   max?: number,
 }
 
-export type ProductFilters = {
+export type ProductFiltersId = {
   brands?: string[];
   review?: number;
   pricing?: number[];
   categories?: string[];
-  types?: string[];
+  types?: any[];
   ledAttributes?: string[];
+}
+
+export type ProductFilters = {
+  brands?: Brand[];
+  review?: number;
+  pricing?: number[];
+  categories?: Category[];
+  types?: any[];
+  ledAttributes?: any[];
 }
 
 export type ProductCreatePayload = Pick<
 Product,
-  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories' | 'summary' | 'specification'
+  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories' | 'summary' | 'specification'| 'type'
 > & {
   sendActivationEmail: boolean;
 };
 
 export type ProductUpdatePayload = Pick<
   Product,
-  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories' | 'id' | '_id' | 'summary' | 'specification'
+  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories' | 'id' | '_id' | 'summary' | 'specification' | 'type'
 >;
 
 type ProductQueryBase = {

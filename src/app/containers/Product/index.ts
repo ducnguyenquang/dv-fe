@@ -10,6 +10,7 @@ export {
   export { ProductList } from './components/ProductList';
   export { ProductDetail } from './components/ProductDetail';
   export { ProductFilter } from './components/ProductFilter';
+  export { SupportMenu } from './components/SupportMenu';
 
 
   // export { ProductDetailForm as AdminProductDetailForm } from './components/ProductDetail/components/ProductDetailForm';

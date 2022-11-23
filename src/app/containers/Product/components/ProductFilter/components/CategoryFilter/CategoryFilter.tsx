@@ -17,7 +17,7 @@ const CategoryFilter = ({ onCategorySelected, filters }: IProp): JSX.Element => 
   const intl = useIntl();
   // const categoryData = filters?.categories?.map(item => item._id) as string[]
   const [categories, setCategories] = useState<Brand[]>();
-  const [checkedList, setCheckedList] = useState<CheckboxValueType[] | undefined>(filters?.categories);
+  const [checkedList, setCheckedList] = useState<CheckboxValueType[] | undefined>(filters?.categories?.map(item => JSON.stringify(item)));
   const [search, setSearch] = useState<any>();
   console.log('==== checkedList', checkedList)
 
@@ -32,7 +32,8 @@ const CategoryFilter = ({ onCategorySelected, filters }: IProp): JSX.Element => 
 
   const plainOptions = categories
     ? categories.map(item => {
-        return { label: item.name, value: item.slug, key: item._id } as CheckboxOptionType;
+        // return { label: item.name, value: item.slug, key: item._id } as CheckboxOptionType;
+        return { label: item.name, value: JSON.stringify(item), key: item._id } as CheckboxOptionType;
       })
     : undefined;
 
@@ -43,15 +44,16 @@ const CategoryFilter = ({ onCategorySelected, filters }: IProp): JSX.Element => 
   }, [data, isLoading]);
 
   useEffect(() => {
-    if (filters) {
-      setCheckedList(filters?.categories);
+    // if (filters) {
+      setCheckedList(filters?.categories?.map(item => JSON.stringify(item)));
       if (filters?.types) {
-        const type = (filters?.types?.map((item: any) => item._id)).join('|');
+        
+        const type = filters?.types?.map((item: any) => item._id).join('|');
         setSearch({
           type,
         })
       }
-    }
+    // }
   }, [filters]);
 
   // console.log('==== BrandFilter checkedList', checkedList)
