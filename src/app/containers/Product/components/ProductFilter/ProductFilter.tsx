@@ -1,4 +1,4 @@
-import { Button, Collapse } from 'antd';
+import { Button, Card, Collapse } from 'antd';
 import { ProductFilters } from 'models/product';
 import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -85,6 +85,7 @@ const ProductFilter = ({extendChildren}: IProps): JSX.Element => {
   const onApply = useCallback(() => {
     dispatch(productsActions.setFiltersApply(filters));
     dispatch(productsActions.setFilters(filters));
+    setFilters(filters);
   }, [dispatch, filters]);
 
   const onReset = useCallback(() => {
@@ -95,34 +96,37 @@ const ProductFilter = ({extendChildren}: IProps): JSX.Element => {
 
   return (
     <div className="productFilter">
-      <Collapse>
-        <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.brandFilter.title' })} key="brand">
-          <BrandFilter onBrandSelected={onBrandSelected} defaultValue={filters?.brands} />
-        </Collapse.Panel>
-        <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.TypeFilter.title' })} key="type">
-          <TypeFilter onTypeSelected={onTypeSelected} defaultValue={filters?.types} />
-        </Collapse.Panel>
-        <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.categoryFilter.title' })} key="category">
-          <CategoryFilter onCategorySelected={onCategoySelected} filters={filters}/>
-        </Collapse.Panel>
-        {isShowLedAttribute && (
-          <Collapse.Panel
-            header={intl.formatMessage({ id: 'template.leftMenu.ledAttributeFilter.title' })}
-            key="ledAttribute"
-          >
-            <LedAttributeFilter onLedAttributeSelected={onLedAttributeSelected} defaultValue={filters?.ledAttributes} />
+      <Card className='' title={intl.formatMessage({ id: 'filter.title' })} bordered={false}>
+        <Collapse>
+          <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.brandFilter.title' })} key="brand">
+            <BrandFilter onBrandSelected={onBrandSelected} defaultValue={filters?.brands} />
           </Collapse.Panel>
-        )}
-      </Collapse>
-      <div className="filters">
-        <Button type="primary" onClick={onApply} disabled={!!filters === false}>
-          {intl.formatMessage({ id: 'common.button.apply' })}
-        </Button>
-        <Button type="ghost" onClick={onReset}>
-          {intl.formatMessage({ id: 'common.button.cancel' })}
-        </Button>
-      </div>
+          <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.TypeFilter.title' })} key="type">
+            <TypeFilter onTypeSelected={onTypeSelected} defaultValue={filters?.types} />
+          </Collapse.Panel>
+          <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.categoryFilter.title' })} key="category">
+            <CategoryFilter onCategorySelected={onCategoySelected} filters={filters}/>
+          </Collapse.Panel>
+          {isShowLedAttribute && (
+            <Collapse.Panel
+              header={intl.formatMessage({ id: 'template.leftMenu.ledAttributeFilter.title' })}
+              key="ledAttribute"
+            >
+              <LedAttributeFilter onLedAttributeSelected={onLedAttributeSelected} defaultValue={filters?.ledAttributes} />
+            </Collapse.Panel>
+          )}
+        </Collapse>
+        <div className="filters">
+          <Button type="primary" onClick={onApply} disabled={!!filters === false}>
+            {intl.formatMessage({ id: 'common.button.apply' })}
+          </Button>
+          <Button type="ghost" onClick={onReset}>
+            {intl.formatMessage({ id: 'common.button.cancel' })}
+          </Button>
+        </div>
+      </Card>
       {extendChildren}
+
     </div>
   );
 };

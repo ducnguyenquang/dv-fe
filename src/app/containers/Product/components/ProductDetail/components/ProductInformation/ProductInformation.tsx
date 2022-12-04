@@ -26,12 +26,10 @@ const ProductInformation = (): JSX.Element => {
         description: decodeURIComponent(productDetailData.description),
         specification: decodeURIComponent(productDetailData.specification),
         slug: decodeURIComponent(productDetailData.slug),
-      }
+      };
       setProductDetail(data);
     }
   }, [isLoadingProductDetail, productDetailData]);
-
-  
 
   const onTabChange = (key: string) => {
     console.log(key);
@@ -52,35 +50,36 @@ const ProductInformation = (): JSX.Element => {
 
   const onFinish = async (value: any) => {
     const cartStringData = localStorage.getItem('shoppingCart');
-    
+
     let cartData: Cart = {
       total: 0,
-      orderItems: [{
-        product: productDetailData,
-        total: 0,
-        quantity: quantity,
-      }],
+      orderItems: [
+        {
+          product: productDetailData,
+          total: 0,
+          quantity: quantity,
+        },
+      ],
       customer: value,
-    }
+    };
 
     if (cartStringData) {
       cartData = JSON.parse(cartStringData);
       const orderItem = cartData?.orderItems?.find(item => item.product?._id === productDetail._id);
 
       if (orderItem) {
-        orderItem.total = 0
-        orderItem.quantity += quantity
+        orderItem.total = 0;
+        orderItem.quantity += quantity;
       } else {
         cartData?.orderItems?.push({
           product: productDetail,
           total: 0,
           quantity: quantity,
-        })
+        });
       }
     }
     localStorage.setItem('shoppingCart', JSON.stringify(cartData));
-
-  }
+  };
 
   return (
     <div className="productInfo">
@@ -91,36 +90,54 @@ const ProductInformation = (): JSX.Element => {
         <div className="content">
           <Descriptions className="information" title={productDetail?.name}>
             <Descriptions.Item span={3}>
-              <Rate />
+              <Rate disabled defaultValue={4} />
             </Descriptions.Item>
-            <Descriptions.Item span={3}>{productDetail?.summary}</Descriptions.Item>
-            <Descriptions.Item label={intl.formatMessage({ id: 'product.sku' })}>
+            <Descriptions.Item span={3} className="summary">
+              {productDetail?.summary}
+            </Descriptions.Item>
+            <Descriptions.Item span={3} className="specification">
+              <div className="specificationItem">
+                <span className="title">{intl.formatMessage({ id: 'product.sku' })}: </span>
+                <span className="data">{productDetail?.slug ? decodeURIComponent(productDetail?.slug) : ''}</span>
+              </div>
+              <div className="specificationItem">
+                <span className="title">{intl.formatMessage({ id: 'product.brand' })}: </span>
+                <span className="data">{productDetail?.brand?.name}</span>
+              </div>
+              <div className="specificationItem">
+                <span className="title">{intl.formatMessage({ id: 'product.categories' })}: </span>
+                <span className="data">
+                  {productDetail?.categories ? productDetail?.categories?.map(item => item.name) : ''}
+                </span>
+              </div>
+            </Descriptions.Item>
+            {/* <Descriptions.Item label={intl.formatMessage({ id: 'product.sku' })} span={2}>
               {productDetail?.slug ? decodeURIComponent(productDetail?.slug) : ''}
             </Descriptions.Item>
-            <Descriptions.Item label={intl.formatMessage({ id: 'product.brand' })} span={2}>
+            <Descriptions.Item label={intl.formatMessage({ id: 'product.brand' })}>
               {productDetail?.brand?.name}
             </Descriptions.Item>
             <Descriptions.Item label={intl.formatMessage({ id: 'product.categories' })}>
               {productDetail?.categories ? productDetail?.categories?.map(item => item.name) : ''}
-            </Descriptions.Item>
+            </Descriptions.Item> */}
           </Descriptions>
           <Form
             name="basic"
             labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
+            // wrapperCol={{ span: 16 }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
             // onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
-            <Form.Item
-              label=""
-              name="total"
-            >
-              <InputNumber min={1} defaultValue={1} onChange={onChange} addonAfter={selectAfter} />
-              <Button type="primary" htmlType="submit" icon={<ShoppingCartOutlined />} >
-                {intl.formatMessage({ id: 'product.button.cart' })}
-              </Button>
+            <Form.Item label="" name="total">
+              <div className="inputForm">
+                <div className="price">{intl.formatMessage({ id: 'common.price.contactPlease' })}</div>
+                <InputNumber min={1} defaultValue={1} onChange={onChange} addonAfter={selectAfter} className="input"/>
+                <Button type="primary" htmlType="submit" icon={<ShoppingCartOutlined />} className="button">
+                  {intl.formatMessage({ id: 'product.button.cart' })}
+                </Button>
+              </div>
             </Form.Item>
           </Form>
         </div>

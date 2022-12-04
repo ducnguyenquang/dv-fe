@@ -21,6 +21,7 @@ const ProductList = (): JSX.Element => {
   const [viewType, setViewType] = React.useState('list');
   const [search, setSearch] = React.useState();
   const productFilter = useSelector(productsSelectors.getFilters);
+  const productFilterApply = useSelector(productsSelectors.getFiltersApply);
   const [isLoadMoreData, setIsLoadMoreData] = React.useState(false);
 
   const [productPagination, setProductPagination] = React.useState<{
@@ -41,12 +42,7 @@ const ProductList = (): JSX.Element => {
 
   useEffect(() => {
     if (productData && !isProductDataLoading) {
-      // if (isLoadMoreData) {
-      //   setIsLoadMoreData(false);
-      //   setProducts([...products, ...productData?.data]);
-      // } else {
-        setProducts(productData?.data);
-      // }
+      setProducts(productData?.data);
       setProductPagination(productData?.pagination);
     }
   }, [productData, isProductDataLoading, products, isLoadMoreData]);
@@ -54,32 +50,27 @@ const ProductList = (): JSX.Element => {
   useEffect(() => {
     if (productFilter) {
       let searchData: any = {};
-      // if (searchData) {
-      // searchData[dataIndex] = selectedKeys?.[0];
       for (const [key, value] of Object.entries(productFilter)) {
         if (value) {
           switch (key) {
             case 'categories':
-              // searchData['categories'] = (value as Category[]).map((item: any) => item._id).join('|')
               searchData['categories'] = (value as Category[]).map((item: any) => item._id);
               break;
             case 'brands':
-              // searchData['brand'] = (value as Brand[]).map((item: any) => item._id).join('|')
               searchData['brand'] = (value as Brand[]).map((item: any) => item._id);
               break;
             default:
               break;
           }
         }
-        // console.log(`${key}: ${value}`);
       }
-      console.log('==== searchData', searchData);
       setSearch(searchData);
+    } else {
+      setSearch(undefined);
     }
   }, [productFilter]);
 
   const loadMoreData = () => {
-    // console.log('==== loadMoreData page + 1', page + 1);
     setPage(page + 1);
     setIsLoadMoreData(true);
   };
@@ -129,25 +120,33 @@ const ProductList = (): JSX.Element => {
         </InfiniteScroll>
       </div>
       <Pagination
-        className='pagination'
+        className="pagination"
         total={productData?.pagination?.totalCount || 10}
         showTotal={(total, range) => {
           return intl.formatMessage(
             { id: 'common.pagination.rangeData' },
-            { 
+            {
               start: range[0] || 1,
               end: range[1] || productData?.pagination?.pageSize,
               total,
             }
-          )
+          );
         }}
         defaultPageSize={productData?.pagination?.pageSize}
         current={page}
-        onChange={(page, pageSize) =>
-          setPage(page)
-        }
+        onChange={(page, pageSize) => {
+          console.log('==== pageSize', pageSize);
+
+          setPage(page);
+          setPageSize(pageSize);
+        }}
         showSizeChanger
-        onShowSizeChange={(pageSize) => productData?.pagination?.onShowSizeChange?.(pageSize)}
+        onShowSizeChange={pageSize => {
+          // console.log('==== pageSize', pageSize);
+
+          // setPageSize(pageSize)
+          productData?.pagination?.onShowSizeChange?.(pageSize);
+        }}
       />
     </div>
   );

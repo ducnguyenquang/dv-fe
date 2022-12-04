@@ -24,8 +24,8 @@ const ProductGallery = ({ images }: IProps): JSX.Element => {
               <Image
                 key={item.uid}
                 preview={false}
-                width={400}
-                height={400}
+                width={'100%'}
+                height={'100%'}
                 src={item?.thumbUrl}
                 className='image'
               />

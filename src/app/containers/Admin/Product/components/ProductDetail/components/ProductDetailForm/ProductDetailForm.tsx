@@ -10,11 +10,18 @@ import ImgCrop from 'antd-img-crop';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 import ReactQuill from 'react-quill';
+// import ReactQuill from 'react-quill-with-table';
 // import { Parser as HtmlToReactParser } from "html-to-react";
 import 'react-quill/dist/quill.snow.css';
 import { brandsHooks } from 'app/containers/Admin/Brand';
 import { Brand } from 'models/brand';
 import { TYPE_OPTIONS } from 'constants/type';
+// import Editor from 'app/components/Editor/Editor';
+// import Editor from 'app/components/Editor/EditorWithTable';
+import Editor from 'app/components/Editor/CkEditor';
+
+
+import './ProductDetailForm.less';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -68,7 +75,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
   const [description, setDescription] = useState('');
   const [specification, setSpecification] = useState('');
   const [search, setSearch] = useState({
-    type: initialValues.type,
+    type: initialValues?.type,
   });
 
   const productDetailParam = useSelector(productsSelectors.getProduct);
@@ -163,12 +170,12 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
   };
 
   return (
-    <>
+    <div className='productDetailForm'>
       <Helmet title={intl.formatMessage({ id: 'page.name.productDetail' })} />
       <Card
         title={intl.formatMessage({ id: 'page.name.productDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => window.history.back()}>
+          <Button type="ghost" htmlType="submit" onClick={() => window.location.href='/admin/products'}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -186,6 +193,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
               slug: encodeURIComponent(values.slug),
               images: fileList,
             });
+            window.location.href='/admin/products';
           }}
           initialValues={initialValues}
           scrollToFirstError
@@ -251,7 +259,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
 
           <Form.Item name="description" label={intl.formatMessage({ id: 'product.description' })}>
             {/* <Input.TextArea showCount maxLength={100} value={initialValues?.description} /> */}
-            <ReactQuill
+            {/* <ReactQuill
               // ref={editor}
               theme="snow"
               value={description}
@@ -261,12 +269,14 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
               // onChange={(value) => setText(value)}
 
               // modules={editorModules}
-            />
+            /> */}
+            <Editor value={description} onChange={setDescription} />
+            {/* <div id="table"></div> */}
             {/* {reactElement} */}
           </Form.Item>
           <Form.Item name="specification" label={intl.formatMessage({ id: 'product.specification' })}>
             {/* <Input.TextArea showCount maxLength={100} value={initialValues?.description} /> */}
-            <ReactQuill
+            {/* <ReactQuill
               // ref={editor}
               theme="snow"
               value={specification}
@@ -276,8 +286,9 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
               // onChange={(value) => setText(value)}
 
               // modules={editorModules}
-            />
+            /> */}
             {/* {reactElement} */}
+            <Editor value={specification} onChange={setSpecification} />
           </Form.Item>
           <Form.Item name="type" label={intl.formatMessage({ id: 'product.type' })}>
             <Select
@@ -334,7 +345,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           </Form.Item>
         </Form>
       </Card>
-    </>
+    </div>
   );
 };
 

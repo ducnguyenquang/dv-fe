@@ -1,18 +1,31 @@
 .cart {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
 
   .title {
-    font-size: 18px;
+    font-size: 24px;
+    margin-bottom: 20px;
   }
 
   .cartItems {
-    flex: 1 1 auto;
-    margin-right: 1%;
+    margin-bottom: 20px;
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+    }
   }
 
   .customerInfo {
     flex: 1 1 auto;
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .submitButton {
+      margin: 0 auto;
+      display: block;
+    }
   }
 }

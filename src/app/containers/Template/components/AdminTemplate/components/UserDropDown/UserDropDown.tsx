@@ -21,7 +21,12 @@ const UserDropDown = (): JSX.Element => {
 
   const logout = () => {
     localStorage.setItem('Token', '');
-    window.location.href = '/admin/login';
+    const url = window.location.href
+    if (url.includes('/admin/')) {
+      window.location.href = '/admin/login';
+    } else {
+      window.location.href = '/';
+    }
   }
   const menu = (
     <Menu

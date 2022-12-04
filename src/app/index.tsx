@@ -309,49 +309,49 @@ export function App() {
             <Route
               // exact
               path={'/cart'}
-              element={<Template content={<Cart />} />}
+              element={<Template leftMenu={<SupportMenu />} content={<Cart />} />}
             />
             <Route
               // exact
               path={'/contact'}
-              element={<Template content={<Contact />} />}
+              element={<Template leftMenu={<SupportMenu />} content={<Contact />} />}
             />
             <Route
               // exact
               path={'/aboutUs'}
-              element={<Template content={<AboutUs />} />}
+              element={<Template leftMenu={<SupportMenu />} content={<AboutUs />} />}
             />
             <Route
               // exact
               path={'/faq'}
-              element={<Template content={<Faq />} />}
+              element={<Template leftMenu={<SupportMenu />} content={<Faq />} />}
             />
             <Route
               // exact
               path={'/siteMap'}
-              element={<Template content={<SiteMap />} />}
+              element={<Template leftMenu={<SupportMenu />} content={<SiteMap />} />}
             />
             <Route
               // exact
               path={'/consulting'}
-              element={<Template content={<MaintenancePage />} />}
+              element={<Template leftMenu={<SupportMenu />} content={<MaintenancePage />} />}
             />
             <Route
               // exact
               path={'/catalogues'}
-              element={<Template content={<MaintenancePage />} />}
+              element={<Template leftMenu={<SupportMenu />} content={<MaintenancePage />} />}
             />
             <Route
               // exact
               path={'/pricing'}
-              element={<Template content={<MaintenancePage />} />}
+              element={<Template leftMenu={<SupportMenu />} content={<MaintenancePage />} />}
             />
             <Route
               // exact
               path={'/projects'}
-              element={<Template content={<MaintenancePage />} />}
+              element={<Template leftMenu={<SupportMenu />} content={<MaintenancePage />} />}
             />
-            <Route path="*" element={<Template content={<EmptyPage />} />} />
+            <Route path="*" element={<Template leftMenu={<SupportMenu />} content={<EmptyPage />} />} />
             <Route path="/admin/*" element={<AdminTemplate content={<EmptyPage />} />} />
           </Routes>
           {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}

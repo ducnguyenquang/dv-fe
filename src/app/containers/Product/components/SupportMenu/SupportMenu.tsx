@@ -27,8 +27,19 @@ const SupportMenu = (): JSX.Element => {
 
   return (
     <div className="supportMenu">
-      <Card title={intl.formatMessage({ id: 'page.name.support' })} bordered={false} style={{ width: 300 }}>
-        {supports && supports.map((item: any) => `${item.name} (${item.title}): ${item.phone}`)}
+      <Card title={intl.formatMessage({ id: 'page.name.support' })} bordered={false}>
+        {supports &&
+          supports.map((item: any) => {
+            return (
+              <div key={item} className='supportItem'>
+                <div>
+                  <span className='supportTitle'>{item.title ? `${item.title}: ` : ''} </span>
+                  <span className='supportName'>{item.name ? `(${item.name})` : ''}</span>
+                </div>
+                <div className='supportPhone'>{item.phone}</div>
+              </div>
+            );
+          })}
       </Card>
     </div>
   );

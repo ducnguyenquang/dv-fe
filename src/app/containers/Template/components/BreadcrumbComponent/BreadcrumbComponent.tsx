@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 const BreadcrumbComponent = (): JSX.Element => {
   const intl = useIntl();
 
-  const [pathName, setpathName] = useState(window.location.pathname);
+  const [pathName, setPathName] = useState(window.location.pathname);
   const [category, setCategory] = useState<{
     lable?: string;
     value?: string;

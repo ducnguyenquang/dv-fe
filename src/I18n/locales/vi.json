@@ -264,7 +264,8 @@
   "dashboard.product.title": "Các sản phẩm của chúng tôi",
   "dashboard.product.content": "Sản phẩm chính hãng, uy tín và được các nhà thầu tin dùng trong nhiều năm qua",
   
-  "cart.cart.title": "Thông tin giỏ hàng",
+  "cart.title": "Giỏ hàng của bạn",
+  "cart.cart.title": "Danh sách sản phẩm",
   "cart.customer.title": "Thông tin khách hàng",
   "cart.customer.payment": "Phương thức thanh toán",
   "cart.customer.name": "Họ và tên",

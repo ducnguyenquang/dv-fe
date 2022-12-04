@@ -1,30 +1,15 @@
-import { Space, Popconfirm, Button, Form, Input, InputNumber, Select, notification, Empty } from 'antd';
-// import { ColumnsType } from 'antd/lib/table';
-// import { ServiceTable } from 'common/components/ServiceTable';
-// import { PAGE, PAGE_SIZE } from 'constants/products';
+import { Button, Form, Input, Select, notification, Empty } from 'antd';
 import { Cart as CartModel } from 'models/cart';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-// import { Product } from '../DashBoard/components/ProductList';
-// import { cartActions, cartHooks } from "../Cart";
 import CartItem from './components/CartItem/CartItem';
-import type { UploadFile } from 'antd/es/upload/interface';
 import layout from 'antd/lib/layout';
 import './Cart.less';
-// import { storage } from 'utils';
 import { useDispatch } from 'react-redux';
 import { ordersHooks } from '../Admin/Order';
 import { getCities, getWards } from 'utils/location/location';
 import { statusOrder } from 'constants/order';
-// import ToastMessage from '../Template/components/AdminTemplate/components/ToastMessage/ToastMessage';
-
-// interface DataType {
-//   images: UploadFile[];
-//   name: string;
-//   quantity: string;
-//   total: string;
-//   _id: string;
-// }
+import { ShoppingCartOutlined } from '@ant-design/icons';
 
 const Cart = (): JSX.Element => {
   const intl = useIntl();
@@ -49,9 +34,6 @@ const Cart = (): JSX.Element => {
         { id: 'common.event.message.success' },
         { name: intl.formatMessage({ id: 'cart.notification.content.adding.success' }, { name: item.orderNumber }) }
       ),
-      // onClick: () => {
-      //   window.location.href = '/cart'
-      // }
     });
   }, [intl]);
 
@@ -78,23 +60,14 @@ const Cart = (): JSX.Element => {
   type NotificationType = 'success' | 'info' | 'warning' | 'error';
   
   
-
   const onDelete = (id: string) => {
     const indexItem = cart?.orderItems?.findIndex(item => item.product?._id === id);
-    // console.log('==== onDelete cart', cart);
-
-    // console.log('==== onDelete indexItem', indexItem);
-
     if (indexItem !== undefined && indexItem > -1) {
       const removedItem = cart?.orderItems?.splice(indexItem, 1);
-      // console.log('==== onDelete cart 1111', cart);
-
       const result = {
         ...cart,
       };
       setCart(result);
-      // console.log('==== onDelete result', result);
-
       return cart ? localStorage.setItem('shoppingCart', JSON.stringify(result)) : null;
     }
   };
@@ -107,6 +80,8 @@ const Cart = (): JSX.Element => {
 
   return (
     <div className="cart">
+      <div className="title">{intl.formatMessage({ id: 'cart.title' })}</div>
+
       <div className="cartItems">
         <div className="title">{intl.formatMessage({ id: 'cart.cart.title' })}</div>
         {cart?.orderItems && cart?.orderItems?.length > 0 ? cart?.orderItems?.map(item => (
@@ -118,7 +93,7 @@ const Cart = (): JSX.Element => {
 
         <Form
           labelCol={{ span: 4 }}
-          wrapperCol={{ span: 14 }}
+          wrapperCol={{ span: 19 }}
           layout="horizontal"
           className=""
           title={intl.formatMessage({ id: 'cart.customer.title' })}
@@ -249,11 +224,9 @@ const Cart = (): JSX.Element => {
           <Form.Item name={'note'} label={intl.formatMessage({ id: 'cart.customer.note' })}>
             <Input.TextArea />
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" icon={<ShoppingCartOutlined />} className='submitButton'>
               {intl.formatMessage({ id: 'cart.button.book' })}
             </Button>
-          </Form.Item>
         </Form>
       </div>
     </div>

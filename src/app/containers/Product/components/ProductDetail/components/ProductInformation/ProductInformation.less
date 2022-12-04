@@ -21,14 +21,91 @@
       padding-left: 2%;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
       .information {
         // width: 50%;
         float: left;
+        margin-bottom: 20px;
+
+        .summary {
+          padding: 20px 0;
+          font-size: 18px;
+        }
+        .ant-descriptions-header {
+          margin-bottom: 0;
+          .ant-descriptions-title {
+            font-size: 26px;
+          }
+        }
+        .ant-descriptions-item-label {
+          color: #a9a9a9;
+        }
+
+        .specification{
+          // display: flex;
+          flex-direction: row;
+          width: 100%;
+          .specificationItem{
+            font-size: 12px;
+            display: flex;
+            flex-direction: row;
+            flex: 1 1 auto;
+            .title {
+              color: #a9a9a9;
+              margin-right: 5px;
+            }
+
+            .data{
+
+            }
+          }
+        }
+      }
+      .inputForm {
+        border: 1px solid #ccc;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        padding: 20px 20px;
+        border-radius: 5px;
+        .price {
+          font-size: 18px;
+          font-weight: bold;
+          flex: 1;
+        }
+        .input{
+          flex: 1;
+          margin-right: 10px;
+          // width: 200px;
+        }
+        .button {
+          width: 150px;
+        }
       }
     }
     
   }
   .tabs {
     clear: both;
+    max-width: 1400px;
+    overflow-y: auto;
+
+    img {
+      max-width: 100%;
+    }
+    
+    table, th, td {
+      border: 1px solid #a9a9a9;
+      border-collapse: collapse;
+    }
+    
+    table {
+      width: 100%;
+    }
   }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
 }

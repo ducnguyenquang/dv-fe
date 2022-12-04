@@ -62,10 +62,10 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
   const onSelectedType = (value: string) => {
     const searchData = {
       type: value,
-    }
-    setSearch(searchData)
-  }
-    console.log('==== search', search)
+    };
+    setSearch(searchData);
+  };
+  console.log('==== search', search);
 
   useEffect(() => {
     // console.log('==== useEffect data', data)
@@ -82,7 +82,7 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
       <Card
         title={intl.formatMessage({ id: 'page.name.categoryDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => window.history.back()}>
+          <Button type="ghost" htmlType="submit" onClick={() => (window.location.href = '/admin/categories')}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -91,12 +91,13 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={values =>
+          onFinish={values => {
             onFinish({
               ...values,
               // images: fileList,
-            })
-          }
+            });
+            window.location.href = '/admin/categories';
+          }}
           initialValues={initialValues}
           scrollToFirstError
         >
@@ -147,7 +148,11 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
             ]}
             hasFeedback
           >
-            <Select allowClear placeholder={intl.formatMessage({ id: 'category.type.placeholder' })} onChange={value => onSelectedType(value)}>
+            <Select
+              allowClear
+              placeholder={intl.formatMessage({ id: 'category.type.placeholder' })}
+              onChange={value => onSelectedType(value)}
+            >
               {types &&
                 types?.map(item => (
                   <Select.Option key={item?.value} value={item?.value}>

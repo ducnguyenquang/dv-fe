@@ -21,11 +21,15 @@ const CartItem = ({ data, onDelete}: IProps): JSX.Element => {
       <Meta className='productInfo'
         avatar={<Avatar src={data?.product?.images?.[0]?.thumbUrl} />}
         title={data?.product?.name}
-        description={<Button type='ghost' onClick={() => onDelete?.(data?.product?._id as string)}>{intl.formatMessage({ id: 'common.button.delete' })}</Button>}
+        description={
+          <>
+            <InputNumber className='quantity' value={quantity} onChange={setQuantity}/>
+            <Button type='ghost' onClick={() => onDelete?.(data?.product?._id as string)}>{intl.formatMessage({ id: 'common.button.delete' })}</Button>
+          </>
+        }
       />
       <div className='inputBlock'>
-        <InputNumber className='quantity' value={quantity} onChange={setQuantity}/>
-        {/* <div className='pricing'>{data?.product?.pricing}</div> */}
+        Liên hệ
       </div>
     </Card>
   </>

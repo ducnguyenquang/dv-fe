@@ -37,7 +37,7 @@ const ProductUpdate = (): JSX.Element => {
       _id: productDetailData?._id,
       // images: fileList,
       // brand: values.brand.value,
-      // categories: values.categories.map((item: any) => item.value),
+      categories: values.categories.map((item: any) => typeof(item) === 'string' ? item : item.value),
     }).then((item: any) => {
       setProductDetail(item?.data);
       setFileList(item?.data?.images);

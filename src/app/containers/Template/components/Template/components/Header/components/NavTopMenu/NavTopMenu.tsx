@@ -8,60 +8,106 @@ interface IProps {
 }
 const NavTopMenu = ({ content }: IProps): JSX.Element => {
   const intl = useIntl();
+  // const [pageName, setPageName] = useState('category');
+
+  const navMenuClick = ({ name, url }: { name: string; url: string }) => {
+    // setPageName(name);
+    window.location.href = url;
+  };
+// console.log('==== pageName', pageName);
+
+  const getNavSelected = () => {
+    let result = 'category';
+    // return pageName;
+    switch (window.location.pathname) {
+      case '/product':
+      case '/product/':
+        result = 'product';
+        break;
+        case '/consulting':
+      case '/consulting/':
+        result = 'consulting';
+        break;
+        case '/catalogues':
+      case '/catalogues/':
+        result = 'catalogues';
+        break;
+        case '/pricing':
+      case '/pricing/':
+        result = 'pricing';
+        break;
+        case '/project':
+      case '/project/':
+        result = 'project';
+        break;
+        case '/sitemap':
+      case '/sitemap/':
+        result = 'sitemap';
+        break;
+        case '/cart':
+      case '/cart/':
+        result = 'cart';
+        break;
+      default:
+        result = 'category';
+        break;
+    }
+    return [result];
+  };
 
   const items1: MenuProps['items'] = [
     {
       key: 'product',
       label: intl.formatMessage({ id: 'page.name.product' }),
       onClick: () => {
-        window.location.href = '/product';
+        navMenuClick({ name: 'product', url: '/product' });
       },
     },
     {
-      key: 'consult',
+      key: 'consulting',
       label: intl.formatMessage({ id: 'menu.top.consult' }),
       onClick: () => {
-        window.location.href = '/consulting';
+        navMenuClick({ name: 'consulting', url: '/consulting' });
       },
     },
     {
       key: 'catalogues',
       label: intl.formatMessage({ id: 'menu.top.catalogues' }),
       onClick: () => {
-        window.location.href = '/catalogues';
+        navMenuClick({ name: 'catalogues', url: '/catalogues' });
       },
     },
     {
       key: 'pricing',
       label: intl.formatMessage({ id: 'menu.top.pricing' }),
       onClick: () => {
-        window.location.href = '/pricing';
+        navMenuClick({ name: 'pricing', url: '/pricing' });
       },
     },
     {
       key: 'project',
       label: intl.formatMessage({ id: 'menu.top.project' }),
       onClick: () => {
-        window.location.href = '/project';
+        navMenuClick({ name: 'project', url: '/project' });
       },
     },
     {
-      key: 'sitemap',
+      key: 'siteMap',
       label: intl.formatMessage({ id: 'menu.top.sitemap' }),
       onClick: () => {
-        window.location.href = '/siteMap';
+        navMenuClick({ name: 'siteMap', url: '/siteMap' });
       },
     },
     {
       key: 'cart',
       label: intl.formatMessage({ id: 'menu.top.cart' }),
       onClick: () => {
-        window.location.href = '/cart';
+        navMenuClick({ name: 'cart', url: '/cart' });
       },
     },
   ];
 
-  return <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={['product']} items={items1} />;
+  return <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={[...getNavSelected()]} items={items1} />;
 };
 
 export default NavTopMenu;
