@@ -1,7 +1,8 @@
 import ProductInformation from './components/ProductInformation/ProductInformation';
+import './ProductDetail.less';
 
 const ProductDetail = (): JSX.Element => {
-    return <div className=''>
+    return <div className='productDetailBlock'>
         <ProductInformation />
     </div>
 }

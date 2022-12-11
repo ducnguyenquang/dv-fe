@@ -258,41 +258,13 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           </Form.Item>
 
           <Form.Item name="description" label={intl.formatMessage({ id: 'product.description' })}>
-            {/* <Input.TextArea showCount maxLength={100} value={initialValues?.description} /> */}
-            {/* <ReactQuill
-              // ref={editor}
-              theme="snow"
-              value={description}
-              // value={text}
-
-              onChange={setDescription}
-              // onChange={(value) => setText(value)}
-
-              // modules={editorModules}
-            /> */}
             <Editor value={description} onChange={setDescription} />
-            {/* <div id="table"></div> */}
-            {/* {reactElement} */}
           </Form.Item>
           <Form.Item name="specification" label={intl.formatMessage({ id: 'product.specification' })}>
-            {/* <Input.TextArea showCount maxLength={100} value={initialValues?.description} /> */}
-            {/* <ReactQuill
-              // ref={editor}
-              theme="snow"
-              value={specification}
-              // value={text}
-
-              onChange={setDescription}
-              // onChange={(value) => setText(value)}
-
-              // modules={editorModules}
-            /> */}
-            {/* {reactElement} */}
             <Editor value={specification} onChange={setSpecification} />
           </Form.Item>
           <Form.Item name="type" label={intl.formatMessage({ id: 'product.type' })}>
             <Select
-              // key="TypeSelect"
               allowClear
               placeholder={intl.formatMessage({ id: 'product.type.placeholder' })}
               onChange={value => onSelectedType(value)}
@@ -324,7 +296,6 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
             <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
               <ImgCrop rotate>
                 <Upload
-                  // action={`${endPoint.backendUrl}${endPoint.uploadImages}`}
                   {...props}
                   listType="picture-card"
                   onChange={onChange}

@@ -8,6 +8,7 @@ import ProductGallery from '../ProductGallery/ProductGallery';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import './ProductInformation.less';
 import { Cart } from 'models/cart';
+import ProductRelated from '../../../ProductRelated/ProductRelated';
 const { TabPane } = Tabs;
 const { Option } = Select;
 
@@ -150,6 +151,7 @@ const ProductInformation = (): JSX.Element => {
           <div dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}></div>
         </TabPane>
       </Tabs>
+      <ProductRelated categories={productDetail.categories}/>
     </div>
   );
 };

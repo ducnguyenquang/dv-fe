@@ -13,7 +13,6 @@ const ProductItem = ({ data }: IProps): JSX.Element => {
   return <div className="productItem">
   <div className="image">
     <img
-      // width={300}
       alt="logo"
       src={data?.images?.[0]?.thumbUrl || '/images/no-image.png'}
       onError={error => {
@@ -26,9 +25,6 @@ const ProductItem = ({ data }: IProps): JSX.Element => {
     <div className="information">
       <div className="title">{data?.name}</div>
       <div className="description">{data?.summary}</div>
-      {/* <div className="rate">
-        <Rate disabled defaultValue={4} />
-      </div> */}
     </div>
     <div className="bottomSide">
       <div className="price">{intl.formatMessage({ id: 'common.price.contactPlease' })}</div>

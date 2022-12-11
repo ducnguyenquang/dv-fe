@@ -1,4 +1,6 @@
-import { Button, Card, Form, Input, Select } from 'antd';
+import { Button, Card, Form, Input, Select, Upload, UploadFile, UploadProps } from 'antd';
+import ImgCrop from 'antd-img-crop';
+import { RcFile } from 'antd/lib/upload';
 import { categoriesHooks } from 'app/containers/Admin/Category';
 import { TYPE_OPTIONS } from 'constants/type';
 import { Category } from 'models/category';
@@ -59,22 +61,63 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
     },
   });
 
+  const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
+
+  const normFile = (e: any) => {
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+
+  useEffect(() => {
+    if (categoriesData && !isLoadingCategories) {
+      setCategories(categoriesData?.data);
+    }
+  }, [isLoading, categoriesData, isLoadingCategories]);
+
+  const props: UploadProps = {
+    onRemove: file => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: file => {
+      setFileList([...fileList, file]);
+
+      return false;
+    },
+    listType: 'picture-card',
+    fileList,
+  };
+
+  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
+  const onPreview = async (file: UploadFile) => {
+    let src = file.url as string;
+    if (!src) {
+      src = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj as RcFile);
+        reader.onload = () => resolve(reader.result as string);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
+
   const onSelectedType = (value: string) => {
     const searchData = {
       type: value,
     };
     setSearch(searchData);
   };
-  console.log('==== search', search);
-
-  useEffect(() => {
-    // console.log('==== useEffect data', data)
-    // console.log('==== useEffect isLoading', isLoading)
-
-    if (categoriesData && !isLoadingCategories) {
-      setCategories(categoriesData?.data);
-    }
-  }, [isLoading, categoriesData, isLoadingCategories]);
 
   return (
     <>
@@ -94,7 +137,7 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
           onFinish={values => {
             onFinish({
               ...values,
-              // images: fileList,
+              images: fileList,
             });
             window.location.href = '/admin/categories';
           }}
@@ -177,15 +220,14 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
             hasFeedback
           >
             <Select allowClear placeholder={intl.formatMessage({ id: 'category.parentCategory.placeholder' })}>
-              {categories &&
-                categories?.map(item => (
+              {categories?.map((item: Category) => (
                   <Select.Option key={item?._id} value={item?._id}>
                     {item?.name}
                   </Select.Option>
                 ))}
             </Select>
           </Form.Item>
-
+          
           <Form.Item
             name="description"
             label={intl.formatMessage({ id: 'category.description' })}
@@ -202,7 +244,20 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
           >
             <Input.TextArea showCount maxLength={100} value={initialValues?.description} />
           </Form.Item>
-
+          <Form.Item label={intl.formatMessage({ id: 'common.image' })}>
+            <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
+              <ImgCrop rotate>
+                <Upload
+                  {...props}
+                  listType="picture-card"
+                  onChange={onChange}
+                  onPreview={onPreview}
+                >
+                  {fileList?.length < 1 && `+ ${intl.formatMessage({ id: 'product.button.addImages' })}`}
+                </Upload>
+              </ImgCrop>
+            </Form.Item>
+          </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" loading={isLoading}>
               {isUpdate

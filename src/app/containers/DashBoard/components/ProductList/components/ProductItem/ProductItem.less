@@ -6,21 +6,24 @@
   padding: 10px;
   min-width: 300px;
   flex: 1;
+  border: 1px solid transparent;
+
   &:hover {
     border: 1px solid #e5704b;
+    .image {
+      img {
+        transform: scale(1.1);
+      }
+    }
   }
 
   .image {
-    // flex: 1;
-    // width: 100%;
-    // width: 236px;
-    // min-width: 236px;
-    // margin-right: 20px;
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
     width: 100%;
     img {
+      transition: all .2s ease-in-out;
       width: 300px;
     }
   }

@@ -1,8 +1,11 @@
+import { UploadFile } from "antd";
+
 export interface Category {
   id?: string;
   name?: string;
   slug?: string;
   description?: string;
+  images?: UploadFile[];
   _id?: string;
 }
 

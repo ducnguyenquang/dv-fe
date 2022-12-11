@@ -1,9 +1,13 @@
 import { Image } from 'antd';
 import './Banner.less'
 
-const Banner = (): JSX.Element => {
+interface IProps {
+  image: string
+}
+
+const Banner = ({image} : IProps): JSX.Element => {
   return <div className='banner'>
-    <Image preview={false} src="/images/banner_slider_1-9340.png" />
+    <Image preview={false} src={image} />
   </div>
 }
 

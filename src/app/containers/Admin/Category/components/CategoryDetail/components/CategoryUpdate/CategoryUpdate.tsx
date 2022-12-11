@@ -1,6 +1,4 @@
-import {
-  Select,
-} from 'antd';
+import { Select, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { categoriesHooks } from 'app/containers/Admin/Category';
@@ -11,18 +9,25 @@ const CategoryUpdate = (): JSX.Element => {
   const { id } = useParams();
   const { mutateAsync: updateCategory, isLoading: isLoadingUpdateCategory } = categoriesHooks.useUpdateCategory();
   const [defaultValue, setDefaultValue] = useState<any>();
-  const { data: categoryDetailData, isLoading: isLoadingCategoryDetailData } = categoriesHooks.useCategory({ id });
+  const {
+    data: categoryDetailData,
+    isLoading: isLoadingCategoryDetailData,
+    isSuccess: isSuccessCategoryDetailData,
+  } = categoriesHooks.useCategory({ id });
 
-  const onFinish = useCallback(async (values: any) => {
-    await updateCategory({
-      ...values,
-      _id: categoryDetailData?._id,
-    }).then((item: any) => {
-      setDefaultValue({
-        ...categoryDetailData,
+  const onFinish = useCallback(
+    async (values: any) => {
+      await updateCategory({
+        ...values,
+        _id: categoryDetailData?._id,
+      }).then((item: any) => {
+        setDefaultValue({
+          ...categoryDetailData,
+        });
       });
-    });
-  }, [categoryDetailData, updateCategory])
+    },
+    [categoryDetailData, updateCategory]
+  );
 
   useEffect(() => {
     if (categoryDetailData && !isLoadingCategoryDetailData) {
@@ -32,7 +37,17 @@ const CategoryUpdate = (): JSX.Element => {
     }
   }, [categoryDetailData, isLoadingCategoryDetailData]);
 
-  return defaultValue && <CategoryDetailForm key={'productUpdate'} isUpdate={true} initialValues={defaultValue} onFinish={onFinish} isLoading={isLoadingCategoryDetailData || isLoadingUpdateCategory} />
+  return (
+    <Spin spinning={!isSuccessCategoryDetailData}>
+      {defaultValue && <CategoryDetailForm
+        key={'productUpdate'}
+        isUpdate={true}
+        initialValues={defaultValue}
+        onFinish={onFinish}
+        isLoading={isLoadingCategoryDetailData || isLoadingUpdateCategory}
+      />}
+    </Spin>
+  );
 };
 
 export default CategoryUpdate;

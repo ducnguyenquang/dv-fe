@@ -1,14 +1,11 @@
-import {
-  Button,
-  Form,
-  Input,
-  Card,
-} from 'antd';
-import { useState } from 'react';
+import { Button, Form, Input, Card, Upload, UploadFile, UploadProps } from 'antd';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 // import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import ImgCrop from 'antd-img-crop';
+import { RcFile } from 'antd/lib/upload';
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -49,10 +46,55 @@ interface IProps {
 }
 
 const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
-  const [text, setText] = useState("");
+  const intl = useIntl();
+  const [text, setText] = useState('');
   const [form] = Form.useForm();
   const [body, setBody] = useState('');
-  const intl = useIntl();
+
+  const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
+
+  const normFile = (e: any) => {
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+
+  const props: UploadProps = {
+    onRemove: file => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: file => {
+      setFileList([...fileList, file]);
+
+      return false;
+    },
+    listType: 'picture-card',
+    fileList,
+  };
+
+  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
+  const onPreview = async (file: UploadFile) => {
+    let src = file.url as string;
+    if (!src) {
+      src = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj as RcFile);
+        reader.onload = () => resolve(reader.result as string);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
 
   return (
     <>
@@ -60,7 +102,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
       <Card
         title={intl.formatMessage({ id: 'page.name.popupMenuDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => (window.history.back())}>
+          <Button type="ghost" htmlType="submit" onClick={() => window.history.back()}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -69,9 +111,13 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={(values) => onFinish({
-            ...values,
-          })}
+          onFinish={values => {
+            onFinish({
+              ...values,
+              images: fileList,
+            });
+            window.location.href = '/admin/popupMenu';
+          }}
           initialValues={initialValues}
           scrollToFirstError
         >
@@ -81,48 +127,33 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'setting.popupMenu.name' })}),
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'setting.popupMenu.name' }) }
+                ),
               },
             ]}
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            name="icon"
-            label={intl.formatMessage({ id: 'setting.popupMenu.icon' })}
-            rules={[
-              {
-                required: true,
-                message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'setting.popupMenu.icon' })}),
-              },
-            ]}
-            hasFeedback
-          >
-            <Input />
+          <Form.Item label={intl.formatMessage({ id: 'common.image' })}>
+            <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
+              <ImgCrop rotate>
+                <Upload {...props} listType="picture-card" onChange={onChange} onPreview={onPreview}>
+                  {fileList?.length < 1 && `+ ${intl.formatMessage({ id: 'product.button.addImages' })}`}
+                </Upload>
+              </ImgCrop>
+            </Form.Item>
           </Form.Item>
-          <Form.Item
-            name="url"
-            label={intl.formatMessage({ id: 'setting.popupMenu.url' })}
-          >
+          <Form.Item name="url" label={intl.formatMessage({ id: 'setting.popupMenu.url' })}>
             <Input />
-            {/* <Input.TextArea showCount maxLength={100} value={initialValues?.description} /> */}
-            {/* <ReactQuill 
-              // ref={editor}
-              theme="snow" 
-              value={body}
-              // value={text} 
-
-              onChange={setBody} 
-              // onChange={(value) => setText(value)} 
-
-              // modules={editorModules}
-            /> */}
-            {/* {reactElement} */}
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" loading={isLoading}>
-              {isUpdate ? intl.formatMessage({ id: 'common.button.update' }) : intl.formatMessage({ id: 'common.button.add' })}
+              {isUpdate
+                ? intl.formatMessage({ id: 'common.button.update' })
+                : intl.formatMessage({ id: 'common.button.add' })}
             </Button>
           </Form.Item>
         </Form>

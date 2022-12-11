@@ -9,7 +9,7 @@ const Distributor = (): JSX.Element => {
   return <div className='distributor'>
     <div className='title'>{intl.formatMessage({ id: 'dashboard.information.distributor.title' })}</div>
     <div className='content'>
-      <a href='#'>
+      <a href='/electrical-cable'>
         <div className='item'>
           <div className='icon'><img
             src={
@@ -21,7 +21,7 @@ const Distributor = (): JSX.Element => {
           <div className='text'>{intl.formatMessage({ id: 'dashboard.information.distributor.item1.title' })}</div>
         </div>
       </a>
-      <a href='#'>
+      <a href='/led-light'>
         <div className='item'>
           <div className='icon'><img
             src={

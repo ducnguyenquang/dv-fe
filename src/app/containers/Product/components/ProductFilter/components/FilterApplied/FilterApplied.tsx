@@ -20,14 +20,16 @@ const FilterApplied = (): JSX.Element => {
     const allFilters = [];
     if (productFilter) {
       for (const [key, value] of Object.entries(productFilter)) {
-        allFilters.push(
-          <div className="filter">
-            <div className="title">{intl.formatMessage({ id: `filter.${key}` })}</div>
-            <div className="items">
-              <div>{typeof value === 'object' ? value.map(item => item.name || item.label).join(', ') : value}</div>
+        if (value) {
+          allFilters.push(
+            <div className="filter">
+              <div className="title">{intl.formatMessage({ id: `filter.${key}` })}</div>
+              <div className="items">
+                <div>{typeof value === 'object' ? value.map(item => item.name || item.label).join(', ') : value}</div>
+              </div>
             </div>
-          </div>
-        );
+          );
+        }
       }
     }
     return allFilters;

@@ -1,7 +1,7 @@
 import { Checkbox } from 'antd';
 import { productsHooks } from 'app/containers/Product';
 import { Brand } from 'models/brand';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import type { CheckboxValueType, CheckboxOptionType } from 'antd/lib/checkbox/Group';
 
@@ -15,14 +15,11 @@ interface IProp {
 
 const CategoryFilter = ({ onCategorySelected, filters }: IProp): JSX.Element => {
   const intl = useIntl();
-  // const categoryData = filters?.categories?.map(item => item._id) as string[]
-  const [categories, setCategories] = useState<Brand[]>();
-  const [checkedList, setCheckedList] = useState<CheckboxValueType[] | undefined>(filters?.categories?.map(item => JSON.stringify(item)));
+  const [checkedList, setCheckedList] = useState<CheckboxValueType[] | undefined>(
+    filters?.categories?.map(item => JSON.stringify(item))
+  );
   const [search, setSearch] = useState<any>();
-  console.log('==== checkedList', checkedList)
-
-  console.log('==== CategoryFilter search', search)
-  const { data, isLoading } = productsHooks.useCategories({
+  const { data: categories, isSuccess } = productsHooks.useCategories({
     search,
     pagination: {
       limit: 1000,
@@ -30,51 +27,39 @@ const CategoryFilter = ({ onCategorySelected, filters }: IProp): JSX.Element => 
     },
   });
 
-  const plainOptions = categories
-    ? categories.map(item => {
-        // return { label: item.name, value: item.slug, key: item._id } as CheckboxOptionType;
-        return { label: item.name, value: JSON.stringify(item), key: item._id } as CheckboxOptionType;
-      })
-    : undefined;
-
-  useEffect(() => {
-    if (data && !isLoading) {
-      setCategories(data?.data);
-    }
-  }, [data, isLoading]);
-
-  useEffect(() => {
-    // if (filters) {
-      setCheckedList(filters?.categories?.map(item => JSON.stringify(item)));
-      if (filters?.types) {
-        
-        const type = filters?.types?.map((item: any) => item._id).join('|');
-        setSearch({
-          type,
+  const plainOptions = useMemo(() => {
+    return categories
+      ? categories?.data?.map((item: Brand) => {
+          // return { label: item.name, value: item.slug, key: item._id } as CheckboxOptionType;
+          return { label: item.name, value: JSON.stringify(item), key: item._id } as CheckboxOptionType;
         })
-      }
-    // }
-  }, [filters]);
+      : undefined;
+  }, [categories]);
 
-  // console.log('==== BrandFilter checkedList', checkedList)
+  // useEffect(() => {
+  //   if (data && !isLoading) {
+  //     setCategories(data?.data);
+  //   }
+  // }, [data, isLoading]);
 
-  const onChange = (checkedValues: any) => {
-    console.log('==== checked = ', checkedValues);
-    // const checkedData = checkedValues.map((item: any) => (JSON.parse(item))._id) as string[]
-    // const checkedData = JSON.parse(checkedValues)
-    // console.log('==== checkedData', checkedData);
-    // const checkedData = checkedValues.map((item: any) => item._id) as string[]
+  useEffect(() => {
+    setCheckedList(filters?.categories?.map(item => JSON.stringify(item)));
+    if (filters?.types) {
+      const type = filters?.types?.map((item: any) => item._id).join('|');
+      setSearch({
+        type,
+      });
+    }
+  }, [filters?.categories, filters?.types]);
 
+  const onChange = useCallback((checkedValues: any) => {
     setCheckedList(checkedValues);
-    // if(checkedValues && checkedValues.length > 0) {
-      onCategorySelected(checkedValues)
-    // }
-  };
+    onCategorySelected(checkedValues);
+  }, [onCategorySelected]);
 
   return (
     <div className="categoryFilter">
-      {/* <h1>{intl.formatMessage({ id: 'template.leftMenu.categoryFilter.title' })}</h1> */}
-      {categories && <Checkbox.Group options={plainOptions} onChange={onChange} value={checkedList} />}
+      {isSuccess && <Checkbox.Group options={plainOptions} onChange={onChange} value={checkedList} />}
     </div>
   );
 };

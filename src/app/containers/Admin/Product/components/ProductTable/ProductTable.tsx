@@ -1,4 +1,4 @@
-import { Button, Space, Popconfirm, Card, Input, InputRef, Image } from 'antd';
+import { Button, Space, Popconfirm, Card, Input, InputRef, Image, Tabs } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import { productsHooks, productsActions, productsApi } from 'app/containers/Admin/Product';
 import { ServiceTable } from 'common/components/ServiceTable';
@@ -31,17 +31,19 @@ const ProductTable = (): JSX.Element => {
   const dispatch = useDispatch();
   const [dataSource, setDataSource] = useState<DataType[]>([]);
   const intl = useIntl();
+  const [tabIndex, setTabIndex] = useState('electrical-cable');
 
   const [page, setPage] = React.useState(PAGE);
   const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState({
+    type: tabIndex === 'electrical-cable' ? 'cap-dien' : 'den-led',
+  });
   const [sort, setSort] = useState(undefined);
   const [isChanged, setIsChanged] = useState(false);
 
   const searchInput = useRef<InputRef>(null);
-
 
   const { data, isLoading } = productsHooks.useProducts({
     search,
@@ -55,9 +57,6 @@ const ProductTable = (): JSX.Element => {
   const { mutateAsync: deleteProduct, isLoading: isLoadingDeleteProduct } = productsHooks.useDeleteProduct();
 
   useEffect(() => {
-    // console.log('==== useEffect data', data)
-    // console.log('==== useEffect isLoading', isLoading)
-
     if (data && !isLoading) {
       setDataSource(data?.data);
     }
@@ -75,41 +74,45 @@ const ProductTable = (): JSX.Element => {
   };
 
   const handleChange = (pagination: any, filters: any, sorter: any) => {
-    setIsChanged(true)
-    if (sorter.hasOwnProperty("column")) {
+    setIsChanged(true);
+    if (sorter.hasOwnProperty('column')) {
       const params: any = {};
-      params[`${sorter.field}`] = sorter.order === "descend" ? 'desc' : 'asc';
+      params[`${sorter.field}`] = sorter.order === 'descend' ? 'desc' : 'asc';
       setSort(params);
     }
   };
-  
+
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
-    dataIndex: DataIndex,
+    dataIndex: DataIndex
   ) => {
     confirm();
     setSearchText(selectedKeys?.[0]);
     setSearchedColumn(dataIndex);
-    console.log('==== handleSearch')
-    console.log('==== handleSearch selectedKeys', selectedKeys)
-    console.log('==== handleSearch search', search)
-    console.log('==== handleSearch dataIndex', dataIndex)
-
+    console.log('==== handleSearch');
+    console.log('==== handleSearch selectedKeys', selectedKeys);
+    console.log('==== handleSearch search', search);
+    console.log('==== handleSearch dataIndex', dataIndex);
 
     const searchData: any = search;
     // if (searchData?.[dataIndex]) {
-      searchData[`${dataIndex}`] = selectedKeys?.[0];
+    searchData[`${dataIndex}`] = selectedKeys?.[0];
     // }
-    
-    setSearch(searchData && Object.keys(searchData).length > 0 ? searchData : '');
+    console.log('==== handleSearch searchData', searchData);
+    // setTabIndex(key);
+
+    setSearch(searchData);
   };
+
+  console.log('==== data', data);
+
 
   const handleReset = (
     selectedKeys: string[],
     dataIndex: DataIndex,
-    clearFilters: () => void, 
-    confirm: (param?: FilterConfirmProps) => void,
+    clearFilters: () => void,
+    confirm: (param?: FilterConfirmProps) => void
   ) => {
     clearFilters();
     const searchData: any = search;
@@ -147,7 +150,7 @@ const ProductTable = (): JSX.Element => {
               // const searchFunction = () => {
               //   handleSearch(selectedKeys as string[], confirm, dataIndex)
               // }
-              clearFilters && handleReset(selectedKeys as string[], dataIndex, clearFilters, confirm); 
+              clearFilters && handleReset(selectedKeys as string[], dataIndex, clearFilters, confirm);
             }}
             size="small"
             style={{ width: 90 }}
@@ -157,9 +160,7 @@ const ProductTable = (): JSX.Element => {
         </Space>
       </div>
     ),
-    filterIcon: (filtered: boolean) => (
-      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-    ),
+    filterIcon: (filtered: boolean) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
     onFilter: (value, record) =>
       record[dataIndex]
         .toString()
@@ -180,7 +181,7 @@ const ProductTable = (): JSX.Element => {
         />
       ) : (
         text
-      )
+      );
     },
   });
 
@@ -207,9 +208,7 @@ const ProductTable = (): JSX.Element => {
       sorter: (a, b) => a.slug.length - b.slug.length,
       showSorterTooltip: false,
       sortDirections: ['descend', 'ascend'],
-      render: (_, record) => (
-        <>{decodeURIComponent(record.slug)}</>
-      ),
+      render: (_, record) => <>{decodeURIComponent(record.slug)}</>,
     },
     {
       title: intl.formatMessage({ id: 'product.brand' }),
@@ -219,9 +218,7 @@ const ProductTable = (): JSX.Element => {
       sorter: (a, b) => (a?.brand?.name as string).length - (b?.brand?.name as string).length,
       sortDirections: ['descend', 'ascend'],
       showSorterTooltip: false,
-      render: (_, record) => (
-        record.brand?.name
-      ),
+      render: (_, record) => record.brand?.name,
     },
     {
       title: intl.formatMessage({ id: 'product.action' }),
@@ -230,7 +227,7 @@ const ProductTable = (): JSX.Element => {
         <Space size="middle">
           {/* <a>Invite {record.name}</a> */}
           <Popconfirm
-            title={intl.formatMessage({ id: 'common.confirmModal.title' }, {name: record?.name})}
+            title={intl.formatMessage({ id: 'common.confirmModal.title' }, { name: record?.name })}
             onVisibleChange={() => console.log('visible change')}
             onConfirm={() => onDeleteProduct(record._id)}
             // onCancel={cancel}
@@ -244,13 +241,19 @@ const ProductTable = (): JSX.Element => {
     },
   ];
 
-  console.log('==== render dataSource', dataSource)
+  console.log('==== render dataSource', dataSource);
+
+  const onTabChange = (key: string) => {
+    setTabIndex(key);
+    setSearch({
+      ...search,
+      type: key === 'electrical-cable' ? 'cap-dien' : 'den-led',
+    })
+  };
 
   return (
     <>
-      <Helmet
-        title={intl.formatMessage({ id: 'page.name.product' })}
-      />
+      <Helmet title={intl.formatMessage({ id: 'page.name.product' })} />
       <Card
         title={intl.formatMessage({ id: 'page.name.product' })}
         extra={
@@ -259,23 +262,46 @@ const ProductTable = (): JSX.Element => {
           </Button>
         }
       >
-        <ServiceTable
-          columns={columns}
-          dataSource={dataSource || undefined}
-          total={data?.pagination?.totalCount}
-          isLoading={isLoading}
-          page={page}
-          pageSize={pageSize}
-          onChangePagination={(page, pageSize) => {
-            setPage(page);
-            setPageSize(pageSize);
-          }}
-          onShowSizeChange={size => {
-            setPage(0);
-            setPageSize(size);
-          }}
-          onChange={handleChange}
-        />
+        <Tabs className="tabs" defaultActiveKey={tabIndex} onChange={onTabChange}>
+          <Tabs.TabPane tab={intl.formatMessage({ id: 'product.type.electrical-cable' })} key="electrical-cable">
+            <ServiceTable
+              columns={columns}
+              dataSource={dataSource || undefined}
+              total={data?.pagination?.totalCount}
+              isLoading={isLoading}
+              page={page}
+              pageSize={pageSize}
+              onChangePagination={(page, pageSize) => {
+                setPage(page);
+                setPageSize(pageSize);
+              }}
+              onShowSizeChange={size => {
+                setPage(0);
+                setPageSize(size);
+              }}
+              onChange={handleChange}
+            />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={intl.formatMessage({ id: 'product.type.led-light' })} key="led-light">
+            <ServiceTable
+              columns={columns}
+              dataSource={dataSource || undefined}
+              total={data?.pagination?.totalCount}
+              isLoading={isLoading}
+              page={page}
+              pageSize={pageSize}
+              onChangePagination={(page, pageSize) => {
+                setPage(page);
+                setPageSize(pageSize);
+              }}
+              onShowSizeChange={size => {
+                setPage(0);
+                setPageSize(size);
+              }}
+              onChange={handleChange}
+            />
+          </Tabs.TabPane>
+        </Tabs>
       </Card>
     </>
   );

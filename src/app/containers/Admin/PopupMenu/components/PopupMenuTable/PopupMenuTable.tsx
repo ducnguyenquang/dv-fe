@@ -28,7 +28,7 @@ const PopupMenuTable = (): JSX.Element => {
   const { data, isLoading } = popupMenusHooks.usePopupMenus({
     pagination: {
       limit: pageSize,
-      offset: page * pageSize,
+      offset: (page - 1) * pageSize,
     },
   });
 

@@ -86,6 +86,8 @@
   "product.images": "Hình sản phẩm",
   "product.type": "Phân loại",
   "product.type.placeholder": "Chọn Phân loại",
+  "product.type.electrical-cable": "Cáp điện",
+  "product.type.led-light": "Đèn led",
   "product.categories": "Danh mục",
   "product.categories.placeholder": "Chọn Danh mục",
   "product.button.addImages": "Thêm hình",
@@ -95,7 +97,7 @@
   "product.message.add.success": "Thêm sản phẩm thành công",
   "product.message.update.success": "Cập nhật sản phẩm thành công",
   "product.message.delete.success": "Xoá sản phẩm thành công",
-
+  "product.related.title": "Các sản phẩm liên quan",
 
   "user.firstName": "Tên",
   "user.lastName": "Họ",
@@ -265,7 +267,7 @@
   "dashboard.product.content": "Sản phẩm chính hãng, uy tín và được các nhà thầu tin dùng trong nhiều năm qua",
   
   "cart.title": "Giỏ hàng của bạn",
-  "cart.cart.title": "Danh sách sản phẩm",
+  "cart.cart.title": "Thông tin giỏ hàng",
   "cart.customer.title": "Thông tin khách hàng",
   "cart.customer.payment": "Phương thức thanh toán",
   "cart.customer.name": "Họ và tên",
@@ -356,6 +358,7 @@
   "common.emptyPage.content": "Xin lỗi, Trang bạn truy cập không tồn tại",
   "common.MaintenancePage.content": "Tính năng đang được nâng cấp",
   "common.button.goBack": "Về trang chủ",
+  "common.image": "Hình",
 
   "end": "---"
 }

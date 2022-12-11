@@ -52,12 +52,17 @@ const ProductList = (): JSX.Element => {
       let searchData: any = {};
       for (const [key, value] of Object.entries(productFilter)) {
         if (value) {
+      console.log('==== searchData', searchData);
+
           switch (key) {
             case 'categories':
               searchData['categories'] = (value as Category[]).map((item: any) => item._id);
               break;
             case 'brands':
               searchData['brand'] = (value as Brand[]).map((item: any) => item._id);
+              break;
+            case 'types':
+              searchData['type'] = (value as any[]).map((item: any) => item._id);
               break;
             default:
               break;

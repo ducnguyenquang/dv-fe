@@ -56,7 +56,9 @@ import { AdminSupportTable, AdminSupportAdd, AdminSupportUpdate } from 'app/cont
 import { ProductList, ProductDetail, ProductFilter, SupportMenu } from 'app/containers/Product';
 
 import { Cart } from 'app/containers/Cart';
-import { DashBoard } from 'app/containers/DashBoard';
+import { HomePage } from 'app/containers/DashBoard/components/DashBoard/HomePage';
+import { ElectricalCable } from 'app/containers/DashBoard/components/DashBoard/ElectricalCable';
+import { LedLight } from 'app/containers/DashBoard/components/DashBoard/LedLight';
 import { Contact } from 'app/containers/Contact';
 import { AboutUs } from 'app/containers/AboutUs';
 import { Faq } from 'app/containers/Faq';
@@ -110,6 +112,7 @@ export function App() {
           //  htmlAttributes={{ lang: i18n.language }}
         >
           <meta name="description" content="Đại Việt" />
+          <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         </Helmet>
 
         <ScrollToTop />
@@ -126,7 +129,17 @@ export function App() {
             <Route
               // exact
               path={'/'}
-              element={<DashBoard />}
+              element={<HomePage />}
+            />
+            <Route
+              // exact
+              path={'/electrical-cable'}
+              element={<ElectricalCable />}
+            />
+            <Route
+              // exact
+              path={'/led-light'}
+              element={<LedLight />}
             />
             <Route
               // exact
