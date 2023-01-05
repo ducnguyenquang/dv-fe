@@ -116,7 +116,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
               ...values,
               images: fileList,
             });
-            window.location.href = '/admin/popupMenu';
+            window.location.href = '/admin/setting/popupMenu';
           }}
           initialValues={initialValues}
           scrollToFirstError

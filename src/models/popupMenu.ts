@@ -1,10 +1,13 @@
 // import type { UploadFile } from 'antd/es/upload/interface';
 
+import type { UploadFile } from 'antd/es/upload/interface';
+
 export interface PopupMenu {
   id?: string;
   name?: string;
   icon?: string;
   url?: string;
+  images?: UploadFile[];
   _id?: string;
 }
 

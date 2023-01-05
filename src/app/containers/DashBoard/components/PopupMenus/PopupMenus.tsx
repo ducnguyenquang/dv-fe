@@ -1,4 +1,4 @@
-import { Carousel, Modal } from 'antd';
+import { Carousel, Modal, Image } from 'antd';
 import { productsHooks } from 'app/containers/Product';
 import { templatesHooks } from 'app/containers/Template';
 import { PopupMenu } from 'models/popupMenu';
@@ -12,10 +12,9 @@ const PopupMenus = (): JSX.Element => {
   const [open, setOpen] = useState(true);
   const [popupMenus, setPopupMenus] = useState<PopupMenu[]>([]);
 
-
   const hideModal = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
   const { data: dataPopupMenus, isLoading: isLoadingPopupMenus } = templatesHooks.usePopupMenus({
     pagination: {
       limit: 5,
@@ -32,14 +31,22 @@ const PopupMenus = (): JSX.Element => {
 
   return (
     <Modal
-        // title="Modal"
-        visible={open}
-        forceRender={open}
-        onCancel={hideModal}
-        footer={null}
-      >
-        {popupMenus.map(item => <PopupMenuItem  data={item}/>)}
-      </Modal>
+      // title="Modal"
+      className='popup-menu'
+      visible={open}
+      forceRender={open}
+      onCancel={hideModal}
+      footer={null}
+    >
+      <div className='leftBlock'>
+        <Image preview={false} src={'/images/woman_welcome_400.png'} className="image" />
+      </div>
+      <div className='rightBlock'>
+        {popupMenus.map(item => (
+          <PopupMenuItem data={item} />
+        ))}
+      </div>
+    </Modal>
   );
 };
 

@@ -10,6 +10,7 @@ import { Information } from '../../Information';
 import { ProductList } from '../../ProductList';
 import { Projects } from '../../Projects';
 import { Vision } from '../../Vision';
+import { PopupMenus } from '../../PopupMenus';
 
 const HomePage = (): JSX.Element => {
   return (

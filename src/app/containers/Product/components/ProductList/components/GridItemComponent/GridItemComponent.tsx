@@ -13,19 +13,6 @@ interface IProps {
 const GridItemComponent = ({ data }: IProps): JSX.Element => {
   const intl = useIntl();
 
-  // const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-  //   <Space>
-  //     {React.createElement(icon)}
-  //     {text}
-  //   </Space>
-  // );
-
-  // console.log('==== ProductListItem data', data);
-
-  // const goToProductDetail = () => {
-  //   window.location.href = `/product/${data?.slug}`;
-  // };
-
   return (
     <div className="gridItem">
       <div className="image">

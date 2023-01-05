@@ -1,11 +1,13 @@
 import { Image } from 'antd';
 import { useIntl } from 'react-intl';
+// import Certs from '../Certs/Certs';
 import './Links.less'
 
 const Links = (): JSX.Element => {
   const intl = useIntl();
 
   return <div className="links">
+    {/* <Certs /> */}
     <div className='linkColumn'>
       <a href='/product'>{intl.formatMessage({ id: 'template.footer.product' })}</a>
       <a href='/project'>{intl.formatMessage({ id: 'template.footer.project' })}</a>

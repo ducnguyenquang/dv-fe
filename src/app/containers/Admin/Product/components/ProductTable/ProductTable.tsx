@@ -90,23 +90,11 @@ const ProductTable = (): JSX.Element => {
     confirm();
     setSearchText(selectedKeys?.[0]);
     setSearchedColumn(dataIndex);
-    console.log('==== handleSearch');
-    console.log('==== handleSearch selectedKeys', selectedKeys);
-    console.log('==== handleSearch search', search);
-    console.log('==== handleSearch dataIndex', dataIndex);
 
     const searchData: any = search;
-    // if (searchData?.[dataIndex]) {
     searchData[`${dataIndex}`] = selectedKeys?.[0];
-    // }
-    console.log('==== handleSearch searchData', searchData);
-    // setTabIndex(key);
-
     setSearch(searchData);
   };
-
-  console.log('==== data', data);
-
 
   const handleReset = (
     selectedKeys: string[],

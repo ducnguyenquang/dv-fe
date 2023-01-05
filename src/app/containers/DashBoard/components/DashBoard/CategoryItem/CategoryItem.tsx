@@ -8,7 +8,7 @@ interface IProps {
 const CategoryItem = ({ data }: IProps): JSX.Element => {
   const onItemClick = (name: string) => {
     const pathName = window.location.pathname
-    window.location.href = `${pathName}/${name}`
+    window.location.href = `${pathName}/${name}/product`
   }
 
   return (

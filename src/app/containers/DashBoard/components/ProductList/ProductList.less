@@ -1,31 +1,38 @@
 .product {
   width: 100%;
-  // display: flex;
-  // flex: 1;
-  // flex-direction: row;
-  // width: 100%;
-  // justify-content: center;
   padding: 3% 0;
   .header {
     font-size: 24px;
     text-align: center;
     margin-bottom: 20px;
-    // margin-bottom: 5%;
   }
 
   .productBlock {
-    display: flex;
-    flex-direction: row;
     width: 100%;
     overflow-y: auto;
-  }
 
-  // .ant-carousel {
-  //   width: 100%;
-  //   // flex: 1;
-  //   // flex: 1 1 0;
-  //   .slick-slide {
-  //     width: 300px;
-  //   }
-  // }
+    .animationProductBlock {
+      display: flex;
+      flex-direction: row;
+
+      // animation-name: rightToLeft;
+      // animation-duration: 20s;
+      // animation-timing-function: linear;
+      // animation-iteration-count: infinite;
+      // animation-delay: 5000ms;
+
+      // @keyframes rightToLeft {
+      //   0% {
+      //     transform: translateX(0);
+      //   }
+      //   100% {
+      //     transform: translateX(-120%);
+      //   }
+      // }
+
+      // &:hover {
+      //   animation-play-state: paused;
+      // }
+    }
+  }
 }

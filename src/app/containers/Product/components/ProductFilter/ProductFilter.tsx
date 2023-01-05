@@ -101,12 +101,12 @@ const ProductFilter = ({extendChildren}: IProps): JSX.Element => {
           <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.brandFilter.title' })} key="brand">
             <BrandFilter onBrandSelected={onBrandSelected} defaultValue={filters?.brands} />
           </Collapse.Panel>
-          <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.TypeFilter.title' })} key="type">
+          {/* <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.TypeFilter.title' })} key="type">
             <TypeFilter onTypeSelected={onTypeSelected} defaultValue={filters?.types} />
           </Collapse.Panel>
           <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.categoryFilter.title' })} key="category">
             <CategoryFilter onCategorySelected={onCategoySelected} filters={filters}/>
-          </Collapse.Panel>
+          </Collapse.Panel> */}
           {isShowLedAttribute && (
             <Collapse.Panel
               header={intl.formatMessage({ id: 'template.leftMenu.ledAttributeFilter.title' })}

@@ -10,7 +10,7 @@ const Focusing = (): JSX.Element => {
     <div className="focusingBlog">
       <div className="focusingItem">
         <div className='itemImage'>
-          <Image width={600} height={400} preview={false} src="/images/cables.jpeg" />
+          <Image preview={false} src="/images/cables.jpeg" />
         </div>
         <div className="itemBlog">
           <div className="item">
@@ -55,7 +55,7 @@ const Focusing = (): JSX.Element => {
           </div>
         </div>
         <div className='itemImage'>
-          <Image width={600} height={400} preview={false} src="/images/led-garden-lights.jpeg" />
+          <Image preview={false} src="/images/led-garden-lights.jpeg" />
         </div>
       </div>
     </div>

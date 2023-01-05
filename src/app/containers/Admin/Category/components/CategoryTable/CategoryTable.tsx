@@ -1,4 +1,4 @@
-import { Button, Space, Table, Tag, Popconfirm, Card, Input, InputRef } from 'antd';
+import { Button, Space, Table, Tag, Popconfirm, Card, Input, InputRef, Tabs } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import { categoriesHooks, categoriesActions, categoriesApi } from 'app/containers/Admin/Category';
 import { ServiceTable } from 'common/components/ServiceTable';
@@ -30,12 +30,15 @@ const CategoryTable = (): JSX.Element => {
 
   const dispatch = useDispatch();
   const [categories, setCategories] = useState<any>([]);
-
+  const [tabIndex, setTabIndex] = useState('electrical-cable');
+  const [search, setSearch] = useState({
+    type: tabIndex === 'electrical-cable' ? 'cap-dien' : 'den-led',
+  });
   const [page, setPage] = React.useState(PAGE);
   const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const [search, setSearch] = useState();
+  // const [search, setSearch] = useState();
   const [sort, setSort] = useState(undefined);
   const [isChanged, setIsChanged] = useState(false);
 
@@ -46,7 +49,7 @@ const CategoryTable = (): JSX.Element => {
     sort,
     pagination: {
       limit: pageSize,
-      offset: page - 1,
+      offset: (page - 1) * pageSize,
     },
   });
 
@@ -73,34 +76,42 @@ const CategoryTable = (): JSX.Element => {
   };
 
   const handleChange = (pagination: any, filters: any, sorter: any) => {
-    setIsChanged(true)
-    if (sorter.hasOwnProperty("column")) {
+    setIsChanged(true);
+    if (sorter.hasOwnProperty('column')) {
       const params: any = {};
-      params[`${sorter.field}`] = sorter.order === "descend" ? 'desc' : 'asc';
+      params[`${sorter.field}`] = sorter.order === 'descend' ? 'desc' : 'asc';
       setSort(params);
     }
   };
-  
+
   const handleSearch = (
     selectedKeys: string[],
     confirm: (param?: FilterConfirmProps) => void,
-    dataIndex: DataIndex,
+    dataIndex: DataIndex
   ) => {
     confirm();
     setSearchText(selectedKeys?.[0]);
     setSearchedColumn(dataIndex);
     const searchData: any = search;
     // if (searchData) {
-      searchData[dataIndex] = selectedKeys?.[0];
-      setSearch(searchData);
+    searchData[dataIndex] = selectedKeys?.[0];
+    setSearch(searchData);
     // }
+  };
+
+  const onTabChange = (key: string) => {
+    setTabIndex(key);
+    setSearch({
+      ...search,
+      type: key === 'electrical-cable' ? 'cap-dien' : 'den-led',
+    })
   };
 
   const handleReset = (
     selectedKeys: string[],
     dataIndex: DataIndex,
-    clearFilters: () => void, 
-    confirm: (param?: FilterConfirmProps) => void,
+    clearFilters: () => void,
+    confirm: (param?: FilterConfirmProps) => void
   ) => {
     clearFilters();
     const searchData: any = search;
@@ -138,7 +149,7 @@ const CategoryTable = (): JSX.Element => {
               // const searchFunction = () => {
               //   handleSearch(selectedKeys as string[], confirm, dataIndex)
               // }
-              clearFilters && handleReset(selectedKeys as string[], dataIndex, clearFilters, confirm); 
+              clearFilters && handleReset(selectedKeys as string[], dataIndex, clearFilters, confirm);
             }}
             size="small"
             style={{ width: 90 }}
@@ -148,9 +159,7 @@ const CategoryTable = (): JSX.Element => {
         </Space>
       </div>
     ),
-    filterIcon: (filtered: boolean) => (
-      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-    ),
+    filterIcon: (filtered: boolean) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
     onFilter: (value, record) =>
       record[dataIndex]
         .toString()
@@ -171,7 +180,7 @@ const CategoryTable = (): JSX.Element => {
         />
       ) : (
         text
-      )
+      );
     },
   });
 
@@ -198,9 +207,7 @@ const CategoryTable = (): JSX.Element => {
       sorter: (a, b) => a.slug.length - b.slug.length,
       showSorterTooltip: false,
       sortDirections: ['descend', 'ascend'],
-      render: (_, record) => (
-        <>{decodeURIComponent(record.slug)}</>
-      ),
+      render: (_, record) => <>{decodeURIComponent(record.slug)}</>,
     },
     {
       title: intl.formatMessage({ id: 'category.type' }),
@@ -211,10 +218,9 @@ const CategoryTable = (): JSX.Element => {
       showSorterTooltip: false,
       sortDirections: ['descend', 'ascend'],
       render: (_, record) => {
-        const typeName = TYPE_OPTIONS.find(item => item.value === record.type)
-        return (
-        <>{typeName?.label}</>
-      )},
+        const typeName = TYPE_OPTIONS.find(item => item.value === record.type);
+        return <>{typeName?.label}</>;
+      },
     },
     {
       title: intl.formatMessage({ id: 'category.action' }),
@@ -248,21 +254,42 @@ const CategoryTable = (): JSX.Element => {
           </Button>
         }
       >
-        <ServiceTable
-          columns={columns}
-          dataSource={categories}
-          total={data?.pagination?.totalCount}
-          isLoading={isLoading}
-          page={page}
-          pageSize={pageSize}
-          onChangePagination={(page, pageSize) => {
-            setPage(page);
-            setPageSize(pageSize);
-          }}
-          onShowSizeChange={pageSize => {
-            setPageSize(pageSize);
-          }}
-        />
+        <Tabs className="tabs" defaultActiveKey={tabIndex} onChange={onTabChange}>
+          <Tabs.TabPane tab={intl.formatMessage({ id: 'product.type.electrical-cable' })} key="electrical-cable">
+            <ServiceTable
+              columns={columns}
+              dataSource={categories}
+              total={data?.pagination?.totalCount}
+              isLoading={isLoading}
+              page={page}
+              pageSize={pageSize}
+              onChangePagination={(page, pageSize) => {
+                setPage(page);
+                setPageSize(pageSize);
+              }}
+              onShowSizeChange={pageSize => {
+                setPageSize(pageSize);
+              }}
+            />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={intl.formatMessage({ id: 'product.type.led-light' })} key="led-light">
+            <ServiceTable
+              columns={columns}
+              dataSource={categories}
+              total={data?.pagination?.totalCount}
+              isLoading={isLoading}
+              page={page}
+              pageSize={pageSize}
+              onChangePagination={(page, pageSize) => {
+                setPage(page);
+                setPageSize(pageSize);
+              }}
+              onShowSizeChange={pageSize => {
+                setPageSize(pageSize);
+              }}
+            />
+          </Tabs.TabPane>
+        </Tabs>
       </Card>
     </>
   );

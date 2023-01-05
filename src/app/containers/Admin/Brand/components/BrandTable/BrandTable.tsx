@@ -74,7 +74,7 @@ const BrandTable = (): JSX.Element => {
       dataIndex: 'logo',
       key: 'logo',
       render: (_, record) => (
-        <Image src={record.logo?.[0].thumbUrl} className='logo' />
+        <Image src={record.logo?.[0]?.thumbUrl} className='logo' />
       ),
       
     },

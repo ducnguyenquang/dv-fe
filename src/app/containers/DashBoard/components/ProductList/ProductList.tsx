@@ -10,7 +10,7 @@ const ProductList = (): JSX.Element => {
 
   const { data: products, isSuccess } = productsHooks.useProducts({
     pagination: {
-      limit: 3,
+      limit: 10,
       offset: 0,
     },
   });
@@ -20,9 +20,11 @@ const ProductList = (): JSX.Element => {
       <div className="header">{intl.formatMessage({ id: 'page.name.product' })}</div>
       <Spin spinning={!isSuccess}>
         <div className="productBlock">
-          {products?.data?.map((data: Product) => {
-            return <ProductItem data={data} key={Math.random()} />;
-          })}
+          <div className="animationProductBlock">
+            {products?.data?.map((data: Product) => {
+              return <ProductItem data={data} key={Math.random()} />;
+            })}
+          </div>
         </div>
       </Spin>
     </div>

@@ -16,37 +16,53 @@ const Projects = (): JSX.Element => {
   // });
 
   const products: {
-    data: Project[]
-  } = {data: [
-    {
-      name: 'Dự án căn hô Himlam',
-      summary: 'Cung cấp giải pháp ánh sáng dùng công nghệ Led',
-      description: '',
-      images: '/images/himlam-3-4482.jpeg',
-    },
-    {
-      name: 'Dự án căn hộ Sky center',
-      summary: 'Cung cấp giải pháp ánh sáng dùng công nghệ Led, đèn sân vườn, đèn led trang trí, cáp điện, ....',
-      description: '',
-      images: '/images/sky-center-3-5635.png',
-    },
-    {
-      name: 'Dự án căn hộ Mysterry',
-      summary: 'Cung cấp giải pháp ánh sáng dùng công nghệ Led, đèn sân vườn, đèn led trang trí, cáp điện, ....',
-      description: '',
-      images: '/images/mysterry-1-1345.jpeg',
-    }
-  ]}
+    data: Project[];
+  } = {
+    data: [
+      {
+        name: 'Dự án căn hô Himlam',
+        summary: 'Cung cấp giải pháp ánh sáng dùng công nghệ Led',
+        description: '',
+        images: '/images/himlam-3-4482.jpeg',
+      },
+      {
+        name: 'Dự án căn hộ Sky center',
+        summary: 'Cung cấp giải pháp ánh sáng dùng công nghệ Led, đèn sân vườn, đèn led trang trí, cáp điện, ....',
+        description: '',
+        images: '/images/sky-center-3-5635.png',
+      },
+      {
+        name: 'Dự án căn hộ Mysterry',
+        summary: 'Cung cấp giải pháp ánh sáng dùng công nghệ Led, đèn sân vườn, đèn led trang trí, cáp điện, ....',
+        description: '',
+        images: '/images/mysterry-1-1345.jpeg',
+      },
+      {
+        name: 'Dự án căn hô Himlam',
+        summary: 'Cung cấp giải pháp ánh sáng dùng công nghệ Led',
+        description: '',
+        images: '/images/himlam-3-4482.jpeg',
+      },
+      {
+        name: 'Dự án căn hộ Sky center',
+        summary: 'Cung cấp giải pháp ánh sáng dùng công nghệ Led, đèn sân vườn, đèn led trang trí, cáp điện, ....',
+        description: '',
+        images: '/images/sky-center-3-5635.png',
+      },
+    ],
+  };
 
   return (
-    <div className="product">
+    <div className="project">
       <div className="header">{intl.formatMessage({ id: 'dashboard.project.title' })}</div>
       <div className="summary">{intl.formatMessage({ id: 'dashboard.project.content' })}</div>
 
-      <div className="productBlock">
-        {products?.data?.map((data: Project) => {
-          return <ProjectItem data={data} />;
-        })}
+      <div className="projectBlock">
+        <div className="animationBlock">
+          {products?.data?.map((data: Project) => {
+            return <ProjectItem data={data} />;
+          })}
+        </div>
       </div>
     </div>
   );

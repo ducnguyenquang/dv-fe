@@ -1,16 +1,13 @@
 .gridItem {
   display: flex;
   flex-direction: column;
-  // width: 100%;
   border: 1px solid #d1d1d1;
-  margin-right: 20px;
+  // margin-right: 20px;
   margin-bottom: 20px;
-  width: 30%;
+  // width: 30%;
   padding: 10px;
-  min-width: 256px;
-  // width: fit-content;
-  // justify-content: space-between;
-  // justify-items: ;
+  width: 256px;
+  height: 420px;
   &:hover {
     border-color: #e5704b;
   }
@@ -34,6 +31,9 @@
       .title {
         font-size: 18px;
         color: #151515;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .description {

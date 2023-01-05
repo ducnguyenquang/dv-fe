@@ -321,6 +321,16 @@ export function App() {
             />
             <Route
               // exact
+              path={'/electrical-cable/:category/product'}
+              element={<Template leftMenu={<ProductFilter extendChildren={<SupportMenu />}/>} content={<ProductList />} />}
+            />
+            <Route
+              // exact
+              path={'/led-light/:category/product'}
+              element={<Template leftMenu={<ProductFilter extendChildren={<SupportMenu />}/>} content={<ProductList />} />}
+            />
+            <Route
+              // exact
               path={'/cart'}
               element={<Template leftMenu={<SupportMenu />} content={<Cart />} />}
             />

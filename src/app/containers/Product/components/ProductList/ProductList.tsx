@@ -1,5 +1,5 @@
 import { Divider, Skeleton, Segmented, Pagination } from 'antd';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { BarsOutlined, AppstoreOutlined } from '@ant-design/icons';
 import './ProductList.less';
 import { ListComponent } from './components';
@@ -13,18 +13,31 @@ import { FilterApplied } from '../ProductFilter/components/FilterApplied';
 import { useSelector } from 'react-redux';
 import { Brand } from 'models/brand';
 import { Category } from 'models/category';
+import { useParams } from 'react-router-dom';
+import { categoriesHooks } from 'app/containers/Admin/Category';
 
-const ProductList = (): JSX.Element => {
-  const [page, setPage] = React.useState(PAGE);
-  const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
-  const [products, setProducts] = React.useState<Product[]>([]);
-  const [viewType, setViewType] = React.useState('list');
-  const [search, setSearch] = React.useState();
+interface IProps {
+  category?: string;
+}
+
+const ProductList = ({ category }: IProps): JSX.Element => {
+  const [page, setPage] = useState(PAGE);
+  const [pageSize, setPageSize] = useState(PAGE_SIZE);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [viewType, setViewType] = useState('list');
+  const routeParams = useParams();
+  const defaultFilter = {
+    category: { slug: routeParams.category},
+  };
+  const [search, setSearch] = useState<any>();
+  // const [search, setSearch] = useState(defaultFilter);
   const productFilter = useSelector(productsSelectors.getFilters);
   const productFilterApply = useSelector(productsSelectors.getFiltersApply);
-  const [isLoadMoreData, setIsLoadMoreData] = React.useState(false);
+  const [isLoadMoreData, setIsLoadMoreData] = useState(false);
+  // console.log('==== routeParams', routeParams);
+  // console.log('==== search', search);
 
-  const [productPagination, setProductPagination] = React.useState<{
+  const [productPagination, setProductPagination] = useState<{
     totalCount?: number;
     offset?: number;
     hasNextPage?: boolean;
@@ -32,6 +45,24 @@ const ProductList = (): JSX.Element => {
   }>({});
   const intl = useIntl();
 
+  const { data: categoryData, isLoading: isCategoryDataLoading } = categoriesHooks.useCategory({
+    id: routeParams.category
+  });
+
+  
+
+  useEffect(() => {
+    // console.log('==== categoryData', categoryData)
+    if (categoryData && !isCategoryDataLoading && !search?.categories) {
+      // const filterData = search
+      const categories = [categoryData?._id]
+      setSearch({
+        ...search,
+        categories,
+      })
+    }
+  },[categoryData, categoryData?._id, defaultFilter.category.slug, isCategoryDataLoading, search])
+  
   const { data: productData, isLoading: isProductDataLoading } = productsHooks.useProducts({
     search,
     pagination: {
@@ -39,7 +70,7 @@ const ProductList = (): JSX.Element => {
       offset: (page - 1) * pageSize,
     },
   });
-
+  
   useEffect(() => {
     if (productData && !isProductDataLoading) {
       setProducts(productData?.data);
@@ -47,33 +78,35 @@ const ProductList = (): JSX.Element => {
     }
   }, [productData, isProductDataLoading, products, isLoadMoreData]);
 
-  useEffect(() => {
-    if (productFilter) {
-      let searchData: any = {};
-      for (const [key, value] of Object.entries(productFilter)) {
-        if (value) {
-      console.log('==== searchData', searchData);
+  // useEffect(() => {
+  //   if (!productData && isProductDataLoading) {
+  //     if (productFilter) {
+  //       let searchData: any = {};
+  //       for (const [key, value] of Object.entries(productFilter)) {
+  //         if (value) {
+  //           console.log('==== searchData', searchData);
 
-          switch (key) {
-            case 'categories':
-              searchData['categories'] = (value as Category[]).map((item: any) => item._id);
-              break;
-            case 'brands':
-              searchData['brand'] = (value as Brand[]).map((item: any) => item._id);
-              break;
-            case 'types':
-              searchData['type'] = (value as any[]).map((item: any) => item._id);
-              break;
-            default:
-              break;
-          }
-        }
-      }
-      setSearch(searchData);
-    } else {
-      setSearch(undefined);
-    }
-  }, [productFilter]);
+  //           switch (key) {
+  //             case 'categories':
+  //               searchData['categories'] = (value as Category[]).map((item: any) => item._id);
+  //               break;
+  //             case 'brands':
+  //               searchData['brand'] = (value as Brand[]).map((item: any) => item._id);
+  //               break;
+  //             case 'types':
+  //               searchData['type'] = (value as any[]).map((item: any) => item._id);
+  //               break;
+  //             default:
+  //               break;
+  //           }
+  //         }
+  //       }
+  //       setSearch(searchData);
+  //     } else {
+  //       // setSearch(defaultFilter);
+  //     }
+  //   }
+  // }, [defaultFilter, productData, productFilter]);
 
   const loadMoreData = () => {
     setPage(page + 1);

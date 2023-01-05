@@ -9,6 +9,8 @@ interface IProps {
 
 const PopupMenuItem = ({ data }: IProps): JSX.Element => {
   return <div className="popupMenuItem">
+    <Image preview={false} src={data?.images?.[0]?.thumbUrl} className="image" />
+
     <a href={data?.url}>{data?.name}</a>
   </div>;
 };
