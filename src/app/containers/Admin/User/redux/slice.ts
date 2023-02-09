@@ -1,4 +1,3 @@
-// import { Equipment, EquipmentFileView } from 'Models/equipment';
 import { createSlice } from '@reduxjs/toolkit';
 import { storage } from 'utils';
 

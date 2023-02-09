@@ -27,7 +27,9 @@ const LedLight = (): JSX.Element => {
       </Header>
       <Content style={{ padding: '0 50px' }}>
         <Banner image='/images/led-light-banner.png'/>
-        {categories && categories?.data?.map((item: Category) => <CategoryItem key={Math.random()} data={item} />)}
+        <div className='items'>
+          {categories && categories?.data?.map((item: Category) => <CategoryItem key={Math.random()} data={item} />)}
+        </div>
       </Content>
       <Footer style={{ textAlign: 'center', fontSize: '13px' }}>
         <TemplateFooter />

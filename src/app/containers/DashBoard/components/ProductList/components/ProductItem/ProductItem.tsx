@@ -2,15 +2,17 @@ import { Button, Image, Rate } from 'antd';
 import { useIntl } from 'react-intl';
 import { Product } from 'models/product';
 import './ProductItem.less';
-
+import { useMemo, useContext } from 'react';
+import { Context as AppContext } from 'app/context/appContext';
 interface IProps {
   data?: Product;
 }
 
 const ProductItem = ({ data }: IProps): JSX.Element => {
   const intl = useIntl();
+  const { orientation, isMobile } = useContext(AppContext);
 
-  return <div className="productItem">
+  return <div className={`productItem ${isMobile && 'productItem-mobile'} ${orientation && `productItem-mobile-${orientation}`}`}>
   <div className="image">
     <img
       alt="logo"

@@ -2,12 +2,13 @@ import { SolutionOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useIntl } from 'react-intl';
 import './Construction.less';
+import { isMobile } from 'react-device-detect';
 
 const Construction = (): JSX.Element => {
   const intl = useIntl();
 
   return (
-    <div className="construction">
+    <div className={`construction ${isMobile && 'construction-mobile'}`}>
       <div className="icon">
         <SolutionOutlined />
       </div>

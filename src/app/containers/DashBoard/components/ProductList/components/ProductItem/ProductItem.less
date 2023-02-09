@@ -4,7 +4,7 @@
   border: unset;
   width: 30%;
   padding: 10px;
-  min-width: 300px;
+  width: 300px;
   flex: 1;
   border: 1px solid transparent;
 
@@ -25,7 +25,7 @@
     width: 100%;
     img {
       transition: all .2s ease-in-out;
-      width: 300px;
+      width: 110%;
     }
   }
 
@@ -39,20 +39,26 @@
     
     .information {
       margin-bottom: 10px;
+      position: relative;
       .title {
-        font-size: 18px;
+        font-size: 14px;
         color: #151515;
-      }
-
-      .description {
-        font-size: 12px;
-        color: #575757;
+        // max-width: 290px;
+        width: 100%;
+        display: inline-block;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        // min-width: 20%;
-        // max-width: 70%;
-        width: 230px;
+      }
+
+      .description {
+        font-size: 13px;
+        color: #575757;
+        width: 100%;
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .rate {
         .ant-rate {
@@ -62,12 +68,11 @@
     }
 
     .bottomSide {
-      // width: 20%;
       flex-direction: row;
       display: flex;
       .price {
         flex: 1;
-        font-size: 18px;
+        font-size: 14px;
         font-weight: bold;
       }
       .action {
@@ -76,9 +81,36 @@
 
         .detailButton {
           margin-bottom: 10px;
+          font-size: 12px;
         }
 
         .favouriteButton {
+        }
+      }
+    }
+  }
+
+  &-mobile {
+    &-landscape {
+      width: 33%;
+    }
+    &-portrait {
+      width: 50%;
+    }
+    .content {
+      width: 100%;
+      padding: 1rem;
+      margin: unset;
+
+      .information {
+        margin-bottom: 1rem;
+
+        .title {
+          font-size: 14px;
+        }
+
+        .description {
+          font-size: 12px;
         }
       }
     }

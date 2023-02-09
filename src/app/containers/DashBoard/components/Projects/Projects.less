@@ -1,6 +1,8 @@
 .project {
   width: 100%;
   padding: 3% 0;
+  height: fit-content;
+
   .header {
     font-size: 24px;
     text-align: center;
@@ -9,11 +11,12 @@
 
   .summary {
     color: #bbbbbb;
-    width: 50%;
+    width: 70%;
     font-size: 14px;
     text-align: center;
     margin: 0 auto;
     margin-bottom: 50px;
+    letter-spacing: 0.6px;
   }
 
   .projectBlock {
@@ -23,25 +26,59 @@
     .animationBlock {
       display: flex;
       flex-direction: row;
+      height: fit-content;
+      animation: scroll 15s linear 1s infinite;
+      
+      @keyframes scroll {
+        100% {
+          transform: translateX(-202%);
+        }
+      }
+      &:hover {
+        animation-play-state: paused;
+      }
+      animation-play-state: paused;
 
-      // animation-name: rightToLeft;
-      // animation-duration: 20s;
-      // animation-timing-function: linear;
-      // animation-iteration-count: infinite;
-      // animation-delay: 5000ms;
+    }
+  }
 
-      // @keyframes rightToLeft {
-      //   0% {
-      //     transform: translateX(0);
-      //   }
-      //   100% {
-      //     transform: translateX(-120%);
-      //   }
-      // }
+  &-mobile {
+    padding: 1rem;
 
-      // &:hover {
-      //   animation-play-state: paused;
-      // }
+    .header {
+      margin-bottom: 1rem;
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+    .summary {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      font-size: 12px;
+    }
+
+    &-portrait {
+      .projectBlock {
+        .animationBlock {
+          @keyframes scroll {
+            100% {
+              transform: translateX(-504%);
+            }
+          }
+        }
+      }
+    }
+
+    &-landscape {
+      .projectBlock {
+        .animationBlock {
+          @keyframes scroll {
+            100% {
+              transform: translateX(-330%);
+            }
+          }
+        }
+      }
     }
   }
 }

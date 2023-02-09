@@ -5,6 +5,7 @@
     font-size: 24px;
     text-align: center;
     margin-bottom: 20px;
+    text-transform: uppercase;
   }
 
   .productBlock {
@@ -15,24 +16,46 @@
       display: flex;
       flex-direction: row;
 
-      // animation-name: rightToLeft;
-      // animation-duration: 20s;
-      // animation-timing-function: linear;
-      // animation-iteration-count: infinite;
-      // animation-delay: 5000ms;
+      animation: scroll 15s linear 1s infinite;
+      @keyframes scroll {
+        100% {
+          transform: translateX(-202%);
+        }
+      }
+      &:hover {
+        animation-play-state: paused;
+      }
+      // animation-play-state: paused;
+    }
+  }
 
-      // @keyframes rightToLeft {
-      //   0% {
-      //     transform: translateX(0);
-      //   }
-      //   100% {
-      //     transform: translateX(-120%);
-      //   }
-      // }
+  &-mobile {
+    .header {
+      font-size: 18px;
+    }
 
-      // &:hover {
-      //   animation-play-state: paused;
-      // }
+    &-portrait {
+      .productBlock {
+        .animationProductBlock {
+          @keyframes scroll {
+            100% {
+              transform: translateX(-504%);
+            }
+          }
+        }
+      }
+    }
+
+    &-landscape {
+      .productBlock {
+        .animationProductBlock {
+          @keyframes scroll {
+            100% {
+              transform: translateX(-330%);
+            }
+          }
+        }
+      }
     }
   }
 }

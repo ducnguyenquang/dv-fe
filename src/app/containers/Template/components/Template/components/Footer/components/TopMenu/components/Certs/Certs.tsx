@@ -8,11 +8,11 @@ const Certs = (): JSX.Element => {
   return (
     <div className="certs">
       <div className="cert">
-        <Image width={150} preview={false} src="/images/iso-9001-2008.jpeg" />
+        <Image width={100} preview={false} src="/images/iso-9001-2008.jpeg" />
       </div>
       <div className="bocongthuong">
-        <Image width={150} preview={false} src="/images/bocongthuong-thongbao.png" />
-        <Image width={150} preview={false} src="/images/bocongthuong-dangky.png" />
+        <Image width={100} preview={false} src="/images/bocongthuong-thongbao.png" />
+        <Image width={100} preview={false} src="/images/bocongthuong-dangky.png" />
       </div>
     </div>
   );

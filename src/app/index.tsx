@@ -1,30 +1,9 @@
-/**
- *
- * App
- *
- * This component is the skeleton around the actual pages, and should only
- * contain code that should be seen on all pages. (e.g. navigation bar)
- */
-
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Routes, Route, BrowserRouter, useLocation } from 'react-router-dom';
 
 import { GlobalStyle } from '../styles/global-styles';
-
-//  import { NotFoundPage } from './components/NotFoundPage/Loadable';
-//  import { useTranslation } from 'react-i18next';
-// import 'antd/dist/antd.less';
 import './app.less';
-//  import { Navbar } from './components/Navbar';
-//  import Routes from '../config/routes';
-//  import { useInjectReducer, useInjectSaga } from 'redux-injectors';
-//  import { PrivateRoute } from './components/PrivateRoute';
-//  import AdminRoute from 'routes/admin';
-//  import PatientRoute from 'routes/patient';
-//  import DoctorRoute from 'routes/doctor';
-//  import { ROLES } from 'config/constant';
-//  import { EmailConfirmed } from './containers/Authentication/EmailConfirmed';
 import { AdminTemplate, Template } from 'app/containers/Template';
 
 import { AdminLogin, AdminSignUp, AdminChangePassword } from 'app/containers/Admin/Authentication';
@@ -40,11 +19,6 @@ import {
   EmailTemplateAdding as AdminEmailTemplateAdd,
   EmailTemplateUpdating as AdminEmailTemplateUpdate,
 } from 'app/containers/Admin/Setting';
-// import {
-//   AdminEmailTemplateTable,
-//   AdminEmailTemplateAdd,
-//   AdminEmailTemplateUpdate,
-// } from 'app/containers/Admin/EmailTemplate';
 import { AdminPopupMenuTable, AdminPopupMenuAdd, AdminPopupMenuUpdate } from 'app/containers/Admin/PopupMenu';
 import {
   AdminAdvertisementTable,
@@ -69,31 +43,23 @@ import LanguageProvider from './components/LanguageProvider/LanguageProvider';
 import { Slide, ToastContainer } from 'react-toastify';
 import { MaintenancePage } from 'app/containers/CommonPages/MaintenancePage';
 import { EmptyPage } from 'app/containers/CommonPages/EmptyPage';
+import { withOrientationChange } from 'react-device-detect';
+import { ORIENTATION } from 'constants/common';
+import { isMobile } from 'react-device-detect';
 
-//  import { selectAuth } from './containers/Authentication/selectors';
-//  import { UserGuides } from './containers/UserGuides/Loadable';
-//  import { ThePlatform } from './containers/ThePlatform/Loadable';
-//  import { Faq } from './containers/Faq/Loadable';
-//  import { selectAccountManagement } from './containers/AccountManagement/selectors';
-//  import { CookieBanner } from './components/CookieBanner/Loadable';
+import { Context as AppContext } from './context/appContext';
+import { useEffect, useMemo } from 'react';
 
-//  const antdLocale = {
-//    'en-GB': enGB,
-//    vi: viVN,
-//  };
+type TemplateType = {
+  content?: any;
+  leftMenu?: any;
+  hasBreadcrumb?: boolean;
+  orientation?: string;
+};
 
-export default function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  React.useEffect(() => {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-  }, [pathname]);
-
-  return null;
-}
-
-export function App() {
+function App(props: { isLandscape: boolean; isPortrait: boolean }) {
+  const { isLandscape, isPortrait } = props;
+  const orientation = isLandscape ? ORIENTATION.LANDSCAPE : ORIENTATION.PORTRAIT;
   const dispatch = useDispatch();
   const [cookieIsAccepted, setCookieIsAccepted] = React.useState(localStorage.getItem('acceptCookie'));
 
@@ -103,6 +69,19 @@ export function App() {
     setCookieIsAccepted(acceptCookieVal);
   };
 
+  const getTemplate = ({ content, leftMenu, hasBreadcrumb = false }: TemplateType) => {
+    return (
+      <AppContext.Provider value={{ orientation, isMobile }}>
+        <Template
+          leftMenu={leftMenu}
+          content={content}
+          hasBreadcrumb={hasBreadcrumb}
+        />
+      </AppContext.Provider>
+    );
+  };
+
+  // alert(orientation);
   return (
     <ConfigProvider>
       <BrowserRouter>
@@ -115,7 +94,7 @@ export function App() {
           <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         </Helmet>
 
-        <ScrollToTop />
+        {/* <ScrollToTop /> */}
         <LanguageProvider>
           <ToastContainer
             autoClose={5000}
@@ -129,7 +108,8 @@ export function App() {
             <Route
               // exact
               path={'/'}
-              element={<HomePage />}
+              element={getTemplate({ content: <HomePage /> })}
+              // element={<HomePage orientation={orientation} />}
             />
             <Route
               // exact
@@ -238,7 +218,7 @@ export function App() {
               path={'/admin/brand/add'}
               element={<AdminTemplate content={<AdminBrandAdd />} />}
             />
-            
+
             <Route
               // exact
               path={'/admin/setting/emailTemplate'}
@@ -312,69 +292,78 @@ export function App() {
             <Route
               // exact
               path={'/product'}
-              element={<Template leftMenu={<ProductFilter extendChildren={<SupportMenu />}/>} content={<ProductList />} />}
+              element={getTemplate({
+                content: <ProductList />,
+                leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
+              })}
             />
             <Route
               // exact
               path={'/product/:id'}
-              element={<Template leftMenu={<SupportMenu />} content={<ProductDetail />} />}
+              element={getTemplate({ content: <ProductDetail />, leftMenu: <SupportMenu />, hasBreadcrumb: true })}
             />
             <Route
               // exact
               path={'/electrical-cable/:category/product'}
-              element={<Template leftMenu={<ProductFilter extendChildren={<SupportMenu />}/>} content={<ProductList />} />}
+              element={getTemplate({
+                content: <ProductList />,
+                leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
+              })}
             />
             <Route
               // exact
               path={'/led-light/:category/product'}
-              element={<Template leftMenu={<ProductFilter extendChildren={<SupportMenu />}/>} content={<ProductList />} />}
+              element={getTemplate({
+                content: <ProductList />,
+                leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
+              })}
             />
             <Route
               // exact
               path={'/cart'}
-              element={<Template leftMenu={<SupportMenu />} content={<Cart />} />}
+              element={getTemplate({ content: <Cart />, leftMenu: <SupportMenu /> })}
             />
             <Route
               // exact
               path={'/contact'}
-              element={<Template leftMenu={<SupportMenu />} content={<Contact />} />}
+              element={getTemplate({ content: <Contact />, leftMenu: <SupportMenu /> })}
             />
             <Route
               // exact
               path={'/aboutUs'}
-              element={<Template leftMenu={<SupportMenu />} content={<AboutUs />} />}
+              element={getTemplate({ content: <AboutUs />, leftMenu: <SupportMenu /> })}
             />
             <Route
               // exact
               path={'/faq'}
-              element={<Template leftMenu={<SupportMenu />} content={<Faq />} />}
+              element={getTemplate({ content: <Faq />, leftMenu: <SupportMenu /> })}
             />
             <Route
               // exact
               path={'/siteMap'}
-              element={<Template leftMenu={<SupportMenu />} content={<SiteMap />} />}
+              element={getTemplate({ content: <SiteMap />, leftMenu: <SupportMenu /> })}
             />
             <Route
               // exact
               path={'/consulting'}
-              element={<Template leftMenu={<SupportMenu />} content={<MaintenancePage />} />}
+              element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
             />
             <Route
               // exact
               path={'/catalogues'}
-              element={<Template leftMenu={<SupportMenu />} content={<MaintenancePage />} />}
+              element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
             />
             <Route
               // exact
               path={'/pricing'}
-              element={<Template leftMenu={<SupportMenu />} content={<MaintenancePage />} />}
+              element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
             />
             <Route
               // exact
               path={'/projects'}
-              element={<Template leftMenu={<SupportMenu />} content={<MaintenancePage />} />}
+              element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
             />
-            <Route path="*" element={<Template leftMenu={<SupportMenu />} content={<EmptyPage />} />} />
+            <Route path="*" element={getTemplate({ content: <EmptyPage />, leftMenu: <SupportMenu /> })} />
             <Route path="/admin/*" element={<AdminTemplate content={<EmptyPage />} />} />
           </Routes>
           {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}
@@ -384,3 +373,5 @@ export function App() {
     </ConfigProvider>
   );
 }
+
+export default withOrientationChange(App);

@@ -2,12 +2,16 @@ import { Image } from 'antd';
 import { TrophyOutlined, ShopOutlined, AlertOutlined, ApiOutlined } from '@ant-design/icons';
 import { useIntl } from 'react-intl';
 import './Focusing.less';
+import { isMobile } from 'react-device-detect';
+import { Context as AppContext } from 'app/context/appContext';
+import { useContext } from 'react';
 
 const Focusing = (): JSX.Element => {
   const intl = useIntl();
+  const { orientation } = useContext(AppContext);
 
   return (
-    <div className="focusingBlog">
+    <div className={`focusingBlog ${isMobile && 'focusingBlog-mobile'} ${orientation && `focusingBlog-mobile-${orientation}`}`}>
       <div className="focusingItem">
         <div className='itemImage'>
           <Image preview={false} src="/images/cables.jpeg" />

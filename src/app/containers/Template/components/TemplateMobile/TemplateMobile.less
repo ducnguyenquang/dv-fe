@@ -1,0 +1,55 @@
+
+@primary-color: #E5704B;
+@link-color: #E5704B;
+
+.ant-layout {
+  // background-color:#f0f2f5;
+  background: #fff;
+  &-header {
+    background-color:#fff;
+    // background: #f0f2f5;
+  }
+  &-background {
+    background: #fff;
+  }
+  &-footer {
+    background: #fff;
+  }
+
+  .topMenu{
+    // background: #f0f2f5;
+  }
+
+  .layoutContent {
+    display: flex;
+    flex-direction: initial;
+  }
+
+  
+}
+
+.template-layout {
+  &-mobile {
+    // width: 100%;
+  
+    .ant-layout {
+      &-footer {
+        // width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+}
+#components-layout-demo-top-side .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-row-rtl #components-layout-demo-top-side .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+}

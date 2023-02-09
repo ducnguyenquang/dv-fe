@@ -5,11 +5,16 @@ import {
 } from '@ant-design/icons';
 import './Vision.less'
 import { useIntl } from 'react-intl';
+import { isMobile } from 'react-device-detect';
+import { Context as AppContext } from 'app/context/appContext';
+import { useContext } from 'react';
 
 const Vision = (): JSX.Element => {
   const intl = useIntl();
+  const { orientation } = useContext(AppContext);
 
-  return <div className='visionBlog'>
+  return <div className={`visionBlog ${isMobile && 'visionBlog-mobile'} ${orientation && `visionBlog-mobile-${orientation}`}`}>
+    
     <div className='item'>
       <div className='itemIcon'>
         <EyeOutlined />

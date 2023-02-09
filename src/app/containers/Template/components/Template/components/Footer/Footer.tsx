@@ -2,8 +2,6 @@ import { TopMenu } from './components/TopMenu';
 import { BottomFooter } from './components/BottomFooter';
 import { Advertisements } from './components/Advertisements';
 import TawkTo from 'tawkto-react';
-
-
 import './Footer.less'
 import { templatesHooks } from 'app/containers/Template';
 import { useEffect } from 'react';

@@ -10,11 +10,12 @@ import { ToastContainer, Slide } from 'react-toastify';
 
 import './index.css';
 // import App from './App';
-import { App } from '../src/app';
+// import { App } from '../src/app';
 
 import reportWebVitals from './reportWebVitals';
 import { HelmetProvider } from 'react-helmet-async';
 import store from './config/configureStore';
+import App from 'app';
 
 // import LanguageProvider from './app/components/LanguageProvider/LanguageProvider';
 
@@ -55,7 +56,7 @@ ReactDOM.render(
           pauseOnFocusLoss={false}
           limit={10}
         />
-        <App />
+        <App isLandscape={false} isPortrait={false} />
         {/* </React.StrictMode> */}
       </HelmetProvider>
       {/* </LanguageProvider> */}

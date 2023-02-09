@@ -2,29 +2,65 @@
   display: flex;
   flex-direction: row;
   height: 70px;
-  background-color: #FF7043;
+  background-color: #ff7043;
   width: 100%;
   color: #fff;
   justify-content: space-around;
+  flex-wrap: wrap;
 
   .item {
     display: flex;
     flex-direction: row;
-
+    width: 30%;
     .itemIcon {
       font-size: 45px;
       margin-right: 10px;
     }
-    .itemInfo{
+    .itemInfo {
       display: flex;
       flex-direction: column;
       justify-content: center;
       .title {
         font-size: 16px;
         font-weight: bold;
+        text-transform:capitalize;
       }
       .content {
         font-size: 14px;
+      }
+    }
+  }
+
+  &-mobile {
+    height: auto;
+    justify-content: center;
+    position: relative;
+    padding: 1rem 2rem;
+
+    .item {
+      width: 90%;
+      margin-bottom: 1rem;
+      .itemIcon {
+        width: 10%;
+        display: flex;
+        justify-content: center;
+        padding-right: 2rem;
+      }
+
+      .itemInfo {
+        .title {
+          font-size: 14px;
+        }
+        .content {
+          font-size: 12px;
+        }
+      }
+    }
+
+    &-landscape {
+      .item {
+        width: 45%;
+        margin-right: 2rem;
       }
     }
   }

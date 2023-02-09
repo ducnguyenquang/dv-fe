@@ -38,6 +38,8 @@
     "quill-table": "^1.0.0",
     "quill-table-ui": "^1.0.7",
     "react": "^18.2.0",
+    "react-burger-menu": "^3.0.9",
+    "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^1.3.0",
     "react-highlight-words": "^0.18.0",

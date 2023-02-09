@@ -119,7 +119,7 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
   return <div className='navTopMenu'>
     {/* <div className='logo'><Logo /></div> */}
     <Logo />
-    <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={[...getNavSelected()]} items={items1} />
+    <Menu className="navMenu" mode="inline" defaultSelectedKeys={[...getNavSelected()]} items={items1} />
     <RightMenu />
   </div>
 };

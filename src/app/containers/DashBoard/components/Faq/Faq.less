@@ -8,38 +8,53 @@
     font-size: 24px;
     text-align: center;
     margin-bottom: 1.5%;
-    text-transform: capitalize;
+    text-transform: uppercase;
   }
   .questionBlock {
     display: flex;
     flex-direction: column;
-    .row {
+
+    .ant-collapse {
       display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      .item {
-        height: 100px;
-        width: 40%;
-        margin-bottom: 20px;
-        .question {
-          color: #000;
-          font-size: 16px;
-        }
-        .answer {
-          color: #777777;
-          font-size: 14px;
-        }
-      } 
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      .ant-collapse-item {
+        width: 50%;
+      }
     }
   }
 
   .link {
-    // padding: 10%;
     font-size: 14px;
     text-align: center;
     .button {
       color: #FF7043;
       background-color: unset;
+    }
+  }
+
+  &-mobile {
+    height: fit-content;
+
+    .title {
+      font-size: 18px;
+    }
+
+    .questionBlock {
+      
+      .ant-collapse {
+        margin-bottom: 1rem;
+        .ant-collapse-item {
+          width: 100%;
+
+          .ant-collapse-header-text {
+            font-size: 12px;
+          }
+        }
+        .ant-collapse-content-box {
+          font-size: 12px;
+        }
+      }
     }
   }
 }
