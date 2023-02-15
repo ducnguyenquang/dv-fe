@@ -79,6 +79,7 @@
   "product.summary": "Tóm lược sản phẩm",
   "product.description": "Chi Tiết sản phẩm",
   "product.specification": "Thông số kỹ thuật",
+  "product.documents": "Tài liệu",
   "product.brand": "Thương hiệu",
   "product.brand.placeholder": "Chọn thương hiệu",
   "product.sku": "SKU",
@@ -151,6 +152,10 @@
   "common.pagination.rangeData": "{start}-{end} of {total} items",
   "common.price.contactPlease": "Liên hệ",
   "common.select.placeholder": "Hãy chọn",
+  "common.search.title": "Tìm kiếm",
+  "common.search.placeholder": "Hãy nhập",
+  "common.empty.data": "Không có dữ liệu",
+
 
   "login.username": "Tên người dùng",
   "login.password": "Mật khẩu",
@@ -239,7 +244,7 @@
   "dashboard.information.focusing.item4.content": "Phân phối các loại dây cáp điện Cadivi công nghiệp và dân dụng",
 
   "dashboard.information.distributor.title": "Chuyên phân phối",
-  "dashboard.information.distributor.item1.title": "Dây cáp điện",
+  "dashboard.information.distributor.item1.title": "Cáp điện",
   "dashboard.information.distributor.item2.title": "Đèn Led",
 
   "dashboard.contruction.title": "<b>Hơn 20+ công trình</b> đã tin tưởng sử dụng sản phẩm <b>Đại Việt</b> cung cấp",

@@ -1,14 +1,8 @@
-// import { BackTop, Layout } from 'antd';
-// import { Header, Content, Footer } from 'antd/lib/layout/layout';
-// import { Header as TemplateHeader } from '../Template/components/Template/components/Header';
-// import { Footer as TemplateFooter } from '../Template/components/Template/components/Footer';
 import { Form, Input, Select, Button, Card, Tooltip } from 'antd';
 import layout from 'antd/lib/layout';
 import { useIntl } from 'react-intl';
-import { CartItem } from '../Cart/components/CartItem';
-// import { Map } from './components/Map'
 import { getCities, getWards } from 'utils/location/location';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   HomeFilled,
   ShopFilled,
@@ -21,6 +15,9 @@ import {
   PrinterFilled,
 } from '@ant-design/icons';
 import './Contact.less';
+import { Context as AppContext } from 'app/context/appContext';
+import { useContext } from 'react';
+
 const Contact = (): JSX.Element => {
   const intl = useIntl();
   const [cities, setCities] = useState(getCities());
@@ -33,8 +30,11 @@ const Contact = (): JSX.Element => {
     setWards(getWards(value));
   };
 
+  const { isMobile, orientation } = useContext(AppContext);
+
+
   return (
-    <div className="contact">
+    <div className={`contact ${isMobile && 'contact-mobile'} `}>
       <div className="customerInfo">
         <div className="title">{intl.formatMessage({ id: 'contact.customer.title' })}</div>
         <Form

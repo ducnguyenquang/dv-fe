@@ -1,14 +1,11 @@
-import { Carousel, Modal, Image } from 'antd';
-import { productsHooks } from 'app/containers/Product';
+import { Modal, Image } from 'antd';
 import { templatesHooks } from 'app/containers/Template';
 import { PopupMenu } from 'models/popupMenu';
 import { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
 import { PopupMenuItem } from './components/PopupMenuItem';
 import './PopupMenus.less';
 
 const PopupMenus = (): JSX.Element => {
-  const intl = useIntl();
   const [open, setOpen] = useState(true);
   const [popupMenus, setPopupMenus] = useState<PopupMenu[]>([]);
 

@@ -14,14 +14,16 @@ import {
   PrinterFilled,
 } from '@ant-design/icons';
 import { Vision } from './components/Vision';
-
+import { Context as AppContext } from 'app/context/appContext';
+import { useContext } from 'react';
 import './AboutUs.less';
 
 const AboutUs = (): JSX.Element => {
   const intl = useIntl();
+  const { isMobile, orientation } = useContext(AppContext);
 
   return (
-    <div className="aboutUs">
+    <div className={`aboutUs ${isMobile && 'aboutUs-mobile'} `}>
       <div className='title'>Lịch sử hình thành</div>
       <div className="historyBlock">
         <History />

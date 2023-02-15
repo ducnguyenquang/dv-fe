@@ -1,7 +1,4 @@
 .aboutUs {
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: space-around;
   .title {
     font-size: 24px;
     margin-bottom: 20px;
@@ -64,6 +61,47 @@
           li {
             line-height: 24px;
           }
+        }
+      }
+    }
+  }
+
+  &-mobile {
+    .historyBlock {
+      flex-wrap: wrap;
+      .history {
+        width: 100%;
+      }
+
+      .description {
+        width: 100%;
+      }
+    }
+
+    .visionBlock {
+      flex-wrap: wrap;
+      .companyInfo {
+        width: 100%;
+      }
+      .visionInfo {
+        width: 100%;
+
+        .visionComponent {
+          height: unset;
+          justify-content: flex-start;
+          
+          .item {
+            .itemIcon {
+              font-size: 50px;
+            }
+
+            .itemInfo {
+              .title {
+                margin-bottom: unset;
+              }
+            }
+          }
+
         }
       }
     }

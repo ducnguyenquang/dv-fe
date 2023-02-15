@@ -55,6 +55,7 @@ type TemplateType = {
   leftMenu?: any;
   hasBreadcrumb?: boolean;
   orientation?: string;
+  hasTopMenu?: boolean;
 };
 
 function App(props: { isLandscape: boolean; isPortrait: boolean }) {
@@ -69,13 +70,14 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
     setCookieIsAccepted(acceptCookieVal);
   };
 
-  const getTemplate = ({ content, leftMenu, hasBreadcrumb = false }: TemplateType) => {
+  const getTemplate = ({ content, leftMenu, hasBreadcrumb = false, hasTopMenu = true }: TemplateType) => {
     return (
       <AppContext.Provider value={{ orientation, isMobile }}>
         <Template
           leftMenu={leftMenu}
           content={content}
           hasBreadcrumb={hasBreadcrumb}
+          hasTopMenu={hasTopMenu}
         />
       </AppContext.Provider>
     );
@@ -108,18 +110,17 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
             <Route
               // exact
               path={'/'}
-              element={getTemplate({ content: <HomePage /> })}
-              // element={<HomePage orientation={orientation} />}
+              element={getTemplate({ content: <HomePage />, hasTopMenu: false, })}
             />
             <Route
               // exact
               path={'/electrical-cable'}
-              element={<ElectricalCable />}
+              element={getTemplate({ content: <ElectricalCable /> })}
             />
             <Route
               // exact
               path={'/led-light'}
-              element={<LedLight />}
+              element={getTemplate({ content: <LedLight /> })}
             />
             <Route
               // exact

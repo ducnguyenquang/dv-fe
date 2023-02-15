@@ -2,9 +2,14 @@
   .banner {
     display: flex;
     justify-content: center;
-    
+    border: 1px solid #ddd;
+
     .ant-image {
       width: 50%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      margin: 0 auto;
     }
   }
   .items {
@@ -12,5 +17,31 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .search {
+    width: 40%;
+    margin: 2rem auto;
+    display: flex;
+  }
+  .pageTitle {
+    font-size: 24px;
+    text-align: center;
+    padding: 2rem 0;
+    text-transform: uppercase;
+  }
+
+  &-mobile {
+    .pageTitle {
+      font-size: 18px;
+    }
+    .search {
+      width: 100%;
+    }
+    .categories {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
   }
 }

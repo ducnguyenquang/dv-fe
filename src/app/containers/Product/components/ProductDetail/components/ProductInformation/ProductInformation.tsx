@@ -9,6 +9,8 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import './ProductInformation.less';
 import { Cart } from 'models/cart';
 import ProductRelated from '../../../ProductRelated/ProductRelated';
+import { Document, Page } from 'react-pdf';
+
 const { TabPane } = Tabs;
 const { Option } = Select;
 
@@ -82,6 +84,13 @@ const ProductInformation = (): JSX.Element => {
     localStorage.setItem('shoppingCart', JSON.stringify(cartData));
   };
 
+  const [numPages, setNumPages] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
+    setNumPages(numPages);
+  }
+
   return (
     <div className="productInfo">
       <div className="productInfoBlock">
@@ -134,7 +143,7 @@ const ProductInformation = (): JSX.Element => {
             <Form.Item label="" name="total">
               <div className="inputForm">
                 <div className="price">{intl.formatMessage({ id: 'common.price.contactPlease' })}</div>
-                <InputNumber min={1} defaultValue={1} onChange={onChange} addonAfter={selectAfter} className="input"/>
+                <InputNumber min={1} defaultValue={1} onChange={onChange} addonAfter={selectAfter} className="input" />
                 <Button type="primary" htmlType="submit" icon={<ShoppingCartOutlined />} className="button">
                   {intl.formatMessage({ id: 'product.button.cart' })}
                 </Button>
@@ -150,8 +159,26 @@ const ProductInformation = (): JSX.Element => {
         <TabPane tab={intl.formatMessage({ id: 'product.specification' })} key="2">
           <div dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}></div>
         </TabPane>
+        <TabPane tab={intl.formatMessage({ id: 'product.documents' })} key="3">
+          <div>
+            <Document
+              file="https://cadivi.vn/vnt_upload/product/01_2023/CADIVI-ISO_9001_2022_1.pdf"
+              // file={{
+              //   url: 'https://cadivi.vn/vnt_upload/product/01_2023/CADIVI-ISO_9001_2022_1.pdf',
+              //   // httpHeaders: { 'X-CustomHeader': '40359820958024350238508234' },
+              //   // withCredentials: true,
+              // }}
+              onLoadSuccess={onDocumentLoadSuccess}
+            >
+              <Page pageNumber={pageNumber} />
+            </Document>
+            <p>
+              Page {pageNumber} of {numPages}
+            </p>
+          </div>
+        </TabPane>
       </Tabs>
-      <ProductRelated categories={productDetail.categories}/>
+      <ProductRelated categories={productDetail.categories} />
     </div>
   );
 };

@@ -3,11 +3,16 @@ import { useIntl } from 'react-intl';
 import { Logo } from '../Logo';
 import { RightMenu } from '../RightMenu';
 import './NavTopMenu.less';
+import { Context as AppContext } from 'app/context/appContext';
+import { useContext } from 'react';
+import { FooterLogo } from '../../../Footer/components/FooterTopMenu/components/FooterLogo';
 interface IProps {
   content?: any;
 }
 const NavTopMenu = ({ content }: IProps): JSX.Element => {
   const intl = useIntl();
+  const { isMobile } = useContext(AppContext);
+
   const navMenuClick = ({ name, url }: { name: string; url: string }) => {
     window.location.href = url;
   };
@@ -115,11 +120,12 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
       },
     },
   ];
-
+  console.log('==== isMobile', isMobile);
+  
   return <div className='navTopMenu'>
     {/* <div className='logo'><Logo /></div> */}
-    <Logo />
-    <Menu className="navMenu" mode="inline" defaultSelectedKeys={[...getNavSelected()]} items={items1} />
+    {isMobile ? <FooterLogo /> : <Logo />}
+    <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={[...getNavSelected()]} items={items1} />
     <RightMenu />
   </div>
 };

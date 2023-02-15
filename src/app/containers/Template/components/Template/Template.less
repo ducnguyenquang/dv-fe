@@ -1,13 +1,10 @@
-
-@primary-color: #E5704B;
-@link-color: #E5704B;
+@primary-color: #e5704b;
+@link-color: #e5704b;
 
 .ant-layout {
-  // background-color:#f0f2f5;
   background: #fff;
   &-header {
-    background-color:#fff;
-    // background: #f0f2f5;
+    background-color: #fff;
   }
   &-background {
     background: #fff;
@@ -16,7 +13,7 @@
     background: #fff;
   }
 
-  .topMenu{
+  .topMenu {
     // background: #f0f2f5;
   }
 
@@ -25,6 +22,20 @@
     flex-direction: initial;
   }
 }
+
+.template-layout {
+  &-mobile {
+
+    .ant-layout {
+      &-footer {
+        padding-left: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
 #components-layout-demo-top-side .logo {
   float: left;
   width: 120px;
@@ -36,10 +47,6 @@
 .ant-row-rtl #components-layout-demo-top-side .logo {
   float: right;
   margin: 16px 0 16px 24px;
-}
-
-.container {
-  padding: '0 50px';
 }
 
 .container {

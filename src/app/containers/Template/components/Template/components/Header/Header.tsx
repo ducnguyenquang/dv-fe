@@ -1,6 +1,4 @@
 import { NavTopMenu } from "./components/NavTopMenu";
-import { Logo } from "./components/Logo";
-import { RightMenu } from "./components/RightMenu";
 import './Header.less'
 
 const Header = (): JSX.Element => {

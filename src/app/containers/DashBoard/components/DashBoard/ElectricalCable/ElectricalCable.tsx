@@ -1,42 +1,58 @@
-import { Layout, Spin } from 'antd';
-import { Header, Content, Footer } from 'antd/lib/layout/layout';
-import { Header as TemplateHeader } from '../../../../Template/components/Template/components/Header';
-import { Footer as TemplateFooter } from '../../../../Template/components/Template/components/Footer';
+import { Empty, Spin } from 'antd';
 import { Banner } from '../../Banner';
 import './ElectricalCable.less';
 import { categoriesHooks } from 'app/containers/Admin/Category';
 import CategoryItem from '../CategoryItem/CategoryItem';
 import { Category } from 'models/category';
+import Search from 'antd/lib/input/Search';
+import { useIntl } from 'react-intl';
+import { useState } from 'react';
+import { Context as AppContext } from 'app/context/appContext';
+import { useContext } from 'react';
 
 const ElectricalCable = (): JSX.Element => {
+  const intl = useIntl();
+
+  const { isMobile, orientation } = useContext(AppContext);
+
+  const [name, setName] = useState('');
   const { data: categories, isSuccess } = categoriesHooks.useCategories({
     search: {
       type: 'cap-dien',
+      name: name || undefined,
     },
     pagination: {
       limit: 100000,
       offset: 0,
     },
   });
-  // console.log('==== categories', categories);
+
+  const onSearch = (value: string) => setName(value);
 
   return (
-    <Layout className="electrical-cable">
-      <Header className="header">
-        <TemplateHeader />
-      </Header>
-      <Content style={{ padding: '0 50px' }}>
-        <Banner image="/images/eletrical-cable-banner.png" />
-        <div className="electrical-cables">
-          <Spin spinning={!isSuccess}>
-            {categories && categories?.data?.map((item: Category) => <CategoryItem data={item} key={Math.random()} />)}
-          </Spin>
+    <div
+      className={`electrical-cable ${isMobile && 'electrical-cable-mobile'} ${
+        orientation && `electrical-cable-mobile-${orientation}`
+      }`}
+    >
+      {!isMobile && <Banner image="/images/eletrical-cable-banner.png" />}
+      <h1 className="pageTitle">{intl.formatMessage({ id: 'dashboard.information.distributor.item1.title' })}</h1>
+      <Search
+        className="search"
+        addonBefore={intl.formatMessage({ id: 'common.search.title' })}
+        placeholder={intl.formatMessage({ id: 'common.search.placeholder' })}
+        onSearch={onSearch}
+      />
+      <Spin spinning={!isSuccess}>
+        <div className="categories">
+          {categories?.data && categories?.data.length > 0 ? (
+            categories?.data?.map((item: Category) => <CategoryItem data={item} key={Math.random()} />)
+          ) : (
+            <Empty description={intl.formatMessage({ id: 'common.empty.data' })} />
+          )}
         </div>
-      </Content>
-      <Footer style={{ textAlign: 'center', fontSize: '13px' }}>
-        <TemplateFooter />
-      </Footer>
-    </Layout>
+      </Spin>
+    </div>
   );
 };
 

@@ -58,9 +58,13 @@
     }
 
     &-landscape {
+      flex-wrap: nowrap;
       .item {
-        width: 45%;
-        margin-right: 2rem;
+        width: unset;
+        // margin-right: 2rem;
+        .itemIcon {
+          padding-right: 0;
+        }
       }
     }
   }

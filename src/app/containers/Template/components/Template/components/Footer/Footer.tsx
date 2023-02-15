@@ -1,12 +1,16 @@
-import { TopMenu } from './components/TopMenu';
+import { FooterTopMenu } from './components/FooterTopMenu';
 import { BottomFooter } from './components/BottomFooter';
-import { Advertisements } from './components/Advertisements';
+import { FooterAdvertisements } from './components/FooterAdvertisements';
 import TawkTo from 'tawkto-react';
 import './Footer.less'
-import { templatesHooks } from 'app/containers/Template';
 import { useEffect } from 'react';
+import { Context as AppContext } from 'app/context/appContext';
+import { useContext } from 'react';
+
 
 const Footer = (): JSX.Element => {
+  const { isMobile } = useContext(AppContext);
+
   useEffect(() => {
     const propertyId = '633be15054f06e12d8984ff1';
     const tawkId = '1gegug917';
@@ -16,10 +20,10 @@ const Footer = (): JSX.Element => {
     });
   }, []);
 
-  return <div className="footer">
-    <Advertisements />
+  return <div className={`footer ${isMobile && 'footer-mobile'}`}>
+    <FooterAdvertisements />
     <div className='menu'>
-      <TopMenu />
+      <FooterTopMenu />
       <BottomFooter />
     </div>
   </div>;

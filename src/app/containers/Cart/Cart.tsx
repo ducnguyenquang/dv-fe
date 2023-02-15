@@ -86,7 +86,7 @@ const Cart = (): JSX.Element => {
         <div className="title">{intl.formatMessage({ id: 'cart.cart.title' })}</div>
         {cart?.orderItems && cart?.orderItems?.length > 0 ? cart?.orderItems?.map(item => (
           <CartItem data={item} onDelete={onDelete} />
-        )) : <Empty description={'Không có sản phẩm'} />}
+        )) : <Empty description={intl.formatMessage({ id: 'common.empty.data' })} />}
       </div>
       <div className="customerInfo">
         <div className="title">{intl.formatMessage({ id: 'cart.customer.title' })}</div>
