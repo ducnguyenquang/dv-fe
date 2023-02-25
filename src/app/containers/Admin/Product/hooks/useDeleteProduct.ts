@@ -1,20 +1,14 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { message } from 'antd';
 import { ProductDeletePayload } from 'models/product';
 import { productsApi } from 'app/containers/Admin/Product';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
+import { useIntl } from 'react-intl';
 
 export const useDeleteProduct = (): any => {
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== useProducts params', params)
+  const queryClient = useQueryClient();
+  const intl = useIntl();
 
   return useMutation(
     (params: ProductDeletePayload) => {
@@ -22,11 +16,8 @@ export const useDeleteProduct = (): any => {
     },
     {
       onSuccess: () => {
-        // Reset list of equipments
-        // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
-        // console.log('==== onSuccess')
-        message.success('Delete Successfully');
-        // successMessage({ value: 'Update Successfully' });
+        queryClient.invalidateQueries(productsApi.productsKeys.lists());
+        message.success(intl.formatMessage({ id: 'common.delete.message.success' }));
       },
       onError: (error: ErrorResponse) => {
         if (error?.response?.errors?.length) {

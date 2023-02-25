@@ -1,24 +1,24 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { OrderCreatePayload } from 'models/order';
 import { ordersApi } from 'app/containers/Admin/Order';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
-// import { successMessage } from 'common/components/Toast';
 import { message } from 'antd';
-import ToastMessage from 'app/containers/Template/components/AdminTemplate/components/ToastMessage/ToastMessage';
-import { error } from 'console';
+import { useIntl } from 'react-intl';
 
 export const useCreateOrder = (): any => {
+  const queryClient = useQueryClient();
+  const intl = useIntl();
+
   return useMutation(
     (params: OrderCreatePayload) => {
       return ordersApi.createOrder(params);
     },
     {
       onSuccess: (data) => {
-        // message.success('This is a success message');
-        // ToastMessage({type:'error', content: 'Đặt hàng thành công'})
-        // return data;
+        queryClient.invalidateQueries(ordersApi.ordersKeys.lists());
+        message.success(intl.formatMessage({ id: 'common.create.message.success' }));
       },
       onError: (error: ErrorResponse) => {
         if (error?.response?.errors?.length) {

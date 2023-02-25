@@ -29,6 +29,8 @@
   "page.name.emailTempateDetail": "Biểu mẫu chi tiết Email",
   "page.name.popupMenu": "Danh mục popup",
   "page.name.popupMenuDetail": "Danh mục popup chi tiết",
+  "page.name.topMenu": "Danh mục header",
+  "page.name.topMenuDetail": "Danh mục header chi tiết",
   "page.name.support": "Hỗ trợ trực tuyến",
   "page.name.supportDetail": "Hỗ trợ trực tuyến chi tiết",
   "page.name.contact": "Liên hệ",
@@ -41,6 +43,7 @@
   "page.name.catalogues": "Catalogues",
   "page.name.pricing": "Báo giá",
   "page.name.project": "Dự án",
+  "page.name.projectDetail": "Chi tiết dự án",
 
   "menu.top.consult": "Tư vấn",
   "menu.top.catalogues": "Catalogues",
@@ -57,12 +60,20 @@
   "menu.left.order": "Đơn đặt hàng",
   "menu.left.brand": "Thương hiệu",
   "menu.left.advertisement": "Quảng cáo",
+  "menu.left.project": "Dự án",
   "menu.left.setting": "Thiết lập",
-  "menu.left.setting.common": "Thông tin chung",
+  "menu.left.setting.pages": "Các trang",
+  "menu.left.setting.pages.template": "Template toàn site",
+  "menu.left.setting.account": "Tài khoản",
   "menu.left.setting.emailTemplate": "Biểu mẫu email",
   "menu.left.setting.menuPopup": "Danh mục popup",
   "menu.left.setting.support": "Hỗ trợ trực tuyến",
   "menu.left.setting.tagSeo": "Các tag SEO",
+  "menu.left.setting.topMenu": "Danh mục header",
+  "menu.left.settingPage": "Cấu hình trang",
+  "menu.left.settingPage.template": "Template",
+  "menu.left.settingPage.home-page": "Trang chủ",
+
 
   "category.categoryName": "Tên danh mục",
   "category.slug": "Id",
@@ -84,6 +95,7 @@
   "product.brand.placeholder": "Chọn thương hiệu",
   "product.sku": "SKU",
   "product.action": "Chức năng",
+  "product.isHidden": "Không hiển thị",
   "product.images": "Hình sản phẩm",
   "product.type": "Phân loại",
   "product.type.placeholder": "Chọn Phân loại",
@@ -155,7 +167,15 @@
   "common.search.title": "Tìm kiếm",
   "common.search.placeholder": "Hãy nhập",
   "common.empty.data": "Không có dữ liệu",
-
+  "common.type.electrical-cable": "Cáp điện",
+  "common.type.led-light": "Đèn led",
+  "common.emptyPage.content": "Xin lỗi, Trang bạn truy cập không tồn tại",
+  "common.MaintenancePage.content": "Tính năng đang được nâng cấp",
+  "common.button.goBack": "Về trang chủ",
+  "common.image": "Hình",
+  "common.create.message.success": "Thêm data thành công",
+  "common.update.message.success": "Cập nhật data thành công",
+  "common.delete.message.success": "Xoá data thành công",
 
   "login.username": "Tên người dùng",
   "login.password": "Mật khẩu",
@@ -318,6 +338,17 @@
   "advertisement.button.add": "Thêm quảng cáo",
   "advertisement.button.addImages": "Thêm hình",
 
+  "project.name": "Tên dự án",
+  "project.sku": "SKU",
+  "project.images": "Hình",
+  "project.description": "Đặc tả",
+  "project.summary": "Bảng tóm lược",
+  "project.action": "Chức năng",
+  "project.button.add": "Thêm dự án",
+  "project.button.addImages": "Thêm hình",
+  "project.add.message.success": "Thêm dự án thành công",
+  "project.add.message.success": "Chỉnh sửa dự án thành công",
+
   "setting.emailTemplate.name": "Tên biểu mẫu",
   "setting.emailTemplate.subject": "Tiêu đề",
   "setting.emailTemplate.body": "Nội dung",
@@ -329,6 +360,12 @@
   "setting.popupMenu.url": "Đường dẫn",
   "setting.popupMenu.action": "Chức năng",
   "setting.popupMenu.button.add": "Thêm popup menu",
+
+  "setting.topMenu.name": "Tên top menu",
+  "setting.topMenu.icon": "Icon",
+  "setting.topMenu.url": "Đường dẫn",
+  "setting.topMenu.action": "Chức năng",
+  "setting.topMenu.button.add": "Thêm top menu",
 
   "setting.support.name": "Tên hỗ trợ",
   "setting.support.title": "Chức danh",
@@ -360,10 +397,7 @@
   "aboutUs.history.thienAn": "Công ty TNHH Thương mại – Xây dựng Điện công nghiệp THIÊN ÂN",
   "aboutUs.history.kimSang": "Công ty TNHH Sản xuất – Thương mại Thiết bị điện KIM SANG",
 
-  "common.emptyPage.content": "Xin lỗi, Trang bạn truy cập không tồn tại",
-  "common.MaintenancePage.content": "Tính năng đang được nâng cấp",
-  "common.button.goBack": "Về trang chủ",
-  "common.image": "Hình",
+  
 
   "end": "---"
 }

@@ -1,33 +1,25 @@
-import {
-  // Button,
-  Form,
-  // Upload,
-  Badge,
-  Descriptions,
-  Card,
-  Button,
-  Select,
-} from 'antd';
+import { Form, Descriptions, Card, Button, Select } from 'antd';
 import { OrderItem } from 'models/order';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 import './OrderDetailForm.less';
-import { Brand } from 'models/brand';
 import { statusOrder } from 'constants/order';
 import { useCallback } from 'react';
 import { ordersHooks } from 'app/containers/Admin/Order/hooks';
+import { useNavigate } from 'react-router-dom';
 interface IProps {
   isUpdate?: boolean;
   onFinish?: any;
   initialValues?: any;
   isLoading?: boolean;
-  // categories?: Category[];
 }
 
-const OrderDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
+const OrderDetailForm = ({ initialValues }: IProps): JSX.Element => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
   const intl = useIntl();
-  const { mutateAsync: updateOrder, isLoading: isLoadingUpdateOrder } = ordersHooks.useUpdateOrder();
+  const { mutateAsync: updateOrder } = ordersHooks.useUpdateOrder();
 
   const statusOptions: any[] = [
     { label: intl.formatMessage({ id: 'order.status.new' }), value: statusOrder.NEW },
@@ -35,22 +27,23 @@ const OrderDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
     { label: intl.formatMessage({ id: 'order.status.done' }), value: statusOrder.DONE },
   ];
 
-  const changeStatus = useCallback(async (status: string) => {
-    await updateOrder({
-      ...initialValues,
-      status,
-    });
-    window.location.href = `/admin/orders`;
+  const changeStatus = useCallback(
+    async (status: string) => {
+      await updateOrder({
+        ...initialValues,
+        status,
+      }).then(() => navigate(`/admin/orders`, { replace: true }));
+    },
+    [initialValues, navigate, updateOrder]
+  );
 
-  }, [initialValues, updateOrder])
-  
   return (
     <div className="orderDetail">
       <Helmet title={intl.formatMessage({ id: 'page.name.orderDetail' })} />
       <Card
-        title={`${intl.formatMessage({ id: 'page.name.orderDetail' })} [${initialValues.orderNumber}]`}
+        title={`${intl.formatMessage({ id: 'page.name.orderDetail' })} [${initialValues?.orderNumber}]`}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => window.history.back()}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/orders`, { replace: true })}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -60,17 +53,21 @@ const OrderDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
           bordered
         >
           <Descriptions.Item label={intl.formatMessage({ id: 'order.email' })}>
-            {initialValues.customer.email}
+            {initialValues?.customer.email}
           </Descriptions.Item>
           <Descriptions.Item label={intl.formatMessage({ id: 'order.phone' })}>
-            {initialValues.customer.phone}
+            {initialValues?.customer.phone}
           </Descriptions.Item>
           <Descriptions.Item label={intl.formatMessage({ id: 'order.customer' })}>
-            {initialValues.customer.name}
+            {initialValues?.customer.name}
           </Descriptions.Item>
           <Descriptions.Item label={intl.formatMessage({ id: 'order.status' })} span={3}>
             {/* <Badge status="processing" text={initialValues.status} /> */}
-            <Select placeholder={intl.formatMessage({ id: 'order.status.placeholder' })} defaultValue={initialValues.status} onChange={changeStatus}>
+            <Select
+              placeholder={intl.formatMessage({ id: 'order.status.placeholder' })}
+              defaultValue={initialValues?.status}
+              onChange={changeStatus}
+            >
               {statusOptions?.map(item => (
                 // eslint-disable-next-line react/jsx-no-undef
                 <Select.Option key={item?.value} value={item?.value}>
@@ -81,7 +78,7 @@ const OrderDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
           </Descriptions.Item>
           <Descriptions.Item label={intl.formatMessage({ id: 'order.products' })}>
             <div className="orderItems">
-              {initialValues.orderItems.map((item: OrderItem) => {
+              {initialValues?.orderItems.map((item: OrderItem) => {
                 return (
                   <Card
                     hoverable

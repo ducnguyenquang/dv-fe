@@ -7,6 +7,7 @@ import './ProductList.less';
 import { isMobile } from 'react-device-detect';
 import { useMemo, useContext } from 'react';
 import { Context as AppContext } from 'app/context/appContext';
+import Marquee from "react-fast-marquee";
 
 const ProductList = (): JSX.Element => {
   const intl = useIntl();
@@ -17,6 +18,9 @@ const ProductList = (): JSX.Element => {
       limit: 10,
       offset: 0,
     },
+    search: {
+      isHidden: false,
+    }
   });
 
   const threeProductFirst = useMemo(() => {
@@ -31,12 +35,17 @@ const ProductList = (): JSX.Element => {
       <div className="header">{intl.formatMessage({ id: 'page.name.product' })}</div>
       <Spin spinning={!isSuccess}>
         <div className="productBlock">
-          <div className="animationProductBlock">
+          <Marquee loop={1000} pauseOnHover={true}>
+            {products?.data?.map((data: Product) => {
+              return <ProductItem data={data} key={Math.random()} />;
+            })}
+          </Marquee>
+          {/* <div className="animationProductBlock">
             {products?.data?.map((data: Product) => {
               return <ProductItem data={data} key={Math.random()} />;
             })}
             {threeProductFirst}
-          </div>
+          </div> */}
         </div>
       </Spin>
     </div>

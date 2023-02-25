@@ -1,10 +1,13 @@
-import { useMutation, useQuery, UseQueryResult } from 'react-query';
+import { useMutation } from 'react-query';
 import { UserCreatePayload } from 'models/user';
 import { authenticationApi } from 'app/containers/Admin/Authentication';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
+import { useIntl } from 'react-intl';
+import { message } from 'antd';
 
 export const useRegister = (): any => {
+  const intl = useIntl();
 
   return useMutation(
     (params: UserCreatePayload) => {
@@ -12,6 +15,7 @@ export const useRegister = (): any => {
     },
     {
       onSuccess: (data) => {
+        message.success(intl.formatMessage({ id: 'common.create.message.success' }));
       },
       onError: (error: ErrorResponse) => {
         if (error?.response?.errors?.length) {
@@ -21,21 +25,3 @@ export const useRegister = (): any => {
     }
   );
 };
-
-// export const useChangePassword = (params: ChangePasswordPayload): UseQueryResult<UserAuthentication> => {
-//   return useQuery(
-//     authenticationApi.authenticationKeys.changePassword(params),
-//     async () => {
-//       if (!params.email || !params.password) return;
-//       const data = await authenticationApi.changePassword(params);
-//       return data.data;
-//     },
-//     {
-//       onError: (error: ErrorResponse) => {
-//         if (error?.response?.errors?.length) {
-//           apiErrorHandler(error?.response?.errors);
-//         }
-//       },
-//     }
-//   );
-// };

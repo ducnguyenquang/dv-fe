@@ -28,7 +28,7 @@ type SupportQueryBase = {
     id: string;
     desc: boolean;
   };
-  search?: string;
+  search?: any;
 };
 
 export type SupportQueryPayload = Partial<SupportQueryBase>;

@@ -1,15 +1,10 @@
-import {
-  Button,
-  Form,
-  Input,
-  Select,
-  Card,
-} from 'antd';
+import { Button, Form, Input, Select, Card } from 'antd';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -51,8 +46,7 @@ interface IProps {
 }
 
 const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
-  const [text, setText] = useState("");
-
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [body, setBody] = useState('');
   const intl = useIntl();
@@ -63,7 +57,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
       <Card
         title={intl.formatMessage({ id: 'page.name.emailTempateDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => (window.history.back())}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/emailTemplate`, { replace: true })}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -72,9 +66,11 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={(values) => onFinish({
-            ...values,
-          })}
+          onFinish={values =>
+            onFinish({
+              ...values,
+            })
+          }
           initialValues={initialValues}
           scrollToFirstError
         >
@@ -84,7 +80,10 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'setting.emailTemplate.name' })}),
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'setting.emailTemplate.name' }) }
+                ),
               },
             ]}
           >
@@ -96,27 +95,25 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
             rules={[
               {
                 required: true,
-                message: intl.formatMessage({ id: 'common.validation.require.field' }, {name: intl.formatMessage({ id: 'setting.emailTemplate.subject' })}),
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'setting.emailTemplate.subject' }) }
+                ),
               },
             ]}
             hasFeedback
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            name="body"
-            label={intl.formatMessage({ id: 'setting.emailTemplate.body' })}
-          >
-            <ReactQuill 
-              theme="snow" 
-              value={body}
-              onChange={setBody} 
-            />
+          <Form.Item name="body" label={intl.formatMessage({ id: 'setting.emailTemplate.body' })}>
+            <ReactQuill theme="snow" value={body} onChange={setBody} />
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" loading={isLoading}>
-              {isUpdate ? intl.formatMessage({ id: 'common.button.update' }) : intl.formatMessage({ id: 'common.button.add' })}
+              {isUpdate
+                ? intl.formatMessage({ id: 'common.button.update' })
+                : intl.formatMessage({ id: 'common.button.add' })}
             </Button>
           </Form.Item>
         </Form>

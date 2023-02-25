@@ -1,17 +1,22 @@
-import { Button, List, Result } from 'antd';
+import { Button, Result } from 'antd';
 import { useIntl } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
 import './EmptyPage.less';
 
 const EmptyPage = (): JSX.Element => {
   const intl = useIntl();
-
+  const navigate = useNavigate();
 
   return (
     <Result
       status="404"
       title="404"
       subTitle={intl.formatMessage({ id: 'common.emptyPage.content' })}
-      extra={<Button type="primary" onClick={() => window.location.href='/'}>{intl.formatMessage({ id: 'common.button.goBack' })}</Button>}
+      extra={
+        <Button type="primary" onClick={() => navigate(`/`, { replace: true })}>
+          {intl.formatMessage({ id: 'common.button.goBack' })}
+        </Button>
+      }
     />
   );
 };

@@ -1,18 +1,18 @@
-import { Button, Space, Popconfirm, Card, Input, InputRef, Image, Tabs } from 'antd';
+import { Button, Space, Popconfirm, Card, Input, InputRef, Switch, Tabs, Tooltip } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
-import { productsHooks, productsActions, productsApi } from 'app/containers/Admin/Product';
+import { productsHooks, productsActions } from 'app/containers/Admin/Product';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/products';
 import { Category } from 'models/category';
-import { Product } from 'models/product';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import Highlighter from 'react-highlight-words';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
-import { SearchOutlined } from '@ant-design/icons';
 import { Brand } from 'models/brand';
+import { DeleteOutlined, FormOutlined, SearchOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 interface DataType {
   key: string;
@@ -23,15 +23,17 @@ interface DataType {
   slug: string;
   categories: Category[];
   _id: string;
+  isHidden: boolean;
 }
 
 type DataIndex = keyof DataType;
 
 const ProductTable = (): JSX.Element => {
+  const intl = useIntl();
   const dispatch = useDispatch();
   const [dataSource, setDataSource] = useState<DataType[]>([]);
-  const intl = useIntl();
   const [tabIndex, setTabIndex] = useState('electrical-cable');
+  const navigate = useNavigate();
 
   const [page, setPage] = React.useState(PAGE);
   const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
@@ -57,20 +59,19 @@ const ProductTable = (): JSX.Element => {
   const { mutateAsync: deleteProduct, isLoading: isLoadingDeleteProduct } = productsHooks.useDeleteProduct();
 
   useEffect(() => {
-    if (data && !isLoading) {
+    if (data && !isLoading && !isLoadingDeleteProduct) {
       setDataSource(data?.data);
     }
-  }, [data, isLoading, isChanged]);
+  }, [data, isLoading, isChanged, isLoadingDeleteProduct]);
 
   const getProductDetail = async (row: DataType) => {
     await dispatch(productsActions.setProductDetail(row));
-    window.location.href = `/admin/product/${encodeURIComponent(row?.slug)}`;
+    navigate(`/admin/product/${encodeURIComponent(row?.slug)}`, { replace: true });
   };
 
   const onDeleteProduct = async (id: string) => {
     await deleteProduct(id);
     setDataSource([...dataSource]);
-    window.location.reload();
   };
 
   const handleChange = (pagination: any, filters: any, sorter: any) => {
@@ -135,9 +136,6 @@ const ProductTable = (): JSX.Element => {
           </Button>
           <Button
             onClick={() => {
-              // const searchFunction = () => {
-              //   handleSearch(selectedKeys as string[], confirm, dataIndex)
-              // }
               clearFilters && handleReset(selectedKeys as string[], dataIndex, clearFilters, confirm);
             }}
             size="small"
@@ -182,11 +180,6 @@ const ProductTable = (): JSX.Element => {
       sorter: (a, b) => a.name.length - b.name.length,
       showSorterTooltip: false,
       sortDirections: ['descend', 'ascend'],
-      render: (_, record) => (
-        <a href="#" onClick={() => getProductDetail(record)}>
-          {record.name}
-        </a>
-      ),
     },
     {
       title: intl.formatMessage({ id: 'product.sku' }),
@@ -209,34 +202,46 @@ const ProductTable = (): JSX.Element => {
       render: (_, record) => record.brand?.name,
     },
     {
+      title: intl.formatMessage({ id: 'product.isHidden' }),
+      dataIndex: 'isHidden',
+      key: 'isHidden',
+      render: (_, record) => (
+        <Switch
+          disabled
+          defaultChecked={record.isHidden}
+        />
+      ),
+    },
+    {
       title: intl.formatMessage({ id: 'product.action' }),
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          {/* <a>Invite {record.name}</a> */}
           <Popconfirm
             title={intl.formatMessage({ id: 'common.confirmModal.title' }, { name: record?.name })}
             onVisibleChange={() => console.log('visible change')}
             onConfirm={() => onDeleteProduct(record._id)}
-            // onCancel={cancel}
             okText={intl.formatMessage({ id: 'common.button.ok' })}
             cancelText={intl.formatMessage({ id: 'common.button.cancel' })}
           >
-            <a href="#">{intl.formatMessage({ id: 'common.button.delete' })}</a>
+            <Tooltip title={intl.formatMessage({ id: 'common.button.delete' })}>
+              <Button shape="circle" icon={<DeleteOutlined />} />
+            </Tooltip>
           </Popconfirm>
+          <Tooltip title={intl.formatMessage({ id: 'common.button.update' })}>
+            <Button shape="circle" icon={<FormOutlined />} onClick={() => getProductDetail(record)} />
+          </Tooltip>
         </Space>
       ),
     },
   ];
-
-  console.log('==== render dataSource', dataSource);
 
   const onTabChange = (key: string) => {
     setTabIndex(key);
     setSearch({
       ...search,
       type: key === 'electrical-cable' ? 'cap-dien' : 'den-led',
-    })
+    });
   };
 
   return (
@@ -245,7 +250,7 @@ const ProductTable = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.product' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => (window.location.href = '/admin/product/add')}>
+          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/product/add`, { replace: true })}>
             {intl.formatMessage({ id: 'product.button.addProduct' })}
           </Button>
         }

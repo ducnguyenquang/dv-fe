@@ -1,27 +1,18 @@
-import { Button, Form, Input, Select, Upload, Card } from 'antd';
-import { PAGE, PAGE_SIZE } from 'constants/products';
+import { Button, Form, Input, Select, Upload, Card, Switch } from 'antd';
 import { Category } from 'models/category';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { productsHooks, productsSelectors } from 'app/containers/Admin/Product';
-// import { productsSelectors } from '../../../../redux/selectors';
+import { useEffect, useState } from 'react';
+import { productsHooks } from 'app/containers/Admin/Product';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
-import ReactQuill from 'react-quill';
-// import ReactQuill from 'react-quill-with-table';
-// import { Parser as HtmlToReactParser } from "html-to-react";
 import 'react-quill/dist/quill.snow.css';
 import { brandsHooks } from 'app/containers/Admin/Brand';
 import { Brand } from 'models/brand';
 import { TYPE_OPTIONS } from 'constants/type';
-// import Editor from 'app/components/Editor/Editor';
-// import Editor from 'app/components/Editor/EditorWithTable';
 import Editor from 'app/components/Editor/CkEditor';
-
-
 import './ProductDetailForm.less';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -60,31 +51,20 @@ interface IProps {
   onFinish?: any;
   initialValues?: any;
   isLoading?: boolean;
-  // categories?: Category[];
 }
 
 const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
   const intl = useIntl();
-  const dispatch = useDispatch();
-
-  const [text, setText] = useState('');
-
+  const navigate = useNavigate();
   const [form] = Form.useForm();
-  // const { id } = useParams();
-  // const isUpdate = id ? true : false;
   const [description, setDescription] = useState('');
   const [specification, setSpecification] = useState('');
   const [search, setSearch] = useState({
     type: initialValues?.type,
   });
 
-  const productDetailParam = useSelector(productsSelectors.getProduct);
-
   const [brands, setBrands] = useState<Brand[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-
-  // const [page, setPage] = React.useState(PAGE);
-  // const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
   const { data: categoriesData, isLoading: isLoadingCategories } = productsHooks.useCategories({
     search: search,
     pagination: {
@@ -112,15 +92,11 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
 
   useEffect(() => {
     if (brandsData && !isLoadingBrandsData) {
-      // console.log('==== data.data 111', data);
       setBrands(brandsData.data);
     }
   }, [brandsData, isLoadingBrandsData]);
 
   useEffect(() => {
-    // console.log('==== useEffect data', data)
-    // console.log('==== useEffect isLoading', isLoading)
-
     if (categoriesData && !isLoadingCategories) {
       setCategories(categoriesData.data);
     }
@@ -162,7 +138,6 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
   };
 
   const onSelectedType = (value: string) => {
-    console.log('==== onSelectedType value', value);
     const searchData = {
       type: value,
     };
@@ -175,7 +150,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
       <Card
         title={intl.formatMessage({ id: 'page.name.productDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => window.location.href='/admin/products'}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/products`, { replace: true })}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -184,16 +159,14 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={values => {
-            // console.log('==== onFinish values', values); return;
-            onFinish({
+          onFinish={async values => {
+            await onFinish({
               ...values,
               description: encodeURIComponent(values.description),
               specification: encodeURIComponent(values.specification),
               slug: encodeURIComponent(values.slug),
               images: fileList,
-            });
-            window.location.href='/admin/products';
+            }).then(() => navigate(`/admin/products`, { replace: true }));
           }}
           initialValues={initialValues}
           scrollToFirstError
@@ -245,7 +218,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           >
             <Select allowClear placeholder={intl.formatMessage({ id: 'product.brand.placeholder' })}>
               {brands &&
-                brands?.map((item: Brand) => (
+                brands?.map((item: any) => (
                   <Option key={item?._id} value={item?._id}>
                     {item?.name}
                   </Option>
@@ -306,7 +279,9 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
               </ImgCrop>
             </Form.Item>
           </Form.Item>
-
+          <Form.Item name="isHidden" label={intl.formatMessage({ id: 'product.isHidden' })}>
+            <Switch defaultChecked={initialValues?.isHidden} />
+          </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" loading={isLoading}>
               {isUpdate

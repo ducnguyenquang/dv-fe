@@ -7,6 +7,7 @@ import { Category } from 'models/category';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
 
 const formItemLayout = {
   labelCol: {
@@ -51,6 +52,7 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
   const [form] = Form.useForm();
   const [search, setSearch] = useState({});
   const [categories, setCategories] = useState<Category[]>([]);
+  const navigate = useNavigate();
 
   const [types] = useState(TYPE_OPTIONS);
   const { data: categoriesData, isLoading: isLoadingCategories } = categoriesHooks.useCategories({
@@ -125,7 +127,7 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
       <Card
         title={intl.formatMessage({ id: 'page.name.categoryDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => (window.location.href = '/admin/categories')}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/categories`, { replace: true })}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -134,12 +136,11 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={values => {
-            onFinish({
+          onFinish={async values => {
+            await onFinish({
               ...values,
               images: fileList,
-            });
-            window.location.href = '/admin/categories';
+            }).then(() => navigate(`/admin/categories`, { replace: true }));
           }}
           initialValues={initialValues}
           scrollToFirstError

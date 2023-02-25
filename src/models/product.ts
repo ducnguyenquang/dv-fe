@@ -18,6 +18,7 @@ export interface Product {
   pricing?: number;
   type?: string;
   _id?: string;
+  isHidden?: boolean;
 }
 
 export type RangeNumber = {
@@ -52,7 +53,7 @@ Product,
 
 export type ProductUpdatePayload = Pick<
   Product,
-  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories' | 'id' | '_id' | 'summary' | 'specification' | 'type'
+  'name' | 'slug' | 'description' | 'brand' | 'sku' | 'images' | 'categories' | 'id' | '_id' | 'summary' | 'specification' | 'type' | 'isHidden'
 >;
 
 type ProductQueryBase = {

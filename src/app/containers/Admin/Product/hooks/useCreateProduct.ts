@@ -1,26 +1,14 @@
-import { useQuery, UseQueryResult, useMutation, useQueryClient } from 'react-query';
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useMutation, useQueryClient } from 'react-query';
 
-import { ProductQueryPayload, Product, ProductCreatePayload } from 'models/product';
-import { productsApi, productsActions } from 'app/containers/Admin/Product';
+import { ProductCreatePayload } from 'models/product';
+import { productsApi } from 'app/containers/Admin/Product';
 import { apiErrorHandler } from 'utils';
-import { ErrorResponse } from 'models/error';
-import { successMessage } from 'common/components/Toast';
-import ToastMessage from 'app/containers/Template/components/AdminTemplate/components/ToastMessage/ToastMessage';
+import { message } from 'antd';
+import { useIntl } from 'react-intl';
 
 export const useCreateProduct = (): any => {
   const queryClient = useQueryClient();
-
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== useProducts params', params)
+  const intl = useIntl();
 
   return useMutation(
     (params: ProductCreatePayload) => {
@@ -28,16 +16,11 @@ export const useCreateProduct = (): any => {
     },
     {
       onSuccess: (data) => {
-        // Reset list of equipments
         queryClient.invalidateQueries(productsApi.productsKeys.lists());
-        // console.log('==== useCreateProduct onSuccess data', data)
-        ToastMessage({type:'success', content: 'product.message.success'})
+        message.success(intl.formatMessage({ id: 'common.delete.message.success' }));
 
-        // return data;
-        // successMessage({ value: 'Update Successfully' });
       },
       onError: (error: any) => {
-        // console.log('==== useCreateProduct error', error)
         apiErrorHandler(error);
         if (error?.response?.errors?.length) {
           apiErrorHandler(error?.response?.errors);

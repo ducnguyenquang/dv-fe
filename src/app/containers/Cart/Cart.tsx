@@ -5,15 +5,15 @@ import { useIntl } from 'react-intl';
 import CartItem from './components/CartItem/CartItem';
 import layout from 'antd/lib/layout';
 import './Cart.less';
-import { useDispatch } from 'react-redux';
 import { ordersHooks } from '../Admin/Order';
 import { getCities, getWards } from 'utils/location/location';
 import { statusOrder } from 'constants/order';
 import { ShoppingCartOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = (): JSX.Element => {
   const intl = useIntl();
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { mutateAsync: createOrder, isLoading: isLoadingCreateOrder } = ordersHooks.useCreateOrder();
 
   const [cart, setCart] = React.useState<CartModel>();
@@ -28,14 +28,17 @@ const Cart = (): JSX.Element => {
     }
   }, [cartStringData]);
 
-  const openNotificationWithIcon = useCallback((type: NotificationType, item: any) => {
-    notification[type]({
-      message: intl.formatMessage(
-        { id: 'common.event.message.success' },
-        { name: intl.formatMessage({ id: 'cart.notification.content.adding.success' }, { name: item.orderNumber }) }
-      ),
-    });
-  }, [intl]);
+  const openNotificationWithIcon = useCallback(
+    (type: NotificationType, item: any) => {
+      notification[type]({
+        message: intl.formatMessage(
+          { id: 'common.event.message.success' },
+          { name: intl.formatMessage({ id: 'cart.notification.content.adding.success' }, { name: item.orderNumber }) }
+        ),
+      });
+    },
+    [intl]
+  );
 
   const onFinish = useCallback(
     async (values: any) => {
@@ -50,16 +53,15 @@ const Cart = (): JSX.Element => {
         }),
         status: statusOrder.NEW,
       });
-      openNotificationWithIcon('success', order)
+      openNotificationWithIcon('success', order);
       localStorage.setItem('shoppingCart', '');
-      window.location.href = '/';
+      navigate(`/`, { replace: true });
     },
-    [cart, createOrder, openNotificationWithIcon]
+    [cart, createOrder, navigate, openNotificationWithIcon]
   );
 
   type NotificationType = 'success' | 'info' | 'warning' | 'error';
-  
-  
+
   const onDelete = (id: string) => {
     const indexItem = cart?.orderItems?.findIndex(item => item.product?._id === id);
     if (indexItem !== undefined && indexItem > -1) {
@@ -84,9 +86,11 @@ const Cart = (): JSX.Element => {
 
       <div className="cartItems">
         <div className="title">{intl.formatMessage({ id: 'cart.cart.title' })}</div>
-        {cart?.orderItems && cart?.orderItems?.length > 0 ? cart?.orderItems?.map(item => (
-          <CartItem data={item} onDelete={onDelete} />
-        )) : <Empty description={intl.formatMessage({ id: 'common.empty.data' })} />}
+        {cart?.orderItems && cart?.orderItems?.length > 0 ? (
+          cart?.orderItems?.map(item => <CartItem data={item} onDelete={onDelete} />)
+        ) : (
+          <Empty description={intl.formatMessage({ id: 'common.empty.data' })} />
+        )}
       </div>
       <div className="customerInfo">
         <div className="title">{intl.formatMessage({ id: 'cart.customer.title' })}</div>
@@ -224,9 +228,9 @@ const Cart = (): JSX.Element => {
           <Form.Item name={'note'} label={intl.formatMessage({ id: 'cart.customer.note' })}>
             <Input.TextArea />
           </Form.Item>
-          <Button type="primary" htmlType="submit" icon={<ShoppingCartOutlined />} className='submitButton'>
-              {intl.formatMessage({ id: 'cart.button.book' })}
-            </Button>
+          <Button type="primary" htmlType="submit" icon={<ShoppingCartOutlined />} className="submitButton">
+            {intl.formatMessage({ id: 'cart.button.book' })}
+          </Button>
         </Form>
       </div>
     </div>

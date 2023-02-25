@@ -2,20 +2,13 @@ import { Button, Card, Form, Input, Select, Upload } from 'antd';
 import { ROLE_DROPDOWN_OPTIONS } from 'constants/user';
 import { useCallback, useEffect, useState } from 'react';
 import { usersHooks } from 'app/containers/Admin/User';
-// import { productsSelectors } from '../../../../redux/selectors';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 import { User } from 'models/user';
 import './Information.less';
-
-// import { productsActions } from 'app/containers/Admin';
-
-// interface IProps {
-//   caterogy?: string;
-//   id?: string;
-// }
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -52,39 +45,24 @@ const tailFormItemLayout = {
 const Information = (): JSX.Element => {
   const [form] = Form.useForm();
   const currentUserData: any = localStorage.getItem('CurrentUser')
-  // const [id, setId] = useState('');
   const [currentUser, setCurrentUser] = useState<User>();
-
-  // const { id } = useParams();
-  // const isUpdate = id ? true : false;
   const intl = useIntl();
+  const navigate = useNavigate();
   const { mutateAsync: updateUser, isLoading: isLoadingUpdateUser } = usersHooks.useUpdateUser();
-
-  // const userDetailParam = useSelector(usersSelectors.getUser);
-  // console.log('==== currentUser', currentUser);
-
-  // const [userDetail, setUserDetail] = useState<User>();
   const [fileList, setFileList] = useState<UploadFile[]>(currentUser?.images ? currentUser?.images : []);
-  // const { data: userDetailData, isLoading: isLoadingUserDetail } = usersHooks.useUser({ id: currentUser?._id });
 
   const onFinish = useCallback(async (values: any) => {
     await updateUser({
       ...values,
       _id: currentUser?._id,
-      // images: fileList,
     }).then((item: any) => {
       setCurrentUser(item?.data);
       setFileList(item?.data?.images);
       localStorage.setItem('CurrentUser', JSON.stringify(item?.data))
-
-      // setDefaultValue({
-      //   ...userDetailData,
-      // });
     });
   }, [updateUser, currentUser]);
 
   const normFile = (e: any) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -126,19 +104,11 @@ const Information = (): JSX.Element => {
     imgWindow?.document.write(image.outerHTML);
   };
 
-  // useEffect(() => {
-  //   if (userDetailData && !isLoadingUserDetail) {
-  //     setUserDetail(userDetailData);
-  //     setFileList(userDetailData?.images);
-  //   }
-  // }, [userDetailData, isLoadingUserDetail]);
-
   useEffect(() => {
     if (currentUserData && !currentUser) {
       const user = JSON.parse(currentUserData)
       setCurrentUser(user);
       setFileList(user?.images);
-      // setUserDetail(JSON.parse(currentUserData))
     }
   }, [currentUser, currentUserData]);
 
@@ -149,7 +119,7 @@ const Information = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.setting.information' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => (window.history.back())}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/`, { replace: true })}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -158,8 +128,8 @@ const Information = (): JSX.Element => {
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={values =>
-            onFinish({
+          onFinish={async values =>
+            await onFinish({
               ...values,
               images: fileList,
             })

@@ -1,44 +1,52 @@
 {
-    "backendUrl": "https://leddaiviet.com:8080",
+    "backendUrl": "http://localhost:4001",
     "loginApi": "/login",
     "changePasswordApi": "/changePassword",
     "registerApi": "/register",
+    
     "getProductsApi": "/product/list",
     "getProductApi": "/product",
     "createProductApi": "/product/add",
     "updateProductApi": "/product/update",
     "removeProductApi": "/product/remove",
+    
     "getCategoriesApi": "/category/list",
     "getCategoryApi": "/category",
     "createCategoryApi": "/category/add",
     "updateCategoryApi": "/category/update",
     "removeCategoryApi": "/category/remove",
+    
     "getUsersApi": "/user/list",
     "getUserApi": "/user",
     "createUserApi": "/user/add",
     "updateUserApi": "/user/update",
     "removeUserApi": "/user/remove",
+    
     "getOrdersApi": "/order/list",
     "getOrderApi": "/order",
     "createOrderApi": "/order/add",
     "updateOrderApi": "/order/update",
     "removeOrderApi": "/order/remove",
     "uploadImages": "/upload",
+    
     "getBrandsApi": "/brand/list",
     "getBrandApi": "/brand",
     "createBrandApi": "/brand/add",
     "updateBrandApi": "/brand/update",
     "removeBrandApi": "/brand/remove",
+    
     "getAdvertisementsApi": "/advertisement/list",
     "getAdvertisementApi": "/advertisement",
     "createAdvertisementApi": "/advertisement/add",
     "updateAdvertisementApi": "/advertisement/update",
     "removeAdvertisementApi": "/advertisement/remove",
+    
     "getEmailTemplatesApi": "/email-template/list",
     "getEmailTemplateApi": "/email-template",
     "createEmailTemplateApi": "/email-template/add",
     "updateEmailTemplateApi": "/email-template/update",
     "removeEmailTemplateApi": "/email-template/remove",
+    
     "getPopupMenusApi": "/popup-menu/list",
     "getPopupMenuApi": "/popup-menu",
     "createPopupMenuApi": "/popup-menu/add",
@@ -55,5 +63,17 @@
     "getSupportApi": "/support",
     "createSupportApi": "/support/add",
     "updateSupportApi": "/support/update",
-    "removeSupportApi": "/support/remove"
+    "removeSupportApi": "/support/remove",
+
+    "getTopMenusApi": "/top-menu/list",
+    "getTopMenuApi": "/top-menu",
+    "createTopMenuApi": "/top-menu/add",
+    "updateTopMenuApi": "/top-menu/update",
+    "removeTopMenuApi": "/top-menu/remove",
+
+    "getProjectsApi": "/project/list",
+    "getProjectApi": "/project",
+    "createProjectApi": "/project/add",
+    "updateProjectApi": "/project/update",
+    "removeProjectApi": "/project/remove"
 }

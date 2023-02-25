@@ -1,17 +1,18 @@
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   UserOutlined,
   CodeSandboxOutlined,
   SettingOutlined,
   SolutionOutlined,
   TeamOutlined,
+  AppstoreAddOutlined,
+  BankOutlined,
+  AuditOutlined,
+  FundOutlined,
 } from '@ant-design/icons';
-import { Card, Layout, Menu, Image } from 'antd';
-// import { Header, Content } from "antd/lib/layout/layout";
-// import Sider from "antd/lib/layout/Sider";
+import { Layout, Menu, Image } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
 import './AdminTemplate.less';
 import UserDropDown from './components/UserDropDown/UserDropDown';
 
@@ -21,13 +22,13 @@ interface IProps {
 const Template = ({ content }: IProps): JSX.Element => {
   const [collapsed, setCollapsed] = useState(false);
   const [pageName, setPageName] = useState('category');
-  // const [inlineCollapsed, setInlineCollapsed] = useState(false);
+  const navigate = useNavigate();
 
   const intl = useIntl();
 
   const navMenuClick = ({ name, url }: { name: string; url: string }) => {
     setPageName(name);
-    window.location.href = url;
+    navigate(url, { replace: true })
   };
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const Template = ({ content }: IProps): JSX.Element => {
       // setInlineCollapsed(true);
     }
 
-    if (!localStorage.getItem('Token')) window.location.href = '/admin/login';
+    if (!localStorage.getItem('Token')) navigate('/admin/login', { replace: true });
   }, []);
 
   const getNavSelected = () => {
@@ -74,6 +75,11 @@ const Template = ({ content }: IProps): JSX.Element => {
       case '/admin/advertisement/update':
         result = 'advertisement';
         break;
+      case '/admin/projects':
+      case '/admin/projects/add':
+      case '/admin/projects/update':
+        result = 'project';
+        break;
       case '/admin/setting/emailTemplate':
       case '/admin/setting/emailTemplate/add':
       case '/admin/setting/emailTemplate/update':
@@ -93,6 +99,11 @@ const Template = ({ content }: IProps): JSX.Element => {
       case '/admin/setting/tagSeo/add':
       case '/admin/setting/tagSeo/update':
         result = 'tagSeo';
+        break;
+      case '/admin/setting/topMenus':
+      case '/admin/setting/topMenu/add':
+      case '/admin/setting/topMenu/update':
+        result = 'topMenu';
         break;
       default:
         result = 'category';
@@ -122,13 +133,14 @@ const Template = ({ content }: IProps): JSX.Element => {
         <Image width={50} preview={false} src="/images/logodv-8769.gif" />
         <Menu
           mode="inline"
-          defaultSelectedKeys={['category']}
-          selectedKeys={[...getNavSelected()]}
+          // defaultSelectedKeys={['category']}
+          defaultSelectedKeys={[...getNavSelected()]}
+          // selectedKeys={[...getNavSelected()]}
           defaultOpenKeys={[...getSubNavSelected()]}
           items={[
             {
               key: 'category',
-              icon: <UserOutlined />,
+              icon: <AppstoreAddOutlined />,
               label: intl.formatMessage({ id: 'menu.left.category' }),
               onClick: () => {
                 navMenuClick({ name: 'category', url: '/admin/categories' });
@@ -160,7 +172,7 @@ const Template = ({ content }: IProps): JSX.Element => {
             },
             {
               key: 'brand',
-              icon: <SolutionOutlined />,
+              icon: <BankOutlined />,
               label: intl.formatMessage({ id: 'menu.left.brand' }),
               onClick: () => {
                 navMenuClick({ name: 'brand', url: '/admin/brands' });
@@ -168,10 +180,26 @@ const Template = ({ content }: IProps): JSX.Element => {
             },
             {
               key: 'advertisement',
-              icon: <SolutionOutlined />,
+              icon: <FundOutlined />,
               label: intl.formatMessage({ id: 'menu.left.advertisement' }),
               onClick: () => {
                 navMenuClick({ name: 'advertisement', url: '/admin/advertisements' });
+              },
+            },
+            {
+              key: 'project',
+              icon: <AuditOutlined />,
+              label: intl.formatMessage({ id: 'menu.left.project' }),
+              onClick: () => {
+                navMenuClick({ name: 'project', url: '/admin/projects' });
+              },
+            },
+            {
+              key: 'account',
+              icon: <UserOutlined />,
+              label: intl.formatMessage({ id: 'menu.left.setting.account' }),
+              onClick: () => {
+                navMenuClick({ name: 'common', url: '/admin/setting/information' });
               },
             },
             {
@@ -179,13 +207,6 @@ const Template = ({ content }: IProps): JSX.Element => {
               icon: <SettingOutlined />,
               label: intl.formatMessage({ id: 'menu.left.setting' }),
               children: [
-                {
-                  key: 'common',
-                  label: intl.formatMessage({ id: 'menu.left.setting.common' }),
-                  onClick: () => {
-                    navMenuClick({ name: 'common', url: '/admin/setting/information' });
-                  },
-                },
                 {
                   key: 'emailTemplate',
                   label: intl.formatMessage({ id: 'menu.left.setting.emailTemplate' }),
@@ -214,6 +235,35 @@ const Template = ({ content }: IProps): JSX.Element => {
                     navMenuClick({ name: 'tagSeo', url: '/admin/setting/tagSeo' });
                   },
                 },
+                {
+                  key: 'topMenu',
+                  label: intl.formatMessage({ id: 'menu.left.setting.topMenu' }),
+                  onClick: () => {
+                    navMenuClick({ name: 'topMenu', url: '/admin/setting/topMenus' });
+                  },
+                },
+              ],
+            },
+            {
+              key: 'settingPage',
+              icon: <SettingOutlined />,
+              label: intl.formatMessage({ id: 'menu.left.settingPage' }),
+              // type: 'group',
+              children: [
+                {
+                  key: 'template',
+                  label: intl.formatMessage({ id: 'menu.left.settingPage.template' }),
+                  onClick: () => {
+                    navMenuClick({ name: 'template', url: '/admin/setting-page/template' });
+                  },
+                },
+                {
+                  key: 'home-page',
+                  label: intl.formatMessage({ id: 'menu.left.settingPage.home-page' }),
+                  onClick: () => {
+                    navMenuClick({ name: 'home-page', url: '/admin/setting-page/home-page' });
+                  },
+                },
               ],
             },
           ]}
@@ -221,10 +271,6 @@ const Template = ({ content }: IProps): JSX.Element => {
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-          {/* {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed),
-          })} */}
           <UserDropDown />
         </Header>
         <Content

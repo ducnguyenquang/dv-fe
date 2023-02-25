@@ -1,18 +1,17 @@
-import { Button, Space, Table, Tag, Popconfirm, Card, Input, InputRef, Tabs } from 'antd';
+import { Button, Space, Popconfirm, Card, Input, InputRef, Tabs, Tooltip } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
-import { categoriesHooks, categoriesActions, categoriesApi } from 'app/containers/Admin/Category';
+import { categoriesHooks, categoriesActions } from 'app/containers/Admin/Category';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/pagination';
-import { Category } from 'models/category';
 import { useIntl } from 'react-intl';
-// import { Product } from 'models/product';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
 import { TYPE_OPTIONS } from 'constants/type';
+import { DeleteOutlined, FormOutlined, SearchOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 interface DataType {
   key: string;
@@ -27,6 +26,7 @@ type DataIndex = keyof DataType;
 
 const CategoryTable = (): JSX.Element => {
   const intl = useIntl();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const [categories, setCategories] = useState<any>([]);
@@ -38,10 +38,7 @@ const CategoryTable = (): JSX.Element => {
   const [pageSize, setPageSize] = React.useState(PAGE_SIZE);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  // const [search, setSearch] = useState();
   const [sort, setSort] = useState(undefined);
-  const [isChanged, setIsChanged] = useState(false);
-
   const searchInput = useRef<InputRef>(null);
 
   const { data, isLoading } = categoriesHooks.useCategories({
@@ -53,35 +50,22 @@ const CategoryTable = (): JSX.Element => {
     },
   });
 
-  const { mutateAsync: deleteCategory, isLoading: isLoadingDeleteCategory } = categoriesHooks.useDeleteCategory();
+  const { mutateAsync: deleteCategory } = categoriesHooks.useDeleteCategory();
 
   useEffect(() => {
     if (data && !isLoading) {
-      // console.log('==== data.data 111', data);
       setCategories(data.data);
     }
   }, [data, isLoading]);
 
-  const getProductDetail = async (row: DataType) => {
+  const getCategoryDetail = async (row: DataType) => {
     await dispatch(categoriesActions.setCategoryDetail(row));
-    window.location.href = `/admin/category/${row?.slug}`;
-
-    // dispatch(productsApi.setEquipmentPagination(pagination));
+    navigate(`/admin/category/${row?.slug}`, { replace: true });
   };
 
   const onDeleteCategory = async (id: string) => {
     await deleteCategory(id);
     setCategories([...categories]);
-    // window.location.reload();
-  };
-
-  const handleChange = (pagination: any, filters: any, sorter: any) => {
-    setIsChanged(true);
-    if (sorter.hasOwnProperty('column')) {
-      const params: any = {};
-      params[`${sorter.field}`] = sorter.order === 'descend' ? 'desc' : 'asc';
-      setSort(params);
-    }
   };
 
   const handleSearch = (
@@ -93,10 +77,8 @@ const CategoryTable = (): JSX.Element => {
     setSearchText(selectedKeys?.[0]);
     setSearchedColumn(dataIndex);
     const searchData: any = search;
-    // if (searchData) {
     searchData[dataIndex] = selectedKeys?.[0];
     setSearch(searchData);
-    // }
   };
 
   const onTabChange = (key: string) => {
@@ -104,7 +86,7 @@ const CategoryTable = (): JSX.Element => {
     setSearch({
       ...search,
       type: key === 'electrical-cable' ? 'cap-dien' : 'den-led',
-    })
+    });
   };
 
   const handleReset = (
@@ -146,9 +128,6 @@ const CategoryTable = (): JSX.Element => {
           </Button>
           <Button
             onClick={() => {
-              // const searchFunction = () => {
-              //   handleSearch(selectedKeys as string[], confirm, dataIndex)
-              // }
               clearFilters && handleReset(selectedKeys as string[], dataIndex, clearFilters, confirm);
             }}
             size="small"
@@ -193,11 +172,6 @@ const CategoryTable = (): JSX.Element => {
       sorter: (a, b) => a.name.length - b.name.length,
       showSorterTooltip: false,
       sortDirections: ['descend', 'ascend'],
-      render: (_, record) => (
-        <a href="#" onClick={() => getProductDetail(record)}>
-          {record.name}
-        </a>
-      ),
     },
     {
       title: intl.formatMessage({ id: 'category.slug' }),
@@ -227,17 +201,20 @@ const CategoryTable = (): JSX.Element => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          {/* <a>Invite {record.name}</a> */}
           <Popconfirm
             title={intl.formatMessage({ id: 'common.confirmModal.title' }, { name: record?.name })}
             onVisibleChange={() => console.log('visible change')}
             onConfirm={() => onDeleteCategory(record._id)}
-            // onCancel={cancel}
             okText={intl.formatMessage({ id: 'common.button.ok' })}
             cancelText={intl.formatMessage({ id: 'common.button.cancel' })}
           >
-            <a href="#">{intl.formatMessage({ id: 'common.button.delete' })}</a>
+            <Tooltip title={intl.formatMessage({ id: 'common.button.delete' })}>
+              <Button shape="circle" icon={<DeleteOutlined />} />
+            </Tooltip>
           </Popconfirm>
+          <Tooltip title={intl.formatMessage({ id: 'common.button.update' })}>
+            <Button shape="circle" icon={<FormOutlined />} onClick={() => getCategoryDetail(record)} />
+          </Tooltip>
         </Space>
       ),
     },
@@ -249,13 +226,13 @@ const CategoryTable = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.category' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => (window.location.href = '/admin/category/add')}>
+          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/category/add`, { replace: true })}>
             {intl.formatMessage({ id: 'category.button.addCategory' })}
           </Button>
         }
       >
         <Tabs className="tabs" defaultActiveKey={tabIndex} onChange={onTabChange}>
-          <Tabs.TabPane tab={intl.formatMessage({ id: 'product.type.electrical-cable' })} key="electrical-cable">
+          <Tabs.TabPane tab={intl.formatMessage({ id: 'common.type.electrical-cable' })} key="electrical-cable">
             <ServiceTable
               columns={columns}
               dataSource={categories}
@@ -272,7 +249,7 @@ const CategoryTable = (): JSX.Element => {
               }}
             />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={intl.formatMessage({ id: 'product.type.led-light' })} key="led-light">
+          <Tabs.TabPane tab={intl.formatMessage({ id: 'common.type.led-light' })} key="led-light">
             <ServiceTable
               columns={columns}
               dataSource={categories}

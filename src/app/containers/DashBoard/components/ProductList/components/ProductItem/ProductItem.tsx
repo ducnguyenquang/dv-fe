@@ -1,15 +1,17 @@
-import { Button, Image, Rate } from 'antd';
+import { Button } from 'antd';
 import { useIntl } from 'react-intl';
 import { Product } from 'models/product';
 import './ProductItem.less';
-import { useMemo, useContext } from 'react';
+import { useContext } from 'react';
 import { Context as AppContext } from 'app/context/appContext';
+import { useNavigate } from 'react-router-dom';
 interface IProps {
   data?: Product;
 }
 
 const ProductItem = ({ data }: IProps): JSX.Element => {
   const intl = useIntl();
+  const navigate = useNavigate();
   const { orientation, isMobile } = useContext(AppContext);
 
   return <div className={`productItem ${isMobile && 'productItem-mobile'} ${orientation && `productItem-mobile-${orientation}`}`}>
@@ -34,7 +36,7 @@ const ProductItem = ({ data }: IProps): JSX.Element => {
         <Button
           type="link"
           className="detailButton"
-          onClick={() => (window.location.href = `/product/${encodeURIComponent(data?.slug as string)}`)}
+          onClick={() => navigate(`/product/${encodeURIComponent(data?.slug as string)}`)}
         >
           {intl.formatMessage({ id: 'common.button.detail' })}
         </Button>

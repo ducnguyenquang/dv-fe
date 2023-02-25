@@ -1,9 +1,10 @@
-import { Button, Card, Form, Input, Select, Upload } from 'antd';
+import { Button, Card, Form, Input, Upload } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const formItemLayout = {
   labelCol: {
@@ -46,11 +47,10 @@ interface IProps {
 const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
   const intl = useIntl();
   const [form] = Form.useForm();
-
+  const navigate = useNavigate();
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.logo : []);
 
   const normFile = (e: any) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -66,7 +66,6 @@ const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
     },
     beforeUpload: file => {
       setFileList([...fileList, file]);
-
       return false;
     },
     listType: 'picture-card',
@@ -98,7 +97,7 @@ const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
       <Card
         title={intl.formatMessage({ id: 'page.name.brandDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => window.history.back()}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/brands`, { replace: true })}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -107,12 +106,12 @@ const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={values =>
-            onFinish({
+          onFinish={async values => {
+            await onFinish({
               ...values,
               logo: fileList,
-            })
-          }
+            }).then(() => navigate('/admin/brands', { replace: true }));
+          }}
           initialValues={initialValues}
           scrollToFirstError
         >
@@ -128,6 +127,7 @@ const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
                 ),
               },
             ]}
+            hasFeedback
           >
             <Input />
           </Form.Item>
@@ -160,15 +160,22 @@ const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
                 ),
               },
             ]}
+            hasFeedback
           >
             <Input.TextArea showCount maxLength={100} value={initialValues?.description} />
           </Form.Item>
 
           <Form.Item label={intl.formatMessage({ id: 'brand.logo' })}>
             <Form.Item name="logo" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-              <ImgCrop rotate aspect={1.5/1} grid quality={0.3} minZoom={0.1} cropperProps={{ restrictPosition: false }}>
+              <ImgCrop
+                rotate
+                aspect={1.5 / 1}
+                grid
+                quality={0.3}
+                minZoom={0.1}
+                cropperProps={{ restrictPosition: false }}
+              >
                 <Upload
-                  // action={`${endPoint.backendUrl}${endPoint.uploadImages}`}
                   {...props}
                   listType="picture-card"
                   onChange={onChange}

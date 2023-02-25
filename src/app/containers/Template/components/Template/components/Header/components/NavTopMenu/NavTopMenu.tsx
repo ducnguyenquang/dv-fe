@@ -6,15 +6,17 @@ import './NavTopMenu.less';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
 import { FooterLogo } from '../../../Footer/components/FooterTopMenu/components/FooterLogo';
+import { useNavigate } from 'react-router-dom';
 interface IProps {
   content?: any;
 }
 const NavTopMenu = ({ content }: IProps): JSX.Element => {
   const intl = useIntl();
+  const navigate = useNavigate();
   const { isMobile } = useContext(AppContext);
 
   const navMenuClick = ({ name, url }: { name: string; url: string }) => {
-    window.location.href = url;
+    navigate(url, { replace: true })
   };
 
   const getNavSelected = () => {
@@ -123,7 +125,6 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
   console.log('==== isMobile', isMobile);
   
   return <div className='navTopMenu'>
-    {/* <div className='logo'><Logo /></div> */}
     {isMobile ? <FooterLogo /> : <Logo />}
     <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={[...getNavSelected()]} items={items1} />
     <RightMenu />

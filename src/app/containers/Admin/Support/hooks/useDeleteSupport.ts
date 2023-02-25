@@ -1,31 +1,23 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { message } from 'antd';
 import { SupportDeletePayload } from 'models/support';
 import { supportsApi } from 'app/containers/Admin/Support';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
+import { useIntl } from 'react-intl';
 
 export const useDeleteSupport = (): any => {
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== useProducts params', params)
-
+  const queryClient = useQueryClient();
+  const intl = useIntl();
+  
   return useMutation(
     (params: SupportDeletePayload) => {
       return supportsApi.deleteSupport(params);
     },
     {
       onSuccess: () => {
-        // Reset list of equipments
-        // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
-        message.success('Delete Successfully');
-        // successMessage({ value: 'Update Successfully' });
+        queryClient.invalidateQueries(supportsApi.supportsKeys.lists());
+        message.success(intl.formatMessage({ id: 'common.delete.message.success' }));
       },
       onError: (error: ErrorResponse) => {
         if (error?.response?.errors?.length) {

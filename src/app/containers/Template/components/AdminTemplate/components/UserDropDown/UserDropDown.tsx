@@ -1,17 +1,17 @@
-import { Avatar, Dropdown, Menu, Space } from 'antd';
-// import { useEffect, useState } from 'react';
+import { Avatar, Button, Dropdown, Menu, Space } from 'antd';
 import { useIntl } from 'react-intl';
-import { DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import './UserDropDown.less';
 import { useEffect, useState } from 'react';
 import { User } from 'models/user';
+import { useNavigate, Link } from 'react-router-dom';
 
 const UserDropDown = (): JSX.Element => {
   const intl = useIntl();
   const [currentUser, setCurrentUser] = useState<User>();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // if (!localStorage.getItem('Token')) window.location.href = '/admin/login';
     const token = localStorage.getItem('Token')
     if (token) {
       const user = localStorage.getItem('CurrentUser')
@@ -23,16 +23,16 @@ const UserDropDown = (): JSX.Element => {
     localStorage.setItem('Token', '');
     const url = window.location.href
     if (url.includes('/admin/')) {
-      window.location.href = '/admin/login';
+      navigate('/admin/login', { replace: true })
     } else {
-      window.location.href = '/';
+      navigate('/', { replace: true })
     }
   }
   const menu = (
     <Menu
       items={[
         {
-          label: <a href="#">{intl.formatMessage({ id: 'template.userDropDown.information' })}</a>,
+          label: <Link to={'#'}>{intl.formatMessage({ id: 'template.userDropDown.information' })}</Link>,
           key: '0',
           icon: <UserOutlined />,
         },
@@ -40,7 +40,7 @@ const UserDropDown = (): JSX.Element => {
           type: 'divider',
         },
         {
-          label: <a onClick={logout}>{intl.formatMessage({ id: 'template.userDropDown.logout' })}</a>,
+          label: <Button type='link' onClick={logout}>{intl.formatMessage({ id: 'template.userDropDown.logout' })}</Button>,
           key: '1',
           icon: <LogoutOutlined />,
         },
@@ -51,12 +51,12 @@ const UserDropDown = (): JSX.Element => {
   return (
     <div className='userContainer'>
       <Dropdown  className='userDropDown' overlay={menu} trigger={['click']}>
-        <a onClick={e => e.preventDefault()}>
+        <Button type='link' onClick={e => e.preventDefault()}>
           {currentUser ? <Space>
             {`${currentUser?.firstName} ${currentUser?.lastName}`}
             <Avatar src={currentUser?.images?.[0]?.thumbUrl} />
           </Space> : intl.formatMessage({ id: 'template.userDropDown.login' })}
-        </a>
+        </Button>
       </Dropdown>
     </div>
   );

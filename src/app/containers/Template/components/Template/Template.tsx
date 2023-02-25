@@ -13,7 +13,7 @@ import { TagSeo } from 'models/tagSeo';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
 import HamburgerMenu from 'app/components/HamburgerMenu/HamburgerMenu';
-import { FooterLogo } from './components/Footer/components/FooterTopMenu/components/FooterLogo';
+import { Logo } from './components/Header/components/Logo';
 interface IProps {
   content?: any;
   leftMenu?: any;
@@ -21,14 +21,9 @@ interface IProps {
   hasTopMenu?: boolean;
 }
 const Template = ({ content, leftMenu, hasBreadcrumb, hasTopMenu }: IProps): JSX.Element => {
-  const intl = useIntl();
   const [tagSeos, setTagSeos] = useState<string>();
-  const { orientation, isMobile } = useContext(AppContext);
-
-  const navMenuClick = (url: string) => {
-    window.location.href = url;
-  };
-  const { Header, Sider, Content } = Layout;
+  const { isMobile } = useContext(AppContext);
+  const { Header, Content } = Layout;
 
   const { data: dataTagSeos, isLoading: isLoadingTagSeos } = templatesHooks.useTagSeos({
     pagination: {
@@ -70,16 +65,16 @@ const Template = ({ content, leftMenu, hasBreadcrumb, hasTopMenu }: IProps): JSX
       {isMobile ? <HamburgerMenu /> :  hasTopMenu && <Header className="header">{<TemplateHeader />}</Header>}
       <Content style={{ padding: '0 1rem' }}>
         {hasBreadcrumb && <BreadcrumbComponent />}
-        {!isMobile && leftMenu ? (
+        {leftMenu ? (
           <Layout className="layoutContent site-layout-background" style={{ padding: '1rem 0' }}>
-            {leftMenu}
+            {!isMobile && leftMenu}
             <Content style={{ padding: '0 1rem', minHeight: 280 }}>{content}</Content>
           </Layout>
         ) : (
-          <>
-            {isMobile && <FooterLogo />}
+          <div className={isMobile ? `mobileBlock` : ''}>
+            {isMobile && <div className='logo'><Logo /></div>}
             <Content style={{ padding: '0 1rem', minHeight: 280 }}>{content}</Content>
-          </>
+          </div>
         )}
       </Content>
       <Footer style={{ textAlign: 'center', fontSize: '13px' }}>

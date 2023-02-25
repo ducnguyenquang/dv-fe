@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-// import AppConfig from 'config/';
+import AppConfig from 'config/';
 import { checkSession } from 'utils/auth';
 import endPoint from './endPoint.json';
 
@@ -10,9 +10,9 @@ import endPoint from './endPoint.json';
  * @returns {string}
  */
 
-// const getRootLink = () => {
-//   return AppConfig.getApiEndpoint();
-// };
+const getRootLink = () => {
+  return AppConfig.getApiEndpoint();
+};
 /**
  * Get Full API Link
  * @param options
@@ -21,6 +21,8 @@ import endPoint from './endPoint.json';
 
 const getFullAPILink = (link: string, options = {}) => {
   return endPoint.backendUrl + link;
+  // return getRootLink() + link;
+
 };
 
 /**

@@ -4,61 +4,51 @@ import { Product } from 'models/product';
 import { useIntl } from 'react-intl';
 import './ListItemComponent.less';
 import { Cart } from 'models/cart';
+import { useNavigate } from 'react-router-dom';
 interface IProps {
   data: Product;
 }
 
 const ListItemComponent = ({ data }: IProps): JSX.Element => {
   const intl = useIntl();
-
-  // const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-  //   <Space>
-  //     {React.createElement(icon)}
-  //     {text}
-  //   </Space>
-  // );
-
-  // console.log('==== ProductListItem data', data);
+  const navigate = useNavigate();
 
   const goToProductDetail = () => {
-    window.location.href = data?.slug ? `/product/${encodeURIComponent(data?.slug)}` : '';
+    navigate(data?.slug ? `/product/${encodeURIComponent(data?.slug)}` : '/products', { replace: true })
   };
 
   const onAddCart = async (cartItem: any) => {
     const cartStringData = localStorage.getItem('shoppingCart');
-    console.log('==== onAddCart item',cartItem)
     let cartData: Cart = {
       total: 0,
-      orderItems: [{
-        product: cartItem,
-        total: 0,
-        quantity: 1,
-      }],
-      // customer: value,
-    }
-
-    // if (cartStringData) {
-      cartData = cartStringData ? JSON.parse(cartStringData) : cartData;
-      const orderItem = cartData?.orderItems?.find(item => item.product?._id === cartItem._id);
-
-      if (orderItem) {
-        orderItem.total = 0
-        orderItem.quantity += 1
-      } else {
-        cartData?.orderItems?.push({
+      orderItems: [
+        {
           product: cartItem,
           total: 0,
           quantity: 1,
-        })
-      }
-      localStorage.setItem('shoppingCart', JSON.stringify(cartData));
-      openNotificationWithIcon('success', cartItem)
-    // }
+        },
+      ],
+    };
 
-  }
+    cartData = cartStringData ? JSON.parse(cartStringData) : cartData;
+    const orderItem = cartData?.orderItems?.find(item => item.product?._id === cartItem._id);
+
+    if (orderItem) {
+      orderItem.total = 0;
+      orderItem.quantity += 1;
+    } else {
+      cartData?.orderItems?.push({
+        product: cartItem,
+        total: 0,
+        quantity: 1,
+      });
+    }
+    localStorage.setItem('shoppingCart', JSON.stringify(cartData));
+    openNotificationWithIcon('success', cartItem);
+  };
 
   type NotificationType = 'success' | 'info' | 'warning' | 'error';
-  
+
   const openNotificationWithIcon = (type: NotificationType, item: any) => {
     notification[type]({
       message: intl.formatMessage(
@@ -66,8 +56,8 @@ const ListItemComponent = ({ data }: IProps): JSX.Element => {
         { name: intl.formatMessage({ id: 'cart.notification.content.adding.success' }, { name: item.name }) }
       ),
       onClick: () => {
-        window.location.href = '/cart'
-      }
+        navigate(`/cart`, { replace: true })
+      },
     });
   };
 
@@ -111,19 +101,16 @@ const ListItemComponent = ({ data }: IProps): JSX.Element => {
             <Tooltip title={intl.formatMessage({ id: 'common.button.favourite' })}>
               <Button type="link" shape="circle" icon={<HeartOutlined />} size="large" />
             </Tooltip>
-            <Button type="primary" icon={<ShoppingCartOutlined />} onClick={(e) => {e.stopPropagation();onAddCart(data)}} >
+            <Button
+              type="primary"
+              icon={<ShoppingCartOutlined />}
+              onClick={e => {
+                e.stopPropagation();
+                onAddCart(data);
+              }}
+            >
               {intl.formatMessage({ id: 'product.button.cart' })}
             </Button>
-            {/* <Button
-              className="detailButton"
-              type="primary"
-              onClick={() => (window.location.href = `/product/${encodeURIComponent(data?.slug as string)}`)}
-            >
-              {intl.formatMessage({ id: 'common.button.detail' })}
-            </Button> */}
-            {/* <Button className="favouriteButton" type="ghost">
-              {intl.formatMessage({ id: 'common.button.favourite' })}
-            </Button> */}
           </div>
         </div>
       </div>

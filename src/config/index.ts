@@ -5,7 +5,13 @@ import productionConfigs from './env/prd.json';
 // import RoutesConfig from './routes';
 
 class AppConfig {
-  config: { protocol: string; portApi: string; serverURL: string; portSocket: string; clientId: string; s3WebUrl: string; apiVersion: string; deepLink: string; recaptchaKey: string; restCountriesURL: string; defaultDateFormat: string; defaultTimeFormat: string; };
+  config: {
+    protocol: string;
+    portApi: string;
+    serverURL: string;
+    defaultDateFormat: string;
+    defaultTimeFormat: string;
+  };
   // Routes: {
   //   Home: { _: string; }; ForgotPassword: { _: string; }; ResetPassword: { _: string; }; Service: { _: string; }; SignIn: { _: string; Admin: string; }; SignUp: { _: string; }; Dashboard: {
   //     _: string; Service: { _: string; }; Appointment: { _: string; }; // set configration for production docker environtment
@@ -51,24 +57,24 @@ class AppConfig {
 
     return this.config;
   }
-  getDeepLink() {
-    return this.config.deepLink;
-  }
+  // getDeepLink() {
+  //   return this.config.deepLink;
+  // }
   getApiEndpoint() {
-    return `${this.config.protocol}://${this.config.serverURL}:${this.config.portApi}/api/${this.config.apiVersion}`;
+    return `${this.config.protocol}://${this.config.serverURL}:${this.config.portApi}`;
   }
-  getSocketEndpoint() {
-    return `${this.config.protocol}://${this.config.serverURL}:${this.config.portSocket}`;
-  }
-  getPaypalClientID() {
-    return this.config.clientId;
-  }
-  getS3WebUrl() {
-    return this.config.s3WebUrl;
-  }
-  getRecaptchaKey() {
-    return this.config.recaptchaKey;
-  }
+  // getSocketEndpoint() {
+  //   return `${this.config.protocol}://${this.config.serverURL}:${this.config.portSocket}`;
+  // }
+  // getPaypalClientID() {
+  //   return this.config.clientId;
+  // }
+  // getS3WebUrl() {
+  //   return this.config.s3WebUrl;
+  // }
+  // getRecaptchaKey() {
+  //   return this.config.recaptchaKey;
+  // }
   getDefaultDateFormat() {
     return this.config.defaultDateFormat;
   }

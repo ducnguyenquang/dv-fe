@@ -2,3 +2,29 @@ export const ORIENTATION = {
   LANDSCAPE: 'landscape',
   PORTRAIT: 'portrait',
 };
+
+export const PLATFORM = {
+  PC: 'PC',
+  MOBILE: 'MOBILE',
+};
+
+export const TYPE_NAME = {
+  PAGE: 'PAGE',
+  BLOCK: 'BLOCK',
+  COMMON: 'COMMON',
+  ALL_SITE: 'ALL_SITE',
+};
+
+export const SETTINGS = {
+  BACKGROUND_COLOR: 'BACKGROUND_COLOR',
+  LAYOUT_STRUCTURE: 'LAYOUT_STRUCTURE',
+};
+
+export const PAGE_NAME = {
+  P_HOME: 'P_HOME',
+  P_PRODUCT: 'P_PRODUCT',
+  P_PRODUCT_DETAIL: 'P_PRODUCT_DETAIL',
+  P_CATEGORY: 'P_CATEGORY',
+  P_CATEGORY_DETAIL: 'P_CATEGORY_DETAIL',
+  P_CART: 'P_CART',
+};

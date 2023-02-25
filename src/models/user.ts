@@ -43,7 +43,7 @@ type UserQueryBase = {
     id: string;
     desc: boolean;
   };
-  search?: string;
+  search?: any;
   roles?: string[];
   states?: string[];
 };

@@ -1,14 +1,8 @@
-/**
- *
- * ServiceTable
- *
- */
+
 import { Pagination, Table } from 'antd';
 import './style.less';
 import * as React from 'react';
-// import { useTranslation } from 'react-i18next';
 import { useIntl } from 'react-intl';
-import { Product } from 'models/product';
 import { useEffect } from 'react';
 export interface Props {
   page: number;
@@ -28,16 +22,9 @@ export function ServiceTable(props: Props) {
   const [data, setData] = React.useState(props.dataSource);
 
   useEffect(() => {
-    // console.log('==== useEffect props.dataSource', props.dataSource)
-
     setData(props.dataSource);
-    // if (props.dataSource) {
-    // }
   }, [props.dataSource]);
-  // const { t } = useTranslation();
 
-  // const data = props.dataSource ? JSON.parse(JSON.stringify(props.dataSource)) : undefined
-  // console.log('==== props.dataSource', props.dataSource)
   return (
     <div className="table-container">
       <Table

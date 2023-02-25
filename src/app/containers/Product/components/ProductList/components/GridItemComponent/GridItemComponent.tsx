@@ -1,10 +1,8 @@
-import { Row, Col, Avatar, List, Space, Rate, Button, Card } from 'antd';
-import React from 'react';
-import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
+import { Rate, Button } from 'antd';
 import { Product } from 'models/product';
-import Meta from 'antd/lib/card/Meta';
 import { useIntl } from 'react-intl';
 import './GridItemComponent.less';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   data: Product;
@@ -12,6 +10,7 @@ interface IProps {
 
 const GridItemComponent = ({ data }: IProps): JSX.Element => {
   const intl = useIntl();
+  const navigate = useNavigate();
 
   return (
     <div className="gridItem">
@@ -40,11 +39,10 @@ const GridItemComponent = ({ data }: IProps): JSX.Element => {
             <Button
               type="primary"
               className="detailButton"
-              onClick={() => (window.location.href = `/product/${encodeURIComponent(data?.slug as string)}`)}
+              onClick={() => navigate(`/product/${encodeURIComponent(data?.slug as string)}`)}
             >
               {intl.formatMessage({ id: 'common.button.detail' })}
             </Button>
-            {/* <Button className='favouriteButton' type="ghost">{intl.formatMessage({ id: 'common.button.favourite' })}</Button> */}
           </div>
         </div>
       </div>

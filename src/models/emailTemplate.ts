@@ -28,10 +28,7 @@ type EmailTemplateQueryBase = {
     id: string;
     desc: boolean;
   };
-  search?: {
-    searchText: string;
-    searchColumn: string;
-  };
+  search?: any;
 };
 
 export type EmailTemplateQueryPayload = Partial<EmailTemplateQueryBase>;

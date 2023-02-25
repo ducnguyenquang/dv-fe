@@ -1,19 +1,11 @@
 import { Button, Card, Form, Input, Select, Upload } from 'antd';
 import { ROLE_DROPDOWN_OPTIONS } from 'constants/user';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { usersSelectors } from 'app/containers/Admin/User';
-// import { productsSelectors } from '../../../../redux/selectors';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
-// import { productsActions } from 'app/containers/Admin';
-
-// interface IProps {
-//   caterogy?: string;
-//   id?: string;
-// }
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -52,22 +44,15 @@ interface IProps {
   onFinish?: any;
   initialValues?: any;
   isLoading?: boolean;
-  // categories?: Category[];
 }
 
 const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
   const [form] = Form.useForm();
-  // const { id } = useParams();
-  // const isUpdate = id ? true : false;
   const intl = useIntl();
-
-  // const userDetailParam = useSelector(usersSelectors.getUser);
-
-  // console.log('==== productDetailParam', userDetailParam);
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
+  const navigate = useNavigate();
 
   const normFile = (e: any) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -83,7 +68,6 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
     },
     beforeUpload: file => {
       setFileList([...fileList, file]);
-
       return false;
     },
     listType: 'picture-card',
@@ -108,7 +92,6 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
-  // console.log('==== initialValues', initialValues);
 
   return (
     <>
@@ -116,7 +99,7 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
       <Card
         title={intl.formatMessage({ id: 'page.name.userDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => (window.history.back())}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/users`, { replace: true })}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -125,11 +108,11 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={values =>
-            onFinish({
+          onFinish={async values =>
+            await onFinish({
               ...values,
               images: fileList,
-            })
+            }).then(() => navigate(`/admin/users`, { replace: true }))
           }
           initialValues={initialValues}
           scrollToFirstError
@@ -146,6 +129,7 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
                 ),
               },
             ]}
+            hasFeedback
           >
             <Input />
           </Form.Item>
@@ -161,6 +145,7 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
                 ),
               },
             ]}
+            hasFeedback
           >
             <Input />
           </Form.Item>
@@ -180,6 +165,7 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
                 message: intl.formatMessage({ id: 'user.validation.invalid.email' }),
               },
             ]}
+            hasFeedback
           >
             <Input />
           </Form.Item>
@@ -195,6 +181,7 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
                 ),
               },
             ]}
+            hasFeedback
           >
             <Select key="roleSelect" allowClear placeholder={intl.formatMessage({ id: 'user.role.placeholder' })}>
               {ROLE_DROPDOWN_OPTIONS &&
@@ -217,8 +204,9 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
                 ),
               },
             ]}
+            hasFeedback
           >
-            <Input />
+            <Input type={'number'}/>
           </Form.Item>
 
           <Form.Item label={intl.formatMessage({ id: 'user.images' })}>

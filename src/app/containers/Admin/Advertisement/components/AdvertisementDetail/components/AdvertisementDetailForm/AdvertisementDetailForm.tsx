@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const formItemLayout = {
   labelCol: {
@@ -46,7 +47,7 @@ interface IProps {
 const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
   const intl = useIntl();
   const [form] = Form.useForm();
-
+  const navigate = useNavigate();
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.image : []);
 
   const normFile = (e: any) => {
@@ -66,7 +67,6 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
     },
     beforeUpload: file => {
       setFileList([...fileList, file]);
-
       return false;
     },
     listType: 'picture-card',
@@ -98,7 +98,7 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
       <Card
         title={intl.formatMessage({ id: 'page.name.advertisementDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => window.history.back()}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/advertisements`, { replace: true })}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -107,12 +107,14 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={values =>
-            onFinish({
+          onFinish={async (values) => {
+            await onFinish({
               ...values,
               image: fileList,
-            })
-          }
+            }).then(() => 
+              navigate('/admin/advertisements', { replace: true })
+            );
+          }}
           initialValues={initialValues}
           scrollToFirstError
         >
@@ -128,6 +130,7 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
                 ),
               },
             ]}
+            hasFeedback
           >
             <Input />
           </Form.Item>
@@ -150,7 +153,7 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
 
           <Form.Item label={intl.formatMessage({ id: 'advertisement.image' })}>
             <Form.Item name="image" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-              <ImgCrop rotate aspect={16/10} grid quality={0.5} minZoom={0.1}>
+              <ImgCrop rotate aspect={16 / 10} grid quality={0.5} minZoom={0.1}>
                 <Upload
                   // action={`${endPoint.backendUrl}${endPoint.uploadImages}`}
                   {...props}

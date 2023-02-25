@@ -1,11 +1,12 @@
 import { Button, Form, Input, Card, Upload, UploadFile, UploadProps } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
-// import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/lib/upload';
+import { useNavigate } from 'react-router-dom';
+
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -24,6 +25,7 @@ const formItemLayout = {
     },
   },
 };
+
 const tailFormItemLayout = {
   wrapperCol: {
     xs: {
@@ -42,14 +44,12 @@ interface IProps {
   onFinish?: any;
   initialValues?: any;
   isLoading?: boolean;
-  // categories?: Category[];
 }
 
 const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
   const intl = useIntl();
-  const [text, setText] = useState('');
   const [form] = Form.useForm();
-  const [body, setBody] = useState('');
+  const navigate = useNavigate();
 
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
 
@@ -102,7 +102,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
       <Card
         title={intl.formatMessage({ id: 'page.name.popupMenuDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => window.history.back()}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/popupMenu`, { replace: true })}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -111,12 +111,11 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={values => {
-            onFinish({
+          onFinish={async values => {
+            await onFinish({
               ...values,
               images: fileList,
-            });
-            window.location.href = '/admin/setting/popupMenu';
+            }).then(() => navigate(`/admin/setting/popupMenu`, { replace: true }));
           }}
           initialValues={initialValues}
           scrollToFirstError

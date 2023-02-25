@@ -25,10 +25,6 @@ const FooterAdvertisements = (): JSX.Element => {
       setAdvertisements(dataAdvertisements);
     }
   }, [dataAdvertisements, isLoadingAdvertisements]);
-
-  const linkAdvertisement = (url: string) => {
-    window.location.href = url;
-  }
   
   return <div className={`advertisements ${isMobile && 'advertisements-mobile'}`}>
     {advertisements?.map((item: any) => <a href={item.url} key={item.name}><img

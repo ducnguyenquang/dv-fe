@@ -1,20 +1,14 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { message } from 'antd';
 import { OrderDeletePayload } from 'models/order';
 import { ordersApi } from 'app/containers/Admin/Order';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
+import { useIntl } from 'react-intl';
 
 export const useDeleteOrder = (): any => {
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== useProducts params', params)
+  const queryClient = useQueryClient();
+  const intl = useIntl();
 
   return useMutation(
     (params: OrderDeletePayload) => {
@@ -22,17 +16,12 @@ export const useDeleteOrder = (): any => {
     },
     {
       onSuccess: () => {
-        // Reset list of equipments
-        // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
-        console.log('==== onSuccess')
-        message.success('Delete Successfully');
-        // successMessage({ value: 'Update Successfully' });
+        queryClient.invalidateQueries(ordersApi.ordersKeys.lists());
+        message.success(intl.formatMessage({ id: 'common.delete.message.success' }));
       },
       onError: (error: ErrorResponse) => {
         if (error?.response?.errors?.length) {
           apiErrorHandler(error?.response?.errors);
-          
-
         }
       },
     }

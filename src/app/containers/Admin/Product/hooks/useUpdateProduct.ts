@@ -1,40 +1,25 @@
-import { useQuery, UseQueryResult, useMutation, useQueryClient } from 'react-query';
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { ProductUpdatePayload } from 'models/product';
-import { productsApi, productsActions } from 'app/containers/Admin/Product';
+import { productsApi } from 'app/containers/Admin/Product';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
-import { successMessage } from 'common/components/Toast';
+import { message } from 'antd';
+import { useIntl } from 'react-intl';
 
 export const useUpdateProduct = (): any => {
   const queryClient = useQueryClient();
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== useProducts params', params)
+  const intl = useIntl();
 
   return useMutation(
-    async (params: ProductUpdatePayload) => {
-      // console.log('==== useMutation params',params)
-
-      const data = await productsApi.updateProduct(params);
-      return data;
+    (params: ProductUpdatePayload) => {
+      return productsApi.updateProduct(params);
     },
     {
       onSuccess: (data) => {
-        // Reset list of equipments
         queryClient.invalidateQueries(productsApi.productsKeys.lists());
+        message.success(intl.formatMessage({ id: 'common.update.message.success' }));
 
-        // console.log('==== useUpdateProduct onSuccess data', data)
-        successMessage({ id: 'product.message.update.success' });
-        // return data;
       },
       onError: (error: ErrorResponse) => {
         apiErrorHandler(error);

@@ -1,23 +1,15 @@
-import { useQuery, UseQueryResult, useMutation } from 'react-query';
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { SupportCreatePayload } from 'models/support';
-import { supportsApi, supportsActions } from 'app/containers/Admin/Support';
+import { supportsApi } from 'app/containers/Admin/Support';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
-import { successMessage } from 'common/components/Toast';
+import { message } from 'antd';
+import { useIntl } from 'react-intl';
 
 export const useCreateSupport = (): any => {
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== useProducts params', params)
+  const queryClient = useQueryClient();
+  const intl = useIntl();
 
   return useMutation(
     (params: SupportCreatePayload) => {
@@ -25,11 +17,8 @@ export const useCreateSupport = (): any => {
     },
     {
       onSuccess: (data) => {
-        // Reset list of equipments
-        // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
-        // console.log('==== useCreateProduct onSuccess data', data)
-        // return data;
-        // successMessage({ value: 'Update Successfully' });
+        queryClient.invalidateQueries(supportsApi.supportsKeys.lists());
+        message.success(intl.formatMessage({ id: 'common.create.message.success' }));
       },
       onError: (error: ErrorResponse) => {
         if (error?.response?.errors?.length) {

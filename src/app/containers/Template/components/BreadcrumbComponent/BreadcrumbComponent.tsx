@@ -1,9 +1,11 @@
 import { Breadcrumb, Button } from 'antd';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
 
 const BreadcrumbComponent = (): JSX.Element => {
   const intl = useIntl();
+  const navigate = useNavigate();
 
   const [pathName, setPathName] = useState(window.location.pathname);
   const [category, setCategory] = useState<{
@@ -12,7 +14,7 @@ const BreadcrumbComponent = (): JSX.Element => {
   }>();
   const [page, setPage] = useState('');
 
-  const setBreadcrumbItems = (path: string) => {
+  const setBreadcrumbItems = useCallback((path: string) => {
     const pathNames = path.split('/');
     if (pathNames.length > 0) {
       if (pathNames[1]) {
@@ -31,33 +33,30 @@ const BreadcrumbComponent = (): JSX.Element => {
         setPage(pageName);
       }
     }
-  };
-
-  // setBreadcrumbItems(pathName)
+  }, [intl]);
 
   useEffect(() => {
-    // console.log('==== pathName', pathName);
     if (pathName) {
       setBreadcrumbItems(pathName);
     }
-  }, [pathName]);
+  }, [pathName, setBreadcrumbItems]);
 
   return (
     <>
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>
-          <Button type="link" onClick={() => (window.location.href = `/`)}>
+          <Button type="link" onClick={() => navigate(`/`, { replace: true })}>
             {intl.formatMessage({ id: 'page.name.home' })}
           </Button>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          <Button type="link" onClick={() => (window.location.href = `/${category?.value}`)}>
+          <Button type="link" onClick={() => navigate(`/${category?.value}`, { replace: true })}>
             {category?.lable}
           </Button>
         </Breadcrumb.Item>
         {page && (
           <Breadcrumb.Item>
-            <Button type="link" onClick={() => (window.location.href = `/${category?.value}/${page}`)}>
+            <Button type="link" onClick={() => navigate(`/${category?.value}/${page}`, { replace: true })}>
               {page}
             </Button>
           </Breadcrumb.Item>

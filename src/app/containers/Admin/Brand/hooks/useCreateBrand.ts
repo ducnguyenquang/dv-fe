@@ -1,23 +1,14 @@
-import { useQuery, UseQueryResult, useMutation } from 'react-query';
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-
+import { useMutation, useQueryClient } from 'react-query';
+import { message } from 'antd';
 import { BrandCreatePayload } from 'models/brand';
-import { brandsApi, brandsActions } from 'app/containers/Admin/Brand';
+import { brandsApi } from 'app/containers/Admin/Brand';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
-import { successMessage } from 'common/components/Toast';
+import { useIntl } from 'react-intl';
 
 export const useCreateBrand = (): any => {
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== useProducts params', params)
+  const queryClient = useQueryClient();
+  const intl = useIntl();
 
   return useMutation(
     (params: BrandCreatePayload) => {
@@ -25,11 +16,8 @@ export const useCreateBrand = (): any => {
     },
     {
       onSuccess: (data) => {
-        // Reset list of equipments
-        // queryClient.invalidateQueries(equipmentsApi.equipmentsKeys.lists());
-        // console.log('==== useCreateProduct onSuccess data', data)
-        // return data;
-        // successMessage({ value: 'Update Successfully' });
+        queryClient.invalidateQueries(brandsApi.brandsKeys.lists());
+        message.success(intl.formatMessage({ id: 'common.create.message.success' }));
       },
       onError: (error: ErrorResponse) => {
         if (error?.response?.errors?.length) {

@@ -2,6 +2,7 @@ import './CategoryItem.less';
 import { Category } from 'models/category';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   data?: Category;
@@ -9,10 +10,11 @@ interface IProps {
 
 const CategoryItem = ({ data }: IProps): JSX.Element => {
   const { isMobile, orientation } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const onItemClick = (name: string) => {
     const pathName = window.location.pathname
-    window.location.href = `${pathName}/${name}/product`
+    navigate(`${pathName}/${name}/product`, { replace: true })
   }
 
   return (

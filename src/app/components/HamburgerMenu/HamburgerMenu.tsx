@@ -1,20 +1,14 @@
-// import Logo from 'app/containers/Template/components/TemplateMobile/components/Footer/components/Logo/Logo';
-// import Logo from 'app/containers/Template/components/TemplateMobile/components/Footer/components/TopMenu/components/Logo/Logo';
 import { Menu } from 'antd';
 import { slide as BurgerMenu } from 'react-burger-menu';
 import { useIntl } from 'react-intl';
 import './HamburgerMenu.less';
-import { Layout } from 'antd';
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const HamburgerMenu = (): JSX.Element => {
   const intl = useIntl();
-  const [collapsed, setCollapsed] = useState(false);
-
-  const { Header, Sider, Content } = Layout;
-
-  const navMenuClick = ({ name, url }: { name: string; url: string }) => {
-    window.location.href = url;
+  const navigate = useNavigate();
+  const navMenuClick = ({ url }: { name: string; url: string }) => {
+    navigate(url, { replace: true })
   };
 
   const menu = [
@@ -123,19 +117,8 @@ const HamburgerMenu = (): JSX.Element => {
 
   return (
     <div id="hamburgerMenu">
-      {/* <Logo /> */}
       <BurgerMenu>
-        {/* {menu.map(item => (
-          <a id={item.key} className="menu-item" href="#" onClick={item.onClick}>
-            {item.label}
-          </a>
-        ))} */}
-        {/* <a id="home" className="menu-item" href="/">Home</a>
-        <a id="about" className="menu-item" href="/about">About</a>
-        <a id="contact" className="menu-item" href="/contact">Contact</a> */}
-
         <Menu className="navMenu" mode="inline" defaultSelectedKeys={[...getNavSelected()]} items={menu} />
-
       </BurgerMenu>
     </div>
   );

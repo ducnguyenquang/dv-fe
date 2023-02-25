@@ -12,50 +12,51 @@
     width: 100%;
     overflow-y: auto;
 
-    .animationProductBlock {
-      display: flex;
-      flex-direction: row;
+    // .animationProductBlock {
+    //   display: flex;
+    //   flex-direction: row;
 
-      animation: scroll 15s linear 1s infinite;
-      @keyframes scroll {
-        100% {
-          transform: translateX(-202%);
-        }
-      }
-      &:hover {
-        animation-play-state: paused;
-      }
-      // animation-play-state: paused;
-    }
+    //   animation: scroll 25s linear 1s infinite;
+    //   @keyframes scroll {
+    //     100% {
+    //       // transform: translateX(-202%);
+    //       transform: translateX(-62%);
+    //     }
+    //   }
+    //   &:hover {
+    //     animation-play-state: paused;
+    //   }
+    //   // animation-play-state: paused;
+    // }
   }
 
-  &-mobile {
-    .header {
-      font-size: 18px;
-    }
+  // &-mobile {
+  //   .header {
+  //     font-size: 18px;
+  //   }
 
-    &-portrait {
-      .productBlock {
-        .animationProductBlock {
-          @keyframes scroll {
-            100% {
-              transform: translateX(-504%);
-            }
-          }
-        }
-      }
-    }
+  //   &-portrait {
+  //     .productBlock {
+  //       .animationProductBlock {
+  //         @keyframes scroll {
+  //           100% {
+  //             transform: translateX(-504%);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
 
-    &-landscape {
-      .productBlock {
-        .animationProductBlock {
-          @keyframes scroll {
-            100% {
-              transform: translateX(-330%);
-            }
-          }
-        }
-      }
-    }
-  }
+  //   &-landscape {
+  //     .productBlock {
+  //       .animationProductBlock {
+  //         @keyframes scroll {
+  //           100% {
+  //             transform: translateX(-330%);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 }

@@ -25,10 +25,7 @@ type PopupMenuQueryBase = {
     id: string;
     desc: boolean;
   };
-  search?: {
-    searchText: string;
-    searchColumn: string;
-  };
+  search?: any;
 };
 
 export type PopupMenuQueryPayload = Partial<PopupMenuQueryBase>;

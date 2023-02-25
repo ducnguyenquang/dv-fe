@@ -9,7 +9,10 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import './ProductInformation.less';
 import { Cart } from 'models/cart';
 import ProductRelated from '../../../ProductRelated/ProductRelated';
-import { Document, Page } from 'react-pdf';
+import { Document, Page, pdfjs } from 'react-pdf';
+import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+
+pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 const { TabPane } = Tabs;
 const { Option } = Select;
