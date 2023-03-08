@@ -34,7 +34,7 @@ const LedLight = (): JSX.Element => {
   return (
     <div
       className={`led-light ${isMobile && 'led-light-mobile'} ${
-        orientation && `led-light-mobile-${orientation}`
+        isMobile && orientation && `led-light-mobile-${orientation}`
       }`}
     >
       {!isMobile && <Banner image="/images/led-light-banner.png" />}

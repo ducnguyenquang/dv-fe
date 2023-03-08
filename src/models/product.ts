@@ -19,6 +19,7 @@ export interface Product {
   type?: string;
   _id?: string;
   isHidden?: boolean;
+  documents?: string[];
 }
 
 export type RangeNumber = {

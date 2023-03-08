@@ -1,10 +1,10 @@
-import { Button, Space, Popconfirm, Card, Tooltip, Input, InputRef } from 'antd';
+import { Button, Space, Popconfirm, Card, Tooltip, Input, InputRef, Switch } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import { popupMenusHooks, popupMenusActions } from 'app/containers/Admin/PopupMenu';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/products';
 import { PopupMenu } from 'models/popupMenu';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import { DeleteOutlined, FormOutlined, SearchOutlined } from '@ant-design/icons';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
 import Highlighter from 'react-highlight-words';
+import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+import { PAGE_NAME, SETTINGS } from 'constants/common';
+import { Common } from 'models/common';
 
 interface DataType {
   key: string;
@@ -36,6 +39,10 @@ const PopupMenuTable = (): JSX.Element => {
   const [sort, setSort] = useState(undefined);
   const [isChanged, setIsChanged] = useState(false);
 
+  const [isHiddenItem, setIsHiddenItem] = useState<Common>();
+
+  const [isHidden, setIsHidden] = useState<boolean>(false);
+
   const searchInput = useRef<InputRef>(null);
 
   const { data, isLoading } = popupMenusHooks.usePopupMenus({
@@ -46,8 +53,31 @@ const PopupMenuTable = (): JSX.Element => {
     search,
     sort,
   });
-
   const { mutateAsync: deletePopupMenu, isLoading: isLoadingDeletePopupMenu } = popupMenusHooks.useDeletePopupMenu();
+
+  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+    search: {
+      group: PAGE_NAME.P_POPUP_MENU,
+    },
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+  });
+
+  const { mutateAsync: updateCommon, isLoading: isLoadingUpdateCommon } = settingPagesHooks.useUpdateTemplate();
+  const { mutateAsync: createCommon, isLoading: isLoadingCreateCommon } = settingPagesHooks.useCreateTemplate();
+
+  useEffect(() => {
+    if (templateData && !isLoadingTemplateData) {
+      const hidden = templateData.data?.find((item: any) => item.name === SETTINGS.IS_HIDDEN);
+
+      if (hidden) {
+        setIsHiddenItem(hidden);
+        setIsHidden(hidden?.value === 'true' ? true : false);
+      }
+    }
+  }, [isLoadingTemplateData, templateData, isHidden]);
 
   useEffect(() => {
     if (data && (!isLoading || !isLoadingDeletePopupMenu)) {
@@ -189,7 +219,7 @@ const PopupMenuTable = (): JSX.Element => {
       render: (_, record) => (
         <Space size="middle">
           <Popconfirm
-            title={intl.formatMessage({ id: 'common.confirmModal.title' }, {name: record?.name})}
+            title={intl.formatMessage({ id: 'common.confirmModal.title' }, { name: record?.name })}
             onVisibleChange={() => console.log('visible change')}
             onConfirm={() => onDeletePopupMenu(record?._id)}
             okText={intl.formatMessage({ id: 'common.button.ok' })}
@@ -207,17 +237,58 @@ const PopupMenuTable = (): JSX.Element => {
     },
   ];
 
+  const setShowHidden = useCallback(
+    async (checked: boolean) => {
+      const hidden = !checked;
+      setIsHidden(hidden);
+
+      if (isHiddenItem) {
+        await updateCommon({
+          ...isHiddenItem,
+          value: hidden,
+        });
+      } else {
+        await createCommon({
+          name: SETTINGS.IS_HIDDEN,
+          value: hidden,
+          group: PAGE_NAME.P_POPUP_MENU,
+        });
+      }
+    },
+    [createCommon, isHiddenItem, updateCommon]
+  );
+
+  const getSwitchShowHidden = useCallback(
+    () => {
+      return (
+        <Switch
+          defaultChecked={!isHidden}
+          checked={!isHidden}
+          checkedChildren={intl.formatMessage({ id: 'common.button.show' })}
+          unCheckedChildren={intl.formatMessage({ id: 'common.button.hidden' })}
+          onChange={checked => setShowHidden(checked)}
+        />
+      );
+    },
+    [intl, isHidden, setShowHidden]
+  );
+
   return (
     <>
-      <Helmet
-        title={intl.formatMessage({ id: 'page.name.popupMenu' })}
-      />
+      <Helmet title={intl.formatMessage({ id: 'page.name.popupMenu' })} />
       <Card
         title={intl.formatMessage({ id: 'page.name.popupMenu' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/setting/popupMenu/add`, { replace: true })}>
-            {intl.formatMessage({ id: 'setting.popupMenu.button.add' })}
-          </Button>
+          <Space direction="horizontal">
+            {getSwitchShowHidden()}
+            <Button
+              type="primary"
+              htmlType="submit"
+              onClick={() => navigate(`/admin/setting/popupMenu/add`, { replace: true })}
+            >
+              {intl.formatMessage({ id: 'setting.popupMenu.button.add' })}
+            </Button>
+          </Space>
         }
       >
         <ServiceTable

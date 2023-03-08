@@ -23,6 +23,7 @@ const BreadcrumbComponent = (): JSX.Element => {
       if (pathNames[2]) {
         let pageName = pathNames[2];
         switch (pathNames[1]) {
+          case 'project':
           case 'product':
             pageName = decodeURIComponent(decodeURI(pageName));
             break;

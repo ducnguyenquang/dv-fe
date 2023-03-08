@@ -6,6 +6,7 @@ import ImgCrop from 'antd-img-crop';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
+import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -52,46 +53,46 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
   const navigate = useNavigate();
 
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
+  // const normFile = (e: any) => {
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
+  //   return e?.fileList;
+  // };
 
-  const props: UploadProps = {
-    onRemove: file => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: file => {
-      setFileList([...fileList, file]);
-      return false;
-    },
-    listType: 'picture-card',
-    fileList,
-  };
+  // const props: UploadProps = {
+  //   onRemove: file => {
+  //     const index = fileList.indexOf(file);
+  //     const newFileList = fileList.slice();
+  //     newFileList.splice(index, 1);
+  //     setFileList(newFileList);
+  //   },
+  //   beforeUpload: file => {
+  //     setFileList([...fileList, file]);
+  //     return false;
+  //   },
+  //   listType: 'picture-card',
+  //   fileList,
+  // };
 
-  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-  };
+  // const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+  //   setFileList(newFileList);
+  // };
 
-  const onPreview = async (file: UploadFile) => {
-    let src = file.url as string;
-    if (!src) {
-      src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj as RcFile);
-        reader.onload = () => resolve(reader.result as string);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
+  // const onPreview = async (file: UploadFile) => {
+  //   let src = file.url as string;
+  //   if (!src) {
+  //     src = await new Promise(resolve => {
+  //       const reader = new FileReader();
+  //       reader.readAsDataURL(file.originFileObj as RcFile);
+  //       reader.onload = () => resolve(reader.result as string);
+  //     });
+  //   }
+  //   const image = new Image();
+  //   image.src = src;
+  //   const imgWindow = window.open(src);
+  //   imgWindow?.document.write(image.outerHTML);
+  // };
 
   return (
     <>
@@ -210,7 +211,7 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
           </Form.Item>
 
           <Form.Item label={intl.formatMessage({ id: 'user.images' })}>
-            <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
+            {/* <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
               <ImgCrop rotate>
                 <Upload
                   // action={`${endPoint.backendUrl}${endPoint.uploadImages}`}
@@ -222,7 +223,9 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
                   {fileList?.length < 1 && `+ ${intl.formatMessage({ id: 'user.button.addImages' })}`}
                 </Upload>
               </ImgCrop>
-            </Form.Item>
+            </Form.Item> */}
+          <ImageUpload fileList={fileList} setFileList={setFileList} imageNumber={1} />
+
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>

@@ -13,7 +13,7 @@ const Vision = (): JSX.Element => {
   const intl = useIntl();
   const { orientation } = useContext(AppContext);
 
-  return <div className={`visionBlog ${isMobile && 'visionBlog-mobile'} ${orientation && `visionBlog-mobile-${orientation}`}`}>
+  return <div className={`visionBlog ${isMobile && 'visionBlog-mobile'} ${isMobile && orientation && `visionBlog-mobile-${orientation}`}`}>
     
     <div className='item'>
       <div className='itemIcon'>

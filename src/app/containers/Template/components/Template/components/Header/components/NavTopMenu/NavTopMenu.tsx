@@ -107,13 +107,13 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
         navMenuClick({ name: 'project', url: '/project' });
       },
     },
-    {
-      key: 'siteMap',
-      label: intl.formatMessage({ id: 'menu.top.sitemap' }),
-      onClick: () => {
-        navMenuClick({ name: 'siteMap', url: '/siteMap' });
-      },
-    },
+    // {
+    //   key: 'siteMap',
+    //   label: intl.formatMessage({ id: 'menu.top.sitemap' }),
+    //   onClick: () => {
+    //     navMenuClick({ name: 'siteMap', url: '/siteMap' });
+    //   },
+    // },
     {
       key: 'cart',
       label: intl.formatMessage({ id: 'menu.top.cart' }),
@@ -122,11 +122,10 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
       },
     },
   ];
-  console.log('==== isMobile', isMobile);
   
   return <div className='navTopMenu'>
     {isMobile ? <FooterLogo /> : <Logo />}
-    <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={[...getNavSelected()]} items={items1} />
+    <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={[...getNavSelected()]} items={items1} inlineCollapsed={false}/>
     <RightMenu />
   </div>
 };

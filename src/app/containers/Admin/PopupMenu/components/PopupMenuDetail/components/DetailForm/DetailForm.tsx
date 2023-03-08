@@ -6,6 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/lib/upload';
 import { useNavigate } from 'react-router-dom';
+import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 
 const formItemLayout = {
   labelCol: {
@@ -50,51 +51,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
   const intl = useIntl();
   const [form] = Form.useForm();
   const navigate = useNavigate();
-
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
-
-  const normFile = (e: any) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
-
-  const props: UploadProps = {
-    onRemove: file => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: file => {
-      setFileList([...fileList, file]);
-
-      return false;
-    },
-    listType: 'picture-card',
-    fileList,
-  };
-
-  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-  };
-
-  const onPreview = async (file: UploadFile) => {
-    let src = file.url as string;
-    if (!src) {
-      src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj as RcFile);
-        reader.onload = () => resolve(reader.result as string);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
 
   return (
     <>
@@ -136,13 +93,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
             <Input />
           </Form.Item>
           <Form.Item label={intl.formatMessage({ id: 'common.image' })}>
-            <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-              <ImgCrop rotate>
-                <Upload {...props} listType="picture-card" onChange={onChange} onPreview={onPreview}>
-                  {fileList?.length < 1 && `+ ${intl.formatMessage({ id: 'product.button.addImages' })}`}
-                </Upload>
-              </ImgCrop>
-            </Form.Item>
+            <ImageUpload fileList={fileList} setFileList={setFileList} imageNumber={1} />
           </Form.Item>
           <Form.Item name="url" label={intl.formatMessage({ id: 'setting.popupMenu.url' })}>
             <Input />

@@ -5,6 +5,7 @@ import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 
 const formItemLayout = {
   labelCol: {
@@ -49,47 +50,6 @@ const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.logo : []);
-
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
-
-  const props: UploadProps = {
-    onRemove: file => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: file => {
-      setFileList([...fileList, file]);
-      return false;
-    },
-    listType: 'picture-card',
-    fileList,
-  };
-
-  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-  };
-
-  const onPreview = async (file: UploadFile) => {
-    let src = file.url as string;
-    if (!src) {
-      src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj as RcFile);
-        reader.onload = () => resolve(reader.result as string);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
 
   return (
     <>
@@ -166,25 +126,7 @@ const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
           </Form.Item>
 
           <Form.Item label={intl.formatMessage({ id: 'brand.logo' })}>
-            <Form.Item name="logo" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-              <ImgCrop
-                rotate
-                aspect={1.5 / 1}
-                grid
-                quality={0.3}
-                minZoom={0.1}
-                cropperProps={{ restrictPosition: false }}
-              >
-                <Upload
-                  {...props}
-                  listType="picture-card"
-                  onChange={onChange}
-                  onPreview={onPreview}
-                >
-                  {fileList?.length < 1 && `+ ${intl.formatMessage({ id: 'brand.button.addImages' })}`}
-                </Upload>
-              </ImgCrop>
-            </Form.Item>
+            <ImageUpload fileList={fileList} ratio={1.5 / 1} setFileList={setFileList} imageNumber={1} />
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>

@@ -2,13 +2,16 @@ import { FooterTopMenu } from './components/FooterTopMenu';
 import { BottomFooter } from './components/BottomFooter';
 import { FooterAdvertisements } from './components/FooterAdvertisements';
 import TawkTo from 'tawkto-react';
-import './Footer.less'
+import './Footer.less';
 import { useEffect } from 'react';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
 
+interface IProps {
+  hasAdvertisement?: boolean;
+}
 
-const Footer = (): JSX.Element => {
+const Footer = ({ hasAdvertisement }: IProps): JSX.Element => {
   const { isMobile } = useContext(AppContext);
 
   useEffect(() => {
@@ -20,12 +23,14 @@ const Footer = (): JSX.Element => {
     });
   }, []);
 
-  return <div className={`footer ${isMobile && 'footer-mobile'}`}>
-    <FooterAdvertisements />
-    <div className='menu'>
-      <FooterTopMenu />
-      <BottomFooter />
+  return (
+    <div className={`footer ${isMobile && 'footer-mobile'}`}>
+      {hasAdvertisement && <FooterAdvertisements />}
+      <div className="menu">
+        <FooterTopMenu />
+        <BottomFooter />
+      </div>
     </div>
-  </div>;
-}
+  );
+};
 export default Footer;

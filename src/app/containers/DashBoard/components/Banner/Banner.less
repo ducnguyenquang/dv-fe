@@ -8,9 +8,14 @@
 
   .ant-image {
     width: 100%;
+    // width: fit-content;
     position: relative;
     overflow: hidden;
     display: block;
     height: 100%;
+    &-img {
+      width: inherit;
+      object-fit: fill;
+    }
   }
 }

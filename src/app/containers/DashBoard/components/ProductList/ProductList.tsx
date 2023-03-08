@@ -23,29 +23,16 @@ const ProductList = (): JSX.Element => {
     }
   });
 
-  const threeProductFirst = useMemo(() => {
-    const size = 5;
-    return products?.data.slice(0, size).map((data: Product) => {
-      return <ProductItem data={data} key={Math.random()} />;
-    });
-  }, [products?.data]);
-
   return (
-    <div className={`product ${isMobile && 'product-mobile'} ${orientation && `product-mobile-${orientation}`}`}>
+    <div className={`product ${isMobile && 'product-mobile'} ${isMobile && orientation && `product-mobile-${orientation}`}`}>
       <div className="header">{intl.formatMessage({ id: 'page.name.product' })}</div>
       <Spin spinning={!isSuccess}>
         <div className="productBlock">
-          <Marquee loop={1000} pauseOnHover={true}>
+          <Marquee pauseOnHover={true} speed={15}>
             {products?.data?.map((data: Product) => {
               return <ProductItem data={data} key={Math.random()} />;
             })}
           </Marquee>
-          {/* <div className="animationProductBlock">
-            {products?.data?.map((data: Product) => {
-              return <ProductItem data={data} key={Math.random()} />;
-            })}
-            {threeProductFirst}
-          </div> */}
         </div>
       </Spin>
     </div>

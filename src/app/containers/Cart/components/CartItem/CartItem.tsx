@@ -19,7 +19,7 @@ const CartItem = ({ data, onDelete}: IProps): JSX.Element => {
   return <>
     <Card style={{ marginTop: 16 }} className="cartItem">
       <Meta className='productInfo'
-        avatar={<Avatar src={data?.product?.images?.[0]?.thumbUrl} />}
+        avatar={<Avatar src={data?.product?.images?.[0]?.url || data?.product?.images?.[0]?.thumbUrl || '/images/no-image.png'} />}
         title={data?.product?.name}
         description={
           <>

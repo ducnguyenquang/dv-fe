@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, Upload, Card, Switch } from 'antd';
+import { Button, Form, Input, Select, Upload, Card, Switch, Tooltip } from 'antd';
 import { Category } from 'models/category';
 import { useEffect, useState } from 'react';
 import { productsHooks } from 'app/containers/Admin/Product';
@@ -13,6 +13,8 @@ import { TYPE_OPTIONS } from 'constants/type';
 import Editor from 'app/components/Editor/CkEditor';
 import './ProductDetailForm.less';
 import { useNavigate } from 'react-router-dom';
+import ImageUpload from 'app/components/ImageUpload/ImageUpload';
+import { QuestionCircleOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -33,6 +35,7 @@ const formItemLayout = {
     },
   },
 };
+
 const tailFormItemLayout = {
   wrapperCol: {
     xs: {
@@ -43,6 +46,13 @@ const tailFormItemLayout = {
       span: 16,
       offset: 8,
     },
+  },
+};
+
+const formItemLayoutWithOutLabel = {
+  wrapperCol: {
+    xs: { span: 24, offset: 0 },
+    sm: { span: 20, offset: 4 },
   },
 };
 
@@ -82,14 +92,6 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
 
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
 
-  const normFile = (e: any) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
-
   useEffect(() => {
     if (brandsData && !isLoadingBrandsData) {
       setBrands(brandsData.data);
@@ -102,41 +104,6 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
     }
   }, [categoriesData, isLoadingCategories]);
 
-  const props: UploadProps = {
-    onRemove: file => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: file => {
-      setFileList([...fileList, file]);
-
-      return false;
-    },
-    listType: 'picture-card',
-    fileList,
-  };
-
-  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-  };
-
-  const onPreview = async (file: UploadFile) => {
-    let src = file.url as string;
-    if (!src) {
-      src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj as RcFile);
-        reader.onload = () => resolve(reader.result as string);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
-
   const onSelectedType = (value: string) => {
     const searchData = {
       type: value,
@@ -144,8 +111,13 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
     setSearch(searchData);
   };
 
+  console.log('==== initialValues', initialValues);
+  console.log('==== brands', brands);
+
+  
+
   return (
-    <div className='productDetailForm'>
+    <div className="productDetailForm">
       <Helmet title={intl.formatMessage({ id: 'page.name.productDetail' })} />
       <Card
         title={intl.formatMessage({ id: 'page.name.productDetail' })}
@@ -160,6 +132,8 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           form={form}
           name="update"
           onFinish={async values => {
+            // console.log('==== onFinish values', values);return;
+            
             await onFinish({
               ...values,
               description: encodeURIComponent(values.description),
@@ -216,9 +190,9 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
             ]}
             hasFeedback
           >
-            <Select allowClear placeholder={intl.formatMessage({ id: 'product.brand.placeholder' })}>
+            <Select id="brand" allowClear placeholder={intl.formatMessage({ id: 'product.brand.placeholder' })}>
               {brands &&
-                brands?.map((item: any) => (
+                brands.map((item: any) => (
                   <Option key={item?._id} value={item?._id}>
                     {item?.name}
                   </Option>
@@ -252,6 +226,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           <Form.Item name="categories" label={intl.formatMessage({ id: 'product.categories' })}>
             <Select
               // key="categorySelect"
+              id="categories"
               allowClear
               mode="multiple"
               placeholder={intl.formatMessage({ id: 'product.categories.placeholder' })}
@@ -265,23 +240,53 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
             </Select>
           </Form.Item>
 
-          <Form.Item label={intl.formatMessage({ id: 'product.images' })}>
-            <Form.Item name="images" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-              <ImgCrop rotate>
-                <Upload
-                  {...props}
-                  listType="picture-card"
-                  onChange={onChange}
-                  onPreview={onPreview}
-                >
-                  {fileList?.length < 5 && `+ ${intl.formatMessage({ id: 'product.button.addImages' })}`}
-                </Upload>
-              </ImgCrop>
-            </Form.Item>
+          <Form.Item
+            label={
+              <>
+                {intl.formatMessage({ id: 'product.images' })}
+                <Tooltip title="400*400 (px)">
+                  <QuestionCircleOutlined style={{ marginLeft: '1rem', color: '#ccc' }} />
+                </Tooltip>
+              </>
+            }
+          >
+            <ImageUpload fileList={fileList} ratio={1 / 1} setFileList={setFileList} imageNumber={5} />
           </Form.Item>
           <Form.Item name="isHidden" label={intl.formatMessage({ id: 'product.isHidden' })}>
             <Switch defaultChecked={initialValues?.isHidden} />
           </Form.Item>
+          <Form.List name="documents">
+            {(fields, { add, remove }, { errors }) => (
+              <>
+                {fields.map((field, index) => (
+                  <Form.Item
+                    // {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                    {...formItemLayout}
+                    label={index === 0 ? intl.formatMessage({ id: 'product.documents' }) : ' '}
+                    required={false}
+                    key={field.key}
+                  >
+                    <Form.Item {...field} validateTrigger={['onChange', 'onBlur']} noStyle>
+                      <Input placeholder={intl.formatMessage({ id: 'product.documents' })} style={{ width: '60%' }} />
+                    </Form.Item>
+                    {fields.length > 1 ? (
+                      <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
+                    ) : null}
+                  </Form.Item>
+                ))}
+                <Form.Item
+                  {...formItemLayout}
+                  label={fields.length === 0 ? intl.formatMessage({ id: 'product.documents' }) : ' '}
+                >
+                  <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
+                    {intl.formatMessage({ id: 'product.button.addDocument' })}
+                  </Button>
+                  <Form.ErrorList errors={errors} />
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" loading={isLoading}>
               {isUpdate

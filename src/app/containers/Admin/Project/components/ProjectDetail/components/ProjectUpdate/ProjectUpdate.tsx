@@ -14,28 +14,28 @@ const ProjectUpdate = (): JSX.Element => {
   const [projectDetail, setProjectDetail] = useState<Project>({});
   const [defaultValue, setDefaultValue] = useState<any>();
   const { data: projectDetailData, isLoading: isLoadingProjectDetail } = projectsHooks.useProject({ id });
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  // const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const onFinish = useCallback(async (values: any) => {
     await updateProject({
       ...values,
       _id: projectDetailData?._id,
-      images: fileList,
+      // images: fileList,
     }).then((item: any) => {
       setProjectDetail(item?.data);
-      setFileList(item?.data?.images);
+      // setFileList(item?.data?.images);
       setDefaultValue({
         ...projectDetailData,
         description: decodeURIComponent(projectDetailData?.description),
         slug: decodeURIComponent(projectDetailData?.slug),
       });
     });
-  }, [fileList, projectDetailData, updateProject])
+  }, [projectDetailData, updateProject])
 
   useEffect(() => {
     if (projectDetailData && !isLoadingProjectDetail) {
       setProjectDetail(projectDetailData);
-      setFileList(projectDetailData?.images);
+      // setFileList(projectDetailData?.images);
       setDefaultValue({
         ...projectDetailData,
         description: decodeURIComponent(projectDetailData?.description),

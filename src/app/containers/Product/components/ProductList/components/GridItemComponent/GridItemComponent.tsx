@@ -3,6 +3,8 @@ import { Product } from 'models/product';
 import { useIntl } from 'react-intl';
 import './GridItemComponent.less';
 import { useNavigate } from 'react-router-dom';
+import { Context as AppContext } from 'app/context/appContext';
+import { useContext } from 'react';
 
 interface IProps {
   data: Product;
@@ -11,14 +13,16 @@ interface IProps {
 const GridItemComponent = ({ data }: IProps): JSX.Element => {
   const intl = useIntl();
   const navigate = useNavigate();
+  const { isMobile } = useContext(AppContext);
 
   return (
-    <div className="gridItem">
+    <div className={`gridItem ${isMobile && 'gridItem-mobile'}`}>
       <div className="image">
         <img
           width={236}
+          height={236}
           alt="logo"
-          src={data?.images?.[0]?.thumbUrl || '/images/no-image.png'}
+          src={data?.images?.[0]?.url || data?.images?.[0]?.thumbUrl || '/images/no-image.png'}
           onError={error => {
             error.currentTarget.src = '/images/no-image.png';
             error.currentTarget.onerror = null;
@@ -35,7 +39,7 @@ const GridItemComponent = ({ data }: IProps): JSX.Element => {
         </div>
         <div className="bottomSide">
           <div className="price">{intl.formatMessage({ id: 'common.price.contactPlease' })}</div>
-          <div className="action">
+          {!isMobile && <div className="action">
             <Button
               type="primary"
               className="detailButton"
@@ -43,7 +47,7 @@ const GridItemComponent = ({ data }: IProps): JSX.Element => {
             >
               {intl.formatMessage({ id: 'common.button.detail' })}
             </Button>
-          </div>
+          </div>}
         </div>
       </div>
     </div>

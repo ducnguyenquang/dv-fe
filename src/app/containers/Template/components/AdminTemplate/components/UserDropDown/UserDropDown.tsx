@@ -54,7 +54,7 @@ const UserDropDown = (): JSX.Element => {
         <Button type='link' onClick={e => e.preventDefault()}>
           {currentUser ? <Space>
             {`${currentUser?.firstName} ${currentUser?.lastName}`}
-            <Avatar src={currentUser?.images?.[0]?.thumbUrl} />
+            <Avatar src={currentUser?.images?.[0]?.url || currentUser?.images?.[0]?.thumbUrl || '/images/no-image.png' } />
           </Space> : intl.formatMessage({ id: 'template.userDropDown.login' })}
         </Button>
       </Dropdown>

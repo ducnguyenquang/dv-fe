@@ -1,4 +1,4 @@
-import { Button, Descriptions, Form, InputNumber, Rate, Select, Tabs } from 'antd';
+import { Button, Descriptions, Form, InputNumber, Modal, Rate, Select, Tabs } from 'antd';
 import { productsHooks } from 'app/containers/Admin/Product';
 import { Product } from 'models/product';
 import { useEffect, useState } from 'react';
@@ -10,12 +10,18 @@ import './ProductInformation.less';
 import { Cart } from 'models/cart';
 import ProductRelated from '../../../ProductRelated/ProductRelated';
 import { Document, Page, pdfjs } from 'react-pdf';
-import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+// import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
-pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+// pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const { TabPane } = Tabs;
 const { Option } = Select;
+
+// interface FileType {
+//   name: string,
+//   path: string,
+// }
 
 const ProductInformation = (): JSX.Element => {
   const intl = useIntl();
@@ -24,6 +30,8 @@ const ProductInformation = (): JSX.Element => {
   const [tabIndex, setTabIndex] = useState('1');
   const [quantity, setQuantity] = useState(1);
   const { data: productDetailData, isLoading: isLoadingProductDetail } = productsHooks.useProduct({ id });
+  const [pdfViewerModalOpen, setPdfViewerModalOpen] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState<string>('');
 
   useEffect(() => {
     if (productDetailData && !isLoadingProductDetail) {
@@ -36,6 +44,21 @@ const ProductInformation = (): JSX.Element => {
       setProductDetail(data);
     }
   }, [isLoadingProductDetail, productDetailData]);
+
+  const getFileName = (pathFile: string) => {
+    return pathFile.replace(/^.*[\\\/]/, '');
+  };
+
+  const getSelectedDocument = (pathFile: string) => {
+    // const fileName = getFileName(pathFile);
+    setPdfViewerModalOpen(true);
+    setSelectedDocument(pathFile);
+  };
+
+  const closePdfModal = () => {
+    setPdfViewerModalOpen(false);
+    setSelectedDocument('');
+  }
 
   const onTabChange = (key: string) => {
     console.log(key);
@@ -94,6 +117,9 @@ const ProductInformation = (): JSX.Element => {
     setNumPages(numPages);
   }
 
+  console.log('==== selectedDocument', selectedDocument);
+  
+
   return (
     <div className="productInfo">
       <div className="productInfoBlock">
@@ -124,15 +150,6 @@ const ProductInformation = (): JSX.Element => {
                 </span>
               </div>
             </Descriptions.Item>
-            {/* <Descriptions.Item label={intl.formatMessage({ id: 'product.sku' })} span={2}>
-              {productDetail?.slug ? decodeURIComponent(productDetail?.slug) : ''}
-            </Descriptions.Item>
-            <Descriptions.Item label={intl.formatMessage({ id: 'product.brand' })}>
-              {productDetail?.brand?.name}
-            </Descriptions.Item>
-            <Descriptions.Item label={intl.formatMessage({ id: 'product.categories' })}>
-              {productDetail?.categories ? productDetail?.categories?.map(item => item.name) : ''}
-            </Descriptions.Item> */}
           </Descriptions>
           <Form
             name="basic"
@@ -163,22 +180,45 @@ const ProductInformation = (): JSX.Element => {
           <div dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}></div>
         </TabPane>
         <TabPane tab={intl.formatMessage({ id: 'product.documents' })} key="3">
-          <div>
-            <Document
-              file="https://cadivi.vn/vnt_upload/product/01_2023/CADIVI-ISO_9001_2022_1.pdf"
-              // file={{
-              //   url: 'https://cadivi.vn/vnt_upload/product/01_2023/CADIVI-ISO_9001_2022_1.pdf',
-              //   // httpHeaders: { 'X-CustomHeader': '40359820958024350238508234' },
-              //   // withCredentials: true,
-              // }}
-              onLoadSuccess={onDocumentLoadSuccess}
-            >
-              <Page pageNumber={pageNumber} />
-            </Document>
-            <p>
-              Page {pageNumber} of {numPages}
-            </p>
-          </div>
+          <>
+            {productDetail?.documents?.map(item => {
+              const fileName = item.replace(/^.*[\\\/]/, '');
+              return (
+                <Button type="link" onClick={() => getSelectedDocument(item)}>
+                  {fileName}
+                </Button>
+              );
+            })}
+            <div>
+              {selectedDocument && <Modal
+                title={getFileName(selectedDocument)}
+                centered
+                visible={pdfViewerModalOpen}
+                onOk={() => closePdfModal()}
+                destroyOnClose
+                // onCancel={() => setPdfViewerModalOpen(false)}
+                width={1000}
+              >
+                <Document
+                  file={selectedDocument}
+                  // file="/images/CADIVI-ISO_9001_2022_1.pdf"
+
+                  // file="https://cadivi.vn/vnt_upload/product/01_2023/CADIVI-ISO_9001_2022_1.pdf"
+                  // file={{
+                  //   url: 'https://cadivi.vn/vnt_upload/product/01_2023/CADIVI-ISO_9001_2022_1.pdf',
+                  //   // httpHeaders: { 'X-CustomHeader': '40359820958024350238508234' },
+                  //   // withCredentials: true,
+                  // }}
+                  onLoadSuccess={onDocumentLoadSuccess}
+                >
+                  <Page pageNumber={pageNumber} />
+                </Document>
+                <p>
+                  Page {pageNumber} of {numPages}
+                </p>
+              </Modal>}
+            </div>
+          </>
         </TabPane>
       </Tabs>
       <ProductRelated categories={productDetail.categories} />

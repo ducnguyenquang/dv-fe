@@ -2,15 +2,20 @@
 @link-color: #e5704b;
 
 .ant-layout {
-  background: #fff;
+  background: transparent;
   &-header {
-    background-color: #fff;
+    background-color: transparent;
+    padding: 0 5rem;
+  }
+  &-content {
+    background-color: transparent;
+    padding: 0 5rem;
   }
   &-background {
-    background: #fff;
+    background: transparent;
   }
   &-footer {
-    background: #fff;
+    background: transparent;
   }
 
   .topMenu {
@@ -21,6 +26,8 @@
     display: flex;
     flex-direction: initial;
   }
+
+  
 }
 
 .template-layout {
@@ -32,7 +39,31 @@
         padding-right: 0;
         padding-bottom: 0;
       }
+
+      &-content {
+        padding: 0;
+
+      }
     }
+
+    .layoutContent {
+      .ant-layout-content {
+        padding: 0 1rem;
+        min-height: 280px;
+      }
+    }
+  }
+
+  &-padding-both {
+    padding: 0 15%;
+  }
+
+  &-padding-left {
+    padding-left: 15%;
+  }
+
+  &-padding-right {
+    padding-right: 15%;
   }
 }
 

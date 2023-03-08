@@ -1,16 +1,31 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input, Button, Image } from 'antd';
 import { LoginPayload } from 'models/user';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Link, useNavigate } from 'react-router-dom';
 import { authenticationHooks } from '../../hooks';
 import './Login.less';
+import { PAGE_NAME, SETTINGS } from 'constants/common';
+import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
 
 const Login = (): JSX.Element => {
   const intl = useIntl();
   const navigate = useNavigate();
+
+  const { data: settingTemplate } = settingPagesHooks.useTemplates({
+    search: {
+      group: PAGE_NAME.P_TEMPLATE,
+    },
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+  });
+
+
+  // const { settingTemplate } = useContext(AppContext);
 
   const [loginData, setLoginData] = useState<LoginPayload>({
     email: '',
@@ -35,6 +50,12 @@ const Login = (): JSX.Element => {
     if (localStorage.getItem('Token')) navigate(`/admin`, { replace: true });
   }, [userLogin, isLoadingUserLogin, navigate]);
 
+  const logoIcon = useMemo(() => {
+    if (settingTemplate) {
+      return settingTemplate?.data?.find((item: any) => item.name === SETTINGS.LOGO)
+    }
+  }, [settingTemplate])
+  
   return (
     <>
       <Helmet title={intl.formatMessage({ id: 'page.name.login' })} />
@@ -43,7 +64,7 @@ const Login = (): JSX.Element => {
           <img src={'/images/increase-sales.jpg'} alt={'Dai Viet'} />
         </div>
         <div className="form-container">
-          <Image width={200} preview={false} src="/images/logodv-8769.gif" />
+          <Image className='logoIcon' preview={false} src={logoIcon?.valueImages?.[0]?.url || "/images/logodv-8769.gif"} />
           <Form name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onFinish}>
             <Form.Item name="email" rules={[{ required: true, message: 'Please input your Username!' }]}>
               <Input

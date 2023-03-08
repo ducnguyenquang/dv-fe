@@ -10,11 +10,7 @@ interface IProps {
 }
 
 const ListComponent = ({ products, viewType }: IProps): JSX.Element => {
-  // const intl = useIntl();
   const attributes = {
-    // itemLayout: 'vertical',
-    // dataSource: products,
-    // size: viewType === 'list' ? "large" : undefined,
     grid: viewType === 'grid' ? {
       gutter: 16,
       xs: 1,

@@ -29,8 +29,8 @@
   "page.name.emailTempateDetail": "Biểu mẫu chi tiết Email",
   "page.name.popupMenu": "Danh mục popup",
   "page.name.popupMenuDetail": "Danh mục popup chi tiết",
-  "page.name.topMenu": "Danh mục header",
-  "page.name.topMenuDetail": "Danh mục header chi tiết",
+  "page.name.topMenu": "Top header",
+  "page.name.topMenuDetail": "Top header chi tiết",
   "page.name.support": "Hỗ trợ trực tuyến",
   "page.name.supportDetail": "Hỗ trợ trực tuyến chi tiết",
   "page.name.contact": "Liên hệ",
@@ -69,7 +69,7 @@
   "menu.left.setting.menuPopup": "Danh mục popup",
   "menu.left.setting.support": "Hỗ trợ trực tuyến",
   "menu.left.setting.tagSeo": "Các tag SEO",
-  "menu.left.setting.topMenu": "Danh mục header",
+  "menu.left.setting.topMenu": "Top menu header",
   "menu.left.settingPage": "Cấu hình trang",
   "menu.left.settingPage.template": "Template",
   "menu.left.settingPage.home-page": "Trang chủ",
@@ -105,6 +105,7 @@
   "product.categories.placeholder": "Chọn Danh mục",
   "product.button.addImages": "Thêm hình",
   "product.button.addProduct": "Thêm sản phẩm",
+  "product.button.addDocument": "Thêm tài liệu",
   "product.button.cart": "Mua hàng",
   "product.detail": "Chi tiết",
   "product.message.add.success": "Thêm sản phẩm thành công",
@@ -146,6 +147,9 @@
 
   "common.button.add": "Thêm",
   "common.button.update": "Cập nhật",
+  "common.button.updateAll": "Cập nhật tất cả",
+  "common.button.revert": "Khôi phục",
+  "common.button.revertAll": "Khôi phục tất cả",
   "common.button.delete": "Xoá",
   "common.button.cancel": "Huỷ",
   "common.button.back": "Trở về",
@@ -154,6 +158,8 @@
   "common.button.apply": "Áp dụng",
   "common.button.detail": "Chi tiết",
   "common.button.favourite": "Yêu thích",
+  "common.button.show": "Hiện",
+  "common.button.hidden": "Ẩn",
   "common.confirmModal.title": "Bạn có chắc xoá [{name}] này?",
   "common.validation.require.field": "Xin hãy nhập {name}",
   "common.event.message.success": "{name} thành công",
@@ -176,6 +182,8 @@
   "common.create.message.success": "Thêm data thành công",
   "common.update.message.success": "Cập nhật data thành công",
   "common.delete.message.success": "Xoá data thành công",
+  "common.setting.advance": "Tuỳ chỉnh nâng cao",
+
 
   "login.username": "Tên người dùng",
   "login.password": "Mật khẩu",
@@ -245,7 +253,7 @@
 
 
   "dashboard.vision.vision": "Tầm nhìn",
-  "dashboard.vision.visionDetail": "Thương hiệu được yêu thích nhất Việt Nam",
+  "dashboard.vision.visionDetail": "Thương hiệu yêu thích nhất Việt Nam",
   "dashboard.vision.coreValue": "Giá trị cốt lõi",
   "dashboard.vision.coreValueDetail": "Phát triển - Hài Hoà - Giá trị cho xã hội",
   "dashboard.vision.mission": "Sứ mệnh",
@@ -346,8 +354,6 @@
   "project.action": "Chức năng",
   "project.button.add": "Thêm dự án",
   "project.button.addImages": "Thêm hình",
-  "project.add.message.success": "Thêm dự án thành công",
-  "project.add.message.success": "Chỉnh sửa dự án thành công",
 
   "setting.emailTemplate.name": "Tên biểu mẫu",
   "setting.emailTemplate.subject": "Tiêu đề",
@@ -372,6 +378,24 @@
   "setting.support.phone": "Số điện thoại",
   "setting.support.action": "Chức năng",
   "setting.support.button.add": "Thêm hỗ trợ",
+  "setting.support.fontSize": "Font Size",
+  "setting.support.isHiddenPhoneIcon": "Phone icon",
+
+  "admin.settingPage.template.menu-name": "Template",
+  "admin.settingPage.template.title-page": "Cấu hình Template",
+  "admin.settingPage.template.layout.name": "Tổ chức bố cục",
+  "admin.settingPage.template.layout.padding-both": "Canh giữa",
+  "admin.settingPage.template.layout.padding-left": "Canh trái",
+  "admin.settingPage.template.layout.padding-right": "Canh phải",
+  "admin.settingPage.template.layout.full-screen": "Tràn viền",
+  "admin.settingPage.template.layout.background-color": "Màu nền",
+  "admin.settingPage.template.logo.name": "Hình top logo",
+
+  "admin.settingPage.home-page.menu-name": "Trang chủ",
+  "admin.settingPage.home-page.title-page": "Cấu hình trang chủ",
+  "admin.settingPage.home-page.banner.name": "Hình Banner",
+  "admin.settingPage.home-page.introduction.name": "Phần giới thiệu",
+
 
   "filter.title": "Bộ lọc",
   "filter.brands": "Thương hiệu",

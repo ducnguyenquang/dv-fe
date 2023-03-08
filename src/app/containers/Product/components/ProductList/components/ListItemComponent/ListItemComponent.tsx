@@ -67,7 +67,7 @@ const ListItemComponent = ({ data }: IProps): JSX.Element => {
         <img
           width={272}
           alt="logo"
-          src={data?.images?.[0]?.thumbUrl || '/images/no-image.png'}
+          src={data?.images?.[0]?.url || data?.images?.[0]?.thumbUrl || '/images/no-image.png'}
           onError={error => {
             error.currentTarget.src = '/images/no-image.png';
             error.currentTarget.onerror = null;

@@ -83,7 +83,7 @@ const OrderDetailForm = ({ initialValues }: IProps): JSX.Element => {
                   <Card
                     hoverable
                     style={{ width: 240 }}
-                    cover={<img alt="example" src={item?.product?.images?.[0]?.thumbUrl} />}
+                    cover={<img alt="example" src={item?.product?.images?.[0]?.url || item?.product?.images?.[0]?.thumbUrl || '/images/no-image.png'} />}
                   >
                     <Card.Meta title={item?.product?.name} description={`Số lương: ${item?.quantity}`} />
                   </Card>

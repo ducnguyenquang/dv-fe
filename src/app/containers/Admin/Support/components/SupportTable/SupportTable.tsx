@@ -1,17 +1,20 @@
-import { Button, Space, Popconfirm, Card, Input, InputRef, Tooltip } from 'antd';
+import { Button, Space, Popconfirm, Card, Input, InputRef, Tooltip, Switch, Collapse } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import { supportsHooks, supportsActions } from 'app/containers/Admin/Support';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/pagination';
 import { useIntl } from 'react-intl';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, DeleteOutlined, FormOutlined } from '@ant-design/icons';
-
+import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+import { PAGE_NAME, SETTINGS } from 'constants/common';
+import { Common } from 'models/common';
+import './SupportTable.less';
 interface DataType {
   key: string;
   name: string;
@@ -36,7 +39,16 @@ const SupportTable = (): JSX.Element => {
   const [sort, setSort] = useState(undefined);
   const [isChanged, setIsChanged] = useState(false);
   const searchInput = useRef<InputRef>(null);
+  const [isHiddenItem, setIsHiddenItem] = useState<Common>();
+  const [isHidden, setIsHidden] = useState<boolean>(false);
+  const [fontSizeItem, setFontSizeItem] = useState<Common>();
+  const [isHiddenPhoneIconItem, setIsHiddenPhoneIconItem] = useState<Common>();
 
+  const [fontSize, setFontSize] = useState<string>();
+  const [isHiddenPhoneIcon, setIsHiddenPhoneIcon] = useState<boolean>();
+  // const fontSizeRef = useRef(fontSize || 24);
+  const [updateItems, setUpdateItems] = useState<Common[]>([]);
+  const [createItems, setCreateItems] = useState<Common[]>([]);
   const { data, isLoading } = supportsHooks.useSupports({
     pagination: {
       limit: pageSize,
@@ -47,6 +59,45 @@ const SupportTable = (): JSX.Element => {
   });
 
   const { mutateAsync: deleteSupport, isLoading: isLoadingDeleteSupport } = supportsHooks.useDeleteSupport();
+
+  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+    search: {
+      group: PAGE_NAME.P_SUPPORT,
+    },
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+  });
+
+  const { mutateAsync: updateCommon } = settingPagesHooks.useUpdateTemplate();
+  const { mutateAsync: updateCommons } = settingPagesHooks.useUpdateTemplates();
+  const { mutateAsync: createCommon } = settingPagesHooks.useCreateTemplate();
+  const { mutateAsync: createCommons } = settingPagesHooks.useCreateTemplates();
+  const { mutateAsync: deleteCommon } = settingPagesHooks.useDeleteTemplate();
+
+  useEffect(() => {
+    if (templateData && !isLoadingTemplateData) {
+      const hidden = templateData.data?.find((item: any) => item.name === SETTINGS.IS_HIDDEN);
+      const hiddenPhoneIcon = templateData.data?.find((item: any) => item.name === SETTINGS.IS_HIDDEN_PHONE_ICON);
+      const fontSize = templateData.data?.find((item: any) => item.name === SETTINGS.FONT_SIZE);
+
+      if (hidden) {
+        setIsHiddenItem(hidden);
+        setIsHidden(hidden?.value === 'true' ? true : false);
+      }
+
+      if (hiddenPhoneIcon) {
+        setIsHiddenPhoneIconItem(hiddenPhoneIcon);
+        // setIsHiddenPhoneIcon(hiddenPhoneIcon?.value === 'true' ? true : false);
+      }
+
+      if (fontSize) {
+        setFontSizeItem(fontSize);
+        // setFontSize(fontSize?.value);
+      }
+    }
+  }, [isLoadingTemplateData, templateData]);
 
   useEffect(() => {
     if (data && (!isLoading || !isLoadingDeleteSupport)) {
@@ -213,19 +264,184 @@ const SupportTable = (): JSX.Element => {
     },
   ];
 
+  const setShowHidden = useCallback(
+    async (checked: boolean) => {
+      const hidden = !checked;
+      setIsHidden(hidden);
+
+      if (isHiddenItem) {
+        await updateCommon({
+          ...isHiddenItem,
+          value: hidden,
+        });
+      } else {
+        await createCommon({
+          name: SETTINGS.IS_HIDDEN,
+          value: hidden,
+          group: PAGE_NAME.P_SUPPORT,
+        });
+      }
+    },
+    [createCommon, isHiddenItem, updateCommon]
+  );
+
+  const getSwitchShowHidden = useCallback(() => {
+    return (
+      <Switch
+        defaultChecked={!isHidden}
+        checked={!isHidden}
+        checkedChildren={intl.formatMessage({ id: 'common.button.show' })}
+        unCheckedChildren={intl.formatMessage({ id: 'common.button.hidden' })}
+        onChange={checked => setShowHidden(checked)}
+      />
+    );
+  }, [intl, isHidden, setShowHidden]);
+
+  const resetIsHiddenPhoneIcon = useCallback(async () => {
+    if (isHiddenPhoneIconItem) {
+      await deleteCommon(isHiddenPhoneIconItem._id);
+      // setIsHiddenPhoneIcon(false);
+    }
+  }, [deleteCommon, isHiddenPhoneIconItem]);
+
+  const saveIsHiddenPhoneIcon = useCallback(async () => {
+    // const checked = isHiddenPhoneIcon;
+    // setIsHiddenPhoneIcon(hidden);
+    console.log('==== saveIsHiddenPhoneIcon isHiddenPhoneIcon', isHiddenPhoneIcon);
+    if (isHiddenPhoneIcon !== undefined) {
+      const hidden = !isHiddenPhoneIcon;
+
+      console.log('==== isHiddenPhoneIconItem', isHiddenPhoneIconItem);
+      console.log('==== hidden', hidden);
+
+      if (isHiddenPhoneIconItem) {
+        console.log('===1');
+        const isHidden = isHiddenPhoneIconItem?.value === 'true' ? true : false;
+        console.log('==== hidden.toString() !== isHiddenPhoneIconItem?.value', hidden !== isHidden);
+
+        // if (hidden !== isHidden) {
+        await updateCommon({
+          ...isHiddenPhoneIconItem,
+          value: hidden,
+        });
+        // }
+      } else {
+        await createCommon({
+          name: SETTINGS.IS_HIDDEN_PHONE_ICON,
+          group: PAGE_NAME.P_SUPPORT,
+          value: hidden,
+        });
+      }
+      setIsHiddenPhoneIcon(undefined);
+    }
+  }, [createCommon, isHiddenPhoneIcon, isHiddenPhoneIconItem, updateCommon]);
+
+  const saveFontSize = useCallback(async () => {
+    if (fontSize !== undefined) {
+      if (fontSizeItem) {
+        if (fontSize !== fontSizeItem.value) {
+          await updateCommon({
+            ...fontSizeItem,
+            value: fontSize,
+          });
+        }
+      } else {
+        await createCommon({
+          name: SETTINGS.FONT_SIZE,
+          group: PAGE_NAME.P_SUPPORT,
+          value: fontSize,
+        });
+      }
+      setFontSize(undefined);
+    }
+  }, [createCommon, fontSize, fontSizeItem, updateCommon]);
+
+  const resetFontSize = useCallback(async () => {
+    if (fontSizeItem) {
+      await deleteCommon(fontSizeItem._id);
+      // setFontSize('24');
+    }
+  }, [deleteCommon, fontSizeItem]);
+
+  const saveSupportSettings = async () => {
+    // const updateItems = [];
+    // const createItems = [];
+    if (fontSize !== undefined) {
+      if (fontSizeItem) {
+        if (fontSize !== fontSizeItem.value) {
+          updateItems.push({
+            ...fontSizeItem,
+            value: fontSize,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.FONT_SIZE,
+          group: PAGE_NAME.P_SUPPORT,
+          value: fontSize,
+        });
+      }
+    }
+
+    if (isHiddenPhoneIcon !== undefined) {
+      const hidden = !isHiddenPhoneIcon;
+      if (isHiddenPhoneIconItem) {
+        const isHidden = isHiddenPhoneIconItem?.value === 'true' ? true : false;
+        updateItems.push({
+          ...isHiddenPhoneIconItem,
+          value: hidden.toString(),
+        });
+        // }
+      } else {
+        createItems.push({
+          name: SETTINGS.IS_HIDDEN_PHONE_ICON,
+          group: PAGE_NAME.P_SUPPORT,
+          value: hidden.toString(),
+        });
+      }
+    }
+
+    if (updateItems.length > 0) {
+      await updateCommons({ data: updateItems });
+      setUpdateItems([])
+    }
+
+    if (createItems.length > 0) {
+      await createCommons({ data: createItems });
+      setCreateItems([])
+    }
+
+    
+
+    // await saveFontSize();
+    // await saveIsHiddenPhoneIcon();
+  };
+
+  const resetSupportSettings = async () => {
+    await resetFontSize();
+    await resetIsHiddenPhoneIcon();
+  };
+
+  // const onChangeFontSize = (value: string) => {
+  //   setUpdateItems([...updateItems, ])
+  // }
+
   return (
-    <>
+    <div className="a-suppport">
       <Helmet title={intl.formatMessage({ id: 'page.name.support' })} />
       <Card
         title={intl.formatMessage({ id: 'page.name.support' })}
         extra={
-          <Button
-            type="primary"
-            htmlType="submit"
-            onClick={() => navigate(`/admin/setting/support/add`, { replace: true })}
-          >
-            {intl.formatMessage({ id: 'setting.support.button.add' })}
-          </Button>
+          <Space direction="horizontal">
+            {getSwitchShowHidden()}
+            <Button
+              type="primary"
+              htmlType="submit"
+              onClick={() => navigate(`/admin/setting/support/add`, { replace: true })}
+            >
+              {intl.formatMessage({ id: 'setting.support.button.add' })}
+            </Button>
+          </Space>
         }
       >
         <ServiceTable
@@ -243,8 +459,46 @@ const SupportTable = (): JSX.Element => {
             setPageSize(pageSize);
           }}
         />
+
+        <Collapse style={{ marginTop: '2rem' }}>
+          <Collapse.Panel header={intl.formatMessage({ id: 'common.setting.advance' })} key="1">
+            <div className="setting">
+              <div className="setting-block">
+                <span className="setting-block-label">
+                  {intl.formatMessage({ id: 'setting.support.isHiddenPhoneIcon' })}
+                </span>
+                <Switch
+                  defaultChecked={isHiddenPhoneIconItem?.value === 'true' ? false : true}
+                  // checked={!isHiddenPhoneIcon}
+                  checkedChildren={intl.formatMessage({ id: 'common.button.show' })}
+                  unCheckedChildren={intl.formatMessage({ id: 'common.button.hidden' })}
+                  onChange={checked => setIsHiddenPhoneIcon(checked)}
+                />
+              </div>
+              <div className="setting-block">
+                <span className="setting-block-label">{intl.formatMessage({ id: 'setting.support.fontSize' })}</span>
+                <Input
+                  value={fontSize || fontSizeItem?.value || 24}
+                  type="number"
+                  className="fontSize"
+                  onChange={e => {
+                    setFontSize(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+            <Space direction="horizontal">
+              <Button type="ghost" onClick={resetSupportSettings}>
+                {intl.formatMessage({ id: 'common.button.revert' })}
+              </Button>
+              <Button type="primary" onClick={saveSupportSettings}>
+                {intl.formatMessage({ id: 'common.button.update' })}
+              </Button>
+            </Space>
+          </Collapse.Panel>
+        </Collapse>
       </Card>
-    </>
+    </div>
   );
 };
 

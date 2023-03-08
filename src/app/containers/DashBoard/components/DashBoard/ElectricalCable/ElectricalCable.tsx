@@ -32,7 +32,7 @@ const ElectricalCable = (): JSX.Element => {
   return (
     <div
       className={`electrical-cable ${isMobile && 'electrical-cable-mobile'} ${
-        orientation && `electrical-cable-mobile-${orientation}`
+        isMobile && orientation && `electrical-cable-mobile-${orientation}`
       }`}
     >
       {!isMobile && <Banner image="/images/eletrical-cable-banner.png" />}

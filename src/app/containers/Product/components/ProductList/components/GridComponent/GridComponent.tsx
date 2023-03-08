@@ -24,7 +24,7 @@ const GridComponent = ({ products }: IProps): JSX.Element => {
         xl: 6,
         xxl: 3,
       }}
-      className="productList"
+      className="productGridList"
       // itemLayout="vertical"
       size="large"
       // dataSource={products}

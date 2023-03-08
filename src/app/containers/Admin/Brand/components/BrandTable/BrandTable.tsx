@@ -177,7 +177,7 @@ const BrandTable = (): JSX.Element => {
       title: intl.formatMessage({ id: 'brand.logo' }),
       dataIndex: 'logo',
       key: 'logo',
-      render: (_, record) => <Image src={record.logo?.[0]?.thumbUrl} className="logo" />,
+      render: (_, record) => <Image src={record.logo?.[0]?.url || record.logo?.[0]?.thumbUrl || '/images/no-image.png'} className="logo" />,
     },
     {
       title: intl.formatMessage({ id: 'brand.action' }),

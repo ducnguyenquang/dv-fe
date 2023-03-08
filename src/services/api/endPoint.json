@@ -75,5 +75,15 @@
     "getProjectApi": "/project",
     "createProjectApi": "/project/add",
     "updateProjectApi": "/project/update",
-    "removeProjectApi": "/project/remove"
+    "removeProjectApi": "/project/remove",
+
+    "getCommonsApi": "/common/list",
+    "getCommonApi": "/common",
+    "createCommonApi": "/common/add",
+    "createCommonsApi": "/common/adds",
+    "updateCommonApi": "/common/update",
+    "updateCommonsApi": "/common/updates",
+    "removeCommonApi": "/common/remove",
+    "uploadFilesCommonApi": "/upload-files"
+
 }

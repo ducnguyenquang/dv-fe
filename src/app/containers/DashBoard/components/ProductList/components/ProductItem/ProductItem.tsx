@@ -14,11 +14,11 @@ const ProductItem = ({ data }: IProps): JSX.Element => {
   const navigate = useNavigate();
   const { orientation, isMobile } = useContext(AppContext);
 
-  return <div className={`productItem ${isMobile && 'productItem-mobile'} ${orientation && `productItem-mobile-${orientation}`}`}>
+  return <div className={`productItem ${isMobile && 'productItem-mobile'} ${isMobile && orientation && `productItem-mobile-${orientation}`}`}>
   <div className="image">
     <img
       alt="logo"
-      src={data?.images?.[0]?.thumbUrl || '/images/no-image.png'}
+      src={data?.images?.[0]?.url || data?.images?.[0]?.thumbUrl || '/images/no-image.png'}
       onError={error => {
         error.currentTarget.src = '/images/no-image.png';
         error.currentTarget.onerror = null;

@@ -11,7 +11,7 @@ const Focusing = (): JSX.Element => {
   const { orientation } = useContext(AppContext);
 
   return (
-    <div className={`focusingBlog ${isMobile && 'focusingBlog-mobile'} ${orientation && `focusingBlog-mobile-${orientation}`}`}>
+    <div className={`focusingBlog ${isMobile && 'focusingBlog-mobile'} ${isMobile && orientation && `focusingBlog-mobile-${orientation}`}`}>
       <div className="focusingItem">
         <div className='itemImage'>
           <Image preview={false} src="/images/cables.jpeg" />

@@ -16,6 +16,9 @@ import { useNavigate } from 'react-router-dom';
 import './AdminTemplate.less';
 import UserDropDown from './components/UserDropDown/UserDropDown';
 
+import { Context as AppContext } from 'app/context/appContext';
+import { useContext, useMemo } from 'react';
+import { SETTINGS } from 'constants/common';
 interface IProps {
   content?: any;
 }
@@ -30,6 +33,13 @@ const Template = ({ content }: IProps): JSX.Element => {
     setPageName(name);
     navigate(url, { replace: true })
   };
+
+  const { settingTemplate } = useContext(AppContext);
+  const logoIcon = useMemo(() => {
+    if (settingTemplate) {
+      return (settingTemplate as any)?.find((item: any) => item.name === SETTINGS.LOGO)
+    }
+  }, [settingTemplate])
 
   useEffect(() => {
     if (window.location.pathname.includes('/admin/setting/')) {
@@ -128,9 +138,9 @@ const Template = ({ content }: IProps): JSX.Element => {
   const { Header, Sider, Content } = Layout;
 
   return (
-    <Layout>
+    <Layout className='adminTemplate'>
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-        <Image width={50} preview={false} src="/images/logodv-8769.gif" />
+        <Image className='adminTemplate-logo' preview={false} src={logoIcon?.valueImages?.[0]?.url || "/images/logodv-8769.gif"} />
         <Menu
           mode="inline"
           // defaultSelectedKeys={['category']}

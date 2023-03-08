@@ -1,5 +1,5 @@
 import { Divider, Skeleton, Segmented, Pagination } from 'antd';
-import React, { useCallback, useState } from 'react';
+import { useContext, useState } from 'react';
 import { BarsOutlined, AppstoreOutlined } from '@ant-design/icons';
 import './ProductList.less';
 import { ListComponent } from './components';
@@ -11,10 +11,9 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { FilterApplied } from '../ProductFilter/components/FilterApplied';
 import { useSelector } from 'react-redux';
-import { Brand } from 'models/brand';
-import { Category } from 'models/category';
 import { useParams } from 'react-router-dom';
 import { categoriesHooks } from 'app/containers/Admin/Category';
+import { Context as AppContext } from 'app/context/appContext';
 
 interface IProps {
   category?: string;
@@ -26,17 +25,13 @@ const ProductList = ({ category }: IProps): JSX.Element => {
   const [products, setProducts] = useState<Product[]>([]);
   const [viewType, setViewType] = useState('list');
   const routeParams = useParams();
+  const { isMobile } = useContext(AppContext);
   const defaultFilter = {
     category: { slug: routeParams.category},
   };
   const [search, setSearch] = useState<any>();
-  // const [search, setSearch] = useState(defaultFilter);
-  const productFilter = useSelector(productsSelectors.getFilters);
-  const productFilterApply = useSelector(productsSelectors.getFiltersApply);
   const [isLoadMoreData, setIsLoadMoreData] = useState(false);
-  // console.log('==== routeParams', routeParams);
-  // console.log('==== search', search);
-
+  
   const [productPagination, setProductPagination] = useState<{
     totalCount?: number;
     offset?: number;
@@ -48,8 +43,6 @@ const ProductList = ({ category }: IProps): JSX.Element => {
   const { data: categoryData, isLoading: isCategoryDataLoading } = categoriesHooks.useCategory({
     id: routeParams.category
   });
-
-  
 
   useEffect(() => {
     // console.log('==== categoryData', categoryData)
@@ -78,45 +71,15 @@ const ProductList = ({ category }: IProps): JSX.Element => {
     }
   }, [productData, isProductDataLoading, products, isLoadMoreData]);
 
-  // useEffect(() => {
-  //   if (!productData && isProductDataLoading) {
-  //     if (productFilter) {
-  //       let searchData: any = {};
-  //       for (const [key, value] of Object.entries(productFilter)) {
-  //         if (value) {
-  //           console.log('==== searchData', searchData);
-
-  //           switch (key) {
-  //             case 'categories':
-  //               searchData['categories'] = (value as Category[]).map((item: any) => item._id);
-  //               break;
-  //             case 'brands':
-  //               searchData['brand'] = (value as Brand[]).map((item: any) => item._id);
-  //               break;
-  //             case 'types':
-  //               searchData['type'] = (value as any[]).map((item: any) => item._id);
-  //               break;
-  //             default:
-  //               break;
-  //           }
-  //         }
-  //       }
-  //       setSearch(searchData);
-  //     } else {
-  //       // setSearch(defaultFilter);
-  //     }
-  //   }
-  // }, [defaultFilter, productData, productFilter]);
-
   const loadMoreData = () => {
     setPage(page + 1);
     setIsLoadMoreData(true);
   };
 
   return (
-    <div className="productList">
+    <div className={`productList ${isMobile && 'productList-mobile'}`}>
       <FilterApplied />
-      <div className="modeBlock">
+      {!isMobile && <div className="modeBlock">
         <div className="numberItem">
           <span>{productPagination.totalCount}</span>
           <FormattedMessage id="common.filter.product" />
@@ -137,7 +100,7 @@ const ProductList = ({ category }: IProps): JSX.Element => {
             },
           ]}
         />
-      </div>
+      </div>}
       <div
         id="scrollableDiv"
         style={{
@@ -154,7 +117,7 @@ const ProductList = ({ category }: IProps): JSX.Element => {
           height={610}
           style={{ padding: '10px' }}
         >
-          <ListComponent products={products} viewType={viewType} />
+          <ListComponent products={products} viewType={!isMobile ? viewType : 'grid'} />
         </InfiniteScroll>
       </div>
       <Pagination

@@ -1,21 +1,22 @@
-import { Button, Image, Rate } from 'antd';
-import { useIntl } from 'react-intl';
+import { Button } from 'antd';
 import { Project } from 'models/project';
 import './ProjectItem.less';
-import { useMemo, useContext } from 'react';
+import { useContext } from 'react';
 import { Context as AppContext } from 'app/context/appContext';
+import { useNavigate } from 'react-router-dom';
 interface IProps {
   data?: Project;
 }
 
 const ProjectItem = ({ data }: IProps): JSX.Element => {
   const { orientation, isMobile } = useContext(AppContext);
+  const navigate = useNavigate();
 
-  return <div className={`projectItem ${isMobile && 'projectItem-mobile'} ${orientation && `projectItem-mobile-${orientation}`}`}>
+  return <Button type='link' onClick={() => navigate(`/project/${data?.slug}`, { replace: true })} className={`projectItem ${isMobile && 'projectItem-mobile'} ${isMobile && orientation && `projectItem-mobile-${orientation}`}`}>
   <div className="image">
     <img
       alt="logo"
-      src={data?.images || '/images/no-image.png'}
+      src={data?.images?.[0]?.url || '/images/no-image.png'}
       onError={error => {
         error.currentTarget.src = '/images/no-image.png';
         error.currentTarget.onerror = null;
@@ -28,7 +29,7 @@ const ProjectItem = ({ data }: IProps): JSX.Element => {
       <div className="description">{data?.summary}</div>
     </div>
   </div>
-</div>
+</Button>
 }
 
 export default ProjectItem;

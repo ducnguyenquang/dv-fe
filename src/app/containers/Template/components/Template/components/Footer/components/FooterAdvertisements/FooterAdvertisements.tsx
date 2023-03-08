@@ -8,6 +8,7 @@ import { Advertisement } from 'models/advertisement';
 
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
+import { fixBrokenLink } from 'utils/string';
 
 const FooterAdvertisements = (): JSX.Element => {
   const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
@@ -27,9 +28,9 @@ const FooterAdvertisements = (): JSX.Element => {
   }, [dataAdvertisements, isLoadingAdvertisements]);
   
   return <div className={`advertisements ${isMobile && 'advertisements-mobile'}`}>
-    {advertisements?.map((item: any) => <a href={item.url} key={item.name}><img
+    {advertisements?.map((item: any) => <a href={fixBrokenLink(item.url) as unknown as string} key={item.name} target={'_blank'} rel="noreferrer"><img
       alt="logo"
-      src={item?.image?.[0]?.thumbUrl || '/images/no-image.png'}
+      src={item?.image?.[0]?.url || item?.image?.[0]?.thumbUrl || '/images/no-image.png'}
       onError={error => {
         error.currentTarget.src = '/images/no-image.png';
         error.currentTarget.onerror = null;

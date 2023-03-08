@@ -7,9 +7,23 @@ import { authenticationHooks } from '../../hooks';
 import { UserDetailForm } from './components/UserDetailForm';
 import './SignUp.less';
 
+import { useMemo } from 'react';
+import { PAGE_NAME, SETTINGS } from 'constants/common';
+import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+
 const SignUp = (): JSX.Element => {
   const intl = useIntl();
   const navigate = useNavigate();
+
+  const { data: settingTemplate } = settingPagesHooks.useTemplates({
+    search: {
+      group: PAGE_NAME.P_TEMPLATE,
+    },
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+  });
 
   const { mutateAsync: registerUser } = authenticationHooks.useRegister();
   const currentUser = localStorage.getItem('CurrentUser');
@@ -25,6 +39,12 @@ const SignUp = (): JSX.Element => {
     [navigate, registerUser]
   );
 
+  const logoIcon = useMemo(() => {
+    if (settingTemplate) {
+      return settingTemplate?.data?.find((item: any) => item.name === SETTINGS.LOGO);
+    }
+  }, [settingTemplate]);
+
   return (
     <>
       <Helmet title={intl.formatMessage({ id: 'page.name.login' })} />
@@ -38,7 +58,7 @@ const SignUp = (): JSX.Element => {
           />
         </div>
         <div className="form-container">
-          <Image width={200} preview={false} src="/images/logodv-8769.gif" />
+          <Image width={120} preview={false} src={logoIcon?.valueImages?.[0]?.url || '/images/logodv-8769.gif'} />
           <UserDetailForm onFinish={onFinish} />
         </div>
       </div>

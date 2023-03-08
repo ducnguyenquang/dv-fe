@@ -11,7 +11,7 @@ export interface Project {
   description?: string;
   summary?: string;
   // images?: UploadFile[];
-  images?: string;
+  images?: any;
   _id?: string;
 }
 

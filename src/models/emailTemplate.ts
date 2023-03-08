@@ -8,15 +8,9 @@ export interface EmailTemplate {
   _id?: string;
 }
 
-export type EmailTemplateCreatePayload = Pick<
-EmailTemplate,
-  'name' | 'subject' | 'body'
->;
+export type EmailTemplateCreatePayload = Pick<EmailTemplate, 'name' | 'subject' | 'body'>;
 
-export type EmailTemplateUpdatePayload = Pick<
-EmailTemplate,
-'name' | 'subject' | 'body'
->;
+export type EmailTemplateUpdatePayload = Pick<EmailTemplate, 'name' | 'subject' | 'body'>;
 
 type EmailTemplateQueryBase = {
   size?: number;
