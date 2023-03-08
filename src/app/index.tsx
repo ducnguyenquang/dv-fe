@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Routes, Route, BrowserRouter, Switch } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 import { GlobalStyle } from '../styles/global-styles';
 import './app.less';
@@ -166,149 +166,141 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
             limit={10}
           />
           <Routes>
-            <Switch>
-              <Route path={'/'} element={getTemplate({ content: <HomePage />, hasAdvertisement: true })} />
-              <Route path={'/electrical-cable'} element={getTemplate({ content: <ElectricalCable /> })} />
-              <Route path={'/led-light'} element={getTemplate({ content: <LedLight /> })} />
-              <Route path={'/admin'} element={getAdminTemplate({ content: <AdminProductTable /> })} />
-              <Route path={'/admin/login'} element={<AdminLogin />} />
-              <Route path={'/admin/signup'} element={<AdminSignUp />} />
-              <Route path={'/admin/changePassword'} element={<AdminChangePassword />} />
-              <Route path={'/admin/products'} element={getAdminTemplate({ content: <AdminProductTable /> })} />
-              <Route path={'/admin/product/:id'} element={getAdminTemplate({ content: <AdminProductUpdate /> })} />
-              <Route path={'/admin/product/add'} element={getAdminTemplate({ content: <AdminProductAdd /> })} />
-              <Route path={'/admin/categories'} element={getAdminTemplate({ content: <AdminCategoryTable /> })} />
-              <Route path={'/admin/category/:id'} element={getAdminTemplate({ content: <AdminCategoryUpdate /> })} />
-              <Route path={'/admin/category/add'} element={getAdminTemplate({ content: <AdminCategoryAdd /> })} />
-              <Route path={'/admin/users'} element={getAdminTemplate({ content: <AdminUserTable /> })} />
-              <Route path={'/admin/user/:id'} element={getAdminTemplate({ content: <AdminUserUpdate /> })} />
-              <Route path={'/admin/user/add'} element={getAdminTemplate({ content: <AdminUserAdd /> })} />
-              <Route path={'/admin/orders'} element={getAdminTemplate({ content: <AdminOrderTable /> })} />
-              <Route path={'/admin/order/:id'} element={getAdminTemplate({ content: <AdminOrderUpdate /> })} />
-              <Route path={'/admin/order/add'} element={getAdminTemplate({ content: <AdminOrderAdd /> })} />
-              <Route path={'/admin/brands'} element={getAdminTemplate({ content: <AdminBrandTable /> })} />
-              <Route path={'/admin/brand/:id'} element={getAdminTemplate({ content: <AdminBrandUpdate /> })} />
-              <Route path={'/admin/brand/add'} element={getAdminTemplate({ content: <AdminBrandAdd /> })} />
+            <Route path={'/'} element={getTemplate({ content: <HomePage />, hasAdvertisement: true })} />
+            <Route path={'/electrical-cable'} element={getTemplate({ content: <ElectricalCable /> })} />
+            <Route path={'/led-light'} element={getTemplate({ content: <LedLight /> })} />
+            <Route path={'/admin'} element={getAdminTemplate({ content: <AdminProductTable /> })} />
+            <Route path={'/admin/login'} element={<AdminLogin />} />
+            <Route path={'/admin/signup'} element={<AdminSignUp />} />
+            <Route path={'/admin/changePassword'} element={<AdminChangePassword />} />
+            <Route path={'/admin/products'} element={getAdminTemplate({ content: <AdminProductTable /> })} />
+            <Route path={'/admin/product/:id'} element={getAdminTemplate({ content: <AdminProductUpdate /> })} />
+            <Route path={'/admin/product/add'} element={getAdminTemplate({ content: <AdminProductAdd /> })} />
+            <Route path={'/admin/categories'} element={getAdminTemplate({ content: <AdminCategoryTable /> })} />
+            <Route path={'/admin/category/:id'} element={getAdminTemplate({ content: <AdminCategoryUpdate /> })} />
+            <Route path={'/admin/category/add'} element={getAdminTemplate({ content: <AdminCategoryAdd /> })} />
+            <Route path={'/admin/users'} element={getAdminTemplate({ content: <AdminUserTable /> })} />
+            <Route path={'/admin/user/:id'} element={getAdminTemplate({ content: <AdminUserUpdate /> })} />
+            <Route path={'/admin/user/add'} element={getAdminTemplate({ content: <AdminUserAdd /> })} />
+            <Route path={'/admin/orders'} element={getAdminTemplate({ content: <AdminOrderTable /> })} />
+            <Route path={'/admin/order/:id'} element={getAdminTemplate({ content: <AdminOrderUpdate /> })} />
+            <Route path={'/admin/order/add'} element={getAdminTemplate({ content: <AdminOrderAdd /> })} />
+            <Route path={'/admin/brands'} element={getAdminTemplate({ content: <AdminBrandTable /> })} />
+            <Route path={'/admin/brand/:id'} element={getAdminTemplate({ content: <AdminBrandUpdate /> })} />
+            <Route path={'/admin/brand/add'} element={getAdminTemplate({ content: <AdminBrandAdd /> })} />
 
-              <Route
-                path={'/admin/setting/emailTemplate'}
-                element={getAdminTemplate({ content: <AdminEmailTemplateTable /> })}
-              />
-              <Route
-                path={'/admin/setting/emailTemplate/:id'}
-                element={getAdminTemplate({ content: <AdminEmailTemplateUpdate /> })}
-              />
-              <Route
-                path={'/admin/setting/emailTemplate/add'}
-                element={getAdminTemplate({ content: <AdminEmailTemplateAdd /> })}
-              />
-              <Route
-                path={'/admin/setting/popupMenu'}
-                element={getAdminTemplate({ content: <AdminPopupMenuTable /> })}
-              />
-              <Route
-                path={'/admin/setting/popupMenu/:id'}
-                element={getAdminTemplate({ content: <AdminPopupMenuUpdate /> })}
-              />
-              <Route
-                path={'/admin/setting/popupMenu/add'}
-                element={getAdminTemplate({ content: <AdminPopupMenuAdd /> })}
-              />
-              <Route path={'/admin/setting/support'} element={getAdminTemplate({ content: <AdminSupportTable /> })} />
-              <Route
-                path={'/admin/setting/support/:id'}
-                element={getAdminTemplate({ content: <AdminSupportUpdate /> })}
-              />
-              <Route path={'/admin/setting/support/add'} element={getAdminTemplate({ content: <AdminSupportAdd /> })} />
-              <Route
-                path={'/admin/setting/information'}
-                element={getAdminTemplate({ content: <AdminInformation /> })}
-              />
-              <Route path={'/admin/setting/tagSeo'} element={getAdminTemplate({ content: <AdminTagSeo /> })} />
-              <Route path={'/admin/setting/topMenus'} element={getAdminTemplate({ content: <AdminTopMenuTable /> })} />
-              <Route
-                path={'/admin/setting/topMenu/:id'}
-                element={getAdminTemplate({ content: <AdminTopMenuUpdate /> })}
-              />
-              <Route path={'/admin/setting/topMenu/add'} element={getAdminTemplate({ content: <AdminTopMenuAdd /> })} />
-              <Route
-                path={'/admin/advertisements'}
-                element={getAdminTemplate({ content: <AdminAdvertisementTable /> })}
-              />
-              <Route
-                path={'/admin/advertisement/:id'}
-                element={getAdminTemplate({ content: <AdminAdvertisementUpdate /> })}
-              />
-              <Route
-                path={'/admin/advertisement/add'}
-                element={getAdminTemplate({ content: <AdminAdvertisementAdd /> })}
-              />
-              <Route path={'/admin/projects'} element={getAdminTemplate({ content: <AdminProjectTable /> })} />
-              <Route path={'/admin/project/:id'} element={getAdminTemplate({ content: <AdminProjectUpdate /> })} />
-              <Route path={'/admin/project/add'} element={getAdminTemplate({ content: <AdminProjectAdd /> })} />
+            <Route
+              path={'/admin/setting/emailTemplate'}
+              element={getAdminTemplate({ content: <AdminEmailTemplateTable /> })}
+            />
+            <Route
+              path={'/admin/setting/emailTemplate/:id'}
+              element={getAdminTemplate({ content: <AdminEmailTemplateUpdate /> })}
+            />
+            <Route
+              path={'/admin/setting/emailTemplate/add'}
+              element={getAdminTemplate({ content: <AdminEmailTemplateAdd /> })}
+            />
+            <Route path={'/admin/setting/popupMenu'} element={getAdminTemplate({ content: <AdminPopupMenuTable /> })} />
+            <Route
+              path={'/admin/setting/popupMenu/:id'}
+              element={getAdminTemplate({ content: <AdminPopupMenuUpdate /> })}
+            />
+            <Route
+              path={'/admin/setting/popupMenu/add'}
+              element={getAdminTemplate({ content: <AdminPopupMenuAdd /> })}
+            />
+            <Route path={'/admin/setting/support'} element={getAdminTemplate({ content: <AdminSupportTable /> })} />
+            <Route
+              path={'/admin/setting/support/:id'}
+              element={getAdminTemplate({ content: <AdminSupportUpdate /> })}
+            />
+            <Route path={'/admin/setting/support/add'} element={getAdminTemplate({ content: <AdminSupportAdd /> })} />
+            <Route path={'/admin/setting/information'} element={getAdminTemplate({ content: <AdminInformation /> })} />
+            <Route path={'/admin/setting/tagSeo'} element={getAdminTemplate({ content: <AdminTagSeo /> })} />
+            <Route path={'/admin/setting/topMenus'} element={getAdminTemplate({ content: <AdminTopMenuTable /> })} />
+            <Route
+              path={'/admin/setting/topMenu/:id'}
+              element={getAdminTemplate({ content: <AdminTopMenuUpdate /> })}
+            />
+            <Route path={'/admin/setting/topMenu/add'} element={getAdminTemplate({ content: <AdminTopMenuAdd /> })} />
+            <Route
+              path={'/admin/advertisements'}
+              element={getAdminTemplate({ content: <AdminAdvertisementTable /> })}
+            />
+            <Route
+              path={'/admin/advertisement/:id'}
+              element={getAdminTemplate({ content: <AdminAdvertisementUpdate /> })}
+            />
+            <Route
+              path={'/admin/advertisement/add'}
+              element={getAdminTemplate({ content: <AdminAdvertisementAdd /> })}
+            />
+            <Route path={'/admin/projects'} element={getAdminTemplate({ content: <AdminProjectTable /> })} />
+            <Route path={'/admin/project/:id'} element={getAdminTemplate({ content: <AdminProjectUpdate /> })} />
+            <Route path={'/admin/project/add'} element={getAdminTemplate({ content: <AdminProjectAdd /> })} />
 
-              <Route
-                path={'/admin/setting-page/template'}
-                element={getAdminTemplate({ content: <AdminSettingPageTemplate /> })}
-              />
-              <Route
-                path={'/admin/setting-page/home-page'}
-                element={getAdminTemplate({ content: <AdminSettingPageHomePage /> })}
-              />
+            <Route
+              path={'/admin/setting-page/template'}
+              element={getAdminTemplate({ content: <AdminSettingPageTemplate /> })}
+            />
+            <Route
+              path={'/admin/setting-page/home-page'}
+              element={getAdminTemplate({ content: <AdminSettingPageHomePage /> })}
+            />
 
-              <Route
-                path={'/product'}
-                element={getTemplate({
-                  content: <ProductList />,
-                  leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
-                })}
-              />
-              <Route
-                path={'/product/:id'}
-                element={getTemplate({ content: <ProductDetail />, leftMenu: <SupportMenu />, hasBreadcrumb: true })}
-              />
-              <Route
-                path={'/project/:id'}
-                element={getTemplate({ content: <ProjectDetail />, leftMenu: <SupportMenu />, hasBreadcrumb: true })}
-              />
-              <Route
-                path={'/electrical-cable/:category/product'}
-                element={getTemplate({
-                  content: <ProductList />,
-                  leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
-                })}
-              />
-              <Route
-                path={'/led-light/:category/product'}
-                element={getTemplate({
-                  content: <ProductList />,
-                  leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
-                })}
-              />
-              <Route path={'/cart'} element={getTemplate({ content: <Cart />, leftMenu: <SupportMenu /> })} />
-              <Route path={'/contact'} element={getTemplate({ content: <Contact />, leftMenu: <SupportMenu /> })} />
-              <Route path={'/aboutUs'} element={getTemplate({ content: <AboutUs />, leftMenu: <SupportMenu /> })} />
-              <Route path={'/faq'} element={getTemplate({ content: <Faq />, leftMenu: <SupportMenu /> })} />
-              <Route path={'/siteMap'} element={getTemplate({ content: <SiteMap />, leftMenu: <SupportMenu /> })} />
-              <Route
-                path={'/consulting'}
-                element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
-              />
-              <Route
-                path={'/catalogues'}
-                element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
-              />
-              <Route
-                path={'/pricing'}
-                element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
-              />
-              <Route
-                path={'/projects'}
-                element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
-              />
-              <Route path="*" element={getTemplate({ content: <EmptyPage />, leftMenu: <SupportMenu /> })} />
-              <Route path="/admin/*" element={getAdminTemplate({ content: <EmptyPage /> })} />
-            </Switch>
+            <Route
+              path={'/product'}
+              element={getTemplate({
+                content: <ProductList />,
+                leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
+              })}
+            />
+            <Route
+              path={'/product/:id'}
+              element={getTemplate({ content: <ProductDetail />, leftMenu: <SupportMenu />, hasBreadcrumb: true })}
+            />
+            <Route
+              path={'/project/:id'}
+              element={getTemplate({ content: <ProjectDetail />, leftMenu: <SupportMenu />, hasBreadcrumb: true })}
+            />
+            <Route
+              path={'/electrical-cable/:category/product'}
+              element={getTemplate({
+                content: <ProductList />,
+                leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
+              })}
+            />
+            <Route
+              path={'/led-light/:category/product'}
+              element={getTemplate({
+                content: <ProductList />,
+                leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
+              })}
+            />
+            <Route path={'/cart'} element={getTemplate({ content: <Cart />, leftMenu: <SupportMenu /> })} />
+            <Route path={'/contact'} element={getTemplate({ content: <Contact />, leftMenu: <SupportMenu /> })} />
+            <Route path={'/aboutUs'} element={getTemplate({ content: <AboutUs />, leftMenu: <SupportMenu /> })} />
+            <Route path={'/faq'} element={getTemplate({ content: <Faq />, leftMenu: <SupportMenu /> })} />
+            <Route path={'/siteMap'} element={getTemplate({ content: <SiteMap />, leftMenu: <SupportMenu /> })} />
+            <Route
+              path={'/consulting'}
+              element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
+            />
+            <Route
+              path={'/catalogues'}
+              element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
+            />
+            <Route
+              path={'/pricing'}
+              element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
+            />
+            <Route
+              path={'/projects'}
+              element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
+            />
+            <Route path="*" element={getTemplate({ content: <EmptyPage />, leftMenu: <SupportMenu /> })} />
+            <Route path="/admin/*" element={getAdminTemplate({ content: <EmptyPage /> })} />
           </Routes>
           {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}
         </LanguageProvider>
