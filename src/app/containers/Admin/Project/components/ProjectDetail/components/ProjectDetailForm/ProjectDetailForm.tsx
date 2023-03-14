@@ -9,6 +9,7 @@ import Editor from 'app/components/Editor/CkEditor';
 import './ProjectDetailForm.less';
 import { useNavigate } from 'react-router-dom';
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
+import { generateSku } from 'utils/string';
 
 const formItemLayout = {
   labelCol: {
@@ -54,12 +55,23 @@ const ProjectDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [description, setDescription] = useState('');
+  const [sku, setSku] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   // console.log('==== fileList', fileList);
 
   useEffect(() => {
     if (initialValues?.images) setFileList(initialValues?.images)
   }, [initialValues?.images])
+  // console.log('==== sku', sku);
+
+  const onNameChange = (value: string) => {
+    const id = generateSku(value)
+    setSku(id);
+  }
+
+  useEffect(() => {
+    if (sku) form.setFieldsValue({ slug: sku })
+  }, [form, sku])
   
   return (
     <div className="projectDetailForm">
@@ -67,7 +79,7 @@ const ProjectDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
       <Card
         title={intl.formatMessage({ id: 'page.name.projectDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/projects`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/projects`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -77,8 +89,6 @@ const ProjectDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           form={form}
           name="update"
           onFinish={async (values) => {
-            console.log('==== fileList', fileList);
-
             await onFinish({
               ...values,
               description: encodeURIComponent(values.description),
@@ -86,7 +96,7 @@ const ProjectDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
               images: fileList,
             })
             .then(() => {
-              navigate(`/admin/projects`, { replace: true });
+              navigate(`/admin/projects`);
             });
           }}
           initialValues={initialValues}
@@ -106,7 +116,7 @@ const ProjectDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
             ]}
             hasFeedback
           >
-            <Input />
+            <Input onChange={e => onNameChange(e.target.value)}/>
           </Form.Item>
           <Form.Item
             name="slug"

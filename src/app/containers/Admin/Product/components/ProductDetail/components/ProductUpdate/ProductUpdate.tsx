@@ -32,7 +32,7 @@ const ProductUpdate = (): JSX.Element => {
       await updateProduct({
         ...values,
         _id: productDetailData?._id,
-        // brand: values.brand.value,
+        brand: values.brand.value,
         categories: values.categories.map((item: any) => (typeof item === 'string' ? item : item.value)),
       }).then((item: any) => {
         setProductDetail(item?.data);

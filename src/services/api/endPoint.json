@@ -77,6 +77,18 @@
     "updateProjectApi": "/project/update",
     "removeProjectApi": "/project/remove",
 
+    "getSkusApi": "/sku/list",
+    "getSkuApi": "/sku",
+    "createSkuApi": "/sku/add",
+    "updateSkuApi": "/sku/update",
+    "removeSkuApi": "/sku/remove",
+
+    "getRoutePathsApi": "/route-path/list",
+    "getRoutePathApi": "/route-path",
+    "createRoutePathApi": "/route-path/add",
+    "updateRoutePathApi": "/route-path/update",
+    "removeRoutePathApi": "/route-path/remove",
+
     "getCommonsApi": "/common/list",
     "getCommonApi": "/common",
     "createCommonApi": "/common/add",

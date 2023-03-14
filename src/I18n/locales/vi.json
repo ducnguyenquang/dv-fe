@@ -44,6 +44,10 @@
   "page.name.pricing": "Báo giá",
   "page.name.project": "Dự án",
   "page.name.projectDetail": "Chi tiết dự án",
+  "page.name.sku": "Mã SKU",
+  "page.name.skuDetail": "Chi tiết mã SKU",
+  "page.name.routePath": "Route Path",
+  "page.name.routePathDetail": "Chi tiết Route Path",
 
   "menu.top.consult": "Tư vấn",
   "menu.top.catalogues": "Catalogues",
@@ -70,9 +74,13 @@
   "menu.left.setting.support": "Hỗ trợ trực tuyến",
   "menu.left.setting.tagSeo": "Các tag SEO",
   "menu.left.setting.topMenu": "Top menu header",
+  "menu.left.setting.sku": "Mã SKU",
+  "menu.left.setting.routePath": "Route Path",
+
   "menu.left.settingPage": "Cấu hình trang",
   "menu.left.settingPage.template": "Template",
   "menu.left.settingPage.home-page": "Trang chủ",
+  "menu.left.settingPage.product-category": "Phân loại sản phẩm",
 
 
   "category.categoryName": "Tên danh mục",
@@ -96,6 +104,7 @@
   "product.sku": "SKU",
   "product.action": "Chức năng",
   "product.isHidden": "Không hiển thị",
+  "product.order": "Thứ tự",
   "product.images": "Hình sản phẩm",
   "product.type": "Phân loại",
   "product.type.placeholder": "Chọn Phân loại",
@@ -183,6 +192,7 @@
   "common.update.message.success": "Cập nhật data thành công",
   "common.delete.message.success": "Xoá data thành công",
   "common.setting.advance": "Tuỳ chỉnh nâng cao",
+  "common.session.isTimeOut": "Phiên làm việc đã hết, Mời bạn login lại",
 
 
   "login.username": "Tên người dùng",
@@ -361,6 +371,18 @@
   "setting.emailTemplate.action": "Chức năng",
   "setting.emailTemplate.button.addEmailTemplate": "Thêm biểu mẫu",
 
+  "setting.sku.name": "Tên Mã SKU",
+  "setting.sku.value": "Giá trị",
+  "setting.sku.isHidden": "Không hiển thị",
+  "setting.sku.action": "Chức năng",
+  "setting.sku.button.addSku": "Thêm Mã SKU",
+
+  "setting.routePath.name": "Tên Route Path",
+  "setting.routePath.value": "Giá trị",
+  "setting.routePath.isHidden": "Không hiển thị",
+  "setting.routePath.action": "Chức năng",
+  "setting.routePath.button.addRoutePath": "Thêm Route Path",
+
   "setting.popupMenu.name": "Tên popup menu",
   "setting.popupMenu.icon": "Icon",
   "setting.popupMenu.url": "Đường dẫn",
@@ -370,6 +392,7 @@
   "setting.topMenu.name": "Tên top menu",
   "setting.topMenu.icon": "Icon",
   "setting.topMenu.url": "Đường dẫn",
+  "setting.topMenu.order": "Thứ tự",
   "setting.topMenu.action": "Chức năng",
   "setting.topMenu.button.add": "Thêm top menu",
 
@@ -395,7 +418,9 @@
   "admin.settingPage.home-page.title-page": "Cấu hình trang chủ",
   "admin.settingPage.home-page.banner.name": "Hình Banner",
   "admin.settingPage.home-page.introduction.name": "Phần giới thiệu",
-
+  "admin.settingPage.product-category.title-page": "Cấu hình trang phân loại sản phẩm",
+  "admin.settingPage.product-category.cable.banner.name": "Hình Banner (Cáp điện)",
+  "admin.settingPage.product-category.ledLight.banner.name": "Hình Banner (Đèn Led)",
 
   "filter.title": "Bộ lọc",
   "filter.brands": "Thương hiệu",

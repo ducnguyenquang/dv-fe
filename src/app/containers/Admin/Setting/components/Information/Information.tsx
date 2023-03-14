@@ -78,7 +78,7 @@ const Information = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.setting.information' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }

@@ -6,9 +6,11 @@ import CategoryItem from '../CategoryItem/CategoryItem';
 import { Category } from 'models/category';
 import Search from 'antd/lib/input/Search';
 import { useIntl } from 'react-intl';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
+import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+import { PAGE_NAME, SETTINGS } from 'constants/common';
 
 const ElectricalCable = (): JSX.Element => {
   const intl = useIntl();
@@ -16,6 +18,19 @@ const ElectricalCable = (): JSX.Element => {
   const { isMobile, orientation } = useContext(AppContext);
 
   const [name, setName] = useState('');
+  const defaultBannerImage = '/images/eletrical-cable-banner.png';
+  const [bannerImage, setBannerImage] = useState<string>(defaultBannerImage);
+
+  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+    search: {
+      group: PAGE_NAME.P_PRODUCT_CATEGORY,
+    },
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+  });
+  
   const { data: categories, isSuccess } = categoriesHooks.useCategories({
     search: {
       type: 'cap-dien',
@@ -27,6 +42,16 @@ const ElectricalCable = (): JSX.Element => {
     },
   });
 
+  useEffect(() => {
+    if (templateData && !isLoadingTemplateData) {
+      const banner = templateData.data?.find((item: any) => item.name === SETTINGS.CABLE_BANNER_IMAGE);
+
+      if (banner) {
+        setBannerImage(banner?.valueImages?.[0]?.url as string);
+      }
+    }
+  }, [isLoadingTemplateData, templateData]);
+
   const onSearch = (value: string) => setName(value);
 
   return (
@@ -35,7 +60,7 @@ const ElectricalCable = (): JSX.Element => {
         isMobile && orientation && `electrical-cable-mobile-${orientation}`
       }`}
     >
-      {!isMobile && <Banner image="/images/eletrical-cable-banner.png" />}
+      {!isMobile && <Banner image={bannerImage} />}
       <h1 className="pageTitle">{intl.formatMessage({ id: 'dashboard.information.distributor.item1.title' })}</h1>
       <Search
         className="search"

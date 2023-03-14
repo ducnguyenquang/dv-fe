@@ -4,9 +4,10 @@ import type { UploadFile } from 'antd/es/upload/interface';
 
 export interface TopMenu {
   id?: string;
-  name?: string;
+  name: string;
   icon?: string;
-  url?: string;
+  url: string;
+  order: string;
   _id?: string;
 }
 
@@ -25,6 +26,7 @@ type TopMenuQueryBase = {
     desc: boolean;
   };
   search?: any;
+  isHidden?: boolean;
 };
 
 export type TopMenuQueryPayload = Partial<TopMenuQueryBase>;

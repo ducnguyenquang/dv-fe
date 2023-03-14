@@ -13,7 +13,7 @@ const MaintenancePage = (): JSX.Element => {
       title="403"
       subTitle={intl.formatMessage({ id: 'common.MaintenancePage.content' })}
       extra={
-        <Button type="primary" onClick={() => navigate(`/`, { replace: true })}>
+        <Button type="primary" onClick={() => navigate(`/`)}>
           {intl.formatMessage({ id: 'common.button.goBack' })}
         </Button>
       }

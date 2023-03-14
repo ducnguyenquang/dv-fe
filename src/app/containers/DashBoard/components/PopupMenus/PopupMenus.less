@@ -1,9 +1,18 @@
 .popup-menu {
-  width: 550px;
-  .ant-modal-body {
+  width: 100%;
+  .ant-modal {
+    &-body {
+      display: flex;
+      flex-direction: row;
 
-    display: flex;
-    flex-direction: row;
+      .ant-space {
+        width: 100%;
+      }
+    }
+
+    &-content {
+      background-color: transparent;
+    }
   }
 
   .leftBlock {

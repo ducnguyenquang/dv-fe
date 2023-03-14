@@ -41,13 +41,13 @@ const Login = (): JSX.Element => {
       localStorage.setItem('CurrentUser', JSON.stringify(userLogin));
       if (userLogin.token) {
         localStorage.setItem('Token', userLogin.token as string);
-        navigate(`/admin`, { replace: true });
+        navigate(`/admin`);
       } else {
-        navigate(`/admin/changePassword`, { replace: true });
+        navigate(`/admin/changePassword`);
       }
     }
 
-    if (localStorage.getItem('Token')) navigate(`/admin`, { replace: true });
+    if (localStorage.getItem('Token')) navigate(`/admin`);
   }, [userLogin, isLoadingUserLogin, navigate]);
 
   const logoIcon = useMemo(() => {

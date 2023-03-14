@@ -8,7 +8,7 @@ import { useCallback } from 'react';
 const Updating = (): JSX.Element => {
   const { id } = useParams();
   const { mutateAsync: updateTopMenu, isLoading: isLoadingUpdateTopMenu } = topMenusHooks.useUpdateTopMenu();
-  const [topMenuDetail, setTopMenuDetail] = useState<TopMenu>({});
+  const [topMenuDetail, setTopMenuDetail] = useState<TopMenu>();
   const [defaultValue, setDefaultValue] = useState<any>();
   const { data: topMenuDetailData, isLoading: isLoadingTopMenuDetail } = topMenusHooks.useTopMenu({ id });
 

@@ -17,7 +17,7 @@ export const useCreateProduct = (): any => {
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries(productsApi.productsKeys.lists());
-        message.success(intl.formatMessage({ id: 'common.delete.message.success' }));
+        message.success(intl.formatMessage({ id: 'common.create.message.success' }));
 
       },
       onError: (error: any) => {

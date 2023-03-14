@@ -56,7 +56,7 @@ const BrandTable = (): JSX.Element => {
 
   const getBrandDetail = async (row: DataType) => {
     await dispatch(brandsActions.setBrandDetail(row));
-    navigate(`/admin/brand/${row?.slug}`, { replace: true });
+    navigate(`/admin/brand/${row?.slug}`);
   };
 
   const onDeleteBrand = async (id: string) => {
@@ -178,6 +178,7 @@ const BrandTable = (): JSX.Element => {
       dataIndex: 'logo',
       key: 'logo',
       render: (_, record) => <Image src={record.logo?.[0]?.url || record.logo?.[0]?.thumbUrl || '/images/no-image.png'} className="logo" />,
+      width: 150,
     },
     {
       title: intl.formatMessage({ id: 'brand.action' }),
@@ -200,6 +201,7 @@ const BrandTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -209,7 +211,7 @@ const BrandTable = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.brand' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/brand/add`, { replace: true })}>
+          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/brand/add`)}>
             {intl.formatMessage({ id: 'brand.button.addBrand' })}
           </Button>
         }

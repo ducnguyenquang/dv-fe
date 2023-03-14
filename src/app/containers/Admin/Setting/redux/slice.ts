@@ -19,6 +19,7 @@ export const initialState = {
   },
   popupMenus: [],
   popupMenuDetail: {},
+  popupMenuOpened: false,
 
   emailTemplatePagination: {
     hasPreviousPage: false,
@@ -37,6 +38,33 @@ export const initialState = {
   },
   advertisements: [],
   advertisementDetail: {},
+
+  topMenuPagination: {
+    hasPreviousPage: false,
+    hasNextPage: false,
+    totalCount: 0,
+    count: 0,
+  },
+  topMenus: [],
+  topMenuDetail: {},
+
+  skuPagination: {
+    hasPreviousPage: false,
+    hasNextPage: false,
+    totalCount: 0,
+    count: 0,
+  },
+  skus: [],
+  skuDetail: {},
+
+  routePathPagination: {
+    hasPreviousPage: false,
+    hasNextPage: false,
+    totalCount: 0,
+    count: 0,
+  },
+  routePaths: [],
+  routePathDetail: {},
 };
 
 const settingsSlice = createSlice({
@@ -64,6 +92,9 @@ const settingsSlice = createSlice({
     setPopupMenuDetail: (state, { payload }) => {
       state.popupMenuDetail = payload;
     },
+    setPopMenuOpened: (state, { payload }) => {
+      state.popupMenuOpened = payload;
+    },
     
     setEmailTemplatesPagination: (state, { payload }) => {
       state.emailTemplatePagination = payload.pagination;
@@ -87,6 +118,39 @@ const settingsSlice = createSlice({
       state.advertisementDetail = payload;
     },
     
+    setTopMenusPagination: (state, { payload }) => {
+      state.topMenuPagination = payload.pagination;
+    },
+    setTopMenus: (state, { payload }) => {
+      state.topMenus = payload.data;
+      state.topMenuPagination = payload.pagination;
+    },
+    setTopMenuDetail: (state, { payload }) => {
+      state.topMenuDetail = payload;
+    },
+
+    setSkusPagination: (state, { payload }) => {
+      state.skuPagination = payload.pagination;
+    },
+    setSkus: (state, { payload }) => {
+      state.skus = payload.data;
+      state.skuPagination = payload.pagination;
+    },
+    setSkuDetail: (state, { payload }) => {
+      state.skuDetail = payload;
+    },
+
+    setRoutePathsPagination: (state, { payload }) => {
+      state.routePathPagination = payload.pagination;
+    },
+    setRoutePaths: (state, { payload }) => {
+      state.routePaths = payload.data;
+      state.routePathPagination = payload.pagination;
+    },
+    setRoutePathDetail: (state, { payload }) => {
+      state.routePathDetail = payload;
+    },
+
     setIsLoading: (state, { payload }) => {
       state.isLoading = payload;
     },

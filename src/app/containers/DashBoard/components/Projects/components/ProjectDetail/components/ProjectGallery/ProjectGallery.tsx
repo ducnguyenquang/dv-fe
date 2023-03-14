@@ -1,13 +1,7 @@
-import { Carousel, Image } from 'antd';
+import { Image } from 'antd';
 import { UploadFile } from 'antd/es/upload/interface';
 import React, { useCallback, useEffect, useState } from 'react';
 import './ProjectGallery.less';
-
-const contentStyle: React.CSSProperties = {
-  height: '436px',
-  color: '#fff',
-  background: '#fff',
-};
 
 interface IProps {
   images?: UploadFile[];
@@ -15,7 +9,6 @@ interface IProps {
 
 const ProjectGallery = ({ images }: IProps): JSX.Element => {
   const [selectedImage, setSelectedImage] = useState(images?.[0]);
-  console.log('==== selectedImage', selectedImage);
 
   useEffect(() => {
     if (images && images?.length > 0) {
@@ -24,13 +17,11 @@ const ProjectGallery = ({ images }: IProps): JSX.Element => {
   }, [images]);
 
   const onImageClick = useCallback((item: any) => {
-    console.log('==== onImageClick item', item);
-    
     setSelectedImage(item)
   }, [])
 
   return (
-    <div className="productGallery">
+    <div className="projectGallery">
       <Image
         key={selectedImage?.uid}
         preview={false}

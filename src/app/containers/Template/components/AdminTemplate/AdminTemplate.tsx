@@ -15,6 +15,7 @@ import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import './AdminTemplate.less';
 import UserDropDown from './components/UserDropDown/UserDropDown';
+import { message } from 'antd';
 
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext, useMemo } from 'react';
@@ -31,7 +32,7 @@ const Template = ({ content }: IProps): JSX.Element => {
 
   const navMenuClick = ({ name, url }: { name: string; url: string }) => {
     setPageName(name);
-    navigate(url, { replace: true })
+    navigate(url)
   };
 
   const { settingTemplate } = useContext(AppContext);
@@ -46,8 +47,11 @@ const Template = ({ content }: IProps): JSX.Element => {
       // setInlineCollapsed(true);
     }
 
-    if (!localStorage.getItem('Token')) navigate('/admin/login', { replace: true });
-  }, []);
+    if (!localStorage.getItem('Token')) {
+      navigate('/admin/login')
+      message.error(intl.formatMessage({ id: 'common.session.isTimeOut' }));
+    };
+  }, [intl, navigate]);
 
   const getNavSelected = () => {
     let result = 'category';
@@ -252,6 +256,20 @@ const Template = ({ content }: IProps): JSX.Element => {
                     navMenuClick({ name: 'topMenu', url: '/admin/setting/topMenus' });
                   },
                 },
+                {
+                  key: 'sku',
+                  label: intl.formatMessage({ id: 'menu.left.setting.sku' }),
+                  onClick: () => {
+                    navMenuClick({ name: 'sku', url: '/admin/setting/sku' });
+                  },
+                },
+                {
+                  key: 'routePath',
+                  label: intl.formatMessage({ id: 'menu.left.setting.routePath' }),
+                  onClick: () => {
+                    navMenuClick({ name: 'sku', url: '/admin/setting/routePath' });
+                  },
+                },
               ],
             },
             {
@@ -272,6 +290,13 @@ const Template = ({ content }: IProps): JSX.Element => {
                   label: intl.formatMessage({ id: 'menu.left.settingPage.home-page' }),
                   onClick: () => {
                     navMenuClick({ name: 'home-page', url: '/admin/setting-page/home-page' });
+                  },
+                },
+                {
+                  key: 'product-category',
+                  label: intl.formatMessage({ id: 'menu.left.settingPage.product-category' }),
+                  onClick: () => {
+                    navMenuClick({ name: 'product-category', url: '/admin/setting-page/product-category' });
                   },
                 },
               ],

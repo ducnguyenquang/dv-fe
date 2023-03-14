@@ -22,6 +22,18 @@ import { useCreateAdvertisement } from './Advertisement/useCreateAdvertisement';
 import { useUpdateAdvertisement } from './Advertisement/useUpdateAdvertisement';
 import { useDeleteAdvertisement } from './Advertisement/useDeleteAdvertisement';
 
+import { useSkus } from './Sku/useSkus';
+import { useSku } from './Sku/useSku';
+import { useCreateSku } from './Sku/useCreateSku';
+import { useUpdateSku } from './Sku/useUpdateSku';
+import { useDeleteSku } from './Sku/useDeleteSku';
+
+import { useRoutePaths } from './RoutePath/useRoutePaths';
+import { useRoutePath } from './RoutePath/useRoutePath';
+import { useCreateRoutePath } from './RoutePath/useCreateRoutePath';
+import { useUpdateRoutePath } from './RoutePath/useUpdateRoutePath';
+import { useDeleteRoutePath } from './RoutePath/useDeleteRoutePath';
+
 export const settingsHooks = {
   useTagSeos,
   useCreateTagSeo,
@@ -45,5 +57,17 @@ export const settingsHooks = {
   useAdvertisement,
   useCreateAdvertisement,
   useUpdateAdvertisement,
-  useDeleteAdvertisement
+  useDeleteAdvertisement,
+
+  useSkus,
+  useSku,
+  useCreateSku,
+  useUpdateSku,
+  useDeleteSku,
+
+  useRoutePaths,
+  useRoutePath,
+  useCreateRoutePath,
+  useUpdateRoutePath,
+  useDeleteRoutePath,
 };

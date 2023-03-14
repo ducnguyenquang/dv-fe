@@ -15,8 +15,15 @@ const GridItemComponent = ({ data }: IProps): JSX.Element => {
   const navigate = useNavigate();
   const { isMobile } = useContext(AppContext);
 
+  const goToProductDetail = (slug: string) => {
+    navigate(`/product/${encodeURIComponent(slug)}`);
+  };
+
   return (
-    <div className={`gridItem ${isMobile && 'gridItem-mobile'}`}>
+    <div
+      className={`gridItem ${isMobile && 'gridItem-mobile'}`}
+      onClick={() => (isMobile ? goToProductDetail(data?.slug as string) : undefined)}
+    >
       <div className="image">
         <img
           width={236}
@@ -39,15 +46,13 @@ const GridItemComponent = ({ data }: IProps): JSX.Element => {
         </div>
         <div className="bottomSide">
           <div className="price">{intl.formatMessage({ id: 'common.price.contactPlease' })}</div>
-          {!isMobile && <div className="action">
-            <Button
-              type="primary"
-              className="detailButton"
-              onClick={() => navigate(`/product/${encodeURIComponent(data?.slug as string)}`)}
-            >
-              {intl.formatMessage({ id: 'common.button.detail' })}
-            </Button>
-          </div>}
+          {!isMobile && (
+            <div className="action">
+              <Button type="primary" className="detailButton" onClick={() => goToProductDetail(data?.slug as string)}>
+                {intl.formatMessage({ id: 'common.button.detail' })}
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

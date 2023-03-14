@@ -60,7 +60,7 @@ const CategoryTable = (): JSX.Element => {
 
   const getCategoryDetail = async (row: DataType) => {
     await dispatch(categoriesActions.setCategoryDetail(row));
-    navigate(`/admin/category/${row?.slug}`, { replace: true });
+    navigate(`/admin/category/${row?.slug}`);
   };
 
   const onDeleteCategory = async (id: string) => {
@@ -195,6 +195,7 @@ const CategoryTable = (): JSX.Element => {
         const typeName = TYPE_OPTIONS.find(item => item.value === record.type);
         return <>{typeName?.label}</>;
       },
+      width: 140,
     },
     {
       title: intl.formatMessage({ id: 'category.action' }),
@@ -217,6 +218,7 @@ const CategoryTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -226,7 +228,7 @@ const CategoryTable = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.category' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/category/add`, { replace: true })}>
+          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/category/add`)}>
             {intl.formatMessage({ id: 'category.button.addCategory' })}
           </Button>
         }

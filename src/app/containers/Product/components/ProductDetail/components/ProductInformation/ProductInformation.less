@@ -1,13 +1,14 @@
 .productInfo {
-  // float: right;
+
+  
   .productInfoBlock {
     display: flex;
     flex-direction: row;
+    width: 100%;
+    position: relative;
     
-    .carousel {
+    .gallery {
       width: 35%;
-      // flex: 1;
-      // flex: 1 1 0;
     }
     .content {
       flex: 1 1 0;
@@ -16,7 +17,6 @@
       flex-direction: column;
       overflow: hidden;
       .information {
-        // width: 50%;
         float: left;
         margin-bottom: 20px;
 
@@ -35,7 +35,6 @@
         }
 
         .specification{
-          // display: flex;
           flex-direction: row;
           width: 100%;
           .specificationItem{
@@ -69,7 +68,6 @@
         .input{
           flex: 1;
           margin-right: 10px;
-          // width: 200px;
         }
         .button {
           width: 150px;
@@ -95,6 +93,77 @@
     table {
       width: 100%;
     }
+  }
+
+  &-mobile {
+    .productInfo-block {
+      flex-direction: column !important;
+
+      .gallery {
+        width: 100%;
+
+        .productGallery {
+          display: flex;
+          justify-content: unset;
+          flex-direction: column;
+          padding: 1rem 0 0 0;
+
+          img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+
+          }
+
+          .selectedImage {
+            border: unset;
+            border-radius: unset;
+            padding: unset;
+          }
+
+          .images {
+            width: auto;
+            padding-left: 1rem;
+          }
+        }
+      }
+
+      .content {
+        padding-left: unset;
+        .ant-descriptions {
+          &-view {
+            table {
+              width: unset;
+            }
+          }
+          &-item {
+            &-content {
+            }
+          }
+        }
+
+        .inputForm {
+          display: unset;
+          border: unset;
+          padding: unset;
+
+          .button {
+            width: auto;
+          }
+        }
+      }
+    }
+
+    .productRelated {
+      .contentBlock {
+        .productContent {
+          flex-direction: column;
+          max-height: 2240px;
+          overflow-y: auto;
+        }
+      }
+    }
+
   }
 }
 

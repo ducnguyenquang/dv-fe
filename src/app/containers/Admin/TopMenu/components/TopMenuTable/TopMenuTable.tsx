@@ -19,6 +19,7 @@ interface DataType {
   url: string;
   _id: string;
   isHidden: boolean;
+  order: number
 }
 type DataIndex = keyof DataType;
 
@@ -46,6 +47,7 @@ const TopMenuTable = (): JSX.Element => {
   });
 
   const { mutateAsync: deleteTopMenu, isLoading: isLoadingDeleteTopMenu } = topMenusHooks.useDeleteTopMenu();
+  const { mutateAsync: updateTopMenu, isLoading: isLoadingUpdateTopMenu } = topMenusHooks.useUpdateTopMenu();
 
   useEffect(() => {
     if (data && (!isLoading || !isLoadingDeleteTopMenu)) {
@@ -55,7 +57,7 @@ const TopMenuTable = (): JSX.Element => {
 
   const getTopMenuDetail = async (row: DataType) => {
     await dispatch(topMenusActions.setTopMenus(row));
-    navigate(`/admin/setting/topMenu/${row?._id}`, { replace: true })
+    navigate(`/admin/setting/topMenu/${row?._id}`)
   };
 
   const onDeleteTopMenu = async (id: string) => {
@@ -101,6 +103,13 @@ const TopMenuTable = (): JSX.Element => {
     }
     setSearch(searchData && Object.keys(searchData).length > 0 ? searchData : '');
     handleSearch(searchData, confirm, dataIndex);
+  };
+
+  const onUpdate = async (data: any, value: any) => {
+    await updateTopMenu({
+      ...data,
+      isHidden: value,
+    });
   };
 
   const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<DataType> => ({
@@ -181,12 +190,23 @@ const TopMenuTable = (): JSX.Element => {
       sortDirections: ['descend', 'ascend'],
     },
     {
+      title: intl.formatMessage({ id: 'product.order' }),
+      dataIndex: 'order',
+      key: 'order',
+      ...getColumnSearchProps('order'),
+      sorter: (a, b) => a.order - b.order,
+      showSorterTooltip: false,
+      sortDirections: ['descend', 'ascend'],
+      width: 120,
+    },
+    {
       title: intl.formatMessage({ id: 'product.isHidden' }),
       dataIndex: 'isHidden',
       key: 'isHidden',
       render: (_, record) => (
-        <Switch disabled defaultChecked={record.isHidden} />
+        <Switch disabled={isLoadingUpdateTopMenu} defaultChecked={record.isHidden} onChange={checked => onUpdate(record, checked)}/>
       ),
+      width: 130,
     },
     {
       title: intl.formatMessage({ id: 'setting.topMenu.action' }),
@@ -209,6 +229,7 @@ const TopMenuTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -221,7 +242,7 @@ const TopMenuTable = (): JSX.Element => {
           <Button
             type="primary"
             htmlType="submit"
-            onClick={() => navigate(`/admin/setting/topMenu/add`, { replace: true })}
+            onClick={() => navigate(`/admin/setting/topMenu/add`)}
           >
             {intl.formatMessage({ id: 'setting.topMenu.button.add' })}
           </Button>

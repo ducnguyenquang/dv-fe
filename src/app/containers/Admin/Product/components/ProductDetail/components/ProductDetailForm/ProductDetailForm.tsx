@@ -15,6 +15,7 @@ import './ProductDetailForm.less';
 import { useNavigate } from 'react-router-dom';
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 import { QuestionCircleOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { generateSku } from 'utils/string';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -69,6 +70,8 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
   const [form] = Form.useForm();
   const [description, setDescription] = useState('');
   const [specification, setSpecification] = useState('');
+  const [sku, setSku] = useState('');
+
   const [search, setSearch] = useState({
     type: initialValues?.type,
   });
@@ -92,6 +95,11 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
 
   const [fileList, setFileList] = useState<UploadFile[]>(initialValues ? initialValues?.images : []);
 
+  const onNameChange = (value: string) => {
+    const id = generateSku(value);
+    setSku(id);
+  };
+
   useEffect(() => {
     if (brandsData && !isLoadingBrandsData) {
       setBrands(brandsData.data);
@@ -103,7 +111,11 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
       setCategories(categoriesData.data);
     }
   }, [categoriesData, isLoadingCategories]);
-
+  
+  useEffect(() => {
+    if (sku) form.setFieldsValue({ slug: sku });
+  }, [form, sku]);
+  
   const onSelectedType = (value: string) => {
     const searchData = {
       type: value,
@@ -111,18 +123,13 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
     setSearch(searchData);
   };
 
-  console.log('==== initialValues', initialValues);
-  console.log('==== brands', brands);
-
-  
-
   return (
     <div className="productDetailForm">
       <Helmet title={intl.formatMessage({ id: 'page.name.productDetail' })} />
       <Card
         title={intl.formatMessage({ id: 'page.name.productDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/products`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/products`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -132,15 +139,13 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           form={form}
           name="update"
           onFinish={async values => {
-            // console.log('==== onFinish values', values);return;
-            
             await onFinish({
               ...values,
               description: encodeURIComponent(values.description),
               specification: encodeURIComponent(values.specification),
               slug: encodeURIComponent(values.slug),
               images: fileList,
-            }).then(() => navigate(`/admin/products`, { replace: true }));
+            }).then(() => navigate(`/admin/products`));
           }}
           initialValues={initialValues}
           scrollToFirstError
@@ -158,7 +163,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
               },
             ]}
           >
-            <Input />
+            <Input onChange={e => onNameChange(e.target.value)}/>
           </Form.Item>
           <Form.Item
             name="slug"
@@ -245,7 +250,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
               <>
                 {intl.formatMessage({ id: 'product.images' })}
                 <Tooltip title="400*400 (px)">
-                  <QuestionCircleOutlined style={{ marginLeft: '1rem', color: '#ccc' }} />
+                  <QuestionCircleOutlined style={{ marginLeft: '1rem', color: '#E5704B' }} />
                 </Tooltip>
               </>
             }

@@ -7,7 +7,8 @@ export function removeAccents(text: string) {
 }
 
 export function generateSku(name: string) {
-  return removeAccents(name).replace(' ', '-');
+  const sku = removeAccents(name).toLowerCase().replace(/\s/g, '-');
+  return sku;
 }
 
 const isExistLink = (url: string, callback: any) => {
@@ -22,7 +23,7 @@ const isExistLink = (url: string, callback: any) => {
 };
 
 export const fixBrokenLink = (url: string) => {
-  if (!url.includes('http')) {
+  if (url && !url.includes('http')) {
     const link = 'http://' + url;
     return link;
   }

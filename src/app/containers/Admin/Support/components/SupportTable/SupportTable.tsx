@@ -107,7 +107,7 @@ const SupportTable = (): JSX.Element => {
 
   const getSupportDetail = async (row: DataType) => {
     await dispatch(supportsActions.setSupportDetail(row));
-    navigate(`/admin/setting/support/${row?._id}`, { replace: true });
+    navigate(`/admin/setting/support/${row?._id}`);
   };
 
   const onDeleteSupport = async (id: string) => {
@@ -261,6 +261,7 @@ const SupportTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -437,7 +438,7 @@ const SupportTable = (): JSX.Element => {
             <Button
               type="primary"
               htmlType="submit"
-              onClick={() => navigate(`/admin/setting/support/add`, { replace: true })}
+              onClick={() => navigate(`/admin/setting/support/add`)}
             >
               {intl.formatMessage({ id: 'setting.support.button.add' })}
             </Button>

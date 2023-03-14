@@ -54,7 +54,7 @@ const EmailTemplateTable = (): JSX.Element => {
 
   const getEmailTemplateDetail = async (row: DataType) => {
     await dispatch(settingsActions.setEmailTemplateDetail(row));
-    navigate(`/admin/setting/emailTemplate/${row?._id}`, { replace: true });
+    navigate(`/admin/setting/emailTemplate/${row?._id}`);
   };
 
   const onDeleteEmailTemplate = async (id: string) => {
@@ -204,6 +204,7 @@ const EmailTemplateTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -216,7 +217,7 @@ const EmailTemplateTable = (): JSX.Element => {
           <Button
             type="primary"
             htmlType="submit"
-            onClick={() => navigate(`/admin/setting/emailTemplate/add`, { replace: true })}
+            onClick={() => navigate(`/admin/setting/emailTemplate/add`)}
           >
             {intl.formatMessage({ id: 'setting.emailTemplate.button.addEmailTemplate' })}
           </Button>

@@ -100,7 +100,7 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
       <Card
         title={intl.formatMessage({ id: 'page.name.userDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/users`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/users`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -113,7 +113,7 @@ const UserDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
             await onFinish({
               ...values,
               images: fileList,
-            }).then(() => navigate(`/admin/users`, { replace: true }))
+            }).then(() => navigate(`/admin/users`))
           }
           initialValues={initialValues}
           scrollToFirstError

@@ -1,4 +1,4 @@
-import { Button, Form, Input, Card, Switch } from 'antd';
+import { Button, Form, Input, Card, Switch, InputNumber } from 'antd';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
@@ -52,7 +52,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
       <Card
         title={intl.formatMessage({ id: 'page.name.topMenuDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/topMenus`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/topMenus`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -64,7 +64,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
           onFinish={async values => {
             await onFinish({
               ...values,
-            }).then(() => navigate(`/admin/setting/topMenus`, { replace: true }));
+            }).then(() => navigate(`/admin/setting/topMenus`));
           }}
           initialValues={initialValues}
           scrollToFirstError
@@ -85,8 +85,37 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
           >
             <Input />
           </Form.Item>
-          <Form.Item name="url" label={intl.formatMessage({ id: 'setting.topMenu.url' })} hasFeedback>
+          <Form.Item
+            name="url"
+            label={intl.formatMessage({ id: 'setting.topMenu.url' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'setting.topMenu.url' }) }
+                ),
+              },
+            ]}
+            hasFeedback
+          >
             <Input />
+          </Form.Item>
+          <Form.Item
+            name="order"
+            label={intl.formatMessage({ id: 'setting.topMenu.order' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'setting.topMenu.order' }) }
+                ),
+              },
+            ]}
+            hasFeedback
+          >
+            <InputNumber defaultValue={initialValues?.order || 0}/>
           </Form.Item>
           <Form.Item name="isHidden" label={intl.formatMessage({ id: 'product.isHidden' })}>
             <Switch defaultChecked={initialValues?.isHidden || false} />

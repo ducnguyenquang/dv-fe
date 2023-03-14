@@ -13,4 +13,12 @@ export { EmailTemplateTable } from './components/EmailTemplate/components/EmailT
 export { EmailTemplateAdding } from './components/EmailTemplate/components/EmailTemplateDetail/components/Adding';
 export { EmailTemplateUpdating } from './components/EmailTemplate/components/EmailTemplateDetail/components/Updating';
 
+export { SkuTable } from './components/Sku/components/SkuTable';
+export { SkuAdding } from './components/Sku/components/SkuDetail/components/Adding';
+export { SkuUpdating } from './components/Sku/components/SkuDetail/components/Updating';
+
+export { RoutePathTable } from './components/RoutePath/components/RoutePathTable';
+export { RoutePathAdding } from './components/RoutePath/components/RoutePathDetail/components/Adding';
+export { RoutePathUpdating } from './components/RoutePath/components/RoutePathDetail/components/Updating';
+
 

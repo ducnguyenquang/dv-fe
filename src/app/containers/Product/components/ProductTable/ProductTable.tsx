@@ -59,7 +59,7 @@ const ProductTable = (): JSX.Element => {
 
   const getProductDetail = async (row: DataType) => {
     await dispatch(productsActions.setProductDetail(row));
-    navigate(`/admin/product/${row?.slug}`, { replace: true });
+    navigate(`/admin/product/${row?.slug}`);
   };
 
   const onDeleteProduct = async (id: string) => {
@@ -232,6 +232,7 @@ const ProductTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -243,7 +244,7 @@ const ProductTable = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.product' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/product/add`, { replace: true })}>
+          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/product/add`)}>
             {intl.formatMessage({ id: 'product.button.addProduct' })}
           </Button>
         }

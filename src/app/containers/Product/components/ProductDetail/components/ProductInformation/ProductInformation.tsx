@@ -1,27 +1,23 @@
-import { Button, Descriptions, Form, InputNumber, Modal, Rate, Select, Tabs } from 'antd';
+import { Button, Collapse, Descriptions, Form, InputNumber, Modal, Rate, Tabs } from 'antd';
 import { productsHooks } from 'app/containers/Admin/Product';
 import { Product } from 'models/product';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import ProductGallery from '../ProductGallery/ProductGallery';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import './ProductInformation.less';
 import { Cart } from 'models/cart';
 import ProductRelated from '../../../ProductRelated/ProductRelated';
 import { Document, Page, pdfjs } from 'react-pdf';
-// import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+import { Context as AppContext } from 'app/context/appContext';
+import { useContext } from 'react';
+import { ORIENTATION } from 'constants/common';
 
-// pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const { TabPane } = Tabs;
-const { Option } = Select;
-
-// interface FileType {
-//   name: string,
-//   path: string,
-// }
+// const { Option } = Select;
 
 const ProductInformation = (): JSX.Element => {
   const intl = useIntl();
@@ -32,6 +28,8 @@ const ProductInformation = (): JSX.Element => {
   const { data: productDetailData, isLoading: isLoadingProductDetail } = productsHooks.useProduct({ id });
   const [pdfViewerModalOpen, setPdfViewerModalOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<string>('');
+  const { isMobile, orientation } = useContext(AppContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (productDetailData && !isLoadingProductDetail) {
@@ -70,12 +68,9 @@ const ProductInformation = (): JSX.Element => {
     setQuantity(key);
   };
 
-  const selectAfter = (
+  const selectAfter = useMemo(() => (
     <div>số lượng</div>
-    // <Select defaultValue="USD" style={{ width: 60 }}>
-    //   <Option value="USD">$</Option>
-    // </Select>
-  );
+  ), []);
 
   const onFinish = async (value: any) => {
     const cartStringData = localStorage.getItem('shoppingCart');
@@ -117,13 +112,14 @@ const ProductInformation = (): JSX.Element => {
     setNumPages(numPages);
   }
 
-  console.log('==== selectedDocument', selectedDocument);
-  
+  // const downloadDocument = (url: string) => {
+  //   navigate(url)
+  // }
 
   return (
-    <div className="productInfo">
+    <div className={`productInfo ${isMobile && orientation === ORIENTATION.PORTRAIT && 'productInfo-mobile'}`}>
       <div className="productInfoBlock">
-        <div className="carousel">
+        <div className="gallery">
           <ProductGallery images={productDetail?.images} />
         </div>
         <div className="content">
@@ -172,7 +168,7 @@ const ProductInformation = (): JSX.Element => {
           </Form>
         </div>
       </div>
-      <Tabs className="tabs" defaultActiveKey={tabIndex} onChange={onTabChange}>
+      {!isMobile && <Tabs className="tabs" defaultActiveKey={tabIndex} onChange={onTabChange}>
         <TabPane tab={intl.formatMessage({ id: 'product.description' })} key="1">
           <div dangerouslySetInnerHTML={{ __html: productDetail?.description as string }}></div>
         </TabPane>
@@ -196,19 +192,10 @@ const ProductInformation = (): JSX.Element => {
                 visible={pdfViewerModalOpen}
                 onOk={() => closePdfModal()}
                 destroyOnClose
-                // onCancel={() => setPdfViewerModalOpen(false)}
                 width={1000}
               >
                 <Document
                   file={selectedDocument}
-                  // file="/images/CADIVI-ISO_9001_2022_1.pdf"
-
-                  // file="https://cadivi.vn/vnt_upload/product/01_2023/CADIVI-ISO_9001_2022_1.pdf"
-                  // file={{
-                  //   url: 'https://cadivi.vn/vnt_upload/product/01_2023/CADIVI-ISO_9001_2022_1.pdf',
-                  //   // httpHeaders: { 'X-CustomHeader': '40359820958024350238508234' },
-                  //   // withCredentials: true,
-                  // }}
                   onLoadSuccess={onDocumentLoadSuccess}
                 >
                   <Page pageNumber={pageNumber} />
@@ -220,7 +207,25 @@ const ProductInformation = (): JSX.Element => {
             </div>
           </>
         </TabPane>
-      </Tabs>
+      </Tabs>}
+      {isMobile && <Collapse className="collapses">
+        <Collapse.Panel header={intl.formatMessage({ id: 'product.description' })} key="1">
+          <div dangerouslySetInnerHTML={{ __html: productDetail?.description as string }}></div>
+        </Collapse.Panel>
+        <Collapse.Panel header={intl.formatMessage({ id: 'product.specification' })} key="2">
+          <div dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}></div>
+        </Collapse.Panel>
+        <Collapse.Panel header={intl.formatMessage({ id: 'product.documents' })} key="3">
+        <>
+            {productDetail?.documents?.map(item => {
+              const fileName = item.replace(/^.*[\\\/]/, '');
+              return (
+                <div><a href={item} target={'__blank'}>{fileName}</a></div>
+              );
+            })}
+          </>
+        </Collapse.Panel>
+      </Collapse>}
       <ProductRelated categories={productDetail.categories} />
     </div>
   );

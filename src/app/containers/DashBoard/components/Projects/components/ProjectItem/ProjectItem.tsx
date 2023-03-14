@@ -12,7 +12,7 @@ const ProjectItem = ({ data }: IProps): JSX.Element => {
   const { orientation, isMobile } = useContext(AppContext);
   const navigate = useNavigate();
 
-  return <Button type='link' onClick={() => navigate(`/project/${data?.slug}`, { replace: true })} className={`projectItem ${isMobile && 'projectItem-mobile'} ${isMobile && orientation && `projectItem-mobile-${orientation}`}`}>
+  return <Button type='link' onClick={() => navigate(`/project/${data?.slug}`)} className={`projectItem ${isMobile && 'projectItem-mobile'} ${isMobile && orientation && `projectItem-mobile-${orientation}`}`}>
   <div className="image">
     <img
       alt="logo"

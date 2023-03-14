@@ -69,17 +69,17 @@ const SupportMenu = (): JSX.Element => {
         {supports &&
           supports.map((item: any) => {
             return (
-              <div key={item} className="supportItem">
+              <div key={item._id} className="supportItem">
                 <div>
-                  <span className="supportTitle">{item.title ? `${item.title}: ` : ''} </span>
-                  <span className="supportName">{item.name ? `(${item.name})` : ''}</span>
-                  <span>
+                  <span className="supportItem-title">{item.title ? `${item.title}: ` : ''} </span>
+                  <span className="supportItem-name">{item.name ? `(${item.name})` : ''}</span>
+                  <span className="supportItem-zalo">
                     <a href={`https://zalo.me/${item.phone}`} target="_blank" rel="noreferrer">
-                      <Image preview={false} width={20} src="/images/icon-zalo.svg" />
+                      <Image preview={false} width={30} src="/images/icon-zalo.svg" />
                     </a>
                   </span>
                 </div>
-                <div className="supportPhone">
+                <div className="supportItem-phone">
                   {!isHiddenPhoneIcon && <PhoneOutlined width={15} className="iconShake" />}
                   <span style={{fontSize: `${fontSize}px`}}>{item.phone}</span>
                 </div>

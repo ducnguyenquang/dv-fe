@@ -60,7 +60,7 @@ const OrderTable = (): JSX.Element => {
 
   const getOrderDetail = async (row: DataType) => {
     await dispatch(ordersActions.setOrderDetail(row));
-    navigate(`/admin/order/${row?.orderNumber}`, { replace: true });
+    navigate(`/admin/order/${row?.orderNumber}`);
   };
 
   const onDeleteOrder = async (id: string) => {
@@ -245,6 +245,7 @@ const OrderTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -254,7 +255,7 @@ const OrderTable = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.order' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/order/add`, { replace: true })}>
+          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/order/add`)}>
             {intl.formatMessage({ id: 'order.button.addOrder' })}
           </Button>
         }

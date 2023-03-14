@@ -57,7 +57,7 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
       <Card
         title={intl.formatMessage({ id: 'page.name.advertisementDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/advertisements`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/advertisements`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -71,7 +71,7 @@ const AdvertisementDetailForm = ({ isUpdate, onFinish, initialValues, isLoading 
               ...values,
               image: fileList,
             }).then(() => 
-              navigate('/admin/advertisements', { replace: true })
+              navigate('/admin/advertisements')
             );
           }}
           initialValues={initialValues}

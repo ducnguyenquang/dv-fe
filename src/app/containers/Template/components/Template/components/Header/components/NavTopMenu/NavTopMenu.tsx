@@ -4,9 +4,11 @@ import { Logo } from '../Logo';
 import { RightMenu } from '../RightMenu';
 import './NavTopMenu.less';
 import { Context as AppContext } from 'app/context/appContext';
-import { useContext } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { FooterLogo } from '../../../Footer/components/FooterTopMenu/components/FooterLogo';
 import { useNavigate } from 'react-router-dom';
+import { templatesHooks } from 'app/containers/Template/hooks';
+import { TopMenu } from 'models/topMenu';
 interface IProps {
   content?: any;
 }
@@ -14,10 +16,13 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
   const intl = useIntl();
   const navigate = useNavigate();
   const { isMobile } = useContext(AppContext);
+  const [topMenus, setTopMenus] = useState<MenuProps['items']>([]);
 
-  const navMenuClick = ({ name, url }: { name: string; url: string }) => {
-    navigate(url, { replace: true })
-  };
+  const navMenuClick = useCallback((url: string) => {
+    // navigate(url);
+    navigate(url);
+
+  }, [navigate]);
 
   const getNavSelected = () => {
     let result = 'category';
@@ -58,7 +63,27 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
     return [result];
   };
 
-  const items1: MenuProps['items'] = [
+  const { data: dataTopMenus, isLoading: isLoadingTopMenus } = templatesHooks.useTopMenus({
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+    isHidden: false,
+  });
+
+  useEffect(() => {
+    if (topMenus?.length === 0&& dataTopMenus && !isLoadingTopMenus) {
+      setTopMenus(dataTopMenus?.map((item: TopMenu) => {
+        return {
+          key: item._id,
+          label: item.name,
+          onClick: () => navMenuClick(item.url as string)
+        }
+      }));
+    }
+  }, [dataTopMenus, isLoadingTopMenus, navMenuClick, topMenus?.length]);
+
+  const defaultTopMenus: MenuProps['items'] = [
     {
       key: 'product',
       label: intl.formatMessage({ id: 'page.name.product' }),
@@ -67,14 +92,14 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
           key: 'cap-dien',
           label: intl.formatMessage({ id: 'dashboard.information.distributor.item1.title' }),
           onClick: () => {
-            navMenuClick({ name: 'product', url: '/electrical-cable' });
+            navMenuClick('/electrical-cable');
           },
         },
         {
           key: 'den-led',
           label: intl.formatMessage({ id: 'dashboard.information.distributor.item2.title' }),
           onClick: () => {
-            navMenuClick({ name: 'product', url: '/led-light' });
+            navMenuClick('/led-light');
           },
         },
       ],
@@ -90,21 +115,21 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
       key: 'catalogues',
       label: intl.formatMessage({ id: 'menu.top.catalogues' }),
       onClick: () => {
-        navMenuClick({ name: 'catalogues', url: '/catalogues' });
+        navMenuClick('/catalogues');
       },
     },
     {
       key: 'pricing',
       label: intl.formatMessage({ id: 'menu.top.pricing' }),
       onClick: () => {
-        navMenuClick({ name: 'pricing', url: '/pricing' });
+        navMenuClick('/pricing');
       },
     },
     {
       key: 'project',
       label: intl.formatMessage({ id: 'menu.top.project' }),
       onClick: () => {
-        navMenuClick({ name: 'project', url: '/project' });
+        navMenuClick('/project');
       },
     },
     // {
@@ -118,14 +143,14 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
       key: 'cart',
       label: intl.formatMessage({ id: 'menu.top.cart' }),
       onClick: () => {
-        navMenuClick({ name: 'cart', url: '/cart' });
+        navMenuClick('/cart');
       },
     },
   ];
   
   return <div className='navTopMenu'>
     {isMobile ? <FooterLogo /> : <Logo />}
-    <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={[...getNavSelected()]} items={items1} inlineCollapsed={false}/>
+    <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={[...getNavSelected()]} items={topMenus || defaultTopMenus} inlineCollapsed={false}/>
     <RightMenu />
   </div>
 };

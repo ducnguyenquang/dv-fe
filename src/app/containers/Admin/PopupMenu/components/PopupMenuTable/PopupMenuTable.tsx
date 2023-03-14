@@ -87,7 +87,7 @@ const PopupMenuTable = (): JSX.Element => {
 
   const getPopupMenuDetail = async (row: DataType) => {
     await dispatch(popupMenusActions.setPopupMenus(row));
-    navigate(`/admin/setting/popupMenu/${row?._id}`, { replace: true });
+    navigate(`/admin/setting/popupMenu/${row?._id}`);
   };
 
   const onDeletePopupMenu = async (id: string) => {
@@ -234,6 +234,7 @@ const PopupMenuTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -284,7 +285,7 @@ const PopupMenuTable = (): JSX.Element => {
             <Button
               type="primary"
               htmlType="submit"
-              onClick={() => navigate(`/admin/setting/popupMenu/add`, { replace: true })}
+              onClick={() => navigate(`/admin/setting/popupMenu/add`)}
             >
               {intl.formatMessage({ id: 'setting.popupMenu.button.add' })}
             </Button>

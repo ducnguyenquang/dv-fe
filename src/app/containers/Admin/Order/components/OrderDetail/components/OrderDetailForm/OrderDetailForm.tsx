@@ -32,7 +32,7 @@ const OrderDetailForm = ({ initialValues }: IProps): JSX.Element => {
       await updateOrder({
         ...initialValues,
         status,
-      }).then(() => navigate(`/admin/orders`, { replace: true }));
+      }).then(() => navigate(`/admin/orders`));
     },
     [initialValues, navigate, updateOrder]
   );
@@ -43,7 +43,7 @@ const OrderDetailForm = ({ initialValues }: IProps): JSX.Element => {
       <Card
         title={`${intl.formatMessage({ id: 'page.name.orderDetail' })} [${initialValues?.orderNumber}]`}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/orders`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/orders`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }

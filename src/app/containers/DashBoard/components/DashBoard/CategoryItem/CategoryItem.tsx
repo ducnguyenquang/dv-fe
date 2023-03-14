@@ -14,7 +14,7 @@ const CategoryItem = ({ data }: IProps): JSX.Element => {
 
   const onItemClick = (name: string) => {
     const pathName = window.location.pathname
-    navigate(`${pathName}/${name}/product`, { replace: true })
+    navigate(`${pathName}/${name}/product`)
   }
 
   return (

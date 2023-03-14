@@ -56,7 +56,7 @@ const ProjectTable = (): JSX.Element => {
 
   const getProjectDetail = async (row: DataType) => {
     await dispatch(projectsActions.setProjectDetail(row));
-    navigate(`/admin/project/${encodeURIComponent(row?.slug)}`, { replace: true });
+    navigate(`/admin/project/${encodeURIComponent(row?.slug)}`);
   };
 
   const onDeleteProject = async (id: string) => {
@@ -193,16 +193,6 @@ const ProjectTable = (): JSX.Element => {
       render: (_, record) => <>{decodeURIComponent(record.slug)}</>,
     },
     {
-      title: intl.formatMessage({ id: 'project.summary' }),
-      dataIndex: 'summary',
-      key: 'summary',
-      ...getColumnSearchProps('summary'),
-      sorter: (a, b) => (a?.summary as string).length - (b?.summary as string).length,
-      sortDirections: ['descend', 'ascend'],
-      showSorterTooltip: false,
-      render: (_, record) => record.summary,
-    },
-    {
       title: intl.formatMessage({ id: 'project.action' }),
       key: 'action',
       render: (_, record) => (
@@ -225,6 +215,7 @@ const ProjectTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -234,7 +225,7 @@ const ProjectTable = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.project' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/project/add`, { replace: true })}>
+          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/project/add`)}>
             {intl.formatMessage({ id: 'project.button.add' })}
           </Button>
         }

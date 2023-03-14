@@ -57,7 +57,7 @@ const UserTable = (): JSX.Element => {
 
   const getUserDetail = async (row: DataType) => {
     await dispatch(usersActions.setUserDetail(row));
-    navigate(`/admin/user/${row?._id}`, { replace: true });
+    navigate(`/admin/user/${row?._id}`);
   };
 
   const onDeleteUser = async (id: string) => {
@@ -198,6 +198,7 @@ const UserTable = (): JSX.Element => {
       sorter: (a, b) => a.role.length - b.role.length,
       showSorterTooltip: false,
       sortDirections: ['descend', 'ascend'],
+      width: 140,
     },
     {
       title: intl.formatMessage({ id: 'user.phone' }),
@@ -207,6 +208,7 @@ const UserTable = (): JSX.Element => {
       sorter: (a, b) => a.phone.length - b.phone.length,
       showSorterTooltip: false,
       sortDirections: ['descend', 'ascend'],
+      width: 180,
     },
     {
       title: intl.formatMessage({ id: 'product.action' }),
@@ -232,6 +234,7 @@ const UserTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -241,7 +244,7 @@ const UserTable = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.user' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/user/add`, { replace: true })}>
+          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/user/add`)}>
             {intl.formatMessage({ id: 'user.button.addUser' })}
           </Button>
         }

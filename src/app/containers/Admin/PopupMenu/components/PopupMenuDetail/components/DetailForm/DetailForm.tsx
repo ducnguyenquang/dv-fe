@@ -59,7 +59,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
       <Card
         title={intl.formatMessage({ id: 'page.name.popupMenuDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/popupMenu`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/popupMenu`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -72,7 +72,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
             await onFinish({
               ...values,
               images: fileList,
-            }).then(() => navigate(`/admin/setting/popupMenu`, { replace: true }));
+            }).then(() => navigate(`/admin/setting/popupMenu`));
           }}
           initialValues={initialValues}
           scrollToFirstError

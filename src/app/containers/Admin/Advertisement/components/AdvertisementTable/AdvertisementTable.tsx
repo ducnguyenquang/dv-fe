@@ -54,7 +54,7 @@ const AdvertisementTable = (): JSX.Element => {
 
   const getAdvertisementDetail = async (row: DataType) => {
     await dispatch(advertisementsActions.setAdvertisementDetail(row));
-    navigate(`/admin/advertisement/${row?._id}`, { replace: true })
+    navigate(`/admin/advertisement/${row?._id}`)
   };
 
   const onDeleteAdvertisement = async (id: string) => {
@@ -193,6 +193,7 @@ const AdvertisementTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -202,7 +203,7 @@ const AdvertisementTable = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.advertisement' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/advertisement/add`, { replace: true })}>
+          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/advertisement/add`)}>
             {intl.formatMessage({ id: 'advertisement.button.add' })}
           </Button>
         }

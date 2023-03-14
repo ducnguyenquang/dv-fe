@@ -4,7 +4,7 @@ import { productsHooks, productsActions } from 'app/containers/Admin/Product';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/products';
 import { Category } from 'models/category';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -56,6 +56,7 @@ const ProductTable = (): JSX.Element => {
     },
   });
 
+  const { mutateAsync: updateProduct, isLoading: isLoadingUpdateProduct } = productsHooks.useUpdateProduct();
   const { mutateAsync: deleteProduct, isLoading: isLoadingDeleteProduct } = productsHooks.useDeleteProduct();
 
   useEffect(() => {
@@ -66,7 +67,7 @@ const ProductTable = (): JSX.Element => {
 
   const getProductDetail = async (row: DataType) => {
     await dispatch(productsActions.setProductDetail(row));
-    navigate(`/admin/product/${encodeURIComponent(row?.slug)}`, { replace: true });
+    navigate(`/admin/product/${encodeURIComponent(row?.slug)}`);
   };
 
   const onDeleteProduct = async (id: string) => {
@@ -171,6 +172,13 @@ const ProductTable = (): JSX.Element => {
     },
   });
 
+  const onUpdateProduct = async (data: any, value: any) => {
+    await updateProduct({
+      ...data,
+      isHidden: value,
+    });
+  };
+
   const columns: ColumnsType<DataType> = [
     {
       title: intl.formatMessage({ id: 'product.productName' }),
@@ -206,11 +214,9 @@ const ProductTable = (): JSX.Element => {
       dataIndex: 'isHidden',
       key: 'isHidden',
       render: (_, record) => (
-        <Switch
-          disabled
-          defaultChecked={record.isHidden}
-        />
+        <Switch disabled={isLoadingUpdateProduct} defaultChecked={record.isHidden} onChange={checked => onUpdateProduct(record, checked)} />
       ),
+      width: 130,
     },
     {
       title: intl.formatMessage({ id: 'product.action' }),
@@ -233,6 +239,7 @@ const ProductTable = (): JSX.Element => {
           </Tooltip>
         </Space>
       ),
+      width: 120,
     },
   ];
 
@@ -250,7 +257,7 @@ const ProductTable = (): JSX.Element => {
       <Card
         title={intl.formatMessage({ id: 'page.name.product' })}
         extra={
-          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/product/add`, { replace: true })}>
+          <Button type="primary" htmlType="submit" onClick={() => navigate(`/admin/product/add`)}>
             {intl.formatMessage({ id: 'product.button.addProduct' })}
           </Button>
         }

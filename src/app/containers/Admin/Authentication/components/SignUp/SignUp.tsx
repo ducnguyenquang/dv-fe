@@ -34,7 +34,7 @@ const SignUp = (): JSX.Element => {
         ...values,
       });
       localStorage.setItem('CurrentUser', user);
-      navigate(`/admin/login`, { replace: true });
+      navigate(`/admin/login`);
     },
     [navigate, registerUser]
   );

@@ -57,7 +57,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
       <Card
         title={intl.formatMessage({ id: 'page.name.emailTempateDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/emailTemplate`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/emailTemplate`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }

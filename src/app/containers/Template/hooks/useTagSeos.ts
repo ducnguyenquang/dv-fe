@@ -21,9 +21,7 @@ export const useTagSeos = (params: TagSeoQueryPayload): UseQueryResult<any> => {
     settingsApi.settingsKeys.list(params),
     async () => {
       const data = await settingsApi.getTagSeos(params);
-      // console.log('==== data', data)
       storeTagSeoPaginationModals(data);
-
       return data?.data;
     },
     {

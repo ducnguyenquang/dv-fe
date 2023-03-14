@@ -52,7 +52,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
       <Card
         title={intl.formatMessage({ id: 'page.name.supportDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/support`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/support`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -64,7 +64,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
           onFinish={async values =>
             await onFinish({
               ...values,
-            }).then(() => navigate(`/admin/setting/support`, { replace: true }))
+            }).then(() => navigate(`/admin/setting/support`))
           }
           initialValues={initialValues}
           scrollToFirstError

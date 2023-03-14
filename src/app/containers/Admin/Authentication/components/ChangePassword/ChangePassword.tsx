@@ -25,7 +25,7 @@ const ChangePassword = (): JSX.Element => {
       })
       localStorage.setItem('CurrentUser', JSON.stringify(user.data))
       localStorage.setItem('Token', user.token as string)
-      navigate(`/admin`, { replace: true })
+      navigate(`/admin`)
     }
   }, [changePassword, navigate])
 

@@ -105,12 +105,10 @@ const Template = ({ content, leftMenu, hasBreadcrumb, hasTopMenu, hasAdvertiseme
       </Helmet>
       {isMobile ? <HamburgerMenu /> : hasTopMenu && <Header className="header">{<TemplateHeader />}</Header>}
       <Content>
-        {hasBreadcrumb && <BreadcrumbComponent />}
+        {!isMobile && hasBreadcrumb && <BreadcrumbComponent />}
         {leftMenu ? (
           <Layout className={`layoutContent site-layout-background`}>
             {!isMobile && leftMenu}
-            {/* <Content>{content}</Content>
-             */}
             {isMobile ? (
               <div className={isMobile ? `mobileBlock` : ''}>
                 {isMobile && (

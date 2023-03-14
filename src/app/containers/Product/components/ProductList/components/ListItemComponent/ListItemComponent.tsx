@@ -14,7 +14,7 @@ const ListItemComponent = ({ data }: IProps): JSX.Element => {
   const navigate = useNavigate();
 
   const goToProductDetail = () => {
-    navigate(data?.slug ? `/product/${encodeURIComponent(data?.slug)}` : '/products', { replace: true })
+    navigate(data?.slug ? `/product/${encodeURIComponent(data?.slug)}` : '/products')
   };
 
   const onAddCart = async (cartItem: any) => {
@@ -56,7 +56,7 @@ const ListItemComponent = ({ data }: IProps): JSX.Element => {
         { name: intl.formatMessage({ id: 'cart.notification.content.adding.success' }, { name: item.name }) }
       ),
       onClick: () => {
-        navigate(`/cart`, { replace: true })
+        navigate(`/cart`)
       },
     });
   };

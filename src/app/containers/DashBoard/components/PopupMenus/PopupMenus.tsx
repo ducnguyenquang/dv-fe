@@ -1,19 +1,24 @@
-import { Modal, Image, Space } from 'antd';
+import { Modal, Space } from 'antd';
+import { settingsActions, settingsSelectors } from 'app/containers/Admin/Setting';
 import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
 import { templatesHooks } from 'app/containers/Template';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
 import { PopupMenu } from 'models/popupMenu';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { PopupMenuItem } from './components/PopupMenuItem';
 import './PopupMenus.less';
 
 const PopupMenus = (): JSX.Element => {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(true);
   const [popupMenus, setPopupMenus] = useState<PopupMenu[]>([]);
   const [isHidden, setIsHidden] = useState<boolean>(true);
 
   const hideModal = () => {
     setOpen(false);
+    dispatch(settingsActions.setPopMenuOpened(true));
   };
 
   const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
@@ -33,16 +38,19 @@ const PopupMenus = (): JSX.Element => {
     },
   });
 
+  const popupMenuOpened = useSelector(settingsSelectors.getPopupMenuOpened);
+
   useEffect(() => {
     if (templateData && !isLoadingTemplateData) {
       // setDataSource(templateData.data);
       const hidden = templateData.data?.find((item: any) => item.name === SETTINGS.IS_HIDDEN);
 
       if (hidden) {
-        setIsHidden(hidden?.value === 'true' ? true : false);
+        const isHiddenStatus = hidden?.value === 'true';
+        setIsHidden(isHiddenStatus ? true : false);
       }
     }
-  }, [isLoadingTemplateData, templateData]);
+  }, [dispatch, isLoadingTemplateData, templateData]);
 
   useEffect(() => {
     if (dataPopupMenus && !isLoadingPopupMenus) {
@@ -50,25 +58,26 @@ const PopupMenus = (): JSX.Element => {
     }
   }, [dataPopupMenus, isLoadingPopupMenus]);
 
-  return isHidden === false ? (
+  return isHidden === false && popupMenuOpened === false ? (
     <Modal
-      // title="Modal"
-      className="popup-menu"
+      wrapClassName="popup-menu"
       visible={open}
       forceRender={open}
       onCancel={hideModal}
       footer={null}
+      centered
+      closable={false}
     >
-      <div className="leftBlock">
+      {/* <div className="leftBlock">
         <Image preview={false} src={'/images/woman_welcome_400.png'} className="image" />
-      </div>
-      <div className="rightBlock">
+      </div> */}
+      {/* <div className="rightBlock"> */}
         <Space direction="vertical">
           {popupMenus.map(item => (
             <PopupMenuItem data={item} />
           ))}
         </Space>
-      </div>
+      {/* </div> */}
     </Modal>
   ) : (
     <></>

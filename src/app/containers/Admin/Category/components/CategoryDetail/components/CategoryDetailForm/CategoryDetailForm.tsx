@@ -85,7 +85,7 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
       <Card
         title={intl.formatMessage({ id: 'page.name.categoryDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/categories`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/categories`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -98,7 +98,7 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
             await onFinish({
               ...values,
               images: fileList,
-            }).then(() => navigate(`/admin/categories`, { replace: true }));
+            }).then(() => navigate(`/admin/categories`));
           }}
           initialValues={initialValues}
           scrollToFirstError

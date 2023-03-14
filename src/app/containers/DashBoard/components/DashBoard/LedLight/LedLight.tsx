@@ -6,15 +6,29 @@ import CategoryItem from '../CategoryItem/CategoryItem';
 import { Category } from 'models/category';
 
 import { Context as AppContext } from 'app/context/appContext';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import Search from 'antd/lib/input/Search';
+import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+import { PAGE_NAME, SETTINGS } from 'constants/common';
 
 const LedLight = (): JSX.Element => {
   const intl = useIntl();
 
   const { isMobile, orientation } = useContext(AppContext);
   const [name, setName] = useState('');
+  const defaultBannerImage = '/images/led-light-banner.png';
+  const [bannerImage, setBannerImage] = useState<string>(defaultBannerImage);
+
+  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+    search: {
+      group: PAGE_NAME.P_PRODUCT_CATEGORY,
+    },
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+  });
 
   const { data: categories, isSuccess } = categoriesHooks.useCategories({
     search: {
@@ -23,10 +37,20 @@ const LedLight = (): JSX.Element => {
 
     },
     pagination: {
-      limit: 3,
+      limit: 1000,
       offset: 0,
     },
   });
+
+  useEffect(() => {
+    if (templateData && !isLoadingTemplateData) {
+      const banner = templateData.data?.find((item: any) => item.name === SETTINGS.LED_LIGHT_BANNER_IMAGE);
+
+      if (banner) {
+        setBannerImage(banner?.valueImages?.[0]?.url as string);
+      }
+    }
+  }, [isLoadingTemplateData, templateData]);
 
   const onSearch = (value: string) => setName(value);
 
@@ -37,7 +61,7 @@ const LedLight = (): JSX.Element => {
         isMobile && orientation && `led-light-mobile-${orientation}`
       }`}
     >
-      {!isMobile && <Banner image="/images/led-light-banner.png" />}
+      {!isMobile && <Banner image={bannerImage} />}
       <h1 className="pageTitle">{intl.formatMessage({ id: 'dashboard.information.distributor.item2.title' })}</h1>
       <Search
         className="search"
@@ -46,7 +70,7 @@ const LedLight = (): JSX.Element => {
         onSearch={onSearch}
       />
       <Spin spinning={!isSuccess}>
-        <div className="items">
+        <div className="categories">
           {categories?.data && categories?.data.length > 0 ? (
             categories?.data?.map((item: Category) => <CategoryItem data={item} key={Math.random()} />)
           ) : (
@@ -55,21 +79,6 @@ const LedLight = (): JSX.Element => {
         </div>
       </Spin>
     </div>
-
-    // <Layout className='led-light'>
-    //   <Header className="header">
-    //     <TemplateHeader />
-    //   </Header>
-    //   <Content style={{ padding: '0 50px' }}>
-    //     <Banner image='/images/led-light-banner.png'/>
-    //     <div className='items'>
-    //       {categories && categories?.data?.map((item: Category) => <CategoryItem key={Math.random()} data={item} />)}
-    //     </div>
-    //   </Content>
-    //   <Footer style={{ textAlign: 'center', fontSize: '13px' }}>
-    //     <TemplateFooter />
-    //   </Footer>
-    // </Layout>
   );
 };
 

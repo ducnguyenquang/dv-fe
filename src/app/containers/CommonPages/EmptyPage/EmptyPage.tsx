@@ -13,7 +13,7 @@ const EmptyPage = (): JSX.Element => {
       title="404"
       subTitle={intl.formatMessage({ id: 'common.emptyPage.content' })}
       extra={
-        <Button type="primary" onClick={() => navigate(`/`, { replace: true })}>
+        <Button type="primary" onClick={() => navigate(`/`)}>
           {intl.formatMessage({ id: 'common.button.goBack' })}
         </Button>
       }

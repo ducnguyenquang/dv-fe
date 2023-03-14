@@ -1,4 +1,4 @@
-import { Button, Card } from 'antd';
+import { Button, Card, Tooltip } from 'antd';
 import { PAGE } from 'constants/products';
 import { TagSeo as TagSeoModel } from 'models/tagSeo';
 import React, { useCallback, useState } from 'react';
@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { settingsHooks } from '../../hooks';
 import TagSeoItems from './components/TagSeoItems/TagSeoItems';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 const TagSeo = (): JSX.Element => {
   const [tagSeos, setTagSeos] = useState<TagSeoModel[]>([]);
@@ -39,7 +40,9 @@ const TagSeo = (): JSX.Element => {
         <Card
         style={{ marginTop: 16 }}
         type="inner"
-        title={intl.formatMessage({ id: 'page.name.setting.tagSeo' })}
+        title={<>{intl.formatMessage({ id: 'page.name.setting.tagSeo' })}<Tooltip title="vd: DAIVIET, DaiViet, daiviet">
+        <QuestionCircleOutlined style={{ marginLeft: '1rem', color: '#E5704B' }} />
+      </Tooltip></>}
         extra={<Button type="primary" >
             {intl.formatMessage({ id: 'common.button.update' })}
         </Button>}

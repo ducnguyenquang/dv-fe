@@ -46,18 +46,18 @@ const BreadcrumbComponent = (): JSX.Element => {
     <>
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>
-          <Button type="link" onClick={() => navigate(`/`, { replace: true })}>
+          <Button type="link" onClick={() => navigate(`/`)}>
             {intl.formatMessage({ id: 'page.name.home' })}
           </Button>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          <Button type="link" onClick={() => navigate(`/${category?.value}`, { replace: true })}>
+          <Button type="link" onClick={() => navigate(`/${category?.value}`)}>
             {category?.lable}
           </Button>
         </Breadcrumb.Item>
         {page && (
           <Breadcrumb.Item>
-            <Button type="link" onClick={() => navigate(`/${category?.value}/${page}`, { replace: true })}>
+            <Button type="link" onClick={() => navigate(`/${category?.value}/${page}`)}>
               {page}
             </Button>
           </Breadcrumb.Item>

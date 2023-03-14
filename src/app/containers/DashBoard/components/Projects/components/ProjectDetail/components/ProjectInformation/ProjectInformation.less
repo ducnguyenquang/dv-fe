@@ -1,10 +1,10 @@
-.productInfo {
+.projectInfo {
   // float: right;
-  .productInfoBlock {
+  &-block {
     display: flex;
     flex-direction: row;
     
-    .carousel {
+    .gallery {
       width: 35%;
       // flex: 1;
       // flex: 1 1 0;
@@ -78,23 +78,97 @@
     }
     
   }
-  .tabs {
-    clear: both;
-    max-width: 1400px;
-    overflow-y: auto;
+
+  &-content {
+    font-size: 14px;
 
     img {
-      max-width: 100%;
+      display: block;
+      margin: 0 auto;
     }
-    
-    table, th, td {
-      border: 1px solid #a9a9a9;
-      border-collapse: collapse;
+
+    h1 {
+      font-size: 26px;
     }
-    
-    table {
-      width: 100%;
+  }
+
+  &-mobile {
+    width: 100%;
+    .projectInfo-block {
+      flex-direction: column !important;
+
+      .gallery {
+        width: 100%;
+
+        .projectGallery {
+          display: flex;
+          justify-content: unset;
+          flex-direction: column;
+          padding: 1rem 0 0 0;
+
+          img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            width: auto;
+            height: auto;
+          }
+
+          .selectedImage {
+            border: unset;
+            border-radius: unset;
+            padding: unset;
+          }
+
+          .images {
+            width: auto;
+            padding-left: 1rem;
+          }
+        }
+      }
+
+      .content {
+        padding-left: unset;
+        .ant-descriptions {
+          &-view {
+            table {
+              width: unset;
+            }
+          }
+          &-item {
+            &-content {
+            }
+          }
+        }
+
+        .inputForm {
+          display: unset;
+          border: unset;
+          padding: unset;
+
+          .button {
+            width: auto;
+          }
+        }
+      }
     }
+
+    .projectInfo-content {
+      img {
+        width: 100%;
+      }
+    }
+
+    .projectRelated {
+      .contentBlock {
+        .projectContent {
+          flex-direction: column;
+          max-height: 2240px;
+          overflow-y: auto;
+        }
+      }
+    }
+
   }
 }
 

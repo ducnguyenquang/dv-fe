@@ -55,7 +55,7 @@ const Cart = (): JSX.Element => {
       });
       openNotificationWithIcon('success', order);
       localStorage.setItem('shoppingCart', '');
-      navigate(`/`, { replace: true });
+      navigate(`/`);
     },
     [cart, createOrder, navigate, openNotificationWithIcon]
   );

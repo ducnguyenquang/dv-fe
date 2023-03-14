@@ -3,6 +3,7 @@ import './Logo.less';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext, useMemo } from 'react';
 import { SETTINGS } from 'constants/common';
+import { Link } from 'react-router-dom';
 
 const Logo = (): JSX.Element => {
   const { settingTemplate } = useContext(AppContext);
@@ -12,7 +13,7 @@ const Logo = (): JSX.Element => {
     }
   }, [settingTemplate])
   
-  return <a href='/' className='logo'><Image preview={false} src={logoIcon?.valueImages?.[0]?.url || "/images/logodv-8769.gif"} /></a>
+  return <Link to={'/'} className='logo'><Image preview={false} src={logoIcon?.valueImages?.[0]?.url || "/images/logodv-8769.gif"} /></Link>
 }
 
 export default Logo;

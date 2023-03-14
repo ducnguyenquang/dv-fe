@@ -1,17 +1,44 @@
-import { Menu } from 'antd';
+import { Menu, MenuProps } from 'antd';
 import { slide as BurgerMenu } from 'react-burger-menu';
 import { useIntl } from 'react-intl';
 import './HamburgerMenu.less';
 import { useNavigate } from 'react-router-dom';
+import { templatesHooks } from 'app/containers/Template';
+import { TopMenu } from 'models/topMenu';
+import { useState, useEffect } from 'react';
 
 const HamburgerMenu = (): JSX.Element => {
   const intl = useIntl();
   const navigate = useNavigate();
-  const navMenuClick = ({ url }: { name: string; url: string }) => {
-    navigate(url, { replace: true })
+  const [topMenus, setTopMenus] = useState<MenuProps['items']>([]);
+
+  const navMenuClick = (url: string) => {
+    // navigate(url)
+    navigate(url)
   };
 
-  const menu = [
+  const { data: dataTopMenus, isLoading: isLoadingTopMenus } = templatesHooks.useTopMenus({
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+    isHidden: false,
+  });
+
+  useEffect(() => {
+    if (topMenus?.length === 0 && dataTopMenus && !isLoadingTopMenus) {
+      setTopMenus(dataTopMenus?.map((item: TopMenu) => {
+        return {
+          key: item._id,
+          label: item.name,
+          onClick: () => navMenuClick(item.url as string)
+        }
+      }));
+    }
+  }, [dataTopMenus, isLoadingTopMenus, navMenuClick, topMenus?.length]);
+
+
+  const defaultTopMenus: MenuProps['items'] = [
     {
       key: 'product',
       label: intl.formatMessage({ id: 'page.name.product' }),
@@ -20,14 +47,14 @@ const HamburgerMenu = (): JSX.Element => {
           key: 'cap-dien',
           label: intl.formatMessage({ id: 'dashboard.information.distributor.item1.title' }),
           onClick: () => {
-            navMenuClick({ name: 'product', url: '/electrical-cable' });
+            navMenuClick('/electrical-cable');
           },
         },
         {
           key: 'den-led',
           label: intl.formatMessage({ id: 'dashboard.information.distributor.item2.title' }),
           onClick: () => {
-            navMenuClick({ name: 'product', url: '/led-light' });
+            navMenuClick('/led-light');
           },
         },
       ],
@@ -43,35 +70,35 @@ const HamburgerMenu = (): JSX.Element => {
       key: 'catalogues',
       label: intl.formatMessage({ id: 'menu.top.catalogues' }),
       onClick: () => {
-        navMenuClick({ name: 'catalogues', url: '/catalogues' });
+        navMenuClick('/catalogues');
       },
     },
     {
       key: 'pricing',
       label: intl.formatMessage({ id: 'menu.top.pricing' }),
       onClick: () => {
-        navMenuClick({ name: 'pricing', url: '/pricing' });
+        navMenuClick('/pricing' );
       },
     },
     {
       key: 'project',
       label: intl.formatMessage({ id: 'menu.top.project' }),
       onClick: () => {
-        navMenuClick({ name: 'project', url: '/project' });
+        navMenuClick('/project' );
       },
     },
     {
       key: 'siteMap',
       label: intl.formatMessage({ id: 'menu.top.sitemap' }),
       onClick: () => {
-        navMenuClick({ name: 'siteMap', url: '/siteMap' });
+        navMenuClick('/siteMap');
       },
     },
     {
       key: 'cart',
       label: intl.formatMessage({ id: 'menu.top.cart' }),
       onClick: () => {
-        navMenuClick({ name: 'cart', url: '/cart' });
+        navMenuClick('/cart');
       },
     },
   ];
@@ -118,7 +145,7 @@ const HamburgerMenu = (): JSX.Element => {
   return (
     <div id="hamburgerMenu">
       <BurgerMenu>
-        <Menu className="navMenu" mode="inline" defaultSelectedKeys={[...getNavSelected()]} items={menu} />
+        <Menu className="navMenu" mode="inline" defaultSelectedKeys={[...getNavSelected()]} items={topMenus || defaultTopMenus} />
       </BurgerMenu>
     </div>
   );

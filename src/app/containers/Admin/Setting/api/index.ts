@@ -23,6 +23,18 @@ import { createAdvertisement } from './Advertisement/createAdvertisement';
 import { updateAdvertisement } from './Advertisement/updateAdvertisement';
 import { deleteAdvertisement } from './Advertisement/deleteAdvertisement';
 
+import { getSkus } from './Sku/getSkus';
+import { getSku } from './Sku/getSku';
+import { createSku } from './Sku/createSku';
+import { updateSku } from './Sku/updateSku';
+import { deleteSku } from './Sku/deleteSku';
+
+import { getRoutePaths } from './RoutePath/getRoutePaths';
+import { getRoutePath } from './RoutePath/getRoutePath';
+import { createRoutePath } from './RoutePath/createRoutePath';
+import { updateRoutePath } from './RoutePath/updateRoutePath';
+import { deleteRoutePath } from './RoutePath/deleteRoutePath';
+
 export const settingsKeys = {
   all: ['settings'] as const,
   details: () => [...settingsKeys.all, 'detail'] as const,
@@ -33,24 +45,40 @@ export const settingsKeys = {
 
 export const settingsApi = {
   settingsKeys,
+
   getTagSeos,
   createTagSeo,
   getTagSeo,
   updateTagSeo,
   deleteTagSeo,
+
   getPopupMenus,
   getPopupMenu,
   createPopupMenu,
   updatePopupMenu,
   deletePopupMenu,
+
   getEmailTemplates,
   getEmailTemplate,
   createEmailTemplate,
   updateEmailTemplate,
   deleteEmailTemplate,
+
   getAdvertisements,
   getAdvertisement,
   createAdvertisement,
   updateAdvertisement,
   deleteAdvertisement,
+
+  getSkus,
+  getSku,
+  createSku,
+  updateSku,
+  deleteSku,
+
+  getRoutePaths,
+  getRoutePath,
+  createRoutePath,
+  updateRoutePath,
+  deleteRoutePath,
 };

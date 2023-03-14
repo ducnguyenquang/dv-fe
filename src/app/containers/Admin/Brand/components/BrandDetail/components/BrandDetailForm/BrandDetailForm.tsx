@@ -57,7 +57,7 @@ const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
       <Card
         title={intl.formatMessage({ id: 'page.name.brandDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/brands`, { replace: true })}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/brands`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }
@@ -70,7 +70,7 @@ const BrandDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProp
             await onFinish({
               ...values,
               logo: fileList,
-            }).then(() => navigate('/admin/brands', { replace: true }));
+            }).then(() => navigate('/admin/brands'));
           }}
           initialValues={initialValues}
           scrollToFirstError

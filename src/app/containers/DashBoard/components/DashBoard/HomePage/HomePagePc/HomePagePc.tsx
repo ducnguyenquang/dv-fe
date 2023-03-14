@@ -11,17 +11,7 @@ import { ProductList } from "../../../ProductList";
 import { Projects } from "../../../Projects";
 import { Vision } from "../../../Vision";
 
-// const Banner = lazyLoad('../../../Banner', 'Banner');
-// const Construction = lazyLoad('../../../Construction', 'Construction');
-// const Faq = lazyLoad('../../../Faq', 'Faq');
-// const Information = lazyLoad('../../../Information', 'Information');
-// const PopupMenus = lazyLoad('../../../PopupMenus', 'PopupMenus');
-// const ProductList = lazyLoad('../../../ProductList', 'ProductList');
-// const Projects = lazyLoad('../../../Projects', 'Projects');
-// const Vision = lazyLoad('../../../Vision', 'Vision');
-
 const HomePagePc = (): JSX.Element => {
-
   const defaultBannerImage = '/images/banner_slider_1-9340.png';
   const [bannerImage, setBannerImage] = useState<string>(defaultBannerImage);
 
