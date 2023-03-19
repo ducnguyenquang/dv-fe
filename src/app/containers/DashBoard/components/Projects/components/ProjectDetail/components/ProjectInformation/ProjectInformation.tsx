@@ -50,7 +50,7 @@ const ProjectInformation = (): JSX.Element => {
           </Descriptions>
         </div>
       </div>
-      <div className='projectInfo-content' dangerouslySetInnerHTML={{ __html: projectDetail?.description as string }} />
+      <div className='ck-content projectInfo-content' dangerouslySetInnerHTML={{ __html: projectDetail?.description as string }} />
     </div>
   );
 };

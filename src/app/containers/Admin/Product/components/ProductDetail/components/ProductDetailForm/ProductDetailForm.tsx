@@ -1,21 +1,21 @@
-import { Button, Form, Input, Select, Upload, Card, Switch, Tooltip } from 'antd';
+import { Button, Form, Input, Select, Card, Switch, Tooltip, AutoComplete } from 'antd';
 import { Category } from 'models/category';
 import { useEffect, useState } from 'react';
 import { productsHooks } from 'app/containers/Admin/Product';
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import ImgCrop from 'antd-img-crop';
+import type { UploadFile } from 'antd/es/upload/interface';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
 import { brandsHooks } from 'app/containers/Admin/Brand';
 import { Brand } from 'models/brand';
 import { TYPE_OPTIONS } from 'constants/type';
-import Editor from 'app/components/Editor/CkEditor';
+import Editor from 'app/components/Editor/CkEditorClassic';
 import './ProductDetailForm.less';
 import { useNavigate } from 'react-router-dom';
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 import { QuestionCircleOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { generateSku } from 'utils/string';
+import { settingsHooks } from 'app/containers/Admin/Setting';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -111,16 +111,44 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
       setCategories(categoriesData.data);
     }
   }, [categoriesData, isLoadingCategories]);
-  
+
   useEffect(() => {
     if (sku) form.setFieldsValue({ slug: sku });
   }, [form, sku]);
-  
+
   const onSelectedType = (value: string) => {
     const searchData = {
       type: value,
     };
     setSearch(searchData);
+  };
+
+  const [skus, setSkus] = useState<{ value: string }[]>([]);
+  const [skuSearch, setSkuSearch] = useState<string>('');
+
+  const { data: skuData, isLoading: isSkuDataLoading } = settingsHooks.useSkus({
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+    search: skuSearch,
+    sort: {
+      name: 'asc',
+    },
+  });
+
+  useEffect(() => {
+    if (skuData && (!isLoading || !isSkuDataLoading)) {
+      setSkus(skuData?.data);
+    }
+  }, [isLoading, isSkuDataLoading, skuData]);
+
+  const handleSkuSearch = (value: string) => {
+    setSkuSearch(value)
+  };
+
+  const onSkuSelect = (value: string) => {
+    console.log('onSelect', value);
   };
 
   return (
@@ -163,7 +191,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
               },
             ]}
           >
-            <Input onChange={e => onNameChange(e.target.value)}/>
+            <Input onChange={e => onNameChange(e.target.value)} />
           </Form.Item>
           <Form.Item
             name="slug"
@@ -179,7 +207,9 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
             ]}
             hasFeedback
           >
-            <Input />
+            <AutoComplete options={skus} style={{ width: 200 }} onSelect={onSkuSelect} onSearch={handleSkuSearch}>
+              <Input />
+            </AutoComplete>
           </Form.Item>
           <Form.Item
             name="brand"

@@ -16,6 +16,7 @@ const Updating = (): JSX.Element => {
     await updateSku({
       ...values,
       _id: skuDetailData?._id,
+      brand: values.brand.value,
     }).then((item: any) => {
       setSkuDetail(item?.data);
       setDefaultValue({
@@ -31,6 +32,7 @@ const Updating = (): JSX.Element => {
       setDefaultValue({
         ...skuDetailData,
         body: decodeURIComponent(skuDetailData?.body),
+        brand: { value: skuDetailData.brand?._id, label: skuDetailData.brand?.name },
       });
     }
   }, [skuDetailData, isLoadingSkuDetail]);

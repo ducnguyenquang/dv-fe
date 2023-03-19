@@ -26,6 +26,7 @@ type PopupMenuQueryBase = {
     desc: boolean;
   };
   search?: any;
+  isHidden?: boolean;
 };
 
 export type PopupMenuQueryPayload = Partial<PopupMenuQueryBase>;

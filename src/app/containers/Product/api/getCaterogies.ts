@@ -6,7 +6,7 @@ import endPoint from 'services/api/endPoint.json';
 
 export const getCaterogies = async (category: CategoryQueryPayload): Promise<any> => {
 
-  const api = new BaseService(endPoint.backendUrl, endPoint.getCategoriesApi)
+  const api = new BaseService(endPoint.backendUrl, endPoint.getClientCategoriesApi)
   const data = await api.post(category);
   return data;
 };

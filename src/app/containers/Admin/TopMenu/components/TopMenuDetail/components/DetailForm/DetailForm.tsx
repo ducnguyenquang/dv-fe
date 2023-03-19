@@ -1,8 +1,10 @@
-import { Button, Form, Input, Card, Switch, InputNumber } from 'antd';
+import { Button, Form, Input, Card, Switch, InputNumber, AutoComplete } from 'antd';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router-dom';
+import { settingsHooks } from 'app/containers/Admin/Setting';
+import { useState, useEffect } from 'react';
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -45,6 +47,33 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
   const intl = useIntl();
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [routePaths, setRoutePaths] = useState<{ value: string }[]>([]);
+  const [routePathSearch, setRoutePathSearch] = useState<string>('');
+
+  const { data: routePathData, isLoading: isRoutePathDataLoading } = settingsHooks.useRoutePaths({
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+    search: routePathSearch,
+    sort: {
+      name: 'asc',
+    },
+  });
+
+  useEffect(() => {
+    if (routePathData && (!isLoading || !isRoutePathDataLoading)) {
+      setRoutePaths(routePathData?.data);
+    }
+  }, [isLoading, isRoutePathDataLoading, routePathData]);
+
+  const handleRoutePathSearch = (value: string) => {
+    setRoutePathSearch(value);
+  };
+
+  const onRoutePathSelect = (value: string) => {
+    console.log('onSelect', value);
+  };
 
   return (
     <>
@@ -99,7 +128,14 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
             ]}
             hasFeedback
           >
-            <Input />
+            <AutoComplete
+              options={routePaths}
+              style={{ width: 200 }}
+              onSelect={onRoutePathSelect}
+              onSearch={handleRoutePathSearch}
+            >
+              <Input />
+            </AutoComplete>
           </Form.Item>
           <Form.Item
             name="order"
@@ -115,7 +151,7 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
             ]}
             hasFeedback
           >
-            <InputNumber defaultValue={initialValues?.order || 0}/>
+            <InputNumber defaultValue={initialValues?.order || 0} />
           </Form.Item>
           <Form.Item name="isHidden" label={intl.formatMessage({ id: 'product.isHidden' })}>
             <Switch defaultChecked={initialValues?.isHidden || false} />

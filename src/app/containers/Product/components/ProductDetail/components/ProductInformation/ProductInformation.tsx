@@ -13,6 +13,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
 import { ORIENTATION } from 'constants/common';
+// import 'app/components/Editor/ck-style.less';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -170,10 +171,10 @@ const ProductInformation = (): JSX.Element => {
       </div>
       {!isMobile && <Tabs className="tabs" defaultActiveKey={tabIndex} onChange={onTabChange}>
         <TabPane tab={intl.formatMessage({ id: 'product.description' })} key="1">
-          <div dangerouslySetInnerHTML={{ __html: productDetail?.description as string }}></div>
+          <div className="ck-content" dangerouslySetInnerHTML={{ __html: productDetail?.description as string }}></div>
         </TabPane>
         <TabPane tab={intl.formatMessage({ id: 'product.specification' })} key="2">
-          <div dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}></div>
+          <div className="ck-content" dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}></div>
         </TabPane>
         <TabPane tab={intl.formatMessage({ id: 'product.documents' })} key="3">
           <>
@@ -210,10 +211,10 @@ const ProductInformation = (): JSX.Element => {
       </Tabs>}
       {isMobile && <Collapse className="collapses">
         <Collapse.Panel header={intl.formatMessage({ id: 'product.description' })} key="1">
-          <div dangerouslySetInnerHTML={{ __html: productDetail?.description as string }}></div>
+          <div className="ck-content" dangerouslySetInnerHTML={{ __html: productDetail?.description as string }}></div>
         </Collapse.Panel>
         <Collapse.Panel header={intl.formatMessage({ id: 'product.specification' })} key="2">
-          <div dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}></div>
+          <div className="ck-content" dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}></div>
         </Collapse.Panel>
         <Collapse.Panel header={intl.formatMessage({ id: 'product.documents' })} key="3">
         <>

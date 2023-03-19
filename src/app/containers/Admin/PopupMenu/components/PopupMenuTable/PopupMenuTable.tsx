@@ -22,6 +22,8 @@ interface DataType {
   icon: string;
   url: string;
   _id: string;
+  isHidden: boolean;
+  order: number;
 }
 type DataIndex = keyof DataType;
 
@@ -54,6 +56,8 @@ const PopupMenuTable = (): JSX.Element => {
     sort,
   });
   const { mutateAsync: deletePopupMenu, isLoading: isLoadingDeletePopupMenu } = popupMenusHooks.useDeletePopupMenu();
+  const { mutateAsync: updatePopupMenu, isLoading: isLoadingUpdatePopupMenu } = popupMenusHooks.useUpdatePopupMenu();
+
 
   const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
     search: {
@@ -92,6 +96,13 @@ const PopupMenuTable = (): JSX.Element => {
 
   const onDeletePopupMenu = async (id: string) => {
     await deletePopupMenu(id);
+  };
+
+  const onPopupMenuUpdate = async (data: any, value: any) => {
+    await updatePopupMenu({
+      ...data,
+      isHidden: value,
+    });
   };
 
   const handleChange = (pagination: any, filters: any, sorter: any) => {
@@ -212,6 +223,26 @@ const PopupMenuTable = (): JSX.Element => {
       sorter: (a, b) => a.url.length - b.url.length,
       showSorterTooltip: false,
       sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: intl.formatMessage({ id: 'product.order' }),
+      dataIndex: 'order',
+      key: 'order',
+      ...getColumnSearchProps('order'),
+      sorter: (a, b) => a.order - b.order,
+      showSorterTooltip: false,
+      sortDirections: ['descend', 'ascend'],
+      width: 120,
+    },
+
+    {
+      title: intl.formatMessage({ id: 'product.isHidden' }),
+      dataIndex: 'isHidden',
+      key: 'isHidden',
+      render: (_, record) => (
+        <Switch disabled={isLoadingUpdatePopupMenu} defaultChecked={record.isHidden} onChange={checked => onPopupMenuUpdate(record, checked)}/>
+      ),
+      width: 130,
     },
     {
       title: intl.formatMessage({ id: 'setting.popupMenu.action' }),

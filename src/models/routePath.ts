@@ -18,10 +18,7 @@ type RoutePathQueryBase = {
     offset: number;
     limit: number;
   };
-  sort?: {
-    id: string;
-    desc: boolean;
-  };
+  sort?: any;
   search?: any;
 };
 

@@ -9,13 +9,13 @@ import './SignUp.less';
 
 import { useMemo } from 'react';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
-import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+import { templatesHooks } from 'app/containers/Template';
 
 const SignUp = (): JSX.Element => {
   const intl = useIntl();
   const navigate = useNavigate();
 
-  const { data: settingTemplate } = settingPagesHooks.useTemplates({
+  const { data: settingTemplate } = templatesHooks.useTemplates({
     search: {
       group: PAGE_NAME.P_TEMPLATE,
     },

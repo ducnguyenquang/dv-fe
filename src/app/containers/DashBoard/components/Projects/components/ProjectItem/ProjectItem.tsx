@@ -26,7 +26,7 @@ const ProjectItem = ({ data }: IProps): JSX.Element => {
   <div className="content">
     <div className="information">
       <div className="title">{data?.name}</div>
-      <div className="description">{data?.summary}</div>
+      {/* <div className="description">{data?.summary}</div> */}
     </div>
   </div>
 </Button>

@@ -2,13 +2,11 @@ import { useQuery, UseQueryResult } from 'react-query';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { PopupMenuQueryPayload, PopupMenu } from 'models/popupMenu';
+import { PopupMenuQueryPayload } from 'models/popupMenu';
 import { settingsApi, settingsActions } from 'app/containers/Admin/Setting';
-// import { templatesApi } from './index';
-
+import { templatesApi } from 'app/containers/Template';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
-import { templatesApi } from '../api';
 
 export const usePopupMenus = (params: PopupMenuQueryPayload): UseQueryResult<any> => {
   const dispatch = useDispatch();
@@ -24,9 +22,7 @@ export const usePopupMenus = (params: PopupMenuQueryPayload): UseQueryResult<any
     settingsApi.settingsKeys.list(params),
     async () => {
       const data = await templatesApi.getPopupMenus(params);
-      // console.log('==== data', data)
       storePopupMenuPaginationModals(data);
-
       return data?.data;
     },
     {

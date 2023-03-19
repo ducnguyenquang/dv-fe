@@ -12,7 +12,7 @@ import {
 import { Layout, Menu, Image } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './AdminTemplate.less';
 import UserDropDown from './components/UserDropDown/UserDropDown';
 import { message } from 'antd';
@@ -32,15 +32,15 @@ const Template = ({ content }: IProps): JSX.Element => {
 
   const navMenuClick = ({ name, url }: { name: string; url: string }) => {
     setPageName(name);
-    navigate(url)
+    navigate(url);
   };
 
   const { settingTemplate } = useContext(AppContext);
   const logoIcon = useMemo(() => {
     if (settingTemplate) {
-      return (settingTemplate as any)?.find((item: any) => item.name === SETTINGS.LOGO)
+      return (settingTemplate as any)?.find((item: any) => item.name === SETTINGS.LOGO);
     }
-  }, [settingTemplate])
+  }, [settingTemplate]);
 
   useEffect(() => {
     if (window.location.pathname.includes('/admin/setting/')) {
@@ -48,9 +48,9 @@ const Template = ({ content }: IProps): JSX.Element => {
     }
 
     if (!localStorage.getItem('Token')) {
-      navigate('/admin/login')
+      navigate('/admin/login');
       message.error(intl.formatMessage({ id: 'common.session.isTimeOut' }));
-    };
+    }
   }, [intl, navigate]);
 
   const getNavSelected = () => {
@@ -142,9 +142,15 @@ const Template = ({ content }: IProps): JSX.Element => {
   const { Header, Sider, Content } = Layout;
 
   return (
-    <Layout className='adminTemplate'>
+    <Layout className="adminTemplate">
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-        <Image className='adminTemplate-logo' preview={false} src={logoIcon?.valueImages?.[0]?.url || "/images/logodv-8769.gif"} />
+        <Link to={'/'} >
+          <Image
+            className="adminTemplate-logo"
+            preview={false}
+            src={logoIcon?.valueImages?.[0]?.url || '/images/logodv-8769.gif'}
+          />
+        </Link>
         <Menu
           mode="inline"
           // defaultSelectedKeys={['category']}

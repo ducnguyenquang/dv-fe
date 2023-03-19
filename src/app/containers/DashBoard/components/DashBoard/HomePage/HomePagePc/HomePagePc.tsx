@@ -1,4 +1,4 @@
-import { settingPagesHooks } from "app/containers/Admin/SettingPage";
+import { templatesHooks } from "app/containers/Template";
 import { PAGE_NAME, SETTINGS } from "constants/common";
 import { useState, useEffect } from "react";
 // import { lazyLoad } from "utils/lazyLoad";
@@ -15,7 +15,7 @@ const HomePagePc = (): JSX.Element => {
   const defaultBannerImage = '/images/banner_slider_1-9340.png';
   const [bannerImage, setBannerImage] = useState<string>(defaultBannerImage);
 
-  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+  const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
     search: {
       group: PAGE_NAME.P_HOME,
     },

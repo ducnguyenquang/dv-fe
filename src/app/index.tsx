@@ -35,7 +35,7 @@ import {
   AdminSettingPageTemplate,
   AdminSettingPageHomePage,
   AdminSettingPageProductCategory,
-  settingPagesHooks,
+  // settingPagesHooks,
 } from 'app/containers/Admin/SettingPage';
 
 import { ProductList, ProductDetail, ProductFilter, SupportMenu } from 'app/containers/Product';
@@ -62,6 +62,8 @@ import { isMobile } from 'react-device-detect';
 import { Context as AppContext } from './context/appContext';
 import { ProjectDetail } from './containers/DashBoard/components/Projects/components/ProjectDetail';
 import { useEffect, useState } from 'react';
+import { templatesHooks } from 'app/containers/Template';
+
 import { lazyLoad } from 'utils/lazyLoad';
 
 // const HomePage = lazyLoad('app/containers/DashBoard/components/DashBoard/HomePage', 'HomePage');
@@ -92,7 +94,7 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
     setCookieIsAccepted(acceptCookieVal);
   };
 
-  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+  const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
     search: {
       group: PAGE_NAME.P_TEMPLATE,
     },

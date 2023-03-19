@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { TagSeoQueryPayload, TagSeo } from 'models/tagSeo';
 import { settingsApi, settingsActions } from 'app/containers/Admin/Setting';
+import { templatesApi } from 'app/containers/Template';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
 
@@ -20,7 +21,7 @@ export const useTagSeos = (params: TagSeoQueryPayload): UseQueryResult<any> => {
   return useQuery(
     settingsApi.settingsKeys.list(params),
     async () => {
-      const data = await settingsApi.getTagSeos(params);
+      const data = await templatesApi.getTagSeos(params);
       storeTagSeoPaginationModals(data);
       return data?.data;
     },

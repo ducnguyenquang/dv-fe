@@ -1,7 +1,6 @@
 import { Empty, Spin } from 'antd';
 import { Banner } from '../../Banner';
 import './LedLight.less';
-import { categoriesHooks } from 'app/containers/Admin/Category';
 import CategoryItem from '../CategoryItem/CategoryItem';
 import { Category } from 'models/category';
 
@@ -9,7 +8,7 @@ import { Context as AppContext } from 'app/context/appContext';
 import { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import Search from 'antd/lib/input/Search';
-import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+import { templatesHooks } from 'app/containers/Template';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
 
 const LedLight = (): JSX.Element => {
@@ -20,7 +19,7 @@ const LedLight = (): JSX.Element => {
   const defaultBannerImage = '/images/led-light-banner.png';
   const [bannerImage, setBannerImage] = useState<string>(defaultBannerImage);
 
-  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+  const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
     search: {
       group: PAGE_NAME.P_PRODUCT_CATEGORY,
     },
@@ -30,7 +29,7 @@ const LedLight = (): JSX.Element => {
     },
   });
 
-  const { data: categories, isSuccess } = categoriesHooks.useCategories({
+  const { data: categories, isSuccess } = templatesHooks.useCategories({
     search: {
       type: 'den-led',
       name: name || undefined,

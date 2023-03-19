@@ -1,5 +1,5 @@
 import { Card, Image } from 'antd';
-import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+import { templatesHooks } from 'app/containers/Template';
 import { productsHooks } from 'app/containers/Product';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
 import { PAGE, PAGE_SIZE } from 'constants/pagination';
@@ -26,7 +26,7 @@ const SupportMenu = (): JSX.Element => {
     },
   });
 
-  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+  const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
     search: {
       group: PAGE_NAME.P_SUPPORT,
     },

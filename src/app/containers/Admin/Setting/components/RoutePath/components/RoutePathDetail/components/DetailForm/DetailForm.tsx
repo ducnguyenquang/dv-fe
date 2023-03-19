@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, Card } from 'antd';
+import { Button, Form, Input, Select, Card, Switch } from 'antd';
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
@@ -65,10 +65,10 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
           {...formItemLayout}
           form={form}
           name="update"
-          onFinish={values =>
-            onFinish({
+          onFinish={async values =>
+            await onFinish({
               ...values,
-            })
+            }).then(() => navigate(`/admin/setting/routePath`))
           }
           initialValues={initialValues}
           scrollToFirstError
@@ -89,14 +89,14 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
             <Input />
           </Form.Item>
           <Form.Item
-            name="subject"
-            label={intl.formatMessage({ id: 'setting.routePath.subject' })}
+            name="value"
+            label={intl.formatMessage({ id: 'setting.routePath.value' })}
             rules={[
               {
                 required: true,
                 message: intl.formatMessage(
                   { id: 'common.validation.require.field' },
-                  { name: intl.formatMessage({ id: 'setting.routePath.subject' }) }
+                  { name: intl.formatMessage({ id: 'setting.routePath.value' }) }
                 ),
               },
             ]}
@@ -104,10 +104,9 @@ const DetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): J
           >
             <Input />
           </Form.Item>
-          <Form.Item name="body" label={intl.formatMessage({ id: 'setting.routePath.body' })}>
-            <ReactQuill theme="snow" value={body} onChange={setBody} />
+          <Form.Item name="isHidden" label={intl.formatMessage({ id: 'setting.sku.isHidden' })}>
+            <Switch defaultChecked={initialValues?.isHidden} />
           </Form.Item>
-
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" loading={isLoading}>
               {isUpdate

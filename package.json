@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^35.3.2",
+    "@ckeditor/ckeditor5-build-decoupled-document": "^36.0.1",
     "@ckeditor/ckeditor5-react": "^5.1.0",
     "@ckeditor/ckeditor5-source-editing": "^36.0.1",
+    "@ckeditor/ckeditor5-utils": "^36.0.1",
     "@craco/craco": "^6.4.5",
     "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/jest-dom": "^5.16.4",
@@ -27,6 +29,7 @@
     "axios": "^0.27.2",
     "axios-mock-adapter": "^1.21.1",
     "axios-progress-bar": "^1.2.0",
+    "ckeditor5-custom-build": "file:./ckeditor5",
     "craco-less": "^2.0.0",
     "html-to-react": "^1.5.0",
     "i18next": "^21.8.16",
@@ -96,7 +99,9 @@
     ]
   },
   "devDependencies": {
+    "@ckeditor/ckeditor5-font": "^36.0.1",
     "@types/ckeditor__ckeditor5-build-classic": "^29.0.1",
+    "@types/ckeditor__ckeditor5-build-decoupled-document": "^29.1.1",
     "@types/ckeditor__ckeditor5-source-editing": "^29.1.1",
     "@types/react-highlight-words": "^0.16.4",
     "@types/react-router-dom": "^5.3.3",

@@ -6,7 +6,7 @@ import endPoint from 'services/api/endPoint.json';
 
 export const getAdvertisements = async (advertisement: AdvertisementQueryPayload): Promise<any> => {
 
-  const api = new BaseService(endPoint.backendUrl, endPoint.getAdvertisementsApi)
+  const api = new BaseService(endPoint.backendUrl, endPoint.getClientAdvertisementsApi)
   const { data } = await api.post(advertisement);
   return data;
 };

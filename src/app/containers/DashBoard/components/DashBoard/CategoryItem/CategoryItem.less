@@ -7,15 +7,17 @@
 
   .item-block {
     border: 1px solid transparent;
+    border-radius: 5px;
     
     .image {
       margin-bottom: 0;
       height: 300px;
       overflow: hidden;
+      width: 100%;
       img {
         filter: grayscale(25%);
-        width: 250px;
-        height: 250px;
+        width: 95%;
+        height: 95%;
         object-fit: cover;
         transition: all .2s ease-in-out; 
       }
@@ -35,8 +37,9 @@
     }
 
     &:hover {
-      border: 1px solid #E5704B;
+      // border: 1px solid #E5704B;
       cursor: pointer;
+      border-radius: 5px;
       .image {
         img {
           filter: unset;

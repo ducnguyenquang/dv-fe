@@ -5,6 +5,8 @@ import { Header as TemplateHeader } from './components/Header';
 import { Footer as TemplateFooter } from './components/Footer';
 
 import './Template.less';
+import 'app/components/Editor/ck-style.less';
+
 import { BreadcrumbComponent } from '../BreadcrumbComponent';
 import { Helmet } from 'react-helmet-async';
 import { templatesHooks } from '../../hooks';
@@ -13,7 +15,7 @@ import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
 import HamburgerMenu from 'app/components/HamburgerMenu/HamburgerMenu';
 import { Logo } from './components/Header/components/Logo';
-import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+// import { templatesHooks } from 'app/containers/Template';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
 
 interface IProps {
@@ -30,7 +32,7 @@ const Template = ({ content, leftMenu, hasBreadcrumb, hasTopMenu, hasAdvertiseme
   const [backgroundColor, setBackgroundColor] = useState<string>();
   const [layoutStructure, setLayoutStructure] = useState<string>();
 
-  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+  const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
     search: {
       group: PAGE_NAME.P_TEMPLATE,
     },

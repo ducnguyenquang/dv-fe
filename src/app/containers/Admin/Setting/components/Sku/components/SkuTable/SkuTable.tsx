@@ -58,7 +58,7 @@ const SkuTable = (): JSX.Element => {
   };
 
   const onDeleteSku = async (id: string) => {
-    await deleteSku(id);
+    await deleteSku({_id: id});
     setSkus([...skus]);
   };
 

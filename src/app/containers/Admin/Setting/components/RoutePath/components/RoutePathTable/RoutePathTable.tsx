@@ -13,10 +13,8 @@ import { useNavigate } from 'react-router-dom';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
 import Highlighter from 'react-highlight-words';
 interface DataType {
-  key: string;
   name: string;
-  subject: string;
-  body: string;
+  value: string;
   _id: string;
 }
 type DataIndex = keyof DataType;
@@ -58,7 +56,7 @@ const RoutePathTable = (): JSX.Element => {
   };
 
   const onDeleteRoutePath = async (id: string) => {
-    await deleteRoutePath(id);
+    await deleteRoutePath({_id: id});
     setRoutePaths([...routePaths]);
   };
 
@@ -174,11 +172,11 @@ const RoutePathTable = (): JSX.Element => {
       sortDirections: ['descend', 'ascend'],
     },
     {
-      title: intl.formatMessage({ id: 'setting.routePath.subject' }),
-      dataIndex: 'subject',
-      key: 'subject',
-      ...getColumnSearchProps('subject'),
-      sorter: (a, b) => a.subject.length - b.subject.length,
+      title: intl.formatMessage({ id: 'setting.routePath.value' }),
+      dataIndex: 'value',
+      key: 'value',
+      ...getColumnSearchProps('value'),
+      sorter: (a, b) => a.value.length - b.value.length,
       showSorterTooltip: false,
       sortDirections: ['descend', 'ascend'],
     },

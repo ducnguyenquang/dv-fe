@@ -1,18 +1,16 @@
-import { Carousel } from 'antd';
-import { productsHooks } from 'app/containers/Product';
 import { Project } from 'models/project';
 import { useIntl } from 'react-intl';
 import { ProjectItem } from './components/ProjectItem';
 import './Projects.less';
-import { useMemo, useContext } from 'react';
+import { useContext } from 'react';
 import { Context as AppContext } from 'app/context/appContext';
-import { projectsHooks } from 'app/containers/Admin/Project';
+import { templatesHooks } from 'app/containers/Template';
 
 const Projects = (): JSX.Element => {
   const intl = useIntl();
   const { orientation, isMobile } = useContext(AppContext);
 
-  const { data: projects, isLoading } = projectsHooks.useProjects({
+  const { data: projects } = templatesHooks.useProjects({
     pagination: {
       limit: 10,
       offset: 0,

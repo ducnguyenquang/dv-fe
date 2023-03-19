@@ -3,4 +3,5 @@ export interface ImageUploadProps {
   fileList: any;
   setFileList: any;
   ratio?: any;
+  className?: string;
 }

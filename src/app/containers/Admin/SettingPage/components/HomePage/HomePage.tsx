@@ -1,5 +1,5 @@
 import { Card, Button, UploadFile, Space } from 'antd';
-import Editor from 'app/components/Editor/CkEditor';
+import Editor from 'app/components/Editor/CkEditorClassic';
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
 import { Common } from 'models/common';
@@ -7,6 +7,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { settingPagesHooks } from '../../hooks';
+import { CableBlock } from './components/CableBlock';
+import { LedBlock } from './components/LedBlock';
 import './HomePage.less';
 
 const HomePage = (): JSX.Element => {
@@ -28,24 +30,25 @@ const HomePage = (): JSX.Element => {
   const { mutateAsync: deleteCommon } = settingPagesHooks.useDeleteTemplate();
 
   const [bannerImageItem, setBannerImageItem] = useState<Common>();
+  const [bannerFileList, setBannerFileList] = useState<UploadFile[]>([]);
+
   const [introductionItem, setIntroductionItem] = useState<Common>();
   const [introduction, setIntroduction] = useState<string>();
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const saveBannerImage = useCallback(async () => {
     if (bannerImageItem) {
       await updateCommon({
         ...bannerImageItem,
-        valueImages: fileList,
+        valueImages: bannerFileList,
       });
     } else {
       await createCommon({
         name: SETTINGS.BANNER_IMAGE,
-        valueImages: fileList,
+        valueImages: bannerFileList,
         group: PAGE_NAME.P_HOME,
       });
     }
-  }, [bannerImageItem, createCommon, fileList, updateCommon]);
+  }, [bannerImageItem, createCommon, bannerFileList, updateCommon]);
 
   const saveIntroductionBlock = useCallback(async () => {
     if (introductionItem) {
@@ -70,7 +73,7 @@ const HomePage = (): JSX.Element => {
   const resetBannerImage = useCallback(async () => {
     if (bannerImageItem) {
       await deleteCommon(bannerImageItem._id);
-      setFileList([]);
+      setBannerFileList([]);
     }
   }, [bannerImageItem, deleteCommon]);
 
@@ -86,6 +89,8 @@ const HomePage = (): JSX.Element => {
     await resetIntroductionBlock();
   };
 
+  
+
   useEffect(() => {
     if (templateData && !isLoadingTemplateData) {
       const banner = templateData.data?.find((item: any) => item.name === SETTINGS.BANNER_IMAGE);
@@ -93,19 +98,18 @@ const HomePage = (): JSX.Element => {
 
       if (banner) {
         setBannerImageItem(banner);
-        setFileList(banner?.valueImages);
+        setBannerFileList(banner?.valueImages);
       }
       if (intro) {
         setIntroductionItem(intro);
         setIntroduction(intro?.value as string);
       }
+      
     }
   }, [isLoadingTemplateData, templateData]);
 
-  console.log('==== fileList', fileList);
-
   return (
-    <>
+    <div className='settingHomePage'>
       <Helmet title={intl.formatMessage({ id: 'admin.settingPage.home-page.title-page' })} />
       <Card
         title={intl.formatMessage({ id: 'admin.settingPage.home-page.title-page' })}
@@ -135,7 +139,7 @@ const HomePage = (): JSX.Element => {
             </Space>
           }
         >
-          <ImageUpload fileList={fileList} ratio={4 / 1} setFileList={setFileList} imageNumber={1} />
+          <ImageUpload fileList={bannerFileList} ratio={4 / 1} setFileList={setBannerFileList} imageNumber={1} />
         </Card>
         <Card
           style={{ marginTop: 16 }}
@@ -154,8 +158,10 @@ const HomePage = (): JSX.Element => {
         >
           <Editor value={introduction} onChange={setIntroduction} />
         </Card>
+        <CableBlock />
+        <LedBlock />
       </Card>
-    </>
+    </div>
   );
 };
 

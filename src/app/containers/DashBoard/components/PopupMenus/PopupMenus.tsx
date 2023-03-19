@@ -1,6 +1,5 @@
 import { Modal, Space } from 'antd';
 import { settingsActions, settingsSelectors } from 'app/containers/Admin/Setting';
-import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
 import { templatesHooks } from 'app/containers/Template';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
 import { PopupMenu } from 'models/popupMenu';
@@ -21,7 +20,7 @@ const PopupMenus = (): JSX.Element => {
     dispatch(settingsActions.setPopMenuOpened(true));
   };
 
-  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+  const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
     search: {
       group: PAGE_NAME.P_POPUP_MENU,
     },
@@ -36,6 +35,7 @@ const PopupMenus = (): JSX.Element => {
       limit: 5,
       offset: 0,
     },
+    isHidden: false,
   });
 
   const popupMenuOpened = useSelector(settingsSelectors.getPopupMenuOpened);

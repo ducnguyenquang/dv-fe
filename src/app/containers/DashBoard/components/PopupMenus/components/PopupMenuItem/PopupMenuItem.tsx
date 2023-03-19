@@ -10,7 +10,7 @@ interface IProps {
 
 const PopupMenuItem = ({ data }: IProps): JSX.Element => {
   return <div className="popupMenuItem">
-    <Image wrapperClassName='popupMenuItem-image' preview={false} src={data?.images?.[0]?.url || data?.images?.[0]?.thumbUrl || '/images/no-image.png'} className="image" />
+    {data?.images && data?.images.length > 0 && <Image wrapperClassName='popupMenuItem-image' preview={false} src={data?.images?.[0]?.url || data?.images?.[0]?.thumbUrl || '/images/no-image.png'} className="image" />}
     <Link className='popupMenuItem-name' to={data?.url as string}>{data?.name}</Link>
   </div>;
 };

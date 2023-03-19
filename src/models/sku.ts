@@ -19,8 +19,8 @@ type SkuQueryBase = {
     limit: number;
   };
   sort?: {
-    id: string;
-    desc: boolean;
+    // id: string;
+    // desc: boolean;
   };
   search?: any;
 };
@@ -31,7 +31,9 @@ export type SkuDetailPayload = Pick<Sku, 'id'> & {
   _id?: string;
 };
 
-export type SkuDeletePayload = Pick<Sku, 'id'>;
+export type SkuDeletePayload = Pick<Sku, 'id'> & {
+  _id?: string;
+};
 
 export type AllSkusQueryPayload = {
   search: string;

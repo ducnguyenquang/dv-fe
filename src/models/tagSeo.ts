@@ -24,8 +24,8 @@ type TagSeoQueryBase = {
     limit: number;
   };
   sort?: {
-    id: string;
-    desc: boolean;
+    // id: string;
+    // desc: boolean;
   };
   search?: {
     searchText: string;

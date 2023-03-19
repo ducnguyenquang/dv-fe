@@ -6,7 +6,7 @@ import endPoint from 'services/api/endPoint.json';
 
 export const getPopupMenus = async (popupMenu: PopupMenuQueryPayload): Promise<any> => {
 
-  const api = new BaseService(endPoint.backendUrl, endPoint.getPopupMenusApi)
+  const api = new BaseService(endPoint.backendUrl, endPoint.getClientPopupMenusApi)
   const { data } = await api.post(popupMenu);
   return data;
 };

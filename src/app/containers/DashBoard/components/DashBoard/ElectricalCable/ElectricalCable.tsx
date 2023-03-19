@@ -1,7 +1,6 @@
 import { Empty, Spin } from 'antd';
 import { Banner } from '../../Banner';
 import './ElectricalCable.less';
-import { categoriesHooks } from 'app/containers/Admin/Category';
 import CategoryItem from '../CategoryItem/CategoryItem';
 import { Category } from 'models/category';
 import Search from 'antd/lib/input/Search';
@@ -9,7 +8,7 @@ import { useIntl } from 'react-intl';
 import { useEffect, useState } from 'react';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
-import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+import { templatesHooks } from 'app/containers/Template';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
 
 const ElectricalCable = (): JSX.Element => {
@@ -21,7 +20,7 @@ const ElectricalCable = (): JSX.Element => {
   const defaultBannerImage = '/images/eletrical-cable-banner.png';
   const [bannerImage, setBannerImage] = useState<string>(defaultBannerImage);
 
-  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+  const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
     search: {
       group: PAGE_NAME.P_PRODUCT_CATEGORY,
     },
@@ -31,7 +30,7 @@ const ElectricalCable = (): JSX.Element => {
     },
   });
   
-  const { data: categories, isSuccess } = categoriesHooks.useCategories({
+  const { data: categories, isSuccess } = templatesHooks.useCategories({
     search: {
       type: 'cap-dien',
       name: name || undefined,

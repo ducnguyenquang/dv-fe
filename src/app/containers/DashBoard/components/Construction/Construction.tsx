@@ -12,7 +12,7 @@ const Construction = (): JSX.Element => {
       <div className="icon">
         <SolutionOutlined />
       </div>
-      <div className='title' dangerouslySetInnerHTML={{ __html: intl.formatMessage({ id: 'dashboard.contruction.title' }) }}></div>
+      <div className='title ck-content' dangerouslySetInnerHTML={{ __html: intl.formatMessage({ id: 'dashboard.contruction.title' }) }}></div>
       <div className='subTitle' >{intl.formatMessage({ id: 'dashboard.contruction.subTitle' }) }</div>
       <Button className='button' type="dashed" >{intl.formatMessage({ id: 'dashboard.contruction.button' }) }</Button>
     </div>
