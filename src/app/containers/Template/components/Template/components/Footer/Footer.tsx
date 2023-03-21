@@ -19,7 +19,6 @@ const Footer = ({ hasAdvertisement }: IProps): JSX.Element => {
     const tawkId = '1gegug917';
     const tawk = new TawkTo(propertyId, tawkId);
     tawk.onStatusChange((status: any) => {
-      console.log('==== TawkTo', status);
     });
   }, []);
 

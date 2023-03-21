@@ -1,26 +1,30 @@
-import { templatesHooks } from "app/containers/Template";
-import { PAGE_NAME, SETTINGS } from "constants/common";
-import { useState, useEffect } from "react";
+import { Spin } from 'antd';
+import { templatesHooks } from 'app/containers/Template';
+import { PAGE_NAME, SETTINGS } from 'constants/common';
+import { useState, useEffect } from 'react';
 // import { lazyLoad } from "utils/lazyLoad";
-import { Banner } from "../../../Banner";
-import { Construction } from "../../../Construction";
-import { Faq } from "../../../Faq";
-import { Information } from "../../../Information";
-import { PopupMenus } from "../../../PopupMenus";
-import { ProductList } from "../../../ProductList";
-import { Projects } from "../../../Projects";
-import { Vision } from "../../../Vision";
+import { Banner } from '../../../Banner';
+import { Construction } from '../../../Construction';
+import { Faq } from '../../../Faq';
+import { Information } from '../../../Information';
+import { PopupMenus } from '../../../PopupMenus';
+import { ProductList } from '../../../ProductList';
+import { Projects } from '../../../Projects';
+import { Vision } from '../../../Vision';
 
 const HomePagePc = (): JSX.Element => {
   const defaultBannerImage = '/images/banner_slider_1-9340.png';
-  const [bannerImage, setBannerImage] = useState<string>(defaultBannerImage);
+  const defaultImage = '/images/no-image.png';
+
+  const [bannerImage, setBannerImage] = useState<string>();
 
   const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
     search: {
       group: PAGE_NAME.P_HOME,
+      name: SETTINGS.BANNER_IMAGE,
     },
     pagination: {
-      limit: 1000,
+      limit: 1,
       offset: 0,
     },
   });
@@ -36,7 +40,9 @@ const HomePagePc = (): JSX.Element => {
 
   return (
     <>
-      <Banner image={bannerImage} />
+      <Spin spinning={isLoadingTemplateData}>
+        {bannerImage && !isLoadingTemplateData ? <Banner image={bannerImage} /> : <Banner image={defaultImage} />}
+      </Spin>
       <Vision />
       <Information />
       <ProductList />

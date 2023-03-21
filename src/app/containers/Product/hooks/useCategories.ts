@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from 'react-query';
 
 import { CategoryQueryPayload } from 'models/category';
-import { productsApi } from 'app/containers/Admin/Product';
+import { productsApi } from 'app/containers/Product';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
 

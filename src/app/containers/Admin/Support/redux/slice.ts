@@ -1,6 +1,4 @@
-// import { Equipment, EquipmentFileView } from 'Models/equipment';
 import { createSlice } from '@reduxjs/toolkit';
-import { storage } from 'utils';
 
 export const initialState = {
   isLoading: false,
@@ -19,7 +17,6 @@ const supportsSlice = createSlice({
   initialState,
   reducers: {
     setSupportsPagination: (state, { payload }) => {
-      // state.categories = payload.data;
       state.pagination = payload.pagination;
     },
     setSupports: (state, { payload }) => {
@@ -30,7 +27,6 @@ const supportsSlice = createSlice({
       state.isLoading = payload;
     },
     setSupportDetail: (state, { payload }) => {
-      // console.log('==== setProductDetail', payload)
       state.supportDetail = payload;
     },
   },

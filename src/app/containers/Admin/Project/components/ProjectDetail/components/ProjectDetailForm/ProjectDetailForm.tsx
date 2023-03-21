@@ -57,12 +57,10 @@ const ProjectDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
   const [description, setDescription] = useState('');
   const [sku, setSku] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  // console.log('==== fileList', fileList);
 
   useEffect(() => {
     if (initialValues?.images) setFileList(initialValues?.images)
   }, [initialValues?.images])
-  // console.log('==== sku', sku);
 
   const onNameChange = (value: string) => {
     const id = generateSku(value)

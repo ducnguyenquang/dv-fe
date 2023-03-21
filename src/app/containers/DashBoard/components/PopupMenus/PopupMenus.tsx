@@ -68,16 +68,11 @@ const PopupMenus = (): JSX.Element => {
       centered
       closable={false}
     >
-      {/* <div className="leftBlock">
-        <Image preview={false} src={'/images/woman_welcome_400.png'} className="image" />
-      </div> */}
-      {/* <div className="rightBlock"> */}
-        <Space direction="vertical">
-          {popupMenus.map(item => (
-            <PopupMenuItem data={item} />
-          ))}
-        </Space>
-      {/* </div> */}
+      <Space direction="vertical">
+        {popupMenus.map(item => (
+          <PopupMenuItem key={item._id} data={item} />
+        ))}
+      </Space>
     </Modal>
   ) : (
     <></>

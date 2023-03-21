@@ -76,6 +76,8 @@
   "menu.left.setting.topMenu": "Top menu header",
   "menu.left.setting.sku": "Mã SKU",
   "menu.left.setting.routePath": "Route Path",
+  "menu.left.setting.page": "Dynamic page",
+
 
   "menu.left.settingPage": "Cấu hình trang",
   "menu.left.settingPage.template": "Template",
@@ -403,6 +405,13 @@
   "setting.support.button.add": "Thêm hỗ trợ",
   "setting.support.fontSize": "Font Size",
   "setting.support.isHiddenPhoneIcon": "Phone icon",
+
+  "setting.page.name": "Tên Page",
+  "setting.page.name.page": "Dynamic Page",
+  "setting.page.slug": "Id",
+  "setting.page.description": "Nội dung",
+  "setting.page.action": "Chức năng",
+  "setting.page.button.addPage": "Thêm Page",
 
   "admin.settingPage.template.menu-name": "Template",
   "admin.settingPage.template.title-page": "Cấu hình Template",

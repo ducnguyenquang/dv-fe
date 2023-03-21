@@ -2,7 +2,7 @@ import { Card, Space, Button, UploadFile } from 'antd';
 import Editor from 'app/components/Editor/CkEditorClassic';
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 import { settingPagesHooks } from 'app/containers/Admin/SettingPage/hooks';
-import { PAGE_NAME, SETTINGS } from 'constants/common';
+import { MODULE_NAME, PAGE_NAME, SETTINGS } from 'constants/common';
 import { Common } from 'models/common';
 import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -12,6 +12,8 @@ const LedBlock = (): JSX.Element => {
   const intl = useIntl();
   const [search, setSearch] = useState({
     group: PAGE_NAME.P_HOME,
+    // type: `${MODULE_NAME.M_LED_BLOCK}|${MODULE_NAME.M_CABLE_BLOCK}`,
+    type: MODULE_NAME.M_LED_BLOCK,
   });
   
   const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
@@ -46,12 +48,14 @@ const LedBlock = (): JSX.Element => {
       await updateCommon({
         ...ledIntroductionItem1,
         value: ledIntroduction1,
+        type: MODULE_NAME.M_LED_BLOCK,
       });
     } else {
       await createCommon({
         name: SETTINGS.LED_INTRO_1,
         value: ledIntroduction1,
         group: PAGE_NAME.P_HOME,
+        type: MODULE_NAME.M_LED_BLOCK,
       });
     }
   }, [ledIntroduction1, ledIntroductionItem1, createCommon, updateCommon]);
@@ -61,12 +65,14 @@ const LedBlock = (): JSX.Element => {
       await updateCommon({
         ...ledIntroductionItem2,
         value: ledIntroduction2,
+        type: MODULE_NAME.M_LED_BLOCK,
       });
     } else {
       await createCommon({
         name: SETTINGS.LED_INTRO_2,
         value: ledIntroduction2,
         group: PAGE_NAME.P_HOME,
+        type: MODULE_NAME.M_LED_BLOCK,
       });
     }
   }, [ledIntroduction2, ledIntroductionItem2, createCommon, updateCommon]);
@@ -76,12 +82,14 @@ const LedBlock = (): JSX.Element => {
       await updateCommon({
         ...ledIconImageItem1,
         valueImages: ledIconImageFileList1,
+        type: MODULE_NAME.M_LED_BLOCK,
       });
     } else {
       await createCommon({
         name: SETTINGS.LED_ICON_IMAGE_1,
         valueImages: ledIconImageFileList1,
         group: PAGE_NAME.P_HOME,
+        type: MODULE_NAME.M_LED_BLOCK,
       });
     }
   }, [ledIconImageItem1, updateCommon, ledIconImageFileList1, createCommon]);
@@ -91,12 +99,14 @@ const LedBlock = (): JSX.Element => {
       await updateCommon({
         ...ledIconImageItem2,
         valueImages: ledIconImageFileList2,
+        type: MODULE_NAME.M_LED_BLOCK,
       });
     } else {
       await createCommon({
         name: SETTINGS.LED_ICON_IMAGE_2,
         valueImages: ledIconImageFileList2,
         group: PAGE_NAME.P_HOME,
+        type: MODULE_NAME.M_LED_BLOCK,
       });
     }
   }, [ledIconImageItem2, updateCommon, ledIconImageFileList2, createCommon]);
@@ -105,12 +115,14 @@ const LedBlock = (): JSX.Element => {
     if (ledImageItem) {
       await updateCommon({
         ...ledImageItem,
+        type: MODULE_NAME.M_LED_BLOCK,
         valueImages: ledImageFileList,
       });
     } else {
       await createCommon({
         name: SETTINGS.LED_IMAGE,
         valueImages: ledImageFileList,
+        type: MODULE_NAME.M_LED_BLOCK,
         group: PAGE_NAME.P_HOME,
       });
     }

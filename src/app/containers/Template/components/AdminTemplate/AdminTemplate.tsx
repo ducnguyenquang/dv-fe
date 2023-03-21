@@ -119,6 +119,21 @@ const Template = ({ content }: IProps): JSX.Element => {
       case '/admin/setting/topMenu/update':
         result = 'topMenu';
         break;
+      case '/admin/setting/skus':
+      case '/admin/setting/sku/add':
+      case '/admin/setting/sku/update':
+        result = 'sku';
+        break;
+      case '/admin/setting/routePaths':
+      case '/admin/setting/routePath/add':
+      case '/admin/setting/routePath/update':
+        result = 'routePath';
+        break;
+      case '/admin/setting/pages':
+      case '/admin/setting/page/add':
+      case '/admin/setting/page/update':
+        result = 'page';
+        break;
       default:
         result = 'category';
         break;
@@ -144,7 +159,7 @@ const Template = ({ content }: IProps): JSX.Element => {
   return (
     <Layout className="adminTemplate">
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-        <Link to={'/'} >
+        <Link to={'/'}>
           <Image
             className="adminTemplate-logo"
             preview={false}
@@ -273,7 +288,14 @@ const Template = ({ content }: IProps): JSX.Element => {
                   key: 'routePath',
                   label: intl.formatMessage({ id: 'menu.left.setting.routePath' }),
                   onClick: () => {
-                    navMenuClick({ name: 'sku', url: '/admin/setting/routePath' });
+                    navMenuClick({ name: 'routePath', url: '/admin/setting/routePath' });
+                  },
+                },
+                {
+                  key: 'page',
+                  label: intl.formatMessage({ id: 'menu.left.setting.page' }),
+                  onClick: () => {
+                    navMenuClick({ name: 'page', url: '/admin/setting/pages' });
                   },
                 },
               ],

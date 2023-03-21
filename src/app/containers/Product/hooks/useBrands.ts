@@ -1,27 +1,15 @@
 import { useQuery, UseQueryResult } from 'react-query';
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { CategoryQueryPayload, Category } from 'models/category';
-import { brandsApi, brandsActions } from 'app/containers/Admin/Brand';
+import { CategoryQueryPayload } from 'models/category';
+import { brandsApi } from 'app/containers/Admin/Brand';
+import { productsApi } from 'app/containers/Product';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
 
 export const useBrands = (params: CategoryQueryPayload): UseQueryResult<any> => {
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(productsApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== useProducts params', params)
-
   return useQuery(
     brandsApi.brandsKeys.list(params),
     async () => {
-      const data = await brandsApi.getBrands(params);
+      const data = await productsApi.getBrands(params);
       return data.data;
     },
     {

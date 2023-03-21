@@ -40,22 +40,6 @@ interface IProps {
 }
 
 const Editor = ({ value, onChange, placeholder }: IProps) => {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = { editorHtml: '' };
-  //   this.handleChange = this.handleChange.bind(this);
-  // }
-
-  // handleChange(html) {
-  //   this.setState({ editorHtml: html });
-  //   console.log(html);
-  // }
-
-  // render() {
-
-  // const { quill, quillRef, Quill } = useQuill({
-  //   modules: { blotFormatter: {} }
-  // });
   const editor = useRef<any>();
   const [text, setText] = useState('');
   // var reactElement = htmlToReactParser.parse(text);
@@ -65,7 +49,6 @@ const Editor = ({ value, onChange, placeholder }: IProps) => {
     // console.log(editon?.getModule("toolbar"));
     let tableModule = editon?.getModule("better-table");
     tableModule.insertTable(3, 3);
-    console.log('==== tableModule', tableModule);
   }, []);
 
   return (

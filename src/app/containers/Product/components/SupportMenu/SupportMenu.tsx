@@ -19,7 +19,7 @@ const SupportMenu = (): JSX.Element => {
   const [isHiddenPhoneIcon, setIsHiddenPhoneIcon] = useState<boolean>(false);
   const [fontSize, setFontSize] = useState<number>();
 
-  const { data: supportData, isLoading: isLoadingSupportData } = productsHooks.useSupports({
+  const { data: supportData, isLoading: isLoadingSupportData } = templatesHooks.useSupports({
     pagination: {
       limit: pageSize,
       offset: (page - 1) * pageSize,

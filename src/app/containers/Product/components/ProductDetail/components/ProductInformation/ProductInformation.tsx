@@ -1,5 +1,5 @@
 import { Button, Collapse, Descriptions, Form, InputNumber, Modal, Rate, Tabs } from 'antd';
-import { productsHooks } from 'app/containers/Admin/Product';
+import { templatesHooks } from 'app/containers/Template';
 import { Product } from 'models/product';
 import { useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -26,7 +26,7 @@ const ProductInformation = (): JSX.Element => {
   const [productDetail, setProductDetail] = useState<Product>({});
   const [tabIndex, setTabIndex] = useState('1');
   const [quantity, setQuantity] = useState(1);
-  const { data: productDetailData, isLoading: isLoadingProductDetail } = productsHooks.useProduct({ id });
+  const { data: productDetailData, isLoading: isLoadingProductDetail } = templatesHooks.useProduct({ id });
   const [pdfViewerModalOpen, setPdfViewerModalOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<string>('');
   const { isMobile, orientation } = useContext(AppContext);

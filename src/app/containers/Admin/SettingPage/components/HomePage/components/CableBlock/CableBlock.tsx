@@ -2,7 +2,7 @@ import { Card, Space, Button, UploadFile } from 'antd';
 import Editor from 'app/components/Editor/CkEditorClassic';
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 import { settingPagesHooks } from 'app/containers/Admin/SettingPage/hooks';
-import { PAGE_NAME, SETTINGS } from 'constants/common';
+import { MODULE_NAME, PAGE_NAME, SETTINGS } from 'constants/common';
 import { Common } from 'models/common';
 import { useCallback, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -12,6 +12,7 @@ const CableBlock = (): JSX.Element => {
   const intl = useIntl();
   const [search, setSearch] = useState({
     group: PAGE_NAME.P_HOME,
+    type: MODULE_NAME.M_CABLE_BLOCK,
   });
   
   const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
@@ -46,11 +47,13 @@ const CableBlock = (): JSX.Element => {
       await updateCommon({
         ...cableIntroductionItem1,
         value: cableIntroduction1,
+        type: MODULE_NAME.M_CABLE_BLOCK,
       });
     } else {
       await createCommon({
         name: SETTINGS.CABLE_INTRO_1,
         value: cableIntroduction1,
+        type: MODULE_NAME.M_CABLE_BLOCK,
         group: PAGE_NAME.P_HOME,
       });
     }
@@ -60,12 +63,14 @@ const CableBlock = (): JSX.Element => {
     if (cableIntroductionItem2) {
       await updateCommon({
         ...cableIntroductionItem2,
+        type: MODULE_NAME.M_CABLE_BLOCK,
         value: cableIntroduction2,
       });
     } else {
       await createCommon({
         name: SETTINGS.CABLE_INTRO_2,
         value: cableIntroduction2,
+        type: MODULE_NAME.M_CABLE_BLOCK,
         group: PAGE_NAME.P_HOME,
       });
     }
@@ -75,12 +80,14 @@ const CableBlock = (): JSX.Element => {
     if (cableIconImageItem1) {
       await updateCommon({
         ...cableIconImageItem1,
+        type: MODULE_NAME.M_CABLE_BLOCK,
         valueImages: cableIconImageFileList1,
       });
     } else {
       await createCommon({
         name: SETTINGS.CABLE_ICON_IMAGE_1,
         valueImages: cableIconImageFileList1,
+        type: MODULE_NAME.M_CABLE_BLOCK,
         group: PAGE_NAME.P_HOME,
       });
     }
@@ -90,12 +97,14 @@ const CableBlock = (): JSX.Element => {
     if (cableIconImageItem2) {
       await updateCommon({
         ...cableIconImageItem2,
+        type: MODULE_NAME.M_CABLE_BLOCK,
         valueImages: cableIconImageFileList2,
       });
     } else {
       await createCommon({
         name: SETTINGS.CABLE_ICON_IMAGE_2,
         valueImages: cableIconImageFileList2,
+        type: MODULE_NAME.M_CABLE_BLOCK,
         group: PAGE_NAME.P_HOME,
       });
     }
@@ -105,12 +114,14 @@ const CableBlock = (): JSX.Element => {
     if (cableImageItem) {
       await updateCommon({
         ...cableImageItem,
+        type: MODULE_NAME.M_CABLE_BLOCK,
         valueImages: cableImageFileList,
       });
     } else {
       await createCommon({
         name: SETTINGS.CABLE_IMAGE,
         valueImages: cableImageFileList,
+        type: MODULE_NAME.M_CABLE_BLOCK,
         group: PAGE_NAME.P_HOME,
       });
     }

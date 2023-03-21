@@ -50,3 +50,8 @@ export const PAGE_NAME = {
   P_POPUP_MENU: 'P_POPUP_MENU',
   P_SUPPORT: 'P_SUPPORT',
 };
+
+export const MODULE_NAME = {
+  M_LED_BLOCK: 'M_LED_BLOCK',
+  M_CABLE_BLOCK: 'M_CABLE_BLOCK',
+}

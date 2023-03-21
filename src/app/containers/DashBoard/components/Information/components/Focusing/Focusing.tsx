@@ -6,7 +6,7 @@ import { isMobile } from 'react-device-detect';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext, useEffect, useState } from 'react';
 import { templatesHooks } from 'app/containers/Template';
-import { PAGE_NAME, SETTINGS } from 'constants/common';
+import { MODULE_NAME, PAGE_NAME, SETTINGS } from 'constants/common';
 
 const Focusing = (): JSX.Element => {
   const intl = useIntl();
@@ -27,6 +27,7 @@ const Focusing = (): JSX.Element => {
   const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
     search: {
       group: PAGE_NAME.P_HOME,
+      type: `${MODULE_NAME.M_LED_BLOCK}|${MODULE_NAME.M_CABLE_BLOCK}`
     },
     pagination: {
       limit: 1000,
@@ -81,9 +82,7 @@ const Focusing = (): JSX.Element => {
       }
     }
   }, [isLoadingTemplateData, templateData]);
-  console.log('==== templateData', templateData);
-  console.log('==== cableIconImage1', cableIconImage1);
-
+  
   const loadDefaultImage = (error: any) => {
     error.target.src = defaultImage;
   };

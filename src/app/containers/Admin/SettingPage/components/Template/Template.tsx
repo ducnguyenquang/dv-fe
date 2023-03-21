@@ -74,8 +74,6 @@ const Template = (): JSX.Element => {
 
   const saveLogo = useCallback(async () => {
     let id = logoItem?._id;
-    // console.log('==== logofileList', logofileList); return;
-    
     if (logoItem) {
       await updateCommon({
         ...logoItem,
@@ -85,13 +83,9 @@ const Template = (): JSX.Element => {
       await createCommon({
         name: SETTINGS.LOGO,
         valueImages: logofileList,
-        // valueImages: logofileList.map((item: any) => item.src),
         group: PAGE_NAME.P_TEMPLATE,
       });
-      // id = common?._id;
     }
-
-    // await uploadFile({id, files: logofileList.map((item: any) => item.src)});
   }, [logoItem, updateCommon, logofileList, createCommon]);
 
   const saveTemplate = async () => {
@@ -149,7 +143,6 @@ const Template = (): JSX.Element => {
     </Radio.Button>
   </Radio.Group>
   }, [intl])
-  // console.log('==== layoutStructure', layoutStructure);
   
   return (
     <>

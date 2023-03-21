@@ -2,7 +2,6 @@ import { Checkbox } from 'antd';
 import { productsHooks } from 'app/containers/Product';
 import { Brand } from 'models/brand';
 import { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
 import type { CheckboxValueType, CheckboxOptionType } from 'antd/lib/checkbox/Group';
 
 import './BrandFilter.less';
@@ -25,7 +24,6 @@ const BrandFilter = ({ onBrandSelected, defaultValue }: IProp): JSX.Element => {
 
   const plainOptions = brands
     ? brands.map(item => {
-        // return { label: item.name, value: item.slug, key: item._id } as CheckboxOptionType;
         return { label: item.name, value: JSON.stringify(item), key: item._id } as CheckboxOptionType;
       })
     : undefined;
@@ -40,13 +38,9 @@ const BrandFilter = ({ onBrandSelected, defaultValue }: IProp): JSX.Element => {
     setCheckedList(defaultValue?.map((item: any) => JSON.stringify(item)))
   }, [defaultValue]);
 
-  // console.log('==== BrandFilter checkedList', checkedList)
-
   const onChange = (checkedValues: CheckboxValueType[]) => {
-    // console.log('checked = ', checkedValues);
     setCheckedList(checkedValues);
     if(checkedValues && checkedValues.length > 0) {
-      // onBrandSelected(checkedValues as string[])
       onBrandSelected(checkedValues)
     }
   };

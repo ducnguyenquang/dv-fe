@@ -2,7 +2,7 @@ import { useQuery, UseQueryResult } from 'react-query';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { ProductQueryPayload, Product } from 'models/product';
+import { ProductQueryPayload } from 'models/product';
 import { productsApi, productsActions } from 'app/containers/Product';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
@@ -21,9 +21,7 @@ export const useProducts = (params: ProductQueryPayload): UseQueryResult<{ data:
     productsApi.productsKeys.list(params),
     async () => {
       const { data } = await productsApi.getProducts(params);
-      // console.log('==== data', data)
       storeProductPaginationModals(data);
-
       return data;
     },
     {

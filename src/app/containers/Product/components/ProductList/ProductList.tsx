@@ -3,14 +3,13 @@ import { useContext, useState } from 'react';
 import { BarsOutlined, AppstoreOutlined } from '@ant-design/icons';
 import './ProductList.less';
 import { ListComponent } from './components';
-import { productsHooks, productsSelectors } from 'app/containers/Product';
+import { productsHooks } from 'app/containers/Product';
 import { PAGE, PAGE_SIZE } from 'constants/products';
 import { Product } from 'models/product';
 import { useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { FilterApplied } from '../ProductFilter/components/FilterApplied';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { categoriesHooks } from 'app/containers/Admin/Category';
 import { Context as AppContext } from 'app/context/appContext';
@@ -45,9 +44,7 @@ const ProductList = ({ category }: IProps): JSX.Element => {
   });
 
   useEffect(() => {
-    // console.log('==== categoryData', categoryData)
     if (categoryData && !isCategoryDataLoading && !search?.categories) {
-      // const filterData = search
       const categories = [categoryData?._id]
       setSearch({
         ...search,
@@ -136,16 +133,11 @@ const ProductList = ({ category }: IProps): JSX.Element => {
         defaultPageSize={productData?.pagination?.pageSize}
         current={page}
         onChange={(page, pageSize) => {
-          console.log('==== pageSize', pageSize);
-
           setPage(page);
           setPageSize(pageSize);
         }}
         showSizeChanger
         onShowSizeChange={pageSize => {
-          // console.log('==== pageSize', pageSize);
-
-          // setPageSize(pageSize)
           productData?.pagination?.onShowSizeChange?.(pageSize);
         }}
       />

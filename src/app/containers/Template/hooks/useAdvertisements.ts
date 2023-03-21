@@ -2,9 +2,8 @@ import { useQuery, UseQueryResult } from 'react-query';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { AdvertisementQueryPayload, Advertisement } from 'models/advertisement';
+import { AdvertisementQueryPayload } from 'models/advertisement';
 import { settingsApi, settingsActions } from 'app/containers/Admin/Setting';
-// import { templatesApi } from './index';
 
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
@@ -24,9 +23,7 @@ export const useAdvertisements = (params: AdvertisementQueryPayload): UseQueryRe
     settingsApi.settingsKeys.list(params),
     async () => {
       const data = await templatesApi.getAdvertisements(params);
-      // console.log('==== data', data)
       storeAdvertisementPaginationModals(data);
-
       return data?.data;
     },
     {

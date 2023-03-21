@@ -6,7 +6,7 @@ import endPoint from 'services/api/endPoint.json';
 
 export const getSupports = async (support: SupportQueryPayload): Promise<any> => {
 
-  const api = new BaseService(endPoint.backendUrl, endPoint.getSupportsApi)
+  const api = new BaseService(endPoint.backendUrl, endPoint.getClientSupportsApi)
   const data = await api.post(support);
   return data;
 };

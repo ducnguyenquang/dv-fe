@@ -7,8 +7,14 @@ interface IProps {
 }
 
 const Banner = ({image} : IProps): JSX.Element => {
+  const defaultImage = '/images/no-image.png';
+
+  const loadDefaultImage = (error: any) => {
+    error.target.src = defaultImage;
+  };
+
   return <div className={`banner ${isMobile && 'banner-mobile'}`}>
-    <Image preview={false} src={image} />
+    <Image preview={false} src={image} onError={loadDefaultImage}/>
   </div>
 }
 

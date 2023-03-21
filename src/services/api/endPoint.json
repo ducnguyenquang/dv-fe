@@ -1,5 +1,5 @@
 {
-    "backendUrl": "https://leddaiviet.com:8080",
+    "backendUrl": "http://localhost:4001",
     "loginApi": "/login",
     "changePasswordApi": "/changePassword",
     "registerApi": "/register",
@@ -103,6 +103,14 @@
     "createRoutePathApi": "/route-path/add",
     "updateRoutePathApi": "/route-path/update",
     "removeRoutePathApi": "/route-path/remove",
+
+    "getPagesApi": "/page/list",
+    "getPageApi": "/page",
+    "createPageApi": "/page/add",
+    "updatePageApi": "/page/update",
+    "removePageApi": "/page/remove",
+    "getClientPagesApi": "/page/client/list",
+    "getClientPageApi": "/page/client",
 
     "getCommonsApi": "/common/list",
     "getCommonApi": "/common",

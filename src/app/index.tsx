@@ -37,6 +37,7 @@ import {
   AdminSettingPageProductCategory,
   // settingPagesHooks,
 } from 'app/containers/Admin/SettingPage';
+import { AdminPageTable, AdminPageAdd, AdminPageUpdate } from 'app/containers/Admin/Page';
 
 import { ProductList, ProductDetail, ProductFilter, SupportMenu } from 'app/containers/Product';
 
@@ -49,6 +50,9 @@ import { Contact } from 'app/containers/Contact';
 import { AboutUs } from 'app/containers/AboutUs';
 import { Faq } from 'app/containers/Faq';
 import { SiteMap } from 'app/containers/SiteMap';
+import { PageContent } from 'app/containers/Page';
+
+
 import { ConfigProvider } from 'antd';
 import { useDispatch } from 'react-redux';
 import LanguageProvider from './components/LanguageProvider/LanguageProvider';
@@ -197,7 +201,7 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
               <Route path={'/admin/brands'} element={getAdminTemplate({ content: <AdminBrandTable /> })} />
               <Route path={'/admin/brand/:id'} element={getAdminTemplate({ content: <AdminBrandUpdate /> })} />
               <Route path={'/admin/brand/add'} element={getAdminTemplate({ content: <AdminBrandAdd /> })} />
-
+              
               <Route
                 path={'/admin/setting/emailTemplate'}
                 element={getAdminTemplate({ content: <AdminEmailTemplateTable /> })}
@@ -263,6 +267,9 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
                 element={getAdminTemplate({ content: <AdminTopMenuUpdate /> })}
               />
               <Route path={'/admin/setting/topMenu/add'} element={getAdminTemplate({ content: <AdminTopMenuAdd /> })} />
+              <Route path={'/admin/setting/pages'} element={getAdminTemplate({ content: <AdminPageTable /> })} />
+              <Route path={'/admin/setting/page/:id'} element={getAdminTemplate({ content: <AdminPageUpdate /> })} />
+              <Route path={'/admin/setting/page/add'} element={getAdminTemplate({ content: <AdminPageAdd /> })} />
               <Route
                 path={'/admin/advertisements'}
                 element={getAdminTemplate({ content: <AdminAdvertisementTable /> })}
@@ -340,6 +347,10 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
               <Route
                 path={'/projects'}
                 element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
+              />
+              <Route
+                path={'/page/:id'}
+                element={getTemplate({ content: <PageContent />, leftMenu: <SupportMenu />, hasBreadcrumb: false })}
               />
               <Route path="*" element={getTemplate({ content: <EmptyPage />, leftMenu: <SupportMenu /> })} />
               <Route path="/admin/*" element={getAdminTemplate({ content: <EmptyPage /> })} />

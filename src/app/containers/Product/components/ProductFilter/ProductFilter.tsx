@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { productsActions, productsSelectors } from '../..';
 import { BrandFilter } from './components/BrandFilter';
 import { LedAttributeFilter } from './components/LedAttributeFilter';
-import { CategoryFilter } from './components/CategoryFilter';
-import { TypeFilter } from './components/TypeFilter';
 
 import './ProductFilter.less';
 interface IProps {

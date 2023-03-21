@@ -10,6 +10,7 @@ import { useProducts } from './useProducts';
 import { useProduct } from './useProduct';
 import { useProjects } from './useProjects';
 import { useProject } from './useProject';
+import { useSupports } from './useSupports';
 
 export const templatesHooks = {
   useTagSeos,
@@ -24,4 +25,5 @@ export const templatesHooks = {
   useProduct,
   useProjects,
   useProject,
+  useSupports,
 };

@@ -12,8 +12,6 @@ export const useDeleteSku = (): any => {
 
   return useMutation(
     (params: SkuDeletePayload) => {
-      console.log('==== params', params);
-      
       return settingsApi.deleteSku(params);
     },
     {

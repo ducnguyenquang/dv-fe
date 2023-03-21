@@ -13,8 +13,6 @@ export const useUploadFiles = (): any => {
 
   return useMutation(
     (params: CommonUploadFilesPayload) => {
-      console.log('===== useUploadFiles params', params);
-      
       return settingPagesApi.uploadFiles(params);
     },
     {

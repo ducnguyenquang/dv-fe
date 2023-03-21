@@ -46,7 +46,6 @@ const SupportTable = (): JSX.Element => {
 
   const [fontSize, setFontSize] = useState<string>();
   const [isHiddenPhoneIcon, setIsHiddenPhoneIcon] = useState<boolean>();
-  // const fontSizeRef = useRef(fontSize || 24);
   const [updateItems, setUpdateItems] = useState<Common[]>([]);
   const [createItems, setCreateItems] = useState<Common[]>([]);
   const { data, isLoading } = supportsHooks.useSupports({
@@ -89,12 +88,10 @@ const SupportTable = (): JSX.Element => {
 
       if (hiddenPhoneIcon) {
         setIsHiddenPhoneIconItem(hiddenPhoneIcon);
-        // setIsHiddenPhoneIcon(hiddenPhoneIcon?.value === 'true' ? true : false);
       }
 
       if (fontSize) {
         setFontSizeItem(fontSize);
-        // setFontSize(fontSize?.value);
       }
     }
   }, [isLoadingTemplateData, templateData]);
@@ -107,7 +104,7 @@ const SupportTable = (): JSX.Element => {
 
   const getSupportDetail = async (row: DataType) => {
     await dispatch(supportsActions.setSupportDetail(row));
-    navigate(`/admin/setting/support/${row?._id}`);
+    navigate(`/admin/setting/support/${row?._id}`, { replace: true });
   };
 
   const onDeleteSupport = async (id: string) => {
@@ -306,21 +303,11 @@ const SupportTable = (): JSX.Element => {
   }, [deleteCommon, isHiddenPhoneIconItem]);
 
   const saveIsHiddenPhoneIcon = useCallback(async () => {
-    // const checked = isHiddenPhoneIcon;
-    // setIsHiddenPhoneIcon(hidden);
-    console.log('==== saveIsHiddenPhoneIcon isHiddenPhoneIcon', isHiddenPhoneIcon);
     if (isHiddenPhoneIcon !== undefined) {
       const hidden = !isHiddenPhoneIcon;
 
-      console.log('==== isHiddenPhoneIconItem', isHiddenPhoneIconItem);
-      console.log('==== hidden', hidden);
-
       if (isHiddenPhoneIconItem) {
-        console.log('===1');
         const isHidden = isHiddenPhoneIconItem?.value === 'true' ? true : false;
-        console.log('==== hidden.toString() !== isHiddenPhoneIconItem?.value', hidden !== isHidden);
-
-        // if (hidden !== isHidden) {
         await updateCommon({
           ...isHiddenPhoneIconItem,
           value: hidden,
@@ -360,13 +347,10 @@ const SupportTable = (): JSX.Element => {
   const resetFontSize = useCallback(async () => {
     if (fontSizeItem) {
       await deleteCommon(fontSizeItem._id);
-      // setFontSize('24');
     }
   }, [deleteCommon, fontSizeItem]);
 
   const saveSupportSettings = async () => {
-    // const updateItems = [];
-    // const createItems = [];
     if (fontSize !== undefined) {
       if (fontSizeItem) {
         if (fontSize !== fontSizeItem.value) {
@@ -411,21 +395,12 @@ const SupportTable = (): JSX.Element => {
       await createCommons({ data: createItems });
       setCreateItems([])
     }
-
-    
-
-    // await saveFontSize();
-    // await saveIsHiddenPhoneIcon();
   };
 
   const resetSupportSettings = async () => {
     await resetFontSize();
     await resetIsHiddenPhoneIcon();
   };
-
-  // const onChangeFontSize = (value: string) => {
-  //   setUpdateItems([...updateItems, ])
-  // }
 
   return (
     <div className="a-suppport">
@@ -438,7 +413,7 @@ const SupportTable = (): JSX.Element => {
             <Button
               type="primary"
               htmlType="submit"
-              onClick={() => navigate(`/admin/setting/support/add`)}
+              onClick={() => navigate(`/admin/setting/support/add`, { replace: true })}
             >
               {intl.formatMessage({ id: 'setting.support.button.add' })}
             </Button>
@@ -470,7 +445,6 @@ const SupportTable = (): JSX.Element => {
                 </span>
                 <Switch
                   defaultChecked={isHiddenPhoneIconItem?.value === 'true' ? false : true}
-                  // checked={!isHiddenPhoneIcon}
                   checkedChildren={intl.formatMessage({ id: 'common.button.show' })}
                   unCheckedChildren={intl.formatMessage({ id: 'common.button.hidden' })}
                   onChange={checked => setIsHiddenPhoneIcon(checked)}

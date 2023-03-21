@@ -54,7 +54,6 @@ const brandsSlice = createSlice({
       state.isLoading = payload;
     },
     setBrandDetail: (state, { payload }) => {
-      // console.log('==== setProductDetail', payload)
       state.brandDetail = payload;
     },
   },

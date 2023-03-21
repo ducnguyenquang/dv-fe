@@ -3,16 +3,11 @@ import {
   } from '@ant-design/icons';
 import { Tag, Input, InputRef, Tooltip } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
 import { TagSeo } from 'models/tagSeo';
 
 import './TagSeoItems.less'
 import { settingsHooks } from 'app/containers/Admin/Setting/hooks';
 
-interface DataType {
-  tags: any
-}
 
 interface IProps {
     data: TagSeo[];
@@ -20,10 +15,6 @@ interface IProps {
   }
 
 const TagSeoItems = ({ data, onChangeTagSeo } : IProps): JSX.Element => {
-  const dispatch = useDispatch();
-  // const [products, setProducts] = useState<any>([]);
-  const intl = useIntl();
-
   const [tags, setTags] = useState<TagSeo[]>([]);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -32,11 +23,10 @@ const TagSeoItems = ({ data, onChangeTagSeo } : IProps): JSX.Element => {
   const inputRef = useRef<InputRef>(null);
   const editInputRef = useRef<InputRef>(null);
 
-  const { mutateAsync: updateTagSeo, isLoading: isLoadingUpdateTagSeo } = settingsHooks.useUpdateTagSeo();
-  const { mutateAsync: createTagSeo, isLoading: isLoadingCreateTagSeo } = settingsHooks.useCreateTagSeo();
-  const { mutateAsync: deleteTagSeo, isLoading: isLoadingDeleteTagSeo } = settingsHooks.useDeleteTagSeo();
+  const { mutateAsync: updateTagSeo } = settingsHooks.useUpdateTagSeo();
+  const { mutateAsync: createTagSeo } = settingsHooks.useCreateTagSeo();
+  const { mutateAsync: deleteTagSeo } = settingsHooks.useDeleteTagSeo();
 
-  console.log('=== TagSeoItems data', data)
   useEffect(() => {
     if (data) {
       setTags(data);
@@ -54,10 +44,7 @@ const TagSeoItems = ({ data, onChangeTagSeo } : IProps): JSX.Element => {
   }, [inputValue]);
 
   const handleClose = async (name: string) => {
-    // const newTags = tags.filter(tag => tag.name !== name);
     const removeTag = tags.find(tag => tag.name === name);
-
-    // console.log('==== handleClose newTags', removeTag);
     const tag = await deleteTagSeo(removeTag);
     const newTags = tags.filter(item => item.name !== tag.name);
     setTags(newTags);
@@ -68,22 +55,13 @@ const TagSeoItems = ({ data, onChangeTagSeo } : IProps): JSX.Element => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const dataChanged = tags.filter(tag => tag.name === e.target.value)
     setInputValue(e.target.value);
   };
 
   const handleInputConfirm = async () => {
-    // console.log('==== handleInputConfirm inputValue', inputValue)
     const tagSeoExisting = tags?.filter(item => item.name === inputValue)
-    // console.log('==== handleInputConfirm tagSeoExisting', tagSeoExisting)
-
-    // const newTagSeo = { name: inputValue }
-
     if (inputValue && tagSeoExisting && tagSeoExisting.length === 0) {
-      
-      // onChangeTagSeo(tagUpdate);
       const tag = await createTagSeo({ name: inputValue });
-      // console.log('==== tag', tag);
       const tagUpdate = [...tags, tag]
       setTags(tagUpdate);
     } else {
@@ -99,7 +77,7 @@ const TagSeoItems = ({ data, onChangeTagSeo } : IProps): JSX.Element => {
 
   const handleEditInputConfirm = async () => {
     const newTags = tags;
-    // const itemUpdate = tags.find(item => )
+
     newTags[editInputIndex].name = editInputValue;
     await updateTagSeo(newTags[editInputIndex]);
 
@@ -132,17 +110,15 @@ const TagSeoItems = ({ data, onChangeTagSeo } : IProps): JSX.Element => {
           <Tag
             className="edit-tag"
             key={tag.name}
-            // closable={index !== 0}
+
             closable={true}
             onClose={() => handleClose(tag?.name as string)}
           >
             <span
               onDoubleClick={e => {
-                // if (index !== 0) {
                   setEditInputIndex(index);
                   setEditInputValue(tag?.name as string);
                   e.preventDefault();
-                // }
               }}
             >
               {isLongTag && tag.name ? `${tag.name.slice(0, 20)}...` : tag.name}

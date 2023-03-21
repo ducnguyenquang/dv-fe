@@ -21,9 +21,7 @@ export const useProjects = (params: ProjectQueryPayload): UseQueryResult<{ data:
     projectsApi.projectsKeys.list(params),
     async () => {
       const data = await projectsApi.getProjects(params);
-      // console.log('==== data', data)
       storeProjectPaginationModals(data);
-
       return data;
     },
     {

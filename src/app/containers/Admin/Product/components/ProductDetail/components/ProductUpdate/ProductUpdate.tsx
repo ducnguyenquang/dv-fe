@@ -6,7 +6,6 @@ import type { UploadFile } from 'antd/es/upload/interface';
 import { productsHooks } from 'app/containers/Admin/Product';
 import { ProductDetailForm } from '../ProductDetailForm';
 import { useCallback } from 'react';
-import { Brand } from 'models/brand';
 
 const ProductUpdate = (): JSX.Element => {
   const { id } = useParams();
@@ -27,8 +26,6 @@ const ProductUpdate = (): JSX.Element => {
 
   const onFinish = useCallback(
     async (values: any) => {
-      console.log('==== updateProduct values', values);
-      
       await updateProduct({
         ...values,
         _id: productDetailData?._id,

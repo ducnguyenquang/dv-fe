@@ -17,7 +17,6 @@ const projectsSlice = createSlice({
   initialState,
   reducers: {
     setProjectsPagination: (state, { payload }) => {
-      // state.projects = payload.data;
       state.pagination = payload.pagination;
     },
     setProjects: (state, { payload }) => {
@@ -28,7 +27,6 @@ const projectsSlice = createSlice({
       state.isLoading = payload;
     },
     setProjectDetail: (state, { payload }) => {
-      // console.log('==== setProjectDetail', payload)
       state.projectDetail = payload;
     },
   },

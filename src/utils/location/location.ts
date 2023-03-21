@@ -146,17 +146,6 @@ export const getCities = () => {
 };
 
 export const getWards = (code: string) => {
-  // return wardData[`${code}`];
   const data = wardData[`${code}`]
-  // console.log('==== getWards data', data);
-  //return;
-  // let result = [];
-  
-  // for(let item in data) {
-  //   result.push({
-  //     ...wardData[`${code}`][`${item}`],
-  //     name: wardData[`${code}`][`${item}`].district.name,
-  //   });
-  // }
   return data.district;
 };

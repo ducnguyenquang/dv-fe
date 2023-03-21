@@ -76,15 +76,9 @@ const getRequestHeaders = async () => {
  */
 
 const handleResponseData = (data: AxiosResponse<any, any>) => {
-  // console.log('==== handleResponseData', data)
-
   if ((data && data.status === 200) || data.status === 201) {
-    // console.log('==== handleResponseData 111')
-
     return Promise.resolve(data);
   }
-  // console.log('==== handleResponseData 222')
-
   return Promise.reject(data);
 };
 
@@ -113,10 +107,6 @@ export const GET = async (path: string, options: {} | undefined) => {
 export const POST = async (path: string, payload: any, options?: {responseType: any} | undefined) => {
   const requestHeaders = await getRequestHeaders();
   path = getFullAPILink(path, options);
-  // console.log('==== POST requestHeaders', requestHeaders)
-  // console.log('==== POST path', path)
-
-
   return service
     .request({
       method: 'POST',
@@ -129,13 +119,9 @@ export const POST = async (path: string, payload: any, options?: {responseType: 
     })
     .then(
       data => {
-        // console.log('==== POST data', data)
-
         return handleResponseData(data);
       },
       err => {
-        // console.log('==== POST err', err)
-
         return handleError(err);
       },
     );

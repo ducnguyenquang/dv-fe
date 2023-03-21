@@ -1,30 +1,14 @@
 import { useQuery, UseQueryResult } from 'react-query';
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { CategoryQueryPayload, Category } from 'models/category';
-import { categoriesApi, categoriesActions } from 'app/containers/Admin/Category';
+import { CategoryQueryPayload } from 'models/category';
+import { categoriesApi } from 'app/containers/Admin/Category';
 import { apiErrorHandler } from 'utils';
 import { ErrorResponse } from 'models/error';
 
 export const useCategories = (params: CategoryQueryPayload): UseQueryResult<any> => {
-  // const dispatch = useDispatch();
-
-  // const storeEquipmentPaginationModals = useCallback(
-  //   pagination => {
-  //     dispatch(categoriesApi.setEquipmentPagination(pagination));
-  //   },
-  //   [dispatch]
-  // );
-  // console.log('==== usecategories params', params)
-
   return useQuery(
     categoriesApi.categoriesKeys.list(params),
     async () => {
       const data = await categoriesApi.getCategories(params);
-      // console.log('==== data', data)
-      // storeEquipmentPaginationModals(data?.page);
-
       return data.data;
     },
     {
