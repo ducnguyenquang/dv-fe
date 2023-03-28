@@ -10,7 +10,7 @@ const BottomFooter = (): JSX.Element => {
   const { orientation, isMobile } = useContext(AppContext);
 
   return <div className={`bottomFooter ${isMobile && 'bottomFooter-mobile'}`}>
-    <div className={`leftSide ${orientation === ORIENTATION.PORTRAIT && 'displayNone'}`}>{intl.formatMessage({ id: 'template.footer.copyright' }, {year: new Date().getFullYear()})}</div>
+    <div className={`leftSide ${isMobile && orientation === ORIENTATION.PORTRAIT && 'displayNone'}`}>{intl.formatMessage({ id: 'template.footer.copyright' }, {year: new Date().getFullYear()})}</div>
     <div className='rightSide'>
       <div className='content'>
         <span>{intl.formatMessage({ id: 'template.footer.hotline' }, {phone: '+84 028.38428991'})}</span>

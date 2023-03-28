@@ -12,10 +12,9 @@ const LedBlock = (): JSX.Element => {
   const intl = useIntl();
   const [search, setSearch] = useState({
     group: PAGE_NAME.P_HOME,
-    // type: `${MODULE_NAME.M_LED_BLOCK}|${MODULE_NAME.M_CABLE_BLOCK}`,
     type: MODULE_NAME.M_LED_BLOCK,
   });
-  
+
   const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
     search,
     pagination: {
@@ -23,10 +22,13 @@ const LedBlock = (): JSX.Element => {
       offset: 0,
     },
   });
-
-  const { mutateAsync: updateCommon } = settingPagesHooks.useUpdateTemplate();
-  const { mutateAsync: createCommon } = settingPagesHooks.useCreateTemplate();
+  
+  const { mutateAsync: updateCommons } = settingPagesHooks.useUpdateTemplates();
+  const { mutateAsync: createCommons } = settingPagesHooks.useCreateTemplates();
   const { mutateAsync: deleteCommon } = settingPagesHooks.useDeleteTemplate();
+
+  const [updateItems, setUpdateItems] = useState<Common[]>([]);
+  const [createItems, setCreateItems] = useState<Common[]>([]);
 
   const [ledImageItem, setLedImageItem] = useState<Common>();
   const [ledImageFileList, setLedImageFileList] = useState<UploadFile[]>([]);
@@ -44,98 +46,127 @@ const LedBlock = (): JSX.Element => {
   const [ledIntroduction2, setLedIntroduction2] = useState<string>();
 
   const saveLedIntroduction1 = useCallback(async () => {
-    if (ledIntroductionItem1) {
-      await updateCommon({
-        ...ledIntroductionItem1,
-        value: ledIntroduction1,
-        type: MODULE_NAME.M_LED_BLOCK,
-      });
-    } else {
-      await createCommon({
-        name: SETTINGS.LED_INTRO_1,
-        value: ledIntroduction1,
-        group: PAGE_NAME.P_HOME,
-        type: MODULE_NAME.M_LED_BLOCK,
-      });
+    if (ledIntroduction1 !== undefined) {
+      if (ledIntroductionItem1) {
+        if (ledIntroduction1 !== ledIntroductionItem1.value) {
+          updateItems.push({
+            ...ledIntroductionItem1,
+            type: MODULE_NAME.M_LED_BLOCK,
+            value: ledIntroduction1,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.LED_INTRO_1,
+          value: ledIntroduction1,
+          type: MODULE_NAME.M_LED_BLOCK,
+          group: PAGE_NAME.P_HOME,
+        });
+      }
     }
-  }, [ledIntroduction1, ledIntroductionItem1, createCommon, updateCommon]);
+  }, [ledIntroduction1, ledIntroductionItem1, updateItems, createItems]);
 
   const saveLedIntroduction2 = useCallback(async () => {
-    if (ledIntroductionItem2) {
-      await updateCommon({
-        ...ledIntroductionItem2,
-        value: ledIntroduction2,
-        type: MODULE_NAME.M_LED_BLOCK,
-      });
-    } else {
-      await createCommon({
-        name: SETTINGS.LED_INTRO_2,
-        value: ledIntroduction2,
-        group: PAGE_NAME.P_HOME,
-        type: MODULE_NAME.M_LED_BLOCK,
-      });
+    if (ledIntroduction2 !== undefined) {
+      if (ledIntroductionItem2) {
+        if (ledIntroduction2 !== ledIntroductionItem2.value) {
+          updateItems.push({
+            ...ledIntroductionItem2,
+            type: MODULE_NAME.M_LED_BLOCK,
+            value: ledIntroduction2,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.LED_INTRO_2,
+          value: ledIntroduction2,
+          type: MODULE_NAME.M_LED_BLOCK,
+          group: PAGE_NAME.P_HOME,
+        });
+      }
     }
-  }, [ledIntroduction2, ledIntroductionItem2, createCommon, updateCommon]);
+  }, [ledIntroduction2, ledIntroductionItem2, updateItems, createItems]);
 
   const saveLedIconImage1 = useCallback(async () => {
-    if (ledIconImageItem1) {
-      await updateCommon({
-        ...ledIconImageItem1,
-        valueImages: ledIconImageFileList1,
-        type: MODULE_NAME.M_LED_BLOCK,
-      });
-    } else {
-      await createCommon({
-        name: SETTINGS.LED_ICON_IMAGE_1,
-        valueImages: ledIconImageFileList1,
-        group: PAGE_NAME.P_HOME,
-        type: MODULE_NAME.M_LED_BLOCK,
-      });
+    if (ledIconImageFileList1 !== undefined) {
+      if (ledIconImageItem1) {
+        if (ledIconImageFileList1 !== ledIconImageItem1.valueImages) {
+          updateItems.push({
+            ...ledIconImageItem1,
+            type: MODULE_NAME.M_LED_BLOCK,
+            valueImages: ledIconImageFileList1,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.LED_ICON_IMAGE_1,
+          valueImages: ledIconImageFileList1,
+          type: MODULE_NAME.M_LED_BLOCK,
+          group: PAGE_NAME.P_HOME,
+        });
+      }
     }
-  }, [ledIconImageItem1, updateCommon, ledIconImageFileList1, createCommon]);
+  }, [ledIconImageFileList1, ledIconImageItem1, updateItems, createItems]);
 
   const saveLedIconImage2 = useCallback(async () => {
-    if (ledIconImageItem2) {
-      await updateCommon({
-        ...ledIconImageItem2,
-        valueImages: ledIconImageFileList2,
-        type: MODULE_NAME.M_LED_BLOCK,
-      });
-    } else {
-      await createCommon({
-        name: SETTINGS.LED_ICON_IMAGE_2,
-        valueImages: ledIconImageFileList2,
-        group: PAGE_NAME.P_HOME,
-        type: MODULE_NAME.M_LED_BLOCK,
-      });
+    if (ledIconImageFileList2 !== undefined) {
+      if (ledIconImageItem2) {
+        if (ledIconImageFileList2 !== ledIconImageItem2.valueImages) {
+          updateItems.push({
+            ...ledIconImageItem2,
+            type: MODULE_NAME.M_LED_BLOCK,
+            valueImages: ledIconImageFileList2,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.LED_ICON_IMAGE_2,
+          valueImages: ledIconImageFileList2,
+          type: MODULE_NAME.M_LED_BLOCK,
+          group: PAGE_NAME.P_HOME,
+        });
+      }
     }
-  }, [ledIconImageItem2, updateCommon, ledIconImageFileList2, createCommon]);
+  }, [createItems, ledIconImageFileList2, ledIconImageItem2, updateItems]);
 
   const saveLedImage = useCallback(async () => {
-    if (ledImageItem) {
-      await updateCommon({
-        ...ledImageItem,
-        type: MODULE_NAME.M_LED_BLOCK,
-        valueImages: ledImageFileList,
-      });
-    } else {
-      await createCommon({
-        name: SETTINGS.LED_IMAGE,
-        valueImages: ledImageFileList,
-        type: MODULE_NAME.M_LED_BLOCK,
-        group: PAGE_NAME.P_HOME,
-      });
+    if (ledImageFileList !== undefined) {
+      if (ledImageItem) {
+        if (ledImageFileList !== ledImageItem.valueImages) {
+          updateItems.push({
+            ...ledImageItem,
+            type: MODULE_NAME.M_LED_BLOCK,
+            valueImages: ledImageFileList,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.LED_IMAGE,
+          valueImages: ledImageFileList,
+          type: MODULE_NAME.M_LED_BLOCK,
+          group: PAGE_NAME.P_HOME,
+        });
+      }
     }
-  }, [ledImageItem, updateCommon, ledImageFileList, createCommon]);
+  }, [ledImageFileList, ledImageItem, updateItems, createItems]);
 
   const saveLed = async () => {
-    await saveLedImage();
-    await saveLedIconImage1();
-    await saveLedIconImage2();
-    await saveLedIntroduction1();
-    await saveLedIntroduction2();
-  };
+    saveLedImage();
+    saveLedIconImage1();
+    saveLedIconImage2();
+    saveLedIntroduction1();
+    saveLedIntroduction2();
 
+    if (updateItems.length > 0) {
+      await updateCommons({ data: updateItems });
+      setUpdateItems([]);
+    }
+
+    if (createItems.length > 0) {
+      await createCommons({ data: createItems });
+      setCreateItems([]);
+    }
+  };
 
   const resetLedIntroduction1 = useCallback(async () => {
     if (ledIntroductionItem1) {

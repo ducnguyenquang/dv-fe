@@ -23,62 +23,57 @@ interface IProps {
 // ];
 
 const editorConfig = {
-  // plugins: [ Font, /* ... */ ],
-  // toolbar: ['heading', 'bulletedList', 'numberedList', 'fontFamily', 'undo', 'redo'],
   toolbar: {
     items: [
-      'exportPDF',
-      'exportWord',
+      // 'exportPDF',
+      // 'exportWord',
+      // '|',
+      'undo',
+      'redo',
       '|',
-      'findAndReplace',
-      'selectAll',
-      '|',
+
       'heading',
+      '|',
+      {
+        label: 'Fonts',
+        icon: 'text',
+        items: ['fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight'],
+      },
       '|',
       'bold',
       'italic',
-      'strikethrough',
       'underline',
-      'code',
-      'subscript',
-      'superscript',
-      'removeFormat',
+      {
+        label: 'More basic styles',
+        icon: 'threeVerticalDots',
+        items: ['strikethrough', 'superscript', 'subscript'],
+      },
       '|',
-      'bulletedList',
-      'numberedList',
-      'todoList',
+      {
+        // A "plus" sign icon works best for content insertion tools.
+        label: 'Insert',
+        icon: 'plus',
+        items: [ 'uploadImage', 'insertTable', 'link', 'blockQuote', 'specialCharacters' ]
+    },
+    '|',
+    {
+        // This drop-down has the icon disabled and a text label instead.
+        label: 'Lists',
+        icon: false,
+        items: [ 'bulletedList', 'numberedList', 'todoList' ]
+    },
+    '|',
+    'alignment',
       '|',
       'outdent',
       'indent',
       '|',
-      'undo',
-      'redo',
-      '-',
-      'fontSize',
-      'fontFamily',
-      'fontColor',
-      'fontBackgroundColor',
-      'highlight',
-      '|',
-      'alignment',
-      '|',
-      'link',
-      'insertImage',
-      'blockQuote',
-      'insertTable',
-      'mediaEmbed',
-      'codeBlock',
-      'htmlEmbed',
-      '|',
-      'specialCharacters',
-      'horizontalLine',
-      'pageBreak',
-      '|',
-      'textPartLanguage',
-      '|',
       'sourceEditing',
+      '|',
+      'findAndReplace',
+      'selectAll',
     ],
-    shouldNotGroupWhenFull: true,
+    shouldNotGroupWhenFull: false,
   },
   // Changing the language of the interface requires loading the language file using the <script> tag.
   // language: 'es',
@@ -201,53 +196,57 @@ const editorConfig = {
   },
   // The "super-build" contains more premium features that require additional configuration, disable them below.
   // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.
-  removePlugins: [
-    'CKBox',
-    'CKFinder',
-    'EasyImage',
-    'RealTimeCollaborativeComments',
-    'RealTimeCollaborativeTrackChanges',
-    'RealTimeCollaborativeRevisionHistory',
-    'PresenceList',
-    'Comments',
-    'TrackChanges',
-    'TrackChangesData',
-    'RevisionHistory',
-    'Pagination',
-    'WProofreader',
-    'MathType',
-  ],
+  // removePlugins: [
+  //   'CKBox',
+  //   'CKFinder',
+  //   'EasyImage',
+  //   'RealTimeCollaborativeComments',
+  //   'RealTimeCollaborativeTrackChanges',
+  //   'RealTimeCollaborativeRevisionHistory',
+  //   'PresenceList',
+  //   'Comments',
+  //   'TrackChanges',
+  //   'TrackChangesData',
+  //   'RevisionHistory',
+  //   'Pagination',
+  //   'WProofreader',
+  //   'MathType',
+  // ],
+  image: {
+    toolbar: [ 'toggleImageCaption', 'imageTextAlternative' ]
+  }
 };
 
 const ClassicEditor = ({ value, onChange, placeholder }: IProps) => {
   return (
     // <CKEditorContext context={ Context }>
-      <CKEditor
-        editor={Editor}
-        // editor={ClassicEditorPlugin}
-        data={value}
+    <CKEditor
+      editor={Editor}
+      // editor={ClassicEditorPlugin}
+      data={value}
       //   config={ {
       //     plugins: [ Font ],
       //       toolbar: [ 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor' ]
 
       // } }
-        config={editorConfig}
-        onReady={(editor: any) => {
-          // You can store the "editor" and use when it is needed.
-          // console.log('Editor is ready to use!', editor);
-        }}
-        onChange={(event: any, editor: any) => {
-          const data = editor.getData();
-          // console.log({ event, editor, data });
-          onChange(data);
-        }}
-        onBlur={(event: any, editor: any) => {
-          // console.log('Blur.', editor);
-        }}
-        onFocus={(event: any, editor: any) => {
-          // console.log('Focus.', editor);
-        }}
-      />
+      initialQuality={0.8}
+      config={editorConfig}
+      onReady={(editor: any) => {
+        // You can store the "editor" and use when it is needed.
+        // console.log('Editor is ready to use!', editor);
+      }}
+      onChange={(event: any, editor: any) => {
+        const data = editor.getData();
+        // console.log({ event, editor, data });
+        onChange(data);
+      }}
+      onBlur={(event: any, editor: any) => {
+        // console.log('Blur.', editor);
+      }}
+      onFocus={(event: any, editor: any) => {
+        // console.log('Focus.', editor);
+      }}
+    />
     // </CKEditorContext>
   );
   // }

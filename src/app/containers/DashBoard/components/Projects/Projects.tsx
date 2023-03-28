@@ -18,7 +18,7 @@ const Projects = (): JSX.Element => {
   });
 
   return (
-    <div className={`project ${isMobile && 'project-mobile'} ${isMobile && orientation && `project-mobile-${orientation}`}`}>
+    <div id='project' className={`project ${isMobile && 'project-mobile'} ${isMobile && orientation && `project-mobile-${orientation}`}`}>
       <div className="header">{intl.formatMessage({ id: 'dashboard.project.title' })}</div>
       <div className="summary">{intl.formatMessage({ id: 'dashboard.project.content' })}</div>
 

@@ -70,6 +70,7 @@ type ProductQueryBase = {
   search?: {};
   roles?: string[];
   states?: string[];
+  autocompleted?: boolean;
 };
 
 export type ProductQueryPayload = Partial<ProductQueryBase>;

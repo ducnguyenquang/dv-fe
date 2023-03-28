@@ -23,9 +23,12 @@ const CableBlock = (): JSX.Element => {
     },
   });
 
-  const { mutateAsync: updateCommon } = settingPagesHooks.useUpdateTemplate();
-  const { mutateAsync: createCommon } = settingPagesHooks.useCreateTemplate();
   const { mutateAsync: deleteCommon } = settingPagesHooks.useDeleteTemplate();
+  const { mutateAsync: updateCommons } = settingPagesHooks.useUpdateTemplates();
+  const { mutateAsync: createCommons } = settingPagesHooks.useCreateTemplates();
+
+  const [updateItems, setUpdateItems] = useState<Common[]>([]);
+  const [createItems, setCreateItems] = useState<Common[]>([]);
 
   const [cableImageItem, setCableImageItem] = useState<Common>();
   const [cableImageFileList, setCableImageFileList] = useState<UploadFile[]>([]);
@@ -43,96 +46,126 @@ const CableBlock = (): JSX.Element => {
   const [cableIntroduction2, setCableIntroduction2] = useState<string>();
 
   const saveCableIntroduction1 = useCallback(async () => {
-    if (cableIntroductionItem1) {
-      await updateCommon({
-        ...cableIntroductionItem1,
-        value: cableIntroduction1,
-        type: MODULE_NAME.M_CABLE_BLOCK,
-      });
-    } else {
-      await createCommon({
-        name: SETTINGS.CABLE_INTRO_1,
-        value: cableIntroduction1,
-        type: MODULE_NAME.M_CABLE_BLOCK,
-        group: PAGE_NAME.P_HOME,
-      });
+    if (cableIntroduction1 !== undefined) {
+      if (cableIntroductionItem1) {
+        if (cableIntroduction1 !== cableIntroductionItem1.value) {
+          updateItems.push({
+            ...cableIntroductionItem1,
+            type: MODULE_NAME.M_CABLE_BLOCK,
+            value: cableIntroduction1,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.CABLE_INTRO_1,
+          value: cableIntroduction1,
+          type: MODULE_NAME.M_CABLE_BLOCK,
+          group: PAGE_NAME.P_HOME,
+        });
+      }
     }
-  }, [cableIntroduction1, cableIntroductionItem1, createCommon, updateCommon]);
+  }, [cableIntroduction1, cableIntroductionItem1, createItems, updateItems]);
 
   const saveCableIntroduction2 = useCallback(async () => {
-    if (cableIntroductionItem2) {
-      await updateCommon({
-        ...cableIntroductionItem2,
-        type: MODULE_NAME.M_CABLE_BLOCK,
-        value: cableIntroduction2,
-      });
-    } else {
-      await createCommon({
-        name: SETTINGS.CABLE_INTRO_2,
-        value: cableIntroduction2,
-        type: MODULE_NAME.M_CABLE_BLOCK,
-        group: PAGE_NAME.P_HOME,
-      });
+    if (cableIntroduction2 !== undefined) {
+      if (cableIntroductionItem2) {
+        if (cableIntroduction2 !== cableIntroductionItem2.value) {
+          updateItems.push({
+            ...cableIntroductionItem2,
+            type: MODULE_NAME.M_CABLE_BLOCK,
+            value: cableIntroduction2,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.CABLE_INTRO_2,
+          value: cableIntroduction2,
+          type: MODULE_NAME.M_CABLE_BLOCK,
+          group: PAGE_NAME.P_HOME,
+        });
+      }
     }
-  }, [cableIntroduction2, cableIntroductionItem2, createCommon, updateCommon]);
+  }, [cableIntroduction2, cableIntroductionItem2, createItems, updateItems]);
 
   const saveCableIconImage1 = useCallback(async () => {
-    if (cableIconImageItem1) {
-      await updateCommon({
-        ...cableIconImageItem1,
-        type: MODULE_NAME.M_CABLE_BLOCK,
-        valueImages: cableIconImageFileList1,
-      });
-    } else {
-      await createCommon({
-        name: SETTINGS.CABLE_ICON_IMAGE_1,
-        valueImages: cableIconImageFileList1,
-        type: MODULE_NAME.M_CABLE_BLOCK,
-        group: PAGE_NAME.P_HOME,
-      });
+    if (cableIconImageFileList1 !== undefined) {
+      if (cableIconImageItem1) {
+        if (cableIconImageFileList1 !== cableIconImageItem1.valueImages) {
+          updateItems.push({
+            ...cableIconImageItem1,
+            type: MODULE_NAME.M_CABLE_BLOCK,
+            valueImages: cableIconImageFileList1,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.CABLE_ICON_IMAGE_1,
+          valueImages: cableIconImageFileList1,
+          type: MODULE_NAME.M_CABLE_BLOCK,
+          group: PAGE_NAME.P_HOME,
+        });
+      }
     }
-  }, [cableIconImageItem1, updateCommon, cableIconImageFileList1, createCommon]);
+  }, [cableIconImageFileList1, cableIconImageItem1, updateItems, createItems]);
 
   const saveCableIconImage2 = useCallback(async () => {
-    if (cableIconImageItem2) {
-      await updateCommon({
-        ...cableIconImageItem2,
-        type: MODULE_NAME.M_CABLE_BLOCK,
-        valueImages: cableIconImageFileList2,
-      });
-    } else {
-      await createCommon({
-        name: SETTINGS.CABLE_ICON_IMAGE_2,
-        valueImages: cableIconImageFileList2,
-        type: MODULE_NAME.M_CABLE_BLOCK,
-        group: PAGE_NAME.P_HOME,
-      });
+    if (cableIconImageFileList2 !== undefined) {
+      if (cableIconImageItem2) {
+        if (cableIconImageFileList2 !== cableIconImageItem2.valueImages) {
+          updateItems.push({
+            ...cableIconImageItem2,
+            type: MODULE_NAME.M_CABLE_BLOCK,
+            valueImages: cableIconImageFileList2,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.CABLE_ICON_IMAGE_2,
+          valueImages: cableIconImageFileList2,
+          type: MODULE_NAME.M_CABLE_BLOCK,
+          group: PAGE_NAME.P_HOME,
+        });
+      }
     }
-  }, [cableIconImageItem2, updateCommon, cableIconImageFileList2, createCommon]);
+  }, [cableIconImageFileList2, cableIconImageItem2, updateItems, createItems]);
 
   const saveCableImage = useCallback(async () => {
-    if (cableImageItem) {
-      await updateCommon({
-        ...cableImageItem,
-        type: MODULE_NAME.M_CABLE_BLOCK,
-        valueImages: cableImageFileList,
-      });
-    } else {
-      await createCommon({
-        name: SETTINGS.CABLE_IMAGE,
-        valueImages: cableImageFileList,
-        type: MODULE_NAME.M_CABLE_BLOCK,
-        group: PAGE_NAME.P_HOME,
-      });
+    if (cableImageFileList !== undefined) {
+      if (cableImageItem) {
+        if (cableImageFileList !== cableImageItem.valueImages) {
+          updateItems.push({
+            ...cableImageItem,
+            type: MODULE_NAME.M_CABLE_BLOCK,
+            valueImages: cableImageFileList,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.CABLE_IMAGE,
+          valueImages: cableImageFileList,
+          type: MODULE_NAME.M_CABLE_BLOCK,
+          group: PAGE_NAME.P_HOME,
+        });
+      }
     }
-  }, [cableImageItem, updateCommon, cableImageFileList, createCommon]);
+  }, [cableImageFileList, cableImageItem, updateItems, createItems]);
 
   const saveCable = async () => {
-    await saveCableImage();
-    await saveCableIconImage1();
-    await saveCableIconImage2();
-    await saveCableIntroduction1();
-    await saveCableIntroduction2();
+    saveCableImage();
+    saveCableIconImage1();
+    saveCableIconImage2();
+    saveCableIntroduction1();
+    saveCableIntroduction2();
+
+    if (updateItems.length > 0) {
+      await updateCommons({ data: updateItems });
+      setUpdateItems([]);
+    }
+
+    if (createItems.length > 0) {
+      await createCommons({ data: createItems });
+      setCreateItems([]);
+    }
   };
 
 

@@ -50,6 +50,7 @@ const UserDropDown = (): JSX.Element => {
 
   return (
     <div className='userContainer'>
+      <span className='hotLine'>{intl.formatMessage({ id: 'template.footer.hotline' }, {phone: '+84 028.38428991'})}</span>
       <Dropdown  className='userDropDown' overlay={menu} trigger={['click']}>
         <Button type='link' onClick={e => e.preventDefault()}>
           {currentUser ? <Space>

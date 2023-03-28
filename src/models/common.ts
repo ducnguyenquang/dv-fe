@@ -1,4 +1,5 @@
 // import type { UploadFile } from 'antd/es/upload/interface';
+import { UploadFile } from 'antd';
 
 export interface Common {
   _id?: string;
@@ -8,6 +9,7 @@ export interface Common {
   type?: string;
   group?: string;
   active?: boolean;
+  valueImages?: UploadFile[];
 }
 
 export type CommonCreatePayload = Pick<Common, 'name' | 'value' | 'type' | 'group' | 'active'>;

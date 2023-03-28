@@ -1,16 +1,26 @@
 .navTopMenu {
-  display: flex;
-  flex-direction: row;
-  .navMenu {
-    display: flex;
-    background: transparent;
-    flex: 1;
-    border-bottom: unset;
+  overflow: hidden;
+  position: relative;
+  .firstRow {
+    .hotLine{
+      display: flex;
+      justify-content: flex-end;
+    }
   }
+  .secondRow {
+    display: flex;
+    flex-direction: row;
+    .navMenu {
+      display: flex;
+      background: transparent;
+      flex: 1;
+      border-bottom: unset;
+    }
 
-  .logo {
-    img {
-      width: 50px;
+    .logo {
+      img {
+        width: 50px;
+      }
     }
   }
 }

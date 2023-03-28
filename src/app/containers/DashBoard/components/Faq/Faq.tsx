@@ -2,9 +2,11 @@ import { Button, Collapse } from 'antd';
 import { useIntl } from 'react-intl';
 import './Faq.less';
 import { isMobile } from 'react-device-detect';
+import { useNavigate } from 'react-router-dom';
 
 const Faq = (): JSX.Element => {
   const intl = useIntl();
+  const navigate = useNavigate();
 
   return (
     <div className={`faq ${isMobile && 'faq-mobile'}`}>

@@ -9,6 +9,7 @@ import { FooterLogo } from '../../../Footer/components/FooterTopMenu/components/
 import { useNavigate } from 'react-router-dom';
 import { templatesHooks } from 'app/containers/Template/hooks';
 import { TopMenu } from 'models/topMenu';
+import { PAGE_NAME, MODULE_NAME, SETTINGS } from 'constants/common';
 interface IProps {
   content?: any;
 }
@@ -17,6 +18,8 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
   const navigate = useNavigate();
   const { isMobile } = useContext(AppContext);
   const [topMenus, setTopMenus] = useState<MenuProps['items']>([]);
+  const [textColor, setTextColor] = useState<string>();
+  const [backgroundColor, setBackgroundColor] = useState<string>();
 
   const navMenuClick = useCallback((url: string) => {
     // navigate(url);
@@ -63,25 +66,51 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
     return [result];
   };
 
+  const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
+    search: {
+      group: PAGE_NAME.P_TEMPLATE,
+      type: MODULE_NAME.M_TOP_HEADER_BLOCK,
+    },
+    pagination: {
+      limit: 5,
+      offset: 0,
+    },
+  });
+
   const { data: dataTopMenus, isLoading: isLoadingTopMenus } = templatesHooks.useTopMenus({
     pagination: {
-      limit: 1000,
+      limit: 20,
       offset: 0,
     },
     isHidden: false,
   });
 
   useEffect(() => {
-    if (topMenus?.length === 0&& dataTopMenus && !isLoadingTopMenus) {
+    if (topMenus?.length === 0 && dataTopMenus && !isLoadingTopMenus) {
       setTopMenus(dataTopMenus?.map((item: TopMenu) => {
         return {
           key: item._id,
           label: item.name,
-          onClick: () => navMenuClick(item.url as string)
+          onClick: () => navMenuClick(item.url as string),
+          style: {color: textColor},
         }
       }));
     }
-  }, [dataTopMenus, isLoadingTopMenus, navMenuClick, topMenus?.length]);
+  }, [dataTopMenus, isLoadingTopMenus, navMenuClick, textColor, topMenus?.length]);
+
+  useEffect(() => {
+    if (templateData && !isLoadingTemplateData) {
+      const textColorTemp = templateData.data?.find((item: any) => item.name === SETTINGS.TOP_HEADER_TEXT_COLOR);
+      const backgrondColorTemp = templateData.data?.find((item: any) => item.name === SETTINGS.TOP_HEADER_BACKGROUND_COLOR);
+
+      if (textColorTemp) {
+        setTextColor(textColorTemp?.value);
+      }
+      if (backgrondColorTemp) {
+        setBackgroundColor(backgrondColorTemp?.value);
+      }
+    }
+  }, [isLoadingTemplateData, templateData]);
 
   const defaultTopMenus: MenuProps['items'] = [
     {
@@ -148,10 +177,12 @@ const NavTopMenu = ({ content }: IProps): JSX.Element => {
     },
   ];
   
-  return <div className='navTopMenu'>
-    {isMobile ? <FooterLogo /> : <Logo />}
-    <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={[...getNavSelected()]} items={topMenus || defaultTopMenus} inlineCollapsed={false}/>
-    <RightMenu />
+  return <div className='navTopMenu' style={{backgroundColor: backgroundColor}}>
+    <div className='secondRow'>
+      {isMobile ? <FooterLogo /> : <Logo />}
+      <Menu className="navMenu" mode="horizontal" defaultSelectedKeys={[...getNavSelected()]} items={topMenus || defaultTopMenus} inlineCollapsed={false}/>
+      <RightMenu />
+    </div>
   </div>
 };
 

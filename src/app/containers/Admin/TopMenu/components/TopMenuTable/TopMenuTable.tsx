@@ -1,10 +1,10 @@
-import { Button, Space, Popconfirm, Card, Tooltip, Switch, Input, InputRef } from 'antd';
+import { Button, Space, Popconfirm, Card, Tooltip, Switch, Input, InputRef, Collapse } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import { topMenusHooks, topMenusActions } from 'app/containers/Admin/TopMenu';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/products';
 import { TopMenu } from 'models/topMenu';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,11 @@ import { useNavigate } from 'react-router-dom';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, DeleteOutlined, FormOutlined } from '@ant-design/icons';
+import { SETTINGS, PAGE_NAME, MODULE_NAME } from 'constants/common';
+import { Common } from 'models/common';
+import { settingPagesHooks } from 'app/containers/Admin/SettingPage';
+import ColorPicker from 'app/containers/Admin/SettingPage/components/Template/components/ColorPicker/ColorPicker';
+import './TopMenuTable.less';
 
 interface DataType {
   key: string;
@@ -37,6 +42,42 @@ const TopMenuTable = (): JSX.Element => {
   const [isChanged, setIsChanged] = useState(false);
   const searchInput = useRef<InputRef>(null);
 
+  const [updateItems, setUpdateItems] = useState<Common[]>([]);
+  const [createItems, setCreateItems] = useState<Common[]>([]);
+  
+  const [textColorItem, setTextColorItem] = useState<Common>();
+  const [textColor, setTextColor] = useState<string>();
+
+  const [backgroundColorItem, setBackgroundColorItem] = useState<Common>();
+  const [backgroundColor, setBackgroundColor] = useState<string>();
+
+  const { data: templateData, isLoading: isLoadingTemplateData } = settingPagesHooks.useTemplates({
+    search: {
+      group: PAGE_NAME.P_TEMPLATE,
+      type: MODULE_NAME.M_TOP_HEADER_BLOCK,
+    },
+    pagination: {
+      limit: 1000,
+      offset: 0,
+    },
+  });
+
+  useEffect(() => {
+    if (templateData && !isLoadingTemplateData) {
+      const textColorTemp = templateData.data?.find((item: any) => item.name === SETTINGS.TOP_HEADER_TEXT_COLOR);
+      const backgrondColorTemp = templateData.data?.find((item: any) => item.name === SETTINGS.TOP_HEADER_BACKGROUND_COLOR);
+
+      if (textColorTemp) {
+        setTextColorItem(textColorTemp);
+        setTextColor(textColorTemp?.value);
+      }
+      if (backgrondColorTemp) {
+        setBackgroundColorItem(backgrondColorTemp);
+        setBackgroundColor(backgrondColorTemp?.value);
+      }
+    }
+  }, [isLoadingTemplateData, templateData]);
+
   const { data, isLoading } = topMenusHooks.useTopMenus({
     pagination: {
       limit: pageSize,
@@ -45,6 +86,10 @@ const TopMenuTable = (): JSX.Element => {
     search,
     sort,
   });
+
+  const { mutateAsync: updateCommons } = settingPagesHooks.useUpdateTemplates();
+  const { mutateAsync: createCommons } = settingPagesHooks.useCreateTemplates();
+  const { mutateAsync: deleteCommon } = settingPagesHooks.useDeleteTemplate();
 
   const { mutateAsync: deleteTopMenu, isLoading: isLoadingDeleteTopMenu } = topMenusHooks.useDeleteTopMenu();
   const { mutateAsync: updateTopMenu, isLoading: isLoadingUpdateTopMenu } = topMenusHooks.useUpdateTopMenu();
@@ -233,8 +278,85 @@ const TopMenuTable = (): JSX.Element => {
     },
   ];
 
+  const saveBackgroundColor = useCallback(async () => {
+    if (backgroundColor !== undefined) {
+      if (backgroundColorItem) {
+        if (backgroundColor !== backgroundColorItem.value) {
+          updateItems.push({
+            ...backgroundColorItem,
+            type: MODULE_NAME.M_TOP_HEADER_BLOCK,
+            value: backgroundColor,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.TOP_HEADER_BACKGROUND_COLOR,
+          value: backgroundColor,
+          type: MODULE_NAME.M_TOP_HEADER_BLOCK,
+          group: PAGE_NAME.P_TEMPLATE,
+        });
+      }
+    }
+  }, [backgroundColor, backgroundColorItem, updateItems, createItems]);
+
+  const saveTextColor = useCallback(async () => {
+    if (textColor !== undefined) {
+      if (textColorItem) {
+        if (textColor !== textColorItem.value) {
+          updateItems.push({
+            ...textColorItem,
+            type: MODULE_NAME.M_TOP_HEADER_BLOCK,
+            value: textColor,
+          });
+        }
+      } else {
+        createItems.push({
+          name: SETTINGS.TOP_HEADER_TEXT_COLOR,
+          value: textColor,
+          type: MODULE_NAME.M_TOP_HEADER_BLOCK,
+          group: PAGE_NAME.P_TEMPLATE,
+        });
+      }
+    }
+  }, [textColor, textColorItem, updateItems, createItems]);
+
+  const saveTopHeaderSettings = async () => {
+    saveBackgroundColor();
+    saveTextColor();
+
+    if (updateItems.length > 0) {
+      await updateCommons({ data: updateItems });
+      setUpdateItems([]);
+    }
+
+    if (createItems.length > 0) {
+      await createCommons({ data: createItems });
+      setCreateItems([]);
+    }
+  };
+
+  const resetBackgroundColor = useCallback(async () => {
+    if (backgroundColorItem) {
+      await deleteCommon(backgroundColorItem._id);
+      setBackgroundColor('');
+    }
+  }, [backgroundColorItem, deleteCommon]);
+
+  const resetTextColor = useCallback(async () => {
+    if (textColorItem) {
+      await deleteCommon(textColorItem?._id);
+      setTextColor('');
+    }
+  }, [deleteCommon, textColorItem]);
+
+
+  const resetTopHeaderSettings = async () => {
+    await resetBackgroundColor();
+    await resetTextColor();
+  };
+
   return (
-    <>
+    <div className='a-topMenu'>
       <Helmet title={intl.formatMessage({ id: 'page.name.topMenu' })} />
       <Card
         title={intl.formatMessage({ id: 'page.name.topMenu' })}
@@ -260,8 +382,32 @@ const TopMenuTable = (): JSX.Element => {
             setPageSize(pageSize);
           }}
         />
+        <Collapse style={{ marginTop: '2rem' }}>
+          <Collapse.Panel header={intl.formatMessage({ id: 'common.setting.advance' })} key="1">
+            <div className="setting">
+              <div className="setting-block">
+                <span className="setting-block-label">{intl.formatMessage({ id: 'setting.topMenu.bgColor' })}</span>
+                {backgroundColor && <ColorPicker initialColor={backgroundColor} saveColor={setBackgroundColor} />}
+                {!backgroundColorItem && !backgroundColor && <ColorPicker initialColor={backgroundColor} saveColor={setBackgroundColor} />}
+              </div>
+              <div className="setting-block">
+                <span className="setting-block-label">{intl.formatMessage({ id: 'setting.topMenu.textColor' })}</span>
+                {textColor && <ColorPicker initialColor={textColor} saveColor={setTextColor} />}
+                {!textColorItem && !textColor && <ColorPicker initialColor={textColor} saveColor={setTextColor} />}
+              </div>
+            </div>
+            <Space direction="horizontal">
+              <Button type="ghost" onClick={resetTopHeaderSettings}>
+                {intl.formatMessage({ id: 'common.button.revert' })}
+              </Button>
+              <Button type="primary" onClick={saveTopHeaderSettings}>
+                {intl.formatMessage({ id: 'common.button.update' })}
+              </Button>
+            </Space>
+          </Collapse.Panel>
+        </Collapse>
       </Card>
-    </>
+    </div>
   );
 };
 

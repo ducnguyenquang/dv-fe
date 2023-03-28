@@ -158,6 +158,20 @@ const Template = (): JSX.Element => {
         <Card
           style={{ marginTop: 16 }}
           type="inner"
+          title={intl.formatMessage({ id: 'admin.settingPage.template.layout.background-color' })}
+          extra={
+            <Button type="primary" onClick={saveBackgroundColor}>
+              {intl.formatMessage({ id: 'common.button.update' })}
+            </Button>
+          }
+        >
+          {backgroundColor && <ColorPicker initialColor={backgroundColor} saveColor={setBackgroundColor} />}
+          {!backgroundColorItem && !backgroundColor && <ColorPicker initialColor={backgroundColor} saveColor={setBackgroundColor} />}
+        </Card>
+        
+        <Card
+          style={{ marginTop: 16 }}
+          type="inner"
           title={intl.formatMessage({ id: 'admin.settingPage.template.logo.name' })}
           extra={
             <Space direction="horizontal">
@@ -186,19 +200,7 @@ const Template = (): JSX.Element => {
           { !layoutStructureItem && !layoutStructure && getLayoutStructure(layoutStructure)}
         </Card>
 
-        <Card
-          style={{ marginTop: 16 }}
-          type="inner"
-          title={intl.formatMessage({ id: 'admin.settingPage.template.layout.background-color' })}
-          extra={
-            <Button type="primary" onClick={saveBackgroundColor}>
-              {intl.formatMessage({ id: 'common.button.update' })}
-            </Button>
-          }
-        >
-          {backgroundColor && <ColorPicker initialColor={backgroundColor} saveColor={setBackgroundColor} />}
-          {!backgroundColorItem && !backgroundColor && <ColorPicker initialColor={backgroundColor} saveColor={setBackgroundColor} />}
-        </Card>
+        
       </Card>
     </>
   );

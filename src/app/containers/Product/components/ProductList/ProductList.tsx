@@ -11,23 +11,24 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { FilterApplied } from '../ProductFilter/components/FilterApplied';
 import { useParams } from 'react-router-dom';
-import { categoriesHooks } from 'app/containers/Admin/Category';
+import { templatesHooks } from 'app/containers/Template';
 import { Context as AppContext } from 'app/context/appContext';
 
 interface IProps {
   category?: string;
 }
 
-const ProductList = ({ category }: IProps): JSX.Element => {
+const ProductList = (): JSX.Element => {
   const [page, setPage] = useState(PAGE);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
   const [products, setProducts] = useState<Product[]>([]);
   const [viewType, setViewType] = useState('list');
   const routeParams = useParams();
   const { isMobile } = useContext(AppContext);
-  const defaultFilter = {
-    category: { slug: routeParams.category},
-  };
+  const category = routeParams.category
+  // const defaultFilter = {
+  //   category: { slug: routeParams.category},
+  // };
   const [search, setSearch] = useState<any>();
   const [isLoadMoreData, setIsLoadMoreData] = useState(false);
   
@@ -39,19 +40,28 @@ const ProductList = ({ category }: IProps): JSX.Element => {
   }>({});
   const intl = useIntl();
 
-  const { data: categoryData, isLoading: isCategoryDataLoading } = categoriesHooks.useCategory({
-    id: routeParams.category
+  const { data: categoryData, isLoading: isCategoryDataLoading } = templatesHooks.useCategories({
+    search: {
+      slug: category
+    },
+    pagination: {
+      limit: 1,
+      offset: 0,
+    },
   });
 
+
+
   useEffect(() => {
-    if (categoryData && !isCategoryDataLoading && !search?.categories) {
-      const categories = [categoryData?._id]
+    if (categoryData && !isCategoryDataLoading) {
+      const categories = [categoryData?.data?.[0]?._id]
       setSearch({
-        ...search,
+        // ...search,
         categories,
       })
     }
-  },[categoryData, categoryData?._id, defaultFilter.category.slug, isCategoryDataLoading, search])
+  },[categoryData, isCategoryDataLoading])
+  
   
   const { data: productData, isLoading: isProductDataLoading } = productsHooks.useProducts({
     search,
@@ -66,12 +76,15 @@ const ProductList = ({ category }: IProps): JSX.Element => {
       setProducts(productData?.data);
       setProductPagination(productData?.pagination);
     }
-  }, [productData, isProductDataLoading, products, isLoadMoreData]);
+  }, [isProductDataLoading, productData]);
 
   const loadMoreData = () => {
     setPage(page + 1);
     setIsLoadMoreData(true);
   };
+
+  console.log('==== products', products);
+
 
   return (
     <div className={`productList ${isMobile && 'productList-mobile'}`}>
@@ -117,7 +130,7 @@ const ProductList = ({ category }: IProps): JSX.Element => {
           <ListComponent products={products} viewType={!isMobile ? viewType : 'grid'} />
         </InfiniteScroll>
       </div>
-      <Pagination
+      {products && products.length > 0 && <Pagination
         className="pagination"
         total={productData?.pagination?.totalCount || 10}
         showTotal={(total, range) => {
@@ -140,7 +153,7 @@ const ProductList = ({ category }: IProps): JSX.Element => {
         onShowSizeChange={pageSize => {
           productData?.pagination?.onShowSizeChange?.(pageSize);
         }}
-      />
+      />}
     </div>
   );
 };

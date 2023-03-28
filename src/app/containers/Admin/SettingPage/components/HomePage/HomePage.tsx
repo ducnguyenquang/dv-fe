@@ -8,7 +8,10 @@ import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { settingPagesHooks } from '../../hooks';
 import { CableBlock } from './components/CableBlock';
+import DistributorBlock from './components/DistributorBlock/DistributorBlock';
+import FooterBlock from './components/FooterBlock/FooterBlock';
 import { LedBlock } from './components/LedBlock';
+import { ProductBlock } from './components/ProductBlock';
 import './HomePage.less';
 
 const HomePage = (): JSX.Element => {
@@ -113,16 +116,16 @@ const HomePage = (): JSX.Element => {
       <Helmet title={intl.formatMessage({ id: 'admin.settingPage.home-page.title-page' })} />
       <Card
         title={intl.formatMessage({ id: 'admin.settingPage.home-page.title-page' })}
-        extra={
-          <Space direction="horizontal">
-            <Button type="ghost" onClick={resetHomePage}>
-              {intl.formatMessage({ id: 'common.button.revertAll' })}
-            </Button>
-            <Button type="primary" onClick={saveHomePage}>
-              {intl.formatMessage({ id: 'common.button.updateAll' })}
-            </Button>
-          </Space>
-        }
+        // extra={
+        //   <Space direction="horizontal">
+        //     <Button type="ghost" onClick={resetHomePage}>
+        //       {intl.formatMessage({ id: 'common.button.revertAll' })}
+        //     </Button>
+        //     <Button type="primary" onClick={saveHomePage}>
+        //       {intl.formatMessage({ id: 'common.button.updateAll' })}
+        //     </Button>
+        //   </Space>
+        // }
       >
         <Card
           style={{ marginTop: 16 }}
@@ -160,6 +163,9 @@ const HomePage = (): JSX.Element => {
         </Card>
         <CableBlock />
         <LedBlock />
+        <DistributorBlock />
+        <ProductBlock />
+        <FooterBlock />
       </Card>
     </div>
   );

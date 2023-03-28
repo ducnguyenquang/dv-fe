@@ -40,6 +40,7 @@ export type CategoryQueryPayload = Partial<CategoryQueryBase>;
 
 export type CategoryDetailPayload = Pick<Category, 'id'> & {
   _id?: string;
+  slug?: string;
 };
 
 export type CategoryDeletePayload = Pick<Category, 'id'>;

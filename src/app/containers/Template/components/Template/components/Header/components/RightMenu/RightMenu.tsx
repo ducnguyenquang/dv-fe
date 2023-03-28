@@ -29,10 +29,8 @@ const RightMenu = (): JSX.Element => {
 
   return (
     <div className="rightMenu">
-      {/* <div className="userContainer">
-        <Input.Search placeholder="input search text" style={{ width: 200 }} />
-      </div> */}
       <div className="userContainer">
+        
         <UserDropDown />
       </div>
     </div>
