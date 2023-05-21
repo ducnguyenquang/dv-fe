@@ -1,15 +1,14 @@
 .productInfo {
-
-  
-  .productInfoBlock {
+  .productInfo-block {
     display: flex;
     flex-direction: row;
     width: 100%;
     position: relative;
-    
+
     .gallery {
       width: 35%;
     }
+
     .content {
       flex: 1 1 0;
       padding-left: 2%;
@@ -18,12 +17,7 @@
       overflow: hidden;
       .information {
         float: left;
-        margin-bottom: 20px;
 
-        .summary {
-          padding: 20px 0;
-          font-size: 18px;
-        }
         .ant-descriptions-header {
           margin-bottom: 0;
           .ant-descriptions-title {
@@ -34,47 +28,232 @@
           color: #a9a9a9;
         }
 
-        .specification{
-          flex-direction: row;
-          width: 100%;
-          .specificationItem{
-            font-size: 12px;
-            display: flex;
-            flex-direction: row;
-            flex: 1 1 auto;
-            .title {
-              color: #a9a9a9;
-              margin-right: 5px;
+        .summary {
+          padding: 0 20px 0 0;
+          font-size: 18px;
+        }
+        .specification {
+          .ant-descriptions-item {
+            &-container {
             }
+            &-content {
+              flex-wrap: wrap;
+              .specificationItem {
+                font-size: 12px;
+                display: flex;
+                flex-direction: row;
+                flex: 1 1 auto;
+                gap: 1rem;
+                margin-bottom: 1rem;
 
-            .data{
+                &-categories {
+                  display: flex;
+                  flex-direction: row;
+                  width: 100%;
+                }
 
+                .title {
+                  color: #a9a9a9;
+                  margin-right: 5px;
+                  word-break: unset;
+                }
+
+                .data {
+                  gap: 1rem;
+                  display: flex;
+                  flex-direction: row;
+                  overflow: hidden;
+                  .ant-tag {
+                    width: fit-content;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    height: max-content;
+                  }
+                }
+              }
             }
           }
         }
       }
       .inputForm {
-        border: 1px solid #ccc;
+        border: 1px solid #eee;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         width: 100%;
-        padding: 20px 20px;
+        padding: 1rem 1rem;
         border-radius: 5px;
-        .price {
-          font-size: 18px;
-          font-weight: bold;
-          flex: 1;
-        }
-        .input{
-          flex: 1;
-          margin-right: 10px;
-        }
-        .button {
-          width: 150px;
+
+        .informationBlock {
+          display: flex;
+          flex-direction: column;
+          .specsBlock {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            .ant-form-item {
+              flex: 1 1 auto;
+              flex-wrap: wrap;
+              display: flex;
+              width: 50%;
+              margin-bottom: 1rem;
+              &-row {
+                flex: 1;
+              }
+              &-label {
+                display: inline-block;
+                width: fit-content;
+                text-align: left;
+              }
+            }
+
+            .colors {
+              display: flex;
+              flex-direction: row;
+              .ant-radio {
+                &-group {
+                  display: flex;
+                }
+                &-button-wrapper {
+                  // margin-right: 1rem;
+                  padding: 0;
+                  &-in-form-item {
+                    padding: 2px;
+                    width: 32px;
+                    height: 32px;
+                  }
+                  &-checked {
+                    border-width: 2px;
+                  }
+                }
+              }
+              // span {
+              //   display: block;
+              //   width: 100%;
+              //   height: 100%;
+              // }
+
+              &--cap-dien {
+                .colorItem {
+                  // span {
+                  //   display: unset;
+                  //   width: unset;
+                  //   height: unset;
+                  // }
+                  display: flex;
+                  padding-top: 2px;
+                  &-color {
+                    display: block;
+                    width: 24px;
+                    height: 24px;
+                  }
+                  
+                }
+              }
+            }
+
+            .colorItem {
+              width: 100%;
+              height: 100%;
+              // display: flex;
+              // justify-content: center;
+              line-height: 18px;
+              &-color {
+                margin-right: 1rem;
+              }
+              &-label {
+                margin-right: 1rem;
+              }
+            }
+            .terItem {
+              display: inline-flex;
+              flex-direction: row;
+              img {
+                width: 100%;
+                height: 100%;
+              }
+            }
+
+            .colorTemperatureItem {
+              display: flex;
+              padding-top: 1px;
+              &-label {
+              }
+              &-color {
+                width: 28px;
+                height: 28px;
+                margin-right: 1rem;
+              }
+            }
+          }
+          .totalBlock {
+            display: flex;
+            flex-direction: column;
+            .price {
+              font-size: 30px;
+              font-weight: bold;
+              flex: 1 1 auto;
+              padding-bottom: 1rem;
+              color: #E5704B;
+            }
+            .total {
+              margin-bottom: 0;
+              flex: 1 1 auto;
+              display: flex;
+              justify-content: space-between;
+              .quantityInput {
+                margin-right: 1rem;
+                margin-bottom: 1rem;
+                text-align: center;
+                width: 200px;
+                .ant-input-number-group-addon,
+                .ant-input-group-addon {
+                  padding: 0;
+                }
+                .ant-form-item {
+                  &-label {
+                    text-align: left;
+                    width: fit-content;
+                    flex: inherit;
+                  }
+                  &-row {
+                    width: 94%;
+                  }
+                }
+                input {
+                  // width: 80px;
+                  text-align: center;
+                  padding-left: 0;
+                  padding-right: 0;
+                  width: 50%;
+                }
+              }
+              .buttons {
+                width: 50%;
+                .button {
+                  // width: 110px;
+                  &-cart {
+                  }
+                  &-buyNow {
+                    border-color: #ffb446;
+                    background-color: #ffb446;
+                    margin-right: 1rem;
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
-    
+  }
+  .description {
+    padding: 1rem 0;
+    .summary {
+      padding: 0 20px 0 0;
+      font-size: 18px;
+    }
   }
   .tabs {
     clear: both;
@@ -84,12 +263,14 @@
     img {
       max-width: 100%;
     }
-    
-    table, th, td {
+
+    table,
+    th,
+    td {
       border: 1px solid #a9a9a9;
       border-collapse: collapse;
     }
-    
+
     table {
       width: 100%;
     }
@@ -112,7 +293,6 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: cover;
-
           }
 
           .selectedImage {
@@ -163,7 +343,6 @@
         }
       }
     }
-
   }
 }
 

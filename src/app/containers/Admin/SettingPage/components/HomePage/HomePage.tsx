@@ -1,5 +1,7 @@
 import { Card, Button, UploadFile, Space } from 'antd';
-import Editor from 'app/components/Editor/CkEditorClassic';
+// import Editor from 'app/components/Editor/CkEditorClassic';
+import Editor from 'app/components/Editor/TinymceEditor';
+
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
 import { Common } from 'models/common';
@@ -142,7 +144,7 @@ const HomePage = (): JSX.Element => {
             </Space>
           }
         >
-          <ImageUpload fileList={bannerFileList} ratio={4 / 1} setFileList={setBannerFileList} imageNumber={1} />
+          <ImageUpload fileList={bannerFileList} ratio={4.5 / 1} setFileList={setBannerFileList} imageNumber={1} />
         </Card>
         <Card
           style={{ marginTop: 16 }}

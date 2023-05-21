@@ -1,0 +1,82 @@
+.gridItem {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d1d1d1;
+  // margin-right: 20px;
+  margin-bottom: 20px;
+  // width: 30%;
+  padding: 10px;
+  width: 256px;
+  height: 420px;
+  &:hover {
+    border-color: #e5704b;
+  }
+
+  &-mobile {
+    margin: 1rem auto;
+  }
+
+  .image {
+    // flex: 1;
+    // width: 100%;
+    width: 236px;
+    // min-width: 236px;
+    // margin-right: 20px;
+    margin-bottom: 20px;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    .information {
+      margin-bottom: 10px;
+      .title {
+        font-size: 18px;
+        color: #151515;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .description {
+        font-size: 12px;
+        color: #575757;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        // min-width: 20%;
+        // max-width: 70%;
+        width: 230px;
+      }
+      .rate {
+        .ant-rate {
+          color: #151515;
+        }
+      }
+    }
+
+    .bottomSide {
+      // width: 20%;
+      flex-direction: row;
+      display: flex;
+      .price {
+        flex: 1;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .action {
+        flex-direction: column;
+        display: flex;
+
+        .detailButton {
+          margin-bottom: 10px;
+        }
+
+        .favouriteButton {
+        }
+      }
+    }
+  }
+}

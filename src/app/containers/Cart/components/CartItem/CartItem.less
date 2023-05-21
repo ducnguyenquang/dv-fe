@@ -1,39 +1,83 @@
 .cartItem {
-  width: 90%;
+  // width: 90%;
   margin: 0 auto;
   .ant-card-body {
     display: flex;
     flex-direction: row;
     .productInfo {
-      flex: 1;
-      .ant-card-meta-avatar {
-        width: 80px;
-        height: 80px;
-        .ant-avatar-image {
-          display: block;
+      // flex: 1;
+      width: 100%;
+      .ant-card-meta {
+        &-avatar {
+          .avatarBlock {
+            display: flex;
+            flex-direction: row;
+            justify-items: center;
+
+            .ant-avatar {
+              width: 80px;
+              height: 80px;
+              padding-right: 0;
+              .ant-avatar-image {
+                display: block;
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
+        }
+        &-detail {
           width: 100%;
-          height: 100%;
+          .specsBlock {
+            // display: flex;
+            // flex-direction: row;
+            // justify-content: space-between;
+            // width: 100%;
+
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 50px 50px;
+            .color {
+              display: flex;
+              flex: 1 1 auto;
+              span {
+                display: inline-block;
+                width: 24px;
+                height: 24px;
+              }
+            }
+            .power,
+            .colorTemperature {
+              flex: 1 1 auto;
+              span {
+                display: inline-block;
+                padding: 2px;
+                width: fit-content;
+              }
+            }
+          }
         }
       }
     }
-    .inputBlock {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      flex: auto;
+    .priceBlock {
       // width: 100%;
-      font-size: 18px;
-      font-weight: 600;
+
       .quantity {
         display: flex;
-        // flex: auto;
-        justify-content: flex-end;
-        height: 40px;
-        width: 50px;
+        flex-direction: row;
+        flex: auto;
+        &-input {
+          // height: 40px;
+          width: 63px;
+        }
+        .deleteItem {
+
+        }
       }
       .pricing {
-        justify-content: flex-end;
-        display: flex;
+        font-size: 30px;
+        font-weight: 600;
+        color: #E5704B;
         // flex: auto;
       }
     }

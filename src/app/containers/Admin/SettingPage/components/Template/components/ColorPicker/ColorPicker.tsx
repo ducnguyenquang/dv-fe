@@ -32,7 +32,7 @@ const ColorPicker = ({ initialColor, saveColor }: IProps): JSX.Element => {
   }, []);
 
   return (
-    <div className="colorPicker">
+    <span className="colorPicker">
       <div className="swatch" onClick={handleClick}>
         <div className="color" style={{ backgroundColor: color }} />
       </div>
@@ -42,7 +42,7 @@ const ColorPicker = ({ initialColor, saveColor }: IProps): JSX.Element => {
           <SketchPicker color={color} onChangeComplete={handleChangeComplete} />
         </div>
       ) : null}
-    </div>
+    </span>
   );
 };
 

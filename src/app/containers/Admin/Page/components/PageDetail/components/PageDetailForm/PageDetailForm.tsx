@@ -4,7 +4,8 @@ import { useIntl } from 'react-intl';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Editor from 'app/components/Editor/CkEditorClassic';
+// import Editor from 'app/components/Editor/CkEditorClassic';
+import Editor from 'app/components/Editor/TinymceEditor';
 import { generateSku } from 'utils/string';
 
 const formItemLayout = {
@@ -68,7 +69,7 @@ const PageDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps
       <Card
         title={intl.formatMessage({ id: 'setting.page.name.pageDetail' })}
         extra={
-          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/pages`)}>
+          <Button type="ghost" htmlType="submit" onClick={() => navigate(`/admin/setting/pages`)}>
             {intl.formatMessage({ id: 'common.button.back' })}
           </Button>
         }

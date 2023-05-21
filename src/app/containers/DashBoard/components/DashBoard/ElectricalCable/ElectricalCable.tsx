@@ -25,7 +25,7 @@ const ElectricalCable = (): JSX.Element => {
       group: PAGE_NAME.P_PRODUCT_CATEGORY,
     },
     pagination: {
-      limit: 1000,
+      limit: 20,
       offset: 0,
     },
   });
@@ -36,7 +36,7 @@ const ElectricalCable = (): JSX.Element => {
       name: name || undefined,
     },
     pagination: {
-      limit: 100000,
+      limit: 50,
       offset: 0,
     },
   });

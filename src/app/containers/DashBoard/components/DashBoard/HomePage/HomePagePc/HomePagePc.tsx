@@ -47,12 +47,8 @@ const HomePagePc = (): JSX.Element => {
   }, [isLoadingTemplateData, templateData]);
 
   const getProductList = useCallback((name: string) => {
-    console.log('==== name', name);
-    
     return <ProductList productNames={name}/>
   }, [])
-  
-  console.log('==== productNames', productNames);
   
   return (
     <>

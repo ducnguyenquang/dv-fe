@@ -22,8 +22,14 @@ const ProductGallery = ({ images }: IProps): JSX.Element => {
 
   return (
     <div className="productGallery">
-      <Image key={selectedImage?.uid} src={selectedImage?.url || selectedImage?.thumbUrl || '/images/no-image.png'} className="selectedImage" />
-      <div className="images">
+      <div className="productGallery-image">
+        <Image
+          key={selectedImage?.uid}
+          src={selectedImage?.url || selectedImage?.thumbUrl || '/images/no-image.png'}
+          className="selectedImage"
+        />
+      </div>
+      <div className="productGallery-images">
         {images?.map(item => {
           return (
             <Image

@@ -41,7 +41,7 @@ const ProductRelated = ({ categories }: IProps): JSX.Element => {
       <div className="contentBlock">
         <div className="productContent">
           {products?.map(item => (
-            <GridItemComponent data={item} />
+            <GridItemComponent key={item._id} data={item} />
           ))}
         </div>
       </div>

@@ -3,6 +3,9 @@
 
 .ant-layout {
   background: transparent;
+  // display: flex;
+  height: 100%;
+
   &-header {
     background-color: transparent !important;
     padding: 0 5rem;
@@ -11,12 +14,25 @@
   &-content {
     background-color: transparent;
     padding: 0 5rem;
+    // display: flex;
+    // flex: 1 !important;
+    min-height: 100%;
+    // margin-bottom: -210px;
+    padding: 0 50px;
   }
   &-background {
     background: transparent;
   }
   &-footer {
     background: transparent !important;
+    padding-bottom: 0 !important;
+    // margin-top: -210px;
+    position: relative !important;
+    // margin-top: -50px; /* Height of the footer */
+    clear: both !important;
+    // position: 'relative' !important;
+    // bottom: 0 !important;
+    // width: 100% !important;
   }
 
   .topMenu {
@@ -27,14 +43,17 @@
     display: flex;
     flex-direction: initial;
     background: unset;
+    &-content {
+      overflow: hidden;
+      padding: 0 1rem;
+    }
   }
-
-  
 }
 
 .template-layout {
-  &-mobile {
+  min-height: 100vh;
 
+  &-mobile {
     .ant-layout {
       &-footer {
         padding-left: 0;
@@ -44,7 +63,6 @@
 
       &-content {
         padding: 0;
-
       }
     }
 
@@ -93,7 +111,7 @@
     display: block;
     margin: 0 auto;
     .ant-image {
-      &-img{
+      &-img {
         width: 80px;
       }
     }

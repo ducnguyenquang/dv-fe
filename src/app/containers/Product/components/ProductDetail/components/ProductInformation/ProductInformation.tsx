@@ -1,34 +1,39 @@
-import { Button, Collapse, Descriptions, Form, InputNumber, Modal, Rate, Tabs } from 'antd';
+import { Button, Collapse, Descriptions, Form, Input, message, Radio, Rate, Select, Tabs, Tag } from 'antd';
 import { templatesHooks } from 'app/containers/Template';
 import { Product } from 'models/product';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProductGallery from '../ProductGallery/ProductGallery';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import './ProductInformation.less';
 import { Cart } from 'models/cart';
 import ProductRelated from '../../../ProductRelated/ProductRelated';
-import { Document, Page, pdfjs } from 'react-pdf';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
-import { ORIENTATION } from 'constants/common';
-// import 'app/components/Editor/ck-style.less';
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import { COLOR_OPTIONS, COLOR_TEMPERATURE_OPTIONS, ORIENTATION } from 'constants/common';
+import { numberWithCommas } from 'utils/string';
+import { TYPES } from 'constants/type';
 
 const { TabPane } = Tabs;
-// const { Option } = Select;
 
 const ProductInformation = (): JSX.Element => {
   const intl = useIntl();
   const { id } = useParams();
+  const [form] = Form.useForm();
+
   const [productDetail, setProductDetail] = useState<Product>({});
   const [tabIndex, setTabIndex] = useState('1');
   const [quantity, setQuantity] = useState(1);
   const { data: productDetailData, isLoading: isLoadingProductDetail } = templatesHooks.useProduct({ id });
-  const [pdfViewerModalOpen, setPdfViewerModalOpen] = useState(false);
-  const [selectedDocument, setSelectedDocument] = useState<string>('');
+  // const [pdfViewerModalOpen, setPdfViewerModalOpen] = useState(false);
+  const [color, setColor] = useState<string>('');
+  const [power, setPower] = useState<string>('');
+  const [powerValues, setPowerValues] = useState<string[]>([]);
+  const [productSku, setProductSku] = useState<string>();
+  const [price, setPrice] = useState();
+  const [status, setStatus] = useState();
+  const [colorTemperature, setColorTemperature] = useState();
   const { isMobile, orientation } = useContext(AppContext);
   const navigate = useNavigate();
 
@@ -43,83 +48,282 @@ const ProductInformation = (): JSX.Element => {
       setProductDetail(data);
     }
   }, [isLoadingProductDetail, productDetailData]);
+  // console.log('==== productDetailData', productDetailData);
 
   const getFileName = (pathFile: string) => {
     return pathFile.replace(/^.*[\\\/]/, '');
   };
 
-  const getSelectedDocument = (pathFile: string) => {
-    // const fileName = getFileName(pathFile);
-    setPdfViewerModalOpen(true);
-    setSelectedDocument(pathFile);
-  };
-
-  const closePdfModal = () => {
-    setPdfViewerModalOpen(false);
-    setSelectedDocument('');
-  }
-
   const onTabChange = (key: string) => {
-    console.log(key);
     setTabIndex(key);
   };
 
-  const onChange = (key: number) => {
-    console.log(key);
-    setQuantity(key);
+  const onQuantityChange = (item: any) => {
+    const quantity = item.target.value as number;
+    console.log('==== onQuantityChange quantity', quantity);
+    console.log('==== onQuantityChange status', status);
+    
+    setQuantity(status && quantity > status ? 1 : quantity);
   };
 
-  const selectAfter = useMemo(() => (
-    <div>số lượng</div>
-  ), []);
+  const getProductSku = useMemo(() => {
+    const productSku = productDetail?.slug ? decodeURIComponent(productDetail?.slug) : '';
+    const productPower = power ? `-${power.replace(/[^\d.-]+/g, '')}` : '';
+    const productColorTemperature = colorTemperature ? `-${colorTemperature}` : '';
+    const sku = `${productSku}${productPower}${productColorTemperature}`;
+    // setProductSku(sku);
+    return sku;
+  }, [colorTemperature, power, productDetail?.slug]);
 
-  const onFinish = async (value: any) => {
-    const cartStringData = localStorage.getItem('shoppingCart');
+  const onFinish = useCallback(
+    async (value: any) => {
+      const cartStringData = localStorage.getItem('shoppingCart');
+      const sku = getProductSku;
+      let cartData: Cart = {
+        total: 0,
+        orderItems: [
+          {
+            product: productDetailData,
+            total: 0,
+            quantity: quantity,
+            sku: sku,
+            price: price,
+          },
+        ],
+        // customer: value,
+      };
 
-    let cartData: Cart = {
-      total: 0,
-      orderItems: [
-        {
-          product: productDetailData,
-          total: 0,
-          quantity: quantity,
-        },
-      ],
-      customer: value,
-    };
+      if (cartStringData) {
+        cartData = JSON.parse(cartStringData);
+        const orderItem = cartData?.orderItems?.find(item => item?.sku === sku);
 
-    if (cartStringData) {
-      cartData = JSON.parse(cartStringData);
-      const orderItem = cartData?.orderItems?.find(item => item.product?._id === productDetail._id);
-
-      if (orderItem) {
-        orderItem.total = 0;
-        orderItem.quantity += quantity;
-      } else {
-        cartData?.orderItems?.push({
-          product: productDetail,
-          total: 0,
-          quantity: quantity,
-        });
+        if (orderItem) {
+          orderItem.total = 0;
+          orderItem.quantity += quantity;
+        } else {
+          cartData?.orderItems?.push({
+            product: productDetail,
+            total: 0,
+            quantity: quantity,
+            color: color,
+            power: power,
+            colorTemperature: colorTemperature,
+            sku: sku,
+            price: price,
+          });
+        }
       }
+      localStorage.setItem('shoppingCart', JSON.stringify(cartData));
+
+      message.success(
+        intl.formatMessage({ id: 'cart.notification.content.adding.success' }, { name: productDetail.name })
+      );
+    },
+    [color, colorTemperature, getProductSku, intl, power, price, productDetail, productDetailData, quantity]
+  );
+
+  const onSelectColorChange = useCallback((value: string) => {
+    setColor(value);
+  }, []);
+
+  const onColorChange = useCallback((value: any) => {
+    setColor(value.target.value);
+  }, []);
+
+  const resetForm = useCallback(() => {
+    setPower('');
+    setPowerValues([]);
+    setPrice(undefined);
+    setStatus(undefined);
+    setColorTemperature(undefined);
+    setQuantity(1);
+  }, []);
+
+  const onPowerChange = useCallback(
+    (value: any) => {
+      resetForm();
+      const powerValue = value ? JSON.parse(value) : undefined;
+      setPower(powerValue?.[0]?.power);
+      setPowerValues(powerValue);
+      setPrice(powerValue?.[0].price);
+      setStatus(powerValue?.[0].quantity);
+      let realQuantity = quantity
+      if (realQuantity > powerValue?.[0].quantity) {
+        realQuantity = 1;
+        form.setFieldValue('quantity', 1)
+      }
+      setQuantity(realQuantity);
+    },
+    [form, quantity, resetForm]
+  );
+
+  const onColorTemperatureChange = useCallback(
+    (value: string) => {
+      const colorData = powerValues.filter((item: any) => item.power === power && item.colorTemperature === value);
+      const powerValue = colorData?.[0] as any;
+      setPrice(powerValue?.price);
+      setStatus(powerValue?.quantity);
+      setColorTemperature(value as any);
+      setQuantity(quantity > powerValue?.quantity ? 1 : quantity);
+    },
+    [power, powerValues, quantity]
+  );
+
+  const renderGroupColor = useCallback(() => {
+    let options = undefined;
+
+    switch (productDetail.type) {
+      case TYPES.CAP_DIEN:
+        options = COLOR_OPTIONS.filter(color => productDetail.colors?.indexOf(color.value) !== -1);
+        break;
+      case TYPES.DEN_LED:
+        options =
+          productDetail.colors?.map(item => ({
+            label: <div style={{ backgroundColor: item, width: '100%', height: '100%' }} />,
+            value: item,
+          })) || [];
+        break;
+      default:
+        break;
     }
-    localStorage.setItem('shoppingCart', JSON.stringify(cartData));
-  };
 
-  const [numPages, setNumPages] = useState(0);
-  const [pageNumber, setPageNumber] = useState(1);
+    if (productDetail.type === TYPES.CAP_DIEN) {
+    }
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
-    setNumPages(numPages);
-  }
+    // console.log('====options ', options);
 
-  // const downloadDocument = (url: string) => {
-  //   navigate(url)
-  // }
+    return productDetail.type === TYPES.CAP_DIEN ? (
+      <Select
+        // defaultValue="lucy"
+        allowClear
+        style={{ width: '160px' }}
+        onChange={onSelectColorChange}
+        options={options}
+        className="colors"
+      />
+    ) : (
+      <Radio.Group
+        name={'color'}
+        options={options}
+        onChange={onColorChange}
+        value={color}
+        optionType="button"
+        buttonStyle="solid"
+      />
+    );
+  }, [color, onColorChange, onSelectColorChange, productDetail.colors, productDetail.type]);
+
+  const renderPower = useCallback(
+    ({
+      data,
+      onChange,
+      value,
+      name,
+    }: {
+      data: string[];
+      onChange: (value: any) => void;
+      value: string;
+      name: string;
+    }) => {
+      let options: any[] = [];
+      const powers = Array.from(new Set(data?.map((item: any) => item.power)));
+
+      switch (name) {
+        case 'power':
+          options = powers.map((power: any) => ({
+            label: power,
+            value: JSON.stringify(data?.filter((item: any) => item.power === power)),
+          }));
+          break;
+        case 'colorTemperature':
+          if (power) {
+            const powerData = data?.filter((item: any) => item.power === power);
+            const colorTemperatures = Array.from(new Set(powerData?.map((item: any) => item.colorTemperature)));
+
+            options = colorTemperatures?.map((item: any) => {
+              const color = COLOR_TEMPERATURE_OPTIONS.find(c => c.value === item);
+
+              return {
+                label: color?.label,
+                value: color?.value,
+                // style: { backgroundColor: color?.color },
+              };
+            });
+
+            console.log('==== options', options);
+          }
+
+          break;
+
+        default:
+          break;
+      }
+
+      return (
+        options.length > 0 && (
+          <Select allowClear style={{ width: name === 'power' ? 120 : 160 }} onChange={onChange} options={options} />
+        )
+      );
+    },
+    [power]
+  );
+
+  const isDisableSubmitButton = useMemo(() => {
+    let isDisabled = false;
+
+    if (productDetail.colors && productDetail.colors.length > 0 && !color) {
+      isDisabled = true;
+    }
+    if (productDetail.powers && productDetail.powers.length > 0 && !power) {
+      isDisabled = true;
+    }
+    if (
+      productDetail.type === TYPES.DEN_LED &&
+      productDetail.colorTemperatures &&
+      productDetail.colorTemperatures.length > 0 &&
+      !colorTemperature
+    ) {
+      isDisabled = true;
+    }
+    return isDisabled;
+  }, [
+    color,
+    colorTemperature,
+    power,
+    productDetail.colorTemperatures,
+    productDetail.colors,
+    productDetail.powers,
+    productDetail.type,
+  ]);
+
+  const changeQuantity = useCallback(
+    (number: number) => {
+      setQuantity(number);
+      form.setFieldsValue({ quantity: number });
+    },
+    [form]
+  );
+
+  const onQuantityAdd = useCallback(() => {
+    changeQuantity(quantity + 1);
+  }, [changeQuantity, quantity]);
+
+  const onQuantityMinus = useCallback(() => {
+    changeQuantity(quantity > 1 ? quantity - 1 : 1);
+  }, [changeQuantity, quantity]);
+
+  // console.log('==== quantity', quantity);
+
+  const quantityAdding = (
+    <Button disabled={isDisableSubmitButton} type="link" icon={<PlusOutlined />} onClick={onQuantityAdd} />
+  );
+  const quantityMinus = (
+    <Button disabled={isDisableSubmitButton} type="link" icon={<MinusOutlined />} onClick={onQuantityMinus} />
+  );
 
   return (
     <div className={`productInfo ${isMobile && orientation === ORIENTATION.PORTRAIT && 'productInfo-mobile'}`}>
-      <div className="productInfoBlock">
+      <div className="productInfo-block">
         <div className="gallery">
           <ProductGallery images={productDetail?.images} />
         </div>
@@ -128,105 +332,180 @@ const ProductInformation = (): JSX.Element => {
             <Descriptions.Item span={3}>
               <Rate disabled defaultValue={4} />
             </Descriptions.Item>
-            <Descriptions.Item span={3} className="summary">
-              {productDetail?.summary}
+            <Descriptions.Item span={3}>
+              <Form
+                name="basic"
+                labelCol={{ span: 8 }}
+                // wrapperCol={{ span: 16 }}
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                // onFinishFailed={onFinishFailed}
+                form={form}
+                autoComplete="off"
+                style={{ width: '100%' }}
+              >
+                <div className="inputForm">
+                  <div className="informationBlock">
+                    <div className="totalBlock">
+                      <div className="price">
+                        {price ? numberWithCommas(price) : intl.formatMessage({ id: 'common.price.contactPlease' })}
+                      </div>
+                      <div className="total">
+                        <Form.Item
+                          label={intl.formatMessage({ id: 'product.quantity' })}
+                          name="quantity"
+                          className="quantityInput"
+                        >
+                          <Input
+                            // addonBefore={quantityMinus}
+                            // addonAfter={quantityAdding}
+                            min={1}
+                            max={status ? status : undefined}
+                            type="number"
+                            defaultValue={quantity}
+                            onChange={onQuantityChange}
+                            disabled={isDisableSubmitButton}
+                          />
+                        </Form.Item>
+                        <div className="buttons">
+                          <Button
+                            type="primary"
+                            // htmlType="submit"
+                            // icon={<ShoppingCartOutlined />}
+                            onClick={() => onFinish(form.getFieldsValue()).then(() => navigate('/cart'))}
+                            className="button-buyNow"
+                            disabled={isDisableSubmitButton}
+                          >
+                            {intl.formatMessage({ id: 'product.button.buyNow' })}
+                          </Button>
+                          <Button
+                            type="primary"
+                            htmlType="submit"
+                            // icon={<ShoppingCartOutlined />}
+                            className="button-cart"
+                            disabled={isDisableSubmitButton}
+                          >
+                            {intl.formatMessage({ id: 'product.button.cart' })}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                    {
+                      <div className="specsBlock">
+                        <Form.Item label={intl.formatMessage({ id: 'product.color' })} name="color" className={`colors ${productDetail.type === TYPES.CAP_DIEN && 'colors--cap-dien'}`}>
+                          {productDetail.colors && productDetail.colors.length > 0 && renderGroupColor()}
+                        </Form.Item>
+
+                        <Form.Item
+                          label={
+                            productDetail.type === TYPES.DEN_LED
+                              ? intl.formatMessage({ id: 'product.power' })
+                              : intl.formatMessage({ id: 'product.specifications' })
+                          }
+                          name="power"
+                          className="power"
+                        >
+                          {productDetail.powers &&
+                            productDetail.powers?.length > 0 &&
+                            renderPower({
+                              name: 'power',
+                              data: productDetail.powers,
+                              onChange: onPowerChange,
+                              value: power,
+                            })}
+                        </Form.Item>
+                        <Form.Item
+                          label={
+                            productDetail.type === TYPES.DEN_LED
+                              ? intl.formatMessage({ id: 'product.color_temperature' })
+                              : ''
+                          }
+                          name="colorTemperature"
+                          className="colorTemperature"
+                        >
+                          {productDetail.type === TYPES.DEN_LED &&
+                            productDetail.powers &&
+                            productDetail.powers?.length > 0 &&
+                            renderPower({
+                              name: 'colorTemperature',
+                              data: productDetail.powers,
+                              onChange: onColorTemperatureChange,
+                              value: colorTemperature as any,
+                            })}
+                        </Form.Item>
+
+                        <Form.Item label={intl.formatMessage({ id: 'product.status' })} name="status">
+                          {status && <div className="colors">{status}</div>}
+                        </Form.Item>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </Form>
             </Descriptions.Item>
+            {/* <Descriptions.Item span={3} className="summary">
+              {productDetail?.summary}
+            </Descriptions.Item> */}
             <Descriptions.Item span={3} className="specification">
               <div className="specificationItem">
-                <span className="title">{intl.formatMessage({ id: 'product.sku' })}: </span>
-                <span className="data">{productDetail?.slug ? decodeURIComponent(productDetail?.slug) : ''}</span>
+                <span className="title">{`${intl.formatMessage({ id: 'product.sku' })}:`} </span>
+                <span className="data">
+                  <Tag>{getProductSku}</Tag>
+                </span>
               </div>
               <div className="specificationItem">
                 <span className="title">{intl.formatMessage({ id: 'product.brand' })}: </span>
-                <span className="data">{productDetail?.brand?.name}</span>
+                <span className="data">
+                  <Tag>{productDetail?.brand?.name}</Tag>
+                </span>
               </div>
-              <div className="specificationItem">
+              <div className="specificationItem specificationItem-categories">
                 <span className="title">{intl.formatMessage({ id: 'product.categories' })}: </span>
                 <span className="data">
-                  {productDetail?.categories ? productDetail?.categories?.map(item => item.name) : ''}
+                  {productDetail?.categories
+                    ? productDetail?.categories?.map(item => <Tag key={item._id}>{item.name}</Tag>)
+                    : ''}
                 </span>
               </div>
             </Descriptions.Item>
           </Descriptions>
-          <Form
-            name="basic"
-            labelCol={{ span: 8 }}
-            // wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            // onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item label="" name="total">
-              <div className="inputForm">
-                <div className="price">{intl.formatMessage({ id: 'common.price.contactPlease' })}</div>
-                <InputNumber min={1} defaultValue={1} onChange={onChange} addonAfter={selectAfter} className="input" />
-                <Button type="primary" htmlType="submit" icon={<ShoppingCartOutlined />} className="button">
-                  {intl.formatMessage({ id: 'product.button.cart' })}
-                </Button>
-              </div>
-            </Form.Item>
-          </Form>
         </div>
       </div>
-      {!isMobile && <Tabs className="tabs" defaultActiveKey={tabIndex} onChange={onTabChange}>
-        <TabPane tab={intl.formatMessage({ id: 'product.description' })} key="1">
-          <div className="ck-content" dangerouslySetInnerHTML={{ __html: productDetail?.description as string }}></div>
-        </TabPane>
-        <TabPane tab={intl.formatMessage({ id: 'product.specification' })} key="2">
-          <div className="ck-content" dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}></div>
-        </TabPane>
-        <TabPane tab={intl.formatMessage({ id: 'product.documents' })} key="3">
-          <>
-            {productDetail?.documents?.map(item => {
-              const fileName = item.replace(/^.*[\\\/]/, '');
-              return (
-                <Button type="link" onClick={() => getSelectedDocument(item)}>
-                  {fileName}
-                </Button>
-              );
-            })}
-            <div>
-              {selectedDocument && <Modal
-                title={getFileName(selectedDocument)}
-                centered
-                visible={pdfViewerModalOpen}
-                onOk={() => closePdfModal()}
-                destroyOnClose
-                width={1000}
-              >
-                <Document
-                  file={selectedDocument}
-                  onLoadSuccess={onDocumentLoadSuccess}
-                >
-                  <Page pageNumber={pageNumber} />
-                </Document>
-                <p>
-                  Page {pageNumber} of {numPages}
-                </p>
-              </Modal>}
-            </div>
-          </>
-        </TabPane>
-      </Tabs>}
-      {isMobile && <Collapse className="collapses">
-        <Collapse.Panel header={intl.formatMessage({ id: 'product.description' })} key="1">
-          <div className="ck-content" dangerouslySetInnerHTML={{ __html: productDetail?.description as string }}></div>
-        </Collapse.Panel>
-        <Collapse.Panel header={intl.formatMessage({ id: 'product.specification' })} key="2">
-          <div className="ck-content" dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}></div>
-        </Collapse.Panel>
-        <Collapse.Panel header={intl.formatMessage({ id: 'product.documents' })} key="3">
-        <>
-            {productDetail?.documents?.map(item => {
-              const fileName = item.replace(/^.*[\\\/]/, '');
-              return (
-                <div><a href={item} target={'__blank'}>{fileName}</a></div>
-              );
-            })}
-          </>
-        </Collapse.Panel>
-      </Collapse>}
+      <div className="description">
+        <div className="summary">{productDetail?.summary}</div>
+      </div>
+      {!isMobile && (
+        <Tabs className="tabs" defaultActiveKey={tabIndex} onChange={onTabChange}>
+          <TabPane tab={intl.formatMessage({ id: 'product.description' })} key="1">
+            <div
+              className="ck-content"
+              dangerouslySetInnerHTML={{ __html: productDetail?.description as string }}
+            ></div>
+          </TabPane>
+          <TabPane tab={intl.formatMessage({ id: 'product.specification' })} key="2">
+            <div
+              className="ck-content"
+              dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}
+            ></div>
+          </TabPane>
+        </Tabs>
+      )}
+      {isMobile && (
+        <Collapse className="collapses">
+          <Collapse.Panel header={intl.formatMessage({ id: 'product.description' })} key="1">
+            <div
+              className="ck-content"
+              dangerouslySetInnerHTML={{ __html: productDetail?.description as string }}
+            ></div>
+          </Collapse.Panel>
+          <Collapse.Panel header={intl.formatMessage({ id: 'product.specification' })} key="2">
+            <div
+              className="ck-content"
+              dangerouslySetInnerHTML={{ __html: productDetail?.specification as string }}
+            ></div>
+          </Collapse.Panel>
+        </Collapse>
+      )}
       <ProductRelated categories={productDetail.categories} />
     </div>
   );

@@ -9,6 +9,7 @@
 //   ACTIVED = 'ACTIVED',
 //   REJECTED = 'REJECTED',
 // }
+import { StringMap } from 'i18next';
 import { Customer } from './customer';
 import { Product } from './product';
 
@@ -16,10 +17,15 @@ export interface OrderItem {
   id?: string;
   quantity: number;
   total: number;
+  price?: number;
   order?: Order;
   product?: Product;
   createdBy?: string;
   _id?: string;
+  color?: string;
+  power?: string;
+  colorTemperature?: string;
+  sku?: string;
 }
 
 export interface Order {

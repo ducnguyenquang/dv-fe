@@ -1,6 +1,6 @@
-import { Button, Form, Input, Select, Card, Switch, Tooltip, AutoComplete } from 'antd';
+import { Button, Form, Input, Select, Card, Switch, Tooltip, AutoComplete, Tag, Space } from 'antd';
 import { Category } from 'models/category';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { productsHooks } from 'app/containers/Admin/Product';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { useIntl } from 'react-intl';
@@ -8,14 +8,20 @@ import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
 import { brandsHooks } from 'app/containers/Admin/Brand';
 import { Brand } from 'models/brand';
-import { TYPE_OPTIONS } from 'constants/type';
-import Editor from 'app/components/Editor/CkEditorClassic';
+import { TYPES, TYPE_OPTIONS } from 'constants/type';
+// import Editor from 'app/components/Editor/CkEditorClassic';
+import Editor from 'app/components/Editor/TinymceEditor';
+
 import './ProductDetailForm.less';
 import { useNavigate } from 'react-router-dom';
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 import { QuestionCircleOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { generateSku } from 'utils/string';
 import { settingsHooks } from 'app/containers/Admin/Setting';
+import ColorPicker from 'app/containers/Admin/SettingPage/components/Template/components/ColorPicker/ColorPicker';
+import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
+import { formatListToParts } from '@formatjs/intl/src/list';
+import { COLOR_OPTIONS, COLOR_TEMPERATURE_OPTIONS } from 'constants/common';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -50,27 +56,71 @@ const tailFormItemLayout = {
   },
 };
 
-const formItemLayoutWithOutLabel = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 20, offset: 4 },
-  },
-};
-
 interface IProps {
   isUpdate?: boolean;
   onFinish?: any;
-  initialValues?: any;
+  data?: any;
   isLoading?: boolean;
 }
 
-const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IProps): JSX.Element => {
+const ProductDetailForm = ({ isUpdate, onFinish, data, isLoading }: IProps): JSX.Element => {
   const intl = useIntl();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [description, setDescription] = useState('');
   const [specification, setSpecification] = useState('');
   const [sku, setSku] = useState('');
+  const [colors, setColors] = useState<string[]>([]);
+  const [powers, setWatts] = useState<string[]>([]);
+
+  // const colorTemperatureOptions = [
+  //   {
+  //     key: '2700K-3500K',
+  //     label: `2700K-3500K`,
+  //     value: {
+  //       value: 'V',
+  //       color: '#FFFD5E',
+  //     },
+  //   },
+  //   {
+  //     key: '4000K-4500K',
+  //     label: `4000K-4500K`,
+  //     // value: 'TT',
+  //     // color: '#FFFCBC',
+  //     value: {
+  //       value: 'TT',
+  //       color: '#FFFCBC',
+  //     },
+  //   },
+  //   {
+  //     key: '6000K-6500K',
+  //     label: `6000K-6500K`,
+  //     // value: 'T',
+  //     // color: '#F9FDFE',
+  //     value: {
+  //       value: 'T',
+  //       color: '#F9FDFE',
+  //     },
+  //   },
+  // ];
+
+  
+
+  const [initialValues, setInitialValues] = useState(data);
+
+  useEffect(() => {
+    if (!initialValues && data) {
+      setInitialValues({
+        ...data,
+        powers: [
+          {
+            power: '',
+            quantity: 0,
+          },
+        ],
+      });
+    }
+  }, [data, initialValues]);
 
   const [search, setSearch] = useState({
     type: initialValues?.type,
@@ -116,10 +166,22 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
     if (sku) form.setFieldsValue({ slug: sku });
   }, [form, sku]);
 
+  // useEffect(() => {
+  //   if (colors) form.setFieldsValue({ colors });
+  // }, [colors, form]);
+
   const onSelectedType = (value: string) => {
+    form.setFieldsValue({ categories: undefined });
     const searchData = {
       type: value,
     };
+    const dataForm = form.getFieldsValue();
+
+    form.setFieldsValue({
+      ...dataForm,
+      colors: initialValues && value !== initialValues?.type ? [] : initialValues ? initialValues?.color : '',
+    });
+    // form.validateFields()
     setSearch(searchData);
   };
 
@@ -144,12 +206,84 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
   }, [isLoading, isSkuDataLoading, skuData]);
 
   const handleSkuSearch = (value: string) => {
-    setSkuSearch(value)
+    setSkuSearch(value);
   };
 
   const onSkuSelect = (value: string) => {
     console.log('onSelect', value);
   };
+
+  const onColorSelected = useCallback(
+    (itemIndex: number, value: string) => {
+      // console.log('==== itemIndex', itemIndex);
+      // console.log('==== value', value);
+      const colors = form.getFieldValue('colors');
+
+      // console.log('==== colors', colors);
+
+      if (colors.length >= itemIndex) {
+        colors[itemIndex] = value;
+        // setColors(colors);
+        form.setFieldValue('colors', colors);
+      } else {
+        // setColors([...colors, value]);
+        form.setFieldValue('colors', [...colors, value]);
+      }
+    },
+    [form]
+  );
+
+  const onColorRemoved = useCallback(
+    (itemIndex: number) => {
+      colors.splice(itemIndex, 1);
+      setColors(colors);
+    },
+    [colors]
+  );
+
+  const onColorDropDownSelected = useCallback((value: string[], option: any) => {
+    // console.log('==== value', value);
+    // console.log('==== option', option);
+    setColors(value);
+  }, []);
+
+  // console.log('==== initialValues', initialValues);
+
+  // const tagColorRender = (props: any) => {
+  //   const { key, label, value, color, closable, onClose } = props;
+  //   const onPreventMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //   };
+  //   console.log('==== tagColorRender', props);
+
+  //   return (
+  //     <Tag
+  //       key={key}
+  //       color={color}
+  //       onMouseDown={onPreventMouseDown}
+  //       closable={closable}
+  //       onClose={onClose}
+  //       style={{ marginRight: 3 }}
+  //     >
+  //       {label}
+  //     </Tag>
+  //   );
+  // };
+
+  const colorOptions = useMemo(() => {
+    if (initialValues) {
+      return COLOR_OPTIONS.map(c => ({
+        label: c.label,
+        value: c.value,
+      }));
+      // }
+    }
+  }, [initialValues]);
+
+  // console.log('==== data', data);
+  // console.log('==== initialValues', initialValues);
+  // console.log('==== getFieldsValue', form.getFieldsValue());
 
   return (
     <div className="productDetailForm">
@@ -167,13 +301,27 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           form={form}
           name="update"
           onFinish={async values => {
-            await onFinish({
+            // console.log('==== values', values);
+
+            const data = {
               ...values,
               description: encodeURIComponent(values.description),
               specification: encodeURIComponent(values.specification),
               slug: encodeURIComponent(values.slug),
               images: fileList,
-            }).then(() => navigate(`/admin/products`));
+              // colors: colors,
+              powers: values.powers.map((item: any) => ({
+                power: item.power,
+                quantity: item.quantity,
+                price: item.price,
+                colorTemperature: item.colorTemperature || undefined,
+              })),
+              type: values.type === undefined ? '' : values.type,
+            };
+            // console.log('==== data', data);
+            // return;
+
+            await onFinish(data).then(() => navigate(`/admin/products`));
           }}
           initialValues={initialValues}
           scrollToFirstError
@@ -234,21 +382,23 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
                 ))}
             </Select>
           </Form.Item>
-
-          <Form.Item name="summary" label={intl.formatMessage({ id: 'product.summary' })}>
-            <Input.TextArea showCount maxLength={100} value={initialValues?.summary} />
-          </Form.Item>
-
-          <Form.Item name="description" label={intl.formatMessage({ id: 'product.description' })}>
-            <Editor value={description} onChange={setDescription} />
-          </Form.Item>
-          <Form.Item name="specification" label={intl.formatMessage({ id: 'product.specification' })}>
-            <Editor value={specification} onChange={setSpecification} />
-          </Form.Item>
-          <Form.Item name="type" label={intl.formatMessage({ id: 'product.type' })}>
+          <Form.Item
+            name="type"
+            label={intl.formatMessage({ id: 'product.type' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'product.type' }) }
+                ),
+              },
+            ]}
+          >
             <Select
               allowClear
               placeholder={intl.formatMessage({ id: 'product.type.placeholder' })}
+              onClear={() => onSelectedType('')}
               onChange={value => onSelectedType(value)}
             >
               {TYPE_OPTIONS.map((item: any) => (
@@ -258,7 +408,19 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name="categories" label={intl.formatMessage({ id: 'product.categories' })}>
+          <Form.Item
+            name="categories"
+            label={intl.formatMessage({ id: 'product.categories' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'product.categories' }) }
+                ),
+              },
+            ]}
+          >
             <Select
               // key="categorySelect"
               id="categories"
@@ -273,6 +435,17 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
                   </Option>
                 ))}
             </Select>
+          </Form.Item>
+
+          <Form.Item name="summary" label={intl.formatMessage({ id: 'product.summary' })}>
+            <Input.TextArea showCount maxLength={300} value={initialValues?.summary} />
+          </Form.Item>
+
+          <Form.Item name="description" label={intl.formatMessage({ id: 'product.description' })}>
+            <Editor value={description} onChange={setDescription} />
+          </Form.Item>
+          <Form.Item name="specification" label={intl.formatMessage({ id: 'product.specification' })}>
+            <Editor value={specification} onChange={setSpecification} />
           </Form.Item>
 
           <Form.Item
@@ -290,37 +463,173 @@ const ProductDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           <Form.Item name="isHidden" label={intl.formatMessage({ id: 'product.isHidden' })}>
             <Switch defaultChecked={initialValues?.isHidden} />
           </Form.Item>
-          <Form.List name="documents">
-            {(fields, { add, remove }, { errors }) => (
-              <>
-                {fields.map((field, index) => (
+          {search.type === TYPES.DEN_LED && (
+            <Form.List name="colors">
+              {(fields, { add, remove }, { errors }) => (
+                <>
+                  {fields.map((field, index) => {
+                    return (
+                      <Form.Item
+                        {...formItemLayout}
+                        label={index === 0 ? intl.formatMessage({ id: 'product.color' }) : ' '}
+                        required={false}
+                        key={field.key}
+                        className="colors"
+                        name="colors"
+                      >
+                        <Form.Item {...field} validateTrigger={['onChange', 'onBlur']} noStyle>
+                          <ColorPicker
+                            initialColor={
+                              initialValues?.colors[field.name] ? initialValues?.colors[field.name] : undefined
+                            }
+                            saveColor={(selectedColor: any) => onColorSelected(index, selectedColor)}
+                          />
+                        </Form.Item>
+                        {fields.length > 0 ? (
+                          <MinusCircleOutlined
+                            className="dynamic-delete-button"
+                            onClick={() => {
+                              remove(field.name);
+                              onColorRemoved(field.name);
+                            }}
+                          />
+                        ) : null}
+                      </Form.Item>
+                    );
+                  })}
                   <Form.Item
-                    // {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
                     {...formItemLayout}
-                    label={index === 0 ? intl.formatMessage({ id: 'product.documents' }) : ' '}
-                    required={false}
-                    key={field.key}
+                    label={fields.length === 0 ? intl.formatMessage({ id: 'product.color' }) : ' '}
                   >
-                    <Form.Item {...field} validateTrigger={['onChange', 'onBlur']} noStyle>
-                      <Input placeholder={intl.formatMessage({ id: 'product.documents' })} style={{ width: '60%' }} />
-                    </Form.Item>
-                    {fields.length > 1 ? (
-                      <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
-                    ) : null}
+                    <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
+                      {intl.formatMessage({ id: 'product.button.addColor' })}
+                    </Button>
+                    <Form.ErrorList errors={errors} />
                   </Form.Item>
-                ))}
-                <Form.Item
-                  {...formItemLayout}
-                  label={fields.length === 0 ? intl.formatMessage({ id: 'product.documents' }) : ' '}
-                >
-                  <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
-                    {intl.formatMessage({ id: 'product.button.addDocument' })}
-                  </Button>
-                  <Form.ErrorList errors={errors} />
-                </Form.Item>
-              </>
-            )}
-          </Form.List>
+                </>
+              )}
+            </Form.List>
+          )}
+          {search.type === TYPES.CAP_DIEN && (
+            <Form.Item
+              {...formItemLayout}
+              label={intl.formatMessage({ id: 'product.color' })}
+              required={false}
+              className="colors"
+              name="colors"
+            >
+              <Select
+                mode="multiple"
+                showArrow
+                defaultValue={initialValues?.colors}
+                style={{ width: '100%' }}
+                options={colorOptions}
+                onChange={onColorDropDownSelected}
+              />
+            </Form.Item>
+          )}
+
+          {search.type && (
+            <Form.List name="powers">
+              {(fields, { add, remove }, { errors }) => (
+                <>
+                  {fields.map((field, index) => {
+                    return (
+                      <Form.Item
+                        {...formItemLayout}
+                        label={
+                          index === 0
+                            ? search.type === TYPES.DEN_LED
+                              ? intl.formatMessage({ id: 'product.power' })
+                              : intl.formatMessage({ id: 'product.specifications' })
+                            : ' '
+                        }
+                        required={false}
+                        key={field.key}
+                        className="powers"
+                      >
+                        <Form.Item noStyle>
+                          <Form.Item
+                            {...field}
+                            name={[field.name, 'power']}
+                            validateTrigger={['onChange', 'onBlur']}
+                            className="power"
+                          >
+                            <Input
+                              placeholder={
+                                search.type === TYPES.DEN_LED
+                                  ? intl.formatMessage({ id: 'product.power' })
+                                  : intl.formatMessage({ id: 'product.specifications' })
+                              }
+                            />
+                          </Form.Item>
+                        </Form.Item>
+                        <Form.Item
+                          {...field}
+                          label={intl.formatMessage({ id: 'product.quantity' })}
+                          name={[field.name, 'quantity']}
+                          validateTrigger={['onChange', 'onBlur']}
+                          className="quantity"
+                        >
+                          <Input placeholder={intl.formatMessage({ id: 'product.quantity' })} />
+                        </Form.Item>
+                        <Form.Item
+                          {...field}
+                          label={intl.formatMessage({ id: 'product.price' })}
+                          name={[field.name, 'price']}
+                          validateTrigger={['onChange', 'onBlur']}
+                          className="price"
+                        >
+                          <Input placeholder={intl.formatMessage({ id: 'product.price' })} />
+                        </Form.Item>
+                        {search.type === TYPES.DEN_LED && (
+                          <Form.Item
+                            {...field}
+                            label={intl.formatMessage({ id: 'product.color_temperature' })}
+                            validateTrigger={['onChange', 'onBlur']}
+                            name={[field.name, 'colorTemperature']}
+                            className="colorTemperature"
+                          >
+                            <Select
+                              id="colorTemperatures"
+                              placeholder={intl.formatMessage({ id: 'product.color_temperature' })}
+                            >
+                              {COLOR_TEMPERATURE_OPTIONS.map(item => {
+                                return (
+                                  <Option
+                                    style={{ backgroundColor: item.color }}
+                                    value={item.value}
+                                    label={item.label}
+                                  >
+                                    <Space>{item.label}</Space>
+                                  </Option>
+                                );
+                              })}
+                            </Select>
+                          </Form.Item>
+                        )}
+                        <MinusCircleOutlined onClick={() => remove(field.name)} />
+                      </Form.Item>
+                    );
+                  })}
+                  <Form.Item
+                    {...formItemLayout}
+                    label={
+                      fields.length === 0
+                        ? search.type === TYPES.DEN_LED
+                          ? intl.formatMessage({ id: 'product.power' })
+                          : intl.formatMessage({ id: 'product.specifications' })
+                        : ' '
+                    }
+                  >
+                    <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
+                      {intl.formatMessage({ id: 'product.button.addWatt' })}
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
+          )}
 
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" loading={isLoading}>

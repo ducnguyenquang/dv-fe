@@ -98,18 +98,19 @@ const ListItemComponent = ({ data }: IProps): JSX.Element => {
         <div className="rightSide">
           <div className="price">{intl.formatMessage({ id: 'common.price.contactPlease' })}</div>
           <div className="action">
-            <Tooltip title={intl.formatMessage({ id: 'common.button.favourite' })}>
+            {/* <Tooltip title={intl.formatMessage({ id: 'common.button.favourite' })}>
               <Button type="link" shape="circle" icon={<HeartOutlined />} size="large" />
-            </Tooltip>
+            </Tooltip> */}
             <Button
               type="primary"
-              icon={<ShoppingCartOutlined />}
+              // icon={<ShoppingCartOutlined />}
               onClick={e => {
                 e.stopPropagation();
-                onAddCart(data);
+                // onAddCart(data);
+                navigate(`/product/${data.slug}`)
               }}
             >
-              {intl.formatMessage({ id: 'product.button.cart' })}
+              {intl.formatMessage({ id: 'product.detail' })}
             </Button>
           </div>
         </div>

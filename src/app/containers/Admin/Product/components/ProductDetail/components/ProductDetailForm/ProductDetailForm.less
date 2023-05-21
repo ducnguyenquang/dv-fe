@@ -2,4 +2,59 @@
   .ql-container {
     height: 300px;
   }
+  .powers {
+    .ant-form-item {
+      &-row {
+        // width: fit-content;
+      }
+      &-control {
+        &-input {
+          &-content {
+            width: fit-content;
+            display: flex;
+            span {
+              display: inline-block;
+              justify-content: center;
+              display: flex;
+            }
+          }
+        }
+      //   display: flex;
+      }
+    }
+    .power {
+      width: 100px;
+      input {
+        width: 100% !important;
+      }
+      
+    }
+    .quantity, .price {
+      width: 150px;
+      input {
+        width: 100% !important;
+      }
+    }
+    .colorTemperature {
+      width: 230px;
+      input {
+        width: 100% !important;
+      }
+    }
+
+    
+    
+  }
+  .colors {
+    
+  }
+  
+}
+.colorItem {
+  &-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 1rem;
+  }
 }

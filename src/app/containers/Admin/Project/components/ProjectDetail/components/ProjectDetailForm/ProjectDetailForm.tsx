@@ -4,7 +4,8 @@ import type { UploadFile } from 'antd/es/upload/interface';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet-async';
 import 'react-quill/dist/quill.snow.css';
-import Editor from 'app/components/Editor/CkEditorClassic';
+// import Editor from 'app/components/Editor/CkEditorClassic';
+import Editor from 'app/components/Editor/TinymceEditor';
 
 import './ProjectDetailForm.less';
 import { useNavigate } from 'react-router-dom';

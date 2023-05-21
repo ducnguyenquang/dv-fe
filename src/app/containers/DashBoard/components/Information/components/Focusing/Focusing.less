@@ -10,22 +10,139 @@
       width: 50%;
       display: flex;
       justify-content: flex-start;
+      overflow: hidden;
       &:last-child {
         margin-right: unset;
         display: flex;
         justify-content: flex-end;
       }
 
-      .ant-image {
+      // .ant-image {
+      //   height: 300px;
+      //   overflow: hidden;
+      //   width: 100%;
+      //   display: flex;
+      //   // justify-content: center;
+      //   position: relative;
+      //   .ant-image-img {
+      //     object-fit: cover;
+      //     width: 400px;
+      //   }
+      // }
+
+      .eventImages {
         height: 300px;
         overflow: hidden;
-        width: 100%;
-        display: flex;
+        width: 530px;
         // justify-content: center;
         position: relative;
-        .ant-image-img {
-          object-fit: cover;
-          width: 400px;
+
+        .ant-image {
+          display: flex;
+          // width: 530px;
+          // height: 300px;
+
+          &-img {
+            object-fit: cover;
+            width: 100%;
+            height: auto;
+          }
+
+          &-mask {
+            font-size: 18px;
+          }
+
+          .eventImage {
+            opacity: 0;
+            transition: opacity 6s;
+            width: 0;
+            // display: none;
+            // animation: fadeInOut linear 7s infinite alternate;
+            // animation-delay: ;
+            // animation: fadeOut linear 3s infinite alternate;
+            // opacity: 0;
+            // animation: fade-in 1s ease-in infinite forwards, fade-out 4s 1s ease-out infinite forwards;
+            position: relative;
+            overflow: hidden;
+            // width: 100%;
+            height: 0;
+            &--current {
+              // display: block;
+
+              opacity: 1;
+              // width: 100%;
+              object-fit: cover;
+              width: 530px;
+              height: 300px;
+            }
+            
+            &--fade-out {
+              opacity: 0;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+
+
+      .productBlock {
+        width: 100%;
+        overflow-y: auto;
+        position: relative;
+
+        // .eventImage {
+        //   opacity: 0;
+        //   transition: opacity 0.5s;
+
+        //   // animation: fadeInOut linear 7s infinite alternate;
+        //   // animation-delay: ;
+        //   // animation: fadeOut linear 3s infinite alternate;
+        //   // opacity: 0;
+        //   // animation: fade-in 1s ease-in infinite forwards, fade-out 4s 1s ease-out infinite forwards;
+
+        //   &--current {
+        //     opacity: 1;
+        //   }
+          
+        //   &--fade-out {
+        //     opacity: 0;
+        //   }
+        // }
+
+        // @keyframes fade-in {
+        //   100% {
+        //     opacity: 1;
+        //   }
+        // }
+        
+        // @keyframes fade-out {
+        //   0% {
+        //     opacity: 1;
+        //   }
+        //   100% {
+        //     opacity: 0;
+        //   }
+        // }
+        
+        // @keyframes fadeInOut {
+        //   0% { opacity: 0; }
+        //   50% { opacity: 1; }
+        //   100% { opacity: 0; }
+        // }
+
+        // @keyframes fadeOut {
+        //   0% { opacity: 1; }
+        //   100% { opacity: 0; }
+        // }
+
+        .marquee-text {
+          // min-width: fit-content;
+          .marquee {
+            // min-width: fit-content;
+            .ant-image {
+              width: fit-content;
+            }
+          }
         }
       }
     }
@@ -51,12 +168,15 @@
           flex-direction: column;
           justify-content: center;
           width: 80%;
-          .title, h1, h2 {
+          .title,
+          h1,
+          h2 {
             font-size: 18px;
             text-transform: uppercase;
             font-weight: normal;
           }
-          .content, p {
+          .content,
+          p {
             font-size: 14px;
             color: #777777;
           }

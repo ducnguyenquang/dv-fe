@@ -11,6 +11,69 @@ const ProductUpdate = (): JSX.Element => {
   const { id } = useParams();
   const { mutateAsync: updateProduct, isLoading: isLoadingUpdateProduct } = productsHooks.useUpdateProduct();
 
+  // const colorOptions = [
+  //   {
+  //     key: 'black',
+  //     label: (
+  //       <span className="colorItem">
+  //         <span className="colorItem-color" style={{ backgroundColor: '#262425' }} />
+  //         Đen
+  //       </span>
+  //     ),
+  //     value: 'black',
+  //   },
+  //   {
+  //     key: 'red',
+  //     label: (
+  //       <span className="colorItem">
+  //         <span className="colorItem-color" style={{ backgroundColor: '#EA1D2C' }} />
+  //         Đỏ
+  //       </span>
+  //     ),
+  //     value: 'red',
+  //   },
+  //   {
+  //     key: 'blue',
+  //     label: (
+  //       <span className="colorItem">
+  //         <span className="colorItem-color" style={{ backgroundColor: '#2F378F' }} />
+  //         Xanh
+  //       </span>
+  //     ),
+  //     value: 'blue',
+  //   },
+  //   {
+  //     key: 'yellow',
+  //     label: (
+  //       <span className="colorItem">
+  //         <span className="colorItem-color" style={{ backgroundColor: '#FEEF34' }} />
+  //         Vàng
+  //       </span>
+  //     ),
+  //     value: 'yellow',
+  //   },
+  //   {
+  //     key: 'ter',
+  //     label: (
+  //       <span className="colorItem">
+  //         <img src="/images/color_ter.jpg" width={16} height={16} />
+  //         Ter
+  //       </span>
+  //     ),
+  //     value: 'ter',
+  //   },
+  //   {
+  //     key: 'white',
+  //     label: (
+  //       <span className="colorItem">
+  //         <span className="colorItem-color" style={{ backgroundColor: '#FFFFFF' }} />
+  //         Trắng
+  //       </span>
+  //     ),
+  //     value: 'white',
+  //   },
+  // ];
+
   const [productDetail, setProductDetail] = useState<Product>({});
   const [defaultValue, setDefaultValue] = useState<any>();
   const [categories, setCategories] = useState<Category[]>([]);
@@ -58,6 +121,11 @@ const ProductUpdate = (): JSX.Element => {
           return { value: item?._id, label: item?.name };
         }),
         brand: { value: productDetailData.brand?._id, label: productDetailData.brand?.name },
+        colors: productDetailData?.colors,
+        // colors: productDetailData?.colors?.map((item: string) => {
+        //   const index = colorOptions.findIndex(c => c.value === item)
+        //   return colorOptions[index];
+        // }),
       });
     }
   }, [productDetailData, isLoadingProductDetail, categoriesData]);
@@ -73,7 +141,7 @@ const ProductUpdate = (): JSX.Element => {
       <ProductDetailForm
         key={'productUpdate'}
         isUpdate={true}
-        initialValues={defaultValue}
+        data={defaultValue}
         onFinish={onFinish}
         isLoading={isLoadingProductDetail || isLoadingUpdateProduct}
       />

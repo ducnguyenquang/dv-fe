@@ -1,5 +1,5 @@
 import { Card, Space, Button, UploadFile, Input } from 'antd';
-import Editor from 'app/components/Editor/CkEditorClassic';
+// import Editor from 'app/components/Editor/CkEditorClassic';
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 import { settingPagesHooks } from 'app/containers/Admin/SettingPage/hooks';
 import { MODULE_NAME, PAGE_NAME, SETTINGS } from 'constants/common';
@@ -261,12 +261,11 @@ const FooterBlock = (): JSX.Element => {
         <div className="footerBlock-content-item">
           <ImageUpload
             fileList={logoImageFileList}
-            ratio={5 / 1}
+            ratio={1 / 1}
             setFileList={setLogoImageFileList}
             imageNumber={1}
             className="logoImage"
           />
-          <Input value={sologun || ''} onChange={e => setSologun(e.target.value)} />
         </div>
         <div className="footerBlock-content-standard">
           <ImageUpload

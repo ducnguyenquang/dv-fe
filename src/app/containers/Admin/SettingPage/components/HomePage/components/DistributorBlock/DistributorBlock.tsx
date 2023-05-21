@@ -1,5 +1,7 @@
 import { Card, Space, Button, UploadFile, Input } from 'antd';
-import Editor from 'app/components/Editor/CkEditorClassic';
+// import Editor from 'app/components/Editor/CkEditorClassic';
+// import Editor from 'app/components/Editor/TinymceEditor';
+
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
 import { settingPagesHooks } from 'app/containers/Admin/SettingPage/hooks';
 import { MODULE_NAME, PAGE_NAME, SETTINGS } from 'constants/common';

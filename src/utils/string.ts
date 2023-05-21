@@ -29,3 +29,7 @@ export const fixBrokenLink = (url: string) => {
   }
   return url;
 };
+
+export const numberWithCommas = (price: string) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

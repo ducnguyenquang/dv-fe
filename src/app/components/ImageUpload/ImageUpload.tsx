@@ -47,7 +47,7 @@ const ImageUpload = ({ imageNumber, fileList, setFileList, ratio, className }: I
   };
 
   return (
-    <ImgCrop rotate grid fillColor={'transparent'} aspect={ratio ? ratio : 1 / 1} minZoom={0} cropperProps={{ restrictPosition: false }}>
+    <ImgCrop rotationSlider showGrid showReset fillColor={'transparent'} aspect={ratio ? ratio : 1 / 1} aspectSlider minZoom={0}>
       <Upload className={className} {...props} onPreview={onPreview}>
         {fileList?.length < imageNumber && `+ ${intl.formatMessage({ id: 'product.button.addImages' })}`}
       </Upload>

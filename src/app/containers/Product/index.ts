@@ -7,6 +7,7 @@ export {
   export { productsApi } from './api';
   export { productsHooks } from './hooks';
   export { ProductList } from './components/ProductList';
+  export { ProjectList } from './components/ProjectList';
   export { ProductDetail } from './components/ProductDetail';
   export { ProductFilter } from './components/ProductFilter';
   export { SupportMenu } from './components/SupportMenu';

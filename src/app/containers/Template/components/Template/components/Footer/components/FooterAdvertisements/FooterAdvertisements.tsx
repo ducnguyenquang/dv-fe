@@ -11,24 +11,18 @@ import { useContext } from 'react';
 import { fixBrokenLink } from 'utils/string';
 
 const FooterAdvertisements = (): JSX.Element => {
-  const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
+  // const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
   const { orientation, isMobile } = useContext(AppContext);
 
-  const { data: dataAdvertisements, isLoading: isLoadingAdvertisements } = templatesHooks.useAdvertisements({
+  const { data: advertisements, isLoading: isLoadingAdvertisements } = templatesHooks.useAdvertisements({
     pagination: {
-      limit: 1000,
+      limit: 10,
       offset: 0,
     },
   });
 
-  useEffect(() => {
-    if (dataAdvertisements && !isLoadingAdvertisements) {
-      setAdvertisements(dataAdvertisements);
-    }
-  }, [dataAdvertisements, isLoadingAdvertisements]);
-  
   return <div className={`advertisements ${isMobile && 'advertisements-mobile'}`}>
-    {advertisements?.map((item: any) => <a href={fixBrokenLink(item.url) as unknown as string} key={item.name} target={'_blank'} rel="noreferrer"><img
+    {advertisements && advertisements?.map((item: any) => <a href={fixBrokenLink(item.url) as unknown as string} key={item.name} target={'_blank'} rel="noreferrer"><img
       alt="logo"
       src={item?.image?.[0]?.url || item?.image?.[0]?.thumbUrl || '/images/no-image.png'}
       onError={error => {

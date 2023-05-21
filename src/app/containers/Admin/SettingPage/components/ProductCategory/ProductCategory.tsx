@@ -134,7 +134,7 @@ const ProductCategory = (): JSX.Element => {
             </Space>
           }
         >
-          <ImageUpload fileList={cableFileList} ratio={2 / 1} setFileList={setCableFileList} imageNumber={1} />
+          <ImageUpload fileList={cableFileList} ratio={4.5 / 1} setFileList={setCableFileList} imageNumber={1} />
         </Card>
         <Card
           style={{ marginTop: 16 }}
@@ -151,7 +151,7 @@ const ProductCategory = (): JSX.Element => {
             </Space>
           }
         >
-          <ImageUpload fileList={ledLightFileList} ratio={2 / 1} setFileList={setLedLightFileList} imageNumber={1} />
+          <ImageUpload fileList={ledLightFileList} ratio={4.5 / 1} setFileList={setLedLightFileList} imageNumber={1} />
         </Card>
       </Card>
     </>

@@ -14,10 +14,6 @@ import { useParams } from 'react-router-dom';
 import { templatesHooks } from 'app/containers/Template';
 import { Context as AppContext } from 'app/context/appContext';
 
-interface IProps {
-  category?: string;
-}
-
 const ProductList = (): JSX.Element => {
   const [page, setPage] = useState(PAGE);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
@@ -25,10 +21,7 @@ const ProductList = (): JSX.Element => {
   const [viewType, setViewType] = useState('list');
   const routeParams = useParams();
   const { isMobile } = useContext(AppContext);
-  const category = routeParams.category
-  // const defaultFilter = {
-  //   category: { slug: routeParams.category},
-  // };
+  const category = routeParams.category;
   const [search, setSearch] = useState<any>();
   const [isLoadMoreData, setIsLoadMoreData] = useState(false);
   
@@ -50,8 +43,6 @@ const ProductList = (): JSX.Element => {
     },
   });
 
-
-
   useEffect(() => {
     if (categoryData && !isCategoryDataLoading) {
       const categories = [categoryData?.data?.[0]?._id]
@@ -61,7 +52,6 @@ const ProductList = (): JSX.Element => {
       })
     }
   },[categoryData, isCategoryDataLoading])
-  
   
   const { data: productData, isLoading: isProductDataLoading } = productsHooks.useProducts({
     search,
@@ -82,9 +72,6 @@ const ProductList = (): JSX.Element => {
     setPage(page + 1);
     setIsLoadMoreData(true);
   };
-
-  console.log('==== products', products);
-
 
   return (
     <div className={`productList ${isMobile && 'productList-mobile'}`}>

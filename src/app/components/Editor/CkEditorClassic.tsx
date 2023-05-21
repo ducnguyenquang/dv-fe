@@ -212,9 +212,9 @@ const editorConfig = {
   //   'WProofreader',
   //   'MathType',
   // ],
-  image: {
-    toolbar: [ 'toggleImageCaption', 'imageTextAlternative' ]
-  }
+  // image: {
+  //   toolbar: [ 'toggleImageCaption', 'imageTextAlternative' ]
+  // }
 };
 
 const ClassicEditor = ({ value, onChange, placeholder }: IProps) => {
@@ -229,7 +229,7 @@ const ClassicEditor = ({ value, onChange, placeholder }: IProps) => {
       //       toolbar: [ 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor' ]
 
       // } }
-      initialQuality={0.8}
+      // initialQuality={0.8}
       config={editorConfig}
       onReady={(editor: any) => {
         // You can store the "editor" and use when it is needed.

@@ -1,11 +1,11 @@
 .distributor {
-  height: 350px;
+  height: 250px;
   background-color: #ededed;
   display: flex;
   flex-direction: column;
   .title {
     font-size: 24px;
-    padding: 20px 0;
+    padding: 1rem 0 0 0;
     text-align: center;
     text-transform: uppercase;
   }
@@ -32,8 +32,13 @@
         color: #ff7043;
         display: flex;
         justify-content: center;
-        img {
-          width: 200px;
+
+        .ant-image {
+          display: block;
+          &-img {
+            height: 150px;
+            display: block;
+          }
         }
       }
       .text {

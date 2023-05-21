@@ -17,6 +17,7 @@ import HamburgerMenu from 'app/components/HamburgerMenu/HamburgerMenu';
 import { Logo } from './components/Header/components/Logo';
 // import { templatesHooks } from 'app/containers/Template';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
+import ScrollToTopButton from 'app/components/ScrollToTopButton/ScrollToTopButton';
 
 interface IProps {
   content?: any;
@@ -37,14 +38,14 @@ const Template = ({ content, leftMenu, hasBreadcrumb, hasTopMenu, hasAdvertiseme
       group: PAGE_NAME.P_TEMPLATE,
     },
     pagination: {
-      limit: 1000,
+      limit: 50,
       offset: 0,
     },
   });
 
   const { data: dataTagSeos, isLoading: isLoadingTagSeos } = templatesHooks.useTagSeos({
     pagination: {
-      limit: 1000,
+      limit: 100,
       offset: 0,
     },
   });
@@ -91,6 +92,7 @@ const Template = ({ content, leftMenu, hasBreadcrumb, hasTopMenu, hasAdvertiseme
   const backgroundColorStyle = backgroundColor
     ? {
         backgroundColor: backgroundColor,
+        minHeight: '100vh',
       }
     : {};
 
@@ -106,24 +108,24 @@ const Template = ({ content, leftMenu, hasBreadcrumb, hasTopMenu, hasAdvertiseme
         <meta name="keywords" content={tagSeos} />
       </Helmet>
       {isMobile ? <HamburgerMenu /> : hasTopMenu && <Header className="header">{<TemplateHeader />}</Header>}
-      <Content>
+      <Content >
         {!isMobile && hasBreadcrumb && <BreadcrumbComponent />}
         {leftMenu ? (
-          <Layout className={`layoutContent site-layout-background`}>
+          <div className={`layoutContent site-layout-background`}>
             {!isMobile && leftMenu}
             {isMobile ? (
-              <div className={isMobile ? `mobileBlock` : ''}>
+              <Content className={isMobile ? `mobileBlock` : ''}>
                 {isMobile && (
                   <div className="logo">
                     <Logo />
                   </div>
                 )}
-                <Content>{content}</Content>
-              </div>
+                <div className='layoutContent-content'>{content}</div>
+              </Content>
             ) : (
-              <Content>{content}</Content>
+              <Content className='layoutContent-content'>{content}</Content>
             )}
-          </Layout>
+          </div>
         ) : (
           <div className={isMobile ? `mobileBlock` : ''}>
             {isMobile && (
@@ -135,9 +137,10 @@ const Template = ({ content, leftMenu, hasBreadcrumb, hasTopMenu, hasAdvertiseme
           </div>
         )}
       </Content>
-      <Footer style={{ textAlign: 'center', fontSize: '13px' }}>
+      <Footer style={{ textAlign: 'center', fontSize: '13px', position: 'relative', bottom: 0, width: '100%' }}>
         <TemplateFooter hasAdvertisement={hasAdvertisement} />
       </Footer>
+      <ScrollToTopButton />
     </Layout>
   );
 };

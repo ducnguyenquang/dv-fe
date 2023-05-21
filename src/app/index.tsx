@@ -39,7 +39,7 @@ import {
 } from 'app/containers/Admin/SettingPage';
 import { AdminPageTable, AdminPageAdd, AdminPageUpdate } from 'app/containers/Admin/Page';
 
-import { ProductList, ProductDetail, ProductFilter, SupportMenu } from 'app/containers/Product';
+import { ProductList, ProjectList, ProductDetail, ProductFilter, SupportMenu } from 'app/containers/Product';
 
 import { Cart } from 'app/containers/Cart';
 import { HomePage } from 'app/containers/DashBoard/components/DashBoard/HomePage';
@@ -327,6 +327,8 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
                   leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
                 })}
               />
+              
+              
               <Route path={'/cart'} element={getTemplate({ content: <Cart />, leftMenu: <SupportMenu /> })} />
               <Route path={'/contact'} element={getTemplate({ content: <Contact />, leftMenu: <SupportMenu /> })} />
               <Route path={'/aboutUs'} element={getTemplate({ content: <AboutUs />, leftMenu: <SupportMenu /> })} />
@@ -345,8 +347,8 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
                 element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
               />
               <Route
-                path={'/projects'}
-                element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
+                path={'/project'}
+                element={getTemplate({ content: <ProjectList />, leftMenu: <SupportMenu /> })}
               />
               <Route
                 path={'/page/:id'}

@@ -41,7 +41,7 @@ const UserTable = (): JSX.Element => {
   const { data, isLoading } = usersHooks.useUsers({
     pagination: {
       limit: pageSize,
-      offset: page - 1,
+      offset: (page - 1) * pageSize,
     },
     search,
     sort,
