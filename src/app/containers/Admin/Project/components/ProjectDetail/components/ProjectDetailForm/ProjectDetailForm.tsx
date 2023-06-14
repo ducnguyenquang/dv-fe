@@ -1,4 +1,4 @@
-import { Button, Form, Input, Card } from 'antd';
+import { Button, Form, Input, Card, InputNumber, Switch } from 'antd';
 import { useEffect, useState } from 'react';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { useIntl } from 'react-intl';
@@ -145,7 +145,25 @@ const ProjectDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IPr
           <Form.Item label={intl.formatMessage({ id: 'project.images' })}>
             <ImageUpload fileList={fileList} setFileList={setFileList} imageNumber={1} />
           </Form.Item>
-
+          <Form.Item
+            name="order"
+            label={intl.formatMessage({ id: 'setting.topMenu.order' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'setting.topMenu.order' }) }
+                ),
+              },
+            ]}
+            hasFeedback
+          >
+            <InputNumber defaultValue={initialValues?.order || 0} />
+          </Form.Item>
+          <Form.Item name="isHidden" label={intl.formatMessage({ id: 'product.isHidden' })}>
+            <Switch defaultChecked={initialValues?.isHidden} />
+          </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" loading={isLoading}>
               {isUpdate

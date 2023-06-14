@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import AppConfig from 'config/';
+import { storage } from 'utils';
 import { checkSession } from 'utils/auth';
 import endPoint from './endPoint.json';
 
@@ -62,8 +63,8 @@ const getRequestHeaders = async () => {
   headers['Cache-control'] =
     'no-cache,no-store,must-revalidate,max-age=-1,private';
   // headers['Authorization'] = `Bearer ${localStorage.getItem('Token') || ''}`;
-  headers['x-access-token'] = `${localStorage.getItem('Token') || ''}`;
-
+  headers['x-access-token'] = `${storage.getAccessToken()}`;
+  
   // headers['lang'] = localStorage.getItem('i18nextLng') || 'en';
 
   return headers;

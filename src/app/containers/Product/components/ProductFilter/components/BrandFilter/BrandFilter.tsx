@@ -35,22 +35,21 @@ const BrandFilter = ({ onBrandSelected, defaultValue }: IProp): JSX.Element => {
   }, [data, isLoading]);
 
   useEffect(() => {
-    setCheckedList(defaultValue?.map((item: any) => JSON.stringify(item)))
+    setCheckedList(defaultValue?.map((item: any) => JSON.stringify(item)));
   }, [defaultValue]);
 
   const onChange = (checkedValues: CheckboxValueType[]) => {
     setCheckedList(checkedValues);
-    if(checkedValues && checkedValues.length > 0) {
-      onBrandSelected(checkedValues)
+    onBrandSelected(checkedValues);
+    if (checkedValues && checkedValues.length > 0) {
     }
   };
 
-  return (
+  return (!!brands && (
     <div className="brandFilter">
-      {brands && <Checkbox.Group options={plainOptions} onChange={onChange} value={checkedList} />}
+      <Checkbox.Group options={plainOptions} onChange={onChange} value={checkedList} />
     </div>
-  );
+  ));
 };
 
 export default BrandFilter;
-

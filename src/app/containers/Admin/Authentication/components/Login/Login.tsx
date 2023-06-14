@@ -1,7 +1,7 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Form, Input, Button, Image } from 'antd';
-import { LoginPayload } from 'models/user';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Form, Input, Button, Image, message, Layout } from 'antd';
+import { LoginPayload, UserAuthentication, UserRole } from 'models/user';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +9,8 @@ import { authenticationHooks } from '../../hooks';
 import './Login.less';
 import { PAGE_NAME, SETTINGS } from 'constants/common';
 import { templatesHooks } from 'app/containers/Template';
+import { RoleOptions } from 'constants/user';
+import { Context as AppContext } from 'app/context/appContext';
 
 const Login = (): JSX.Element => {
   const intl = useIntl();
@@ -24,47 +26,80 @@ const Login = (): JSX.Element => {
     },
   });
 
+  const { currentUser, token } = useContext(AppContext);
 
   // const { settingTemplate } = useContext(AppContext);
-
-  const [loginData, setLoginData] = useState<LoginPayload>({
+  const defaultValue = {
     email: '',
     password: '',
-  });
-  const { data: userLogin, isLoading: isLoadingUserLogin } = authenticationHooks.useLogin(loginData);
+    role: RoleOptions.ADMIN,
+  };
+
+  const [loginData, setLoginData] = useState<LoginPayload>(defaultValue);
+
+  // const [userLogin, setUserLogin] = useState<UserAuthentication>();
+
+  const { data: userLogin, refetch } = authenticationHooks.useLogin(loginData);
   const onFinish = useCallback(async (values: any) => {
-    setLoginData(values);
+    setLoginData({
+      ...values,
+      role: RoleOptions.ADMIN,
+    });
   }, []);
 
   useEffect(() => {
-    if (userLogin && !isLoadingUserLogin) {
-      localStorage.setItem('CurrentUser', JSON.stringify(userLogin));
+    if (loginData.email !== '' && loginData.password !== '') {
+      refetch();
+    }
+  },[loginData, refetch])
+
+  useEffect(() => {
+    if (userLogin) {
+      // localStorage.setItem('CurrentUser', JSON.stringify(userLogin));
       if (userLogin.token) {
-        localStorage.setItem('Token', userLogin.token as string);
-        navigate(`/admin`);
+        if (
+          userLogin.role &&
+          ((userLogin.role as string) === RoleOptions.ADMIN || (userLogin.role as string) === RoleOptions.SALE)
+        ) {
+          // localStorage.setItem('Token', userLogin.token as string);
+          navigate(`/admin`);
+        } else {
+          message.error(intl.formatMessage({ id: 'common.user.login.fail' }));
+        }
       } else {
-        navigate(`/admin/changePassword`);
+        if (
+          userLogin.role &&
+          ((userLogin.role as string) === RoleOptions.ADMIN || (userLogin.role as string) === RoleOptions.SALE)
+        ) {
+          navigate(`/admin/changePassword`);
+        } else {
+          message.error(intl.formatMessage({ id: 'common.user.login.fail' }));
+        }
       }
     }
-
-    if (localStorage.getItem('Token')) navigate(`/admin`);
-  }, [userLogin, isLoadingUserLogin, navigate]);
+    
+    if (token) navigate(`/admin`);
+  }, [intl, navigate, token, userLogin]);
 
   const logoIcon = useMemo(() => {
     if (settingTemplate) {
-      return settingTemplate?.data?.find((item: any) => item.name === SETTINGS.LOGO)
+      return settingTemplate?.data?.find((item: any) => item.name === SETTINGS.LOGO);
     }
-  }, [settingTemplate])
-  
+  }, [settingTemplate]);
+
   return (
-    <>
+    <Layout>
       <Helmet title={intl.formatMessage({ id: 'page.name.login' })} />
       <div className="signin-page">
         <div className="bg-image">
           <img src={'/images/increase-sales.jpg'} alt={'Dai Viet'} />
         </div>
         <div className="form-container">
-          <Image className='logoIcon' preview={false} src={logoIcon?.valueImages?.[0]?.url || "/images/logodv-8769.gif"} />
+          <Image
+            className="logoIcon"
+            preview={false}
+            src={logoIcon?.valueImages?.[0]?.url || '/images/logodv-8769.gif'}
+          />
           <Form name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onFinish}>
             <Form.Item name="email" rules={[{ required: true, message: 'Please input your Username!' }]}>
               <Input
@@ -95,7 +130,7 @@ const Login = (): JSX.Element => {
           </Form>
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

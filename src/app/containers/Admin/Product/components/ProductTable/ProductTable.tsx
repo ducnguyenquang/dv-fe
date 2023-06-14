@@ -25,6 +25,7 @@ interface DataType {
   categories: Category[];
   _id: string;
   isHidden: boolean;
+  order: number;
   type: string;
   updatedAt: string;
 }
@@ -244,6 +245,16 @@ const ProductTable = (): JSX.Element => {
         sortDirections: ['descend', 'ascend'],
         showSorterTooltip: false,
         render: (_, record) => record.brand?.name,
+      },
+      {
+        title: intl.formatMessage({ id: 'product.order' }),
+        dataIndex: 'order',
+        key: 'order',
+        ...getColumnSearchProps('order'),
+        sorter: (a, b) => a.order - b.order,
+        showSorterTooltip: false,
+        sortDirections: ['descend', 'ascend'],
+        width: 120,
       },
       {
         title: intl.formatMessage({ id: 'product.isHidden' }),

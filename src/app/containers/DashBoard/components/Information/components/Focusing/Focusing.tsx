@@ -138,27 +138,6 @@ const Focusing = (): JSX.Element => {
           <div className="productBlock">
             <Spin spinning={isLoadingTemplateData}>
               {cableImages ? (
-                // <Marquee className="marquee-text" pauseOnHover={true} gradient={false} speed={2}>
-                //   {cableImages.map(item => (
-                //     <Image preview={false} src={item} onError={loadDefaultImage} />
-                //   ))}
-                // </Marquee>
-                
-                // cableImages[indexImage] ? (
-                //   <Image
-                //     className="eventImage"
-                //     // style={cableImages[indexImage] ? {
-                //     //   // animation: 'fadeIn ease 3s infinite alternate',
-                //     //   animation: 'fadeOut ease 3s infinite alternate',
-                //     // }:{}}
-                //     preview={false}
-                //     src={cableImages[indexImage]}
-                //     onError={loadDefaultImage}
-                //   />
-                // ) : (
-                //   <></>
-                // )
-
                 <div className='eventImages'>
                 {cableImages.map((image, index) => (
                   <Image
@@ -173,22 +152,9 @@ const Focusing = (): JSX.Element => {
                   />
                 ))}
                 </div>
-                // <Image
-                //     key={indexImage}
-                //     className={`eventImage ${
-                //       indexImage ? 'eventImage--current' : ''
-                //     } ${isFadingOut ? 'eventImage--fade-out' : ''}`}
-                //     src={cableImages[indexImage]}
-                //     onLoad={handleImageLoad}
-                //     onError={handleImageFadeOut}
-                //     onTransitionEnd={handleImageTransitionEnd}
-                //   />
-                
               ) : (
                 <Image className="eventImage" preview={false} src="/images/cables.jpeg" />
               )}
-
-                
             </Spin>
           </div>
         </div>

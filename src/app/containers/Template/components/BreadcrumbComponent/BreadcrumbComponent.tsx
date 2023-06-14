@@ -27,9 +27,6 @@ const BreadcrumbComponent = (): JSX.Element => {
           case 'product':
             pageName = decodeURIComponent(decodeURI(pageName));
             break;
-
-          default:
-            break;
         }
         setPage(pageName);
       }
@@ -41,6 +38,22 @@ const BreadcrumbComponent = (): JSX.Element => {
       setBreadcrumbItems(pathName);
     }
   }, [pathName, setBreadcrumbItems]);
+
+  const getNavigatePage = (url: string) => {
+    let page = url
+    switch (url) {
+      case 'cap-dien':
+        page = 'electrical-cable';
+        break;
+      case 'den-led':
+        page = 'led-light';
+        break;
+      default:
+        break;
+    }
+
+    navigate(`/${page}`);
+  }
 
   return (
     <>
@@ -57,7 +70,7 @@ const BreadcrumbComponent = (): JSX.Element => {
         </Breadcrumb.Item>
         {page && (
           <Breadcrumb.Item>
-            <Button type="link" onClick={() => navigate(`/${category?.value}/${page}`)}>
+            <Button type="link" onClick={() => getNavigatePage(page)}>
               {page}
             </Button>
           </Breadcrumb.Item>

@@ -1,9 +1,9 @@
 import { Divider, Skeleton, Segmented, Pagination } from 'antd';
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import { BarsOutlined, AppstoreOutlined } from '@ant-design/icons';
 import './ProductList.less';
 import { ListComponent } from './components';
-import { productsHooks } from 'app/containers/Product';
+import { productsHooks, productsSelectors } from 'app/containers/Product';
 import { PAGE, PAGE_SIZE } from 'constants/products';
 import { Product } from 'models/product';
 import { useEffect } from 'react';
@@ -13,18 +13,62 @@ import { FilterApplied } from '../ProductFilter/components/FilterApplied';
 import { useParams } from 'react-router-dom';
 import { templatesHooks } from 'app/containers/Template';
 import { Context as AppContext } from 'app/context/appContext';
+import { useSelector } from 'react-redux';
 
 const ProductList = (): JSX.Element => {
   const [page, setPage] = useState(PAGE);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
   const [products, setProducts] = useState<Product[]>([]);
   const [viewType, setViewType] = useState('list');
-  const routeParams = useParams();
+  const { category, type } = useParams();
   const { isMobile } = useContext(AppContext);
-  const category = routeParams.category;
-  const [search, setSearch] = useState<any>();
+  const productType = useMemo(() => {
+    let correctType = undefined;
+    switch (type) {
+      case 'electrical-cable':
+        correctType = 'cap-dien';
+        break;
+      case 'led-light':
+        correctType = 'den-led';
+        break;
+      default:
+        break;
+    }
+    return correctType;
+  }, [type]);
+  const [search, setSearch] = useState<any>({
+    type: productType,
+  });
   const [isLoadMoreData, setIsLoadMoreData] = useState(false);
-  
+
+  const productFilter = useSelector(productsSelectors.getFiltersApply);
+
+  const filters = useMemo(() => {
+    if (productFilter) {
+      const filterValue: any = {};
+      for (const [key, value] of Object.entries(productFilter)) {
+        if (value) {
+          let filterKey = key;
+          switch (key) {
+            case 'brands':
+              filterKey = 'brand';
+              break;
+
+            default:
+              filterKey = key;
+              break;
+          }
+          const valueData = (value as any[]).map(item => item._id).join(',') || undefined;
+          if (valueData) {
+            filterValue[`${filterKey}`] = valueData;
+          }
+        }
+      }
+      return filterValue;
+    }
+    return undefined;
+  }, [productFilter]);
+
   const [productPagination, setProductPagination] = useState<{
     totalCount?: number;
     offset?: number;
@@ -35,7 +79,7 @@ const ProductList = (): JSX.Element => {
 
   const { data: categoryData, isLoading: isCategoryDataLoading } = templatesHooks.useCategories({
     search: {
-      slug: category
+      slug: category,
     },
     pagination: {
       limit: 1,
@@ -52,15 +96,18 @@ const ProductList = (): JSX.Element => {
       })
     }
   },[categoryData, isCategoryDataLoading])
-  
+
   const { data: productData, isLoading: isProductDataLoading } = productsHooks.useProducts({
-    search,
+    search: {
+      ...search,
+      ...filters,
+    },
     pagination: {
       limit: pageSize,
       offset: (page - 1) * pageSize,
     },
   });
-  
+
   useEffect(() => {
     if (productData && !isProductDataLoading) {
       setProducts(productData?.data);
@@ -76,28 +123,30 @@ const ProductList = (): JSX.Element => {
   return (
     <div className={`productList ${isMobile && 'productList-mobile'}`}>
       <FilterApplied />
-      {!isMobile && <div className="modeBlock">
-        <div className="numberItem">
-          <span>{productPagination.totalCount}</span>
-          <FormattedMessage id="common.filter.product" />
+      {!isMobile && (
+        <div className="modeBlock">
+          <div className="numberItem">
+            <span>{productPagination.totalCount}</span>
+            <FormattedMessage id="common.filter.product" />
+          </div>
+          <Segmented
+            className="modeFilter"
+            onChange={value => setViewType(value as string)}
+            options={[
+              {
+                label: intl.formatMessage({ id: 'common.button.filter.list' }),
+                value: 'list',
+                icon: <BarsOutlined />,
+              },
+              {
+                label: intl.formatMessage({ id: 'common.button.filter.grid' }),
+                value: 'grid',
+                icon: <AppstoreOutlined />,
+              },
+            ]}
+          />
         </div>
-        <Segmented
-          className="modeFilter"
-          onChange={value => setViewType(value as string)}
-          options={[
-            {
-              label: intl.formatMessage({ id: 'common.button.filter.list' }),
-              value: 'list',
-              icon: <BarsOutlined />,
-            },
-            {
-              label: intl.formatMessage({ id: 'common.button.filter.grid' }),
-              value: 'grid',
-              icon: <AppstoreOutlined />,
-            },
-          ]}
-        />
-      </div>}
+      )}
       <div
         id="scrollableDiv"
         style={{
@@ -117,30 +166,32 @@ const ProductList = (): JSX.Element => {
           <ListComponent products={products} viewType={!isMobile ? viewType : 'grid'} />
         </InfiniteScroll>
       </div>
-      {products && products.length > 0 && <Pagination
-        className="pagination"
-        total={productData?.pagination?.totalCount || 10}
-        showTotal={(total, range) => {
-          return intl.formatMessage(
-            { id: 'common.pagination.rangeData' },
-            {
-              start: range[0] || 1,
-              end: range[1] || productData?.pagination?.pageSize,
-              total,
-            }
-          );
-        }}
-        defaultPageSize={productData?.pagination?.pageSize}
-        current={page}
-        onChange={(page, pageSize) => {
-          setPage(page);
-          setPageSize(pageSize);
-        }}
-        showSizeChanger
-        onShowSizeChange={pageSize => {
-          productData?.pagination?.onShowSizeChange?.(pageSize);
-        }}
-      />}
+      {products && products.length > 0 && (
+        <Pagination
+          className="pagination"
+          total={productData?.pagination?.totalCount || 10}
+          showTotal={(total, range) => {
+            return intl.formatMessage(
+              { id: 'common.pagination.rangeData' },
+              {
+                start: range[0] || 1,
+                end: range[1] || productData?.pagination?.pageSize,
+                total,
+              }
+            );
+          }}
+          defaultPageSize={productData?.pagination?.pageSize}
+          current={page}
+          onChange={(page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          }}
+          showSizeChanger
+          onShowSizeChange={pageSize => {
+            productData?.pagination?.onShowSizeChange?.(pageSize);
+          }}
+        />
+      )}
     </div>
   );
 };

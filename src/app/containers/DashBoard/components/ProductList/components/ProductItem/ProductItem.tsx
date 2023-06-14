@@ -36,7 +36,7 @@ const ProductItem = ({ data }: IProps): JSX.Element => {
         <Button
           type="link"
           className="detailButton"
-          onClick={() => navigate(`/product/${encodeURIComponent(data?.slug as string)}`)}
+          onClick={() => navigate(`/product/${data?.type}/${encodeURIComponent(data?.slug as string)}`)}
         >
           {intl.formatMessage({ id: 'common.button.detail' })}
         </Button>

@@ -14,7 +14,7 @@ const ListItemComponent = ({ data }: IProps): JSX.Element => {
   const navigate = useNavigate();
 
   const goToProductDetail = () => {
-    navigate(data?.slug ? `/product/${encodeURIComponent(data?.slug)}` : '/products')
+    navigate(data?.slug ? `/product/${data.type}/${encodeURIComponent(data?.slug)}` : '/products')
   };
 
   const onAddCart = async (cartItem: any) => {
@@ -107,7 +107,7 @@ const ListItemComponent = ({ data }: IProps): JSX.Element => {
               onClick={e => {
                 e.stopPropagation();
                 // onAddCart(data);
-                navigate(`/product/${data.slug}`)
+                navigate(`/product/${data.type}/${data.slug}`)
               }}
             >
               {intl.formatMessage({ id: 'product.detail' })}

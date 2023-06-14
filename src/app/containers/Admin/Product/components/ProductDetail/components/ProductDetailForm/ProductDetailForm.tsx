@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, Card, Switch, Tooltip, AutoComplete, Tag, Space } from 'antd';
+import { Button, Form, Input, Select, Card, Switch, Tooltip, AutoComplete, Tag, Space, InputNumber } from 'antd';
 import { Category } from 'models/category';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { productsHooks } from 'app/containers/Admin/Product';
@@ -215,11 +215,7 @@ const ProductDetailForm = ({ isUpdate, onFinish, data, isLoading }: IProps): JSX
 
   const onColorSelected = useCallback(
     (itemIndex: number, value: string) => {
-      // console.log('==== itemIndex', itemIndex);
-      // console.log('==== value', value);
       const colors = form.getFieldValue('colors');
-
-      // console.log('==== colors', colors);
 
       if (colors.length >= itemIndex) {
         colors[itemIndex] = value;
@@ -242,12 +238,8 @@ const ProductDetailForm = ({ isUpdate, onFinish, data, isLoading }: IProps): JSX
   );
 
   const onColorDropDownSelected = useCallback((value: string[], option: any) => {
-    // console.log('==== value', value);
-    // console.log('==== option', option);
     setColors(value);
   }, []);
-
-  // console.log('==== initialValues', initialValues);
 
   // const tagColorRender = (props: any) => {
   //   const { key, label, value, color, closable, onClose } = props;
@@ -255,7 +247,6 @@ const ProductDetailForm = ({ isUpdate, onFinish, data, isLoading }: IProps): JSX
   //     event.preventDefault();
   //     event.stopPropagation();
   //   };
-  //   console.log('==== tagColorRender', props);
 
   //   return (
   //     <Tag
@@ -281,10 +272,6 @@ const ProductDetailForm = ({ isUpdate, onFinish, data, isLoading }: IProps): JSX
     }
   }, [initialValues]);
 
-  // console.log('==== data', data);
-  // console.log('==== initialValues', initialValues);
-  // console.log('==== getFieldsValue', form.getFieldsValue());
-
   return (
     <div className="productDetailForm">
       <Helmet title={intl.formatMessage({ id: 'page.name.productDetail' })} />
@@ -301,8 +288,6 @@ const ProductDetailForm = ({ isUpdate, onFinish, data, isLoading }: IProps): JSX
           form={form}
           name="update"
           onFinish={async values => {
-            // console.log('==== values', values);
-
             const data = {
               ...values,
               description: encodeURIComponent(values.description),
@@ -318,8 +303,6 @@ const ProductDetailForm = ({ isUpdate, onFinish, data, isLoading }: IProps): JSX
               })),
               type: values.type === undefined ? '' : values.type,
             };
-            // console.log('==== data', data);
-            // return;
 
             await onFinish(data).then(() => navigate(`/admin/products`));
           }}
@@ -459,6 +442,22 @@ const ProductDetailForm = ({ isUpdate, onFinish, data, isLoading }: IProps): JSX
             }
           >
             <ImageUpload fileList={fileList} ratio={1 / 1} setFileList={setFileList} imageNumber={5} />
+          </Form.Item>
+          <Form.Item
+            name="order"
+            label={intl.formatMessage({ id: 'setting.topMenu.order' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'setting.topMenu.order' }) }
+                ),
+              },
+            ]}
+            hasFeedback
+          >
+            <InputNumber defaultValue={initialValues?.order || 0} />
           </Form.Item>
           <Form.Item name="isHidden" label={intl.formatMessage({ id: 'product.isHidden' })}>
             <Switch defaultChecked={initialValues?.isHidden} />

@@ -9,6 +9,10 @@ export const STORAGE_COOKIE_KEYS = {
   REFRESH_TOKEN: 'refresh-token',
   SHOPPING_CART: 'shopping-cart',
   LANGUAGE: 'language',
+  CURRENT_USER: 'current-user',
+  AVATAR_USER: 'avatar-user',
+  CLIENT_CURRENT_USER: 'client-current-user',
+  CLIENT_ACCESS_TOKEN: 'client-access-token',
 };
 
 export default {
@@ -24,50 +28,46 @@ export default {
   // },
   // getEquipmentFilters: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.EQUIPMENT_FILTERS),
 
+  setClientAccessToken: (accessToken: string): CookiesResponse => {
+    Cookies.set(STORAGE_COOKIE_KEYS.CLIENT_ACCESS_TOKEN, accessToken, { expires: 365 });
+  },
+  getClientAccessToken: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.CLIENT_ACCESS_TOKEN),
+
+  setClientCurrentUser: (currentUser: string): CookiesResponse =>
+    Cookies.set(STORAGE_COOKIE_KEYS.CLIENT_CURRENT_USER, currentUser, { expires: 365 }),
+  getClientCurrentUser: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.CLIENT_CURRENT_USER),
+
   setAccessToken: (accessToken: string): CookiesResponse => {
     Cookies.set(STORAGE_COOKIE_KEYS.ACCESS_TOKEN, accessToken, { expires: 365 });
   },
   getAccessToken: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.ACCESS_TOKEN),
+
+  setCurrentUser: (currentUser: string): CookiesResponse =>
+    Cookies.set(STORAGE_COOKIE_KEYS.CURRENT_USER, currentUser, { expires: 365 }),
+  getCurrentUser: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.CURRENT_USER),
+  setAvatarUser: (avatarUser: string): CookiesResponse =>
+    sessionStorage.setItem(STORAGE_COOKIE_KEYS.AVATAR_USER, avatarUser),
+    // Cookies.set(STORAGE_COOKIE_KEYS.AVATAR_USER, avatarUser, { expires: 365 }),
+  getAvatarUser: (): any => sessionStorage.getItem(STORAGE_COOKIE_KEYS.AVATAR_USER),
 
   setShoppingCart: (item: string): CookiesResponse => {
     Cookies.set(STORAGE_COOKIE_KEYS.SHOPPING_CART, item, { expires: 365 });
   },
   getShoppingCart: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.SHOPPING_CART),
 
-  // setLocationColumns: (location: string): CookiesResponse => {
-  //   Cookies.set(STORAGE_COOKIE_KEYS.LOCATION_COLUMN_ORDER, location, { expires: 365 });
-  // },
-  // getLocationColumns: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.LOCATION_COLUMN_ORDER),
-  // setCustomerColumns: (location: string): CookiesResponse => {
-  //   Cookies.set(STORAGE_COOKIE_KEYS.CUSTOMER_COLUMN_ORDER, location, { expires: 365 });
-  // },
-  // getCustomerColumns: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.CUSTOMER_COLUMN_ORDER),
-  // setEmployeeColumns: (location: string): CookiesResponse => {
-  //   Cookies.set(STORAGE_COOKIE_KEYS.EMPLOYEE_COLUMN_ORDER, location, { expires: 365 });
-  // },
-  // getEmployeeColumns: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.EMPLOYEE_COLUMN_ORDER),
-  // setCalendarLocation: (location: string): CookiesResponse => {
-  //   Cookies.set(STORAGE_COOKIE_KEYS.CALENDAR_LOCATION, location, { expires: 365 });
-  // },
-  // getCalendarLocation: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.CALENDAR_LOCATION),
-  // setCalendarView: (location: string): CookiesResponse => {
-  //   Cookies.set(STORAGE_COOKIE_KEYS.CALENDAR_VIEW, location, { expires: 365 });
-  // },
-  // getCalendarView: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.CALENDAR_VIEW),
   setLanguage: (language: string): CookiesResponse =>
     Cookies.set(STORAGE_COOKIE_KEYS.LANGUAGE, language, { expires: 365 }),
   getLanguage: (): CookiesResponse => Cookies.get(STORAGE_COOKIE_KEYS.LANGUAGE),
   clear: (): CookiesResponse => {
     Cookies.remove(STORAGE_COOKIE_KEYS.REFRESH_TOKEN);
     Cookies.remove(STORAGE_COOKIE_KEYS.AUTH_TOKEN);
-    // Cookies.remove(STORAGE_COOKIE_KEYS.EQUIPMENT_FILTERS);
-    // Cookies.remove(STORAGE_COOKIE_KEYS.CALENDAR_LOCATION);
-    // Cookies.remove(STORAGE_COOKIE_KEYS.CALENDAR_VIEW);
-    // Cookies.remove(STORAGE_COOKIE_KEYS.LOCATION_COLUMN_ORDER);
-    // Cookies.remove(STORAGE_COOKIE_KEYS.CUSTOMER_COLUMN_ORDER);
-    // Cookies.remove(STORAGE_COOKIE_KEYS.EMPLOYEE_COLUMN_ORDER);
-    Cookies.remove(STORAGE_COOKIE_KEYS.ACCESS_TOKEN);
     Cookies.remove(STORAGE_COOKIE_KEYS.LANGUAGE);
 
+    Cookies.remove(STORAGE_COOKIE_KEYS.ACCESS_TOKEN);
+    Cookies.remove(STORAGE_COOKIE_KEYS.CURRENT_USER);
+    Cookies.remove(STORAGE_COOKIE_KEYS.CLIENT_ACCESS_TOKEN);
+    Cookies.remove(STORAGE_COOKIE_KEYS.CLIENT_CURRENT_USER);
+    // Cookies.remove(STORAGE_COOKIE_KEYS.AVATAR_USER);
+    sessionStorage.clear();
   },
 };

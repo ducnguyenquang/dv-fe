@@ -4,6 +4,9 @@ interface IAppContextProps {
   orientation?: string;
   isMobile?: boolean;
   settingTemplate?: any;
+  currentUser?: any;
+  avatarUser?: any;
+  token?: string;
 }
 
 export const Context = createContext<IAppContextProps>({
@@ -11,4 +14,7 @@ export const Context = createContext<IAppContextProps>({
   isMobile: false,
   // logoIcon: 'images/logodv-8769.gif',
   settingTemplate: undefined,
+  currentUser: {},
+  avatarUser: {},
+  token: '',
 });

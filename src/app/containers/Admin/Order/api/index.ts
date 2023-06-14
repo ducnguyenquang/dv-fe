@@ -1,15 +1,12 @@
 import { UserQueryPayload, UserDetailPayload } from 'models/user';
 
-// import { fetchEquipments } from './fetchEquipments';
-// import { fetchEquipment } from './fetchEquipment';
-// import { createEquipment } from './createEquipment';
-// import { uploadEquipmentImage } from './uploadEquipmentImage';
-// import { editEquipment } from './editEquipment';
 import { getOrders } from './getOrders';
 import { getOrder } from './getOrder';
 import { createOrder } from './createOrder';
+import { getClientOrders } from './getClientOrders';
+import { getClientOrder } from './getClientOrder';
+import { createClientOrder } from './createClientOrder';
 import { updateOrder } from './updateOrder';
-// import { getCaterogies } from './getCaterogies';
 import { deleteOrder } from './deleteOrder';
 
 export const ordersKeys = {
@@ -24,7 +21,9 @@ export const ordersApi = {
   ordersKeys,
   getOrders,
   createOrder,
-  // getCaterogies,
+  getClientOrders,
+  getClientOrder,
+  createClientOrder,
   getOrder,
   updateOrder,
   deleteOrder,

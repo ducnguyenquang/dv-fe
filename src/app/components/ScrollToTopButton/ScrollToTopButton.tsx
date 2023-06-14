@@ -19,7 +19,6 @@ const ScrollToTopButton = () => {
 
   useEffect(() => {
     const handleScroll = throttle(() => {
-      console.log('==== handleScroll');
       
       if (window.pageYOffset > 300) {
         setIsVisible(true);
@@ -36,8 +35,6 @@ const ScrollToTopButton = () => {
   }, []);
 
   const scrollToTop = () => {
-    console.log('==== scrollToTop');
-
     window.scrollTo({
       top: 0,
       behavior: 'smooth'

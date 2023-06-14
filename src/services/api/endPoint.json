@@ -3,6 +3,7 @@
     "loginApi": "/login",
     "changePasswordApi": "/changePassword",
     "registerApi": "/register",
+    "getClientSearchApi": "/client/search",
     
     "getProductsApi": "/product/list",
     "getProductApi": "/product",
@@ -91,6 +92,15 @@
     "removeProjectApi": "/project/remove",
     "getClientProjectsApi": "/project/client/list",
     "getClientProjectApi": "/project/client",
+
+    "getContactsApi": "/contact/list",
+    "getContactApi": "/contact",
+    "createContactApi": "/contact/add",
+    "updateContactApi": "/contact/update",
+    "removeContactApi": "/contact/remove",
+    "getClientContactsApi": "/contact/client/list",
+    "getClientContactApi": "/contact/client",
+    "createClientContactApi": "/contact/client/add",
 
     "getSkusApi": "/sku/list",
     "getSkuApi": "/sku",

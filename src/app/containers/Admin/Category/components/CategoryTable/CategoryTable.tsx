@@ -1,10 +1,10 @@
-import { Button, Space, Popconfirm, Card, Input, InputRef, Tabs, Tooltip } from 'antd';
+import { Button, Space, Popconfirm, Card, Input, InputRef, Tabs, Tooltip, Switch } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import { categoriesHooks, categoriesActions } from 'app/containers/Admin/Category';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/pagination';
 import { useIntl } from 'react-intl';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { FilterConfirmProps } from 'antd/lib/table/interface';
@@ -20,6 +20,8 @@ interface DataType {
   slug: string;
   type: string;
   _id: string;
+  isHidden: boolean;
+  order: number;
 }
 
 type DataIndex = keyof DataType;
@@ -51,6 +53,7 @@ const CategoryTable = (): JSX.Element => {
   });
 
   const { mutateAsync: deleteCategory } = categoriesHooks.useDeleteCategory();
+  const { mutateAsync: updateCategory, isLoading: isLoadingUpdateCategory } = categoriesHooks.useUpdateCategory();
 
   useEffect(() => {
     if (data && !isLoading) {
@@ -104,6 +107,16 @@ const CategoryTable = (): JSX.Element => {
     setSearch(searchData && Object.keys(searchData).length > 0 ? searchData : '');
     handleSearch(searchData, confirm, dataIndex);
   };
+
+  const onUpdateCategory = useCallback(
+    async (data: any, value: any) => {
+      await updateCategory({
+        ...data,
+        isHidden: value,
+      });
+    },
+    [updateCategory]
+  );
 
   const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<DataType> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -196,6 +209,29 @@ const CategoryTable = (): JSX.Element => {
         return <>{typeName?.label}</>;
       },
       width: 140,
+    },
+    {
+      title: intl.formatMessage({ id: 'product.order' }),
+      dataIndex: 'order',
+      key: 'order',
+      ...getColumnSearchProps('order'),
+      sorter: (a, b) => a.order - b.order,
+      showSorterTooltip: false,
+      sortDirections: ['descend', 'ascend'],
+      width: 120,
+    },
+    {
+      title: intl.formatMessage({ id: 'product.isHidden' }),
+      dataIndex: 'isHidden',
+      key: 'isHidden',
+      render: (_, record) => (
+        <Switch
+          disabled={isLoadingUpdateCategory}
+          defaultChecked={record.isHidden}
+          onChange={checked => onUpdateCategory(record, checked)}
+        />
+      ),
+      width: 130,
     },
     {
       title: intl.formatMessage({ id: 'category.action' }),

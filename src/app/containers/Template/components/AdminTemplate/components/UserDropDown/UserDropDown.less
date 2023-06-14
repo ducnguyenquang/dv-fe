@@ -3,7 +3,71 @@
   display: flex;
   justify-content: flex-end;
   flex: 1;
+
+  &-block {
+    display: flex;
+    flex-direction: column;
+    .row {
+      display: flex;
+      height: 25px;
+      justify-content: flex-end;
+      .hotLine {
+        display: block;
+        height: 25px;
+        line-height: 25px;
+      }
+      .userDropDown {
+        height: 25px;
+        padding: 0;
+        .ant-space {
+          gap: unset !important;
+          height: 25px;
+        }
+      }
+    }
+    .rowSearch {
+      display: flex;
+      height: 40px;
+
+      .ant-input-group > .ant-input {
+        padding-top: 2px;
+        padding-bottom: 2px;
+      }
+
+      .ant-input-search-button {
+        height: 31px;
+      }
+    }
+  }
   .userDropDown {
     margin-right: 48px;
+
+    .searchOption {
+      display: flex;
+      justify-content: space-between;
+    }
   }
+
+  .certain-category-search-dropdown .ant-select-dropdown-menu-item-group-title {
+    color: #666;
+    font-weight: bold;
+  }
+  
+  .certain-category-search-dropdown .ant-select-dropdown-menu-item-group {
+    border-bottom: 1px solid #f6f6f6;
+  }
+  
+  .certain-category-search-dropdown .ant-select-dropdown-menu-item {
+    padding-left: 16px;
+  }
+  
+  .certain-category-search-dropdown .ant-select-dropdown-menu-item.show-all {
+    text-align: center;
+    cursor: default;
+  }
+  
+  .certain-category-search-dropdown .ant-select-dropdown-menu {
+    max-height: 300px;
+  }
+
 }

@@ -28,5 +28,5 @@
   },
   "include": [
     "src"
-, "src/models/.customerts"  ]
+, "src/models/.customerts", "src/app/containers/Admin/Contact/components/ContactDetail/components/.lengthDetailForm"  ]
 }

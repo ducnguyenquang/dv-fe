@@ -48,7 +48,6 @@ const ProductInformation = (): JSX.Element => {
       setProductDetail(data);
     }
   }, [isLoadingProductDetail, productDetailData]);
-  // console.log('==== productDetailData', productDetailData);
 
   const getFileName = (pathFile: string) => {
     return pathFile.replace(/^.*[\\\/]/, '');
@@ -60,8 +59,6 @@ const ProductInformation = (): JSX.Element => {
 
   const onQuantityChange = (item: any) => {
     const quantity = item.target.value as number;
-    console.log('==== onQuantityChange quantity', quantity);
-    console.log('==== onQuantityChange status', status);
     
     setQuantity(status && quantity > status ? 1 : quantity);
   };
@@ -249,8 +246,6 @@ const ProductInformation = (): JSX.Element => {
                 // style: { backgroundColor: color?.color },
               };
             });
-
-            console.log('==== options', options);
           }
 
           break;
@@ -311,8 +306,6 @@ const ProductInformation = (): JSX.Element => {
   const onQuantityMinus = useCallback(() => {
     changeQuantity(quantity > 1 ? quantity - 1 : 1);
   }, [changeQuantity, quantity]);
-
-  // console.log('==== quantity', quantity);
 
   const quantityAdding = (
     <Button disabled={isDisableSubmitButton} type="link" icon={<PlusOutlined />} onClick={onQuantityAdd} />

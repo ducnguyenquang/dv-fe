@@ -73,8 +73,6 @@ const ProductBlock = (): JSX.Element => {
 
   const saveProductIdsItem = useCallback(async () => {
     const data = productIds ? JSON.stringify(productIds) : '';
-    // console.log('==== data', data);
-
     if (productIds !== undefined) {
       if (productIdsItem) {
         if (data !== productIdsItem?.value) {

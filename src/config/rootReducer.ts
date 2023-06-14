@@ -6,6 +6,7 @@ import { categoriesReducer as adminCategoriesReducer } from 'app/containers/Admi
 import { ordersReducer as adminOrdersReducer } from 'app/containers/Admin/Order';
 import { usersReducer as adminUsersReducer } from 'app/containers/Admin/User';
 import { settingsReducer as adminSettingsReducer } from 'app/containers/Admin/Setting';
+import { authenticationReducer as adminAuthenticationReducer } from 'app/containers/Admin/Authentication';
 
 
 // import { reducer as usersReducer } from 'Components/Users/redux/slice';
@@ -30,6 +31,7 @@ const createReducer = (injectedReducers = {}): any => {
     adminOrders: adminOrdersReducer,
     adminUsers: adminUsersReducer,
     adminSettings: adminSettingsReducer,
+    adminAuthentications: adminAuthenticationReducer,
     language: languageReducer,
     ...injectedReducers,
   });

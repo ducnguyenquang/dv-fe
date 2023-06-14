@@ -1,4 +1,5 @@
 import type { UploadFile } from 'antd/es/upload/interface';
+import { RoleOptions } from 'constants/user';
 
 export enum UserRole {
   CUSTOMER = 'CUSTOMER',
@@ -52,6 +53,7 @@ export type UserQueryPayload = Partial<UserQueryBase>;
 
 export type LoginPayload = Pick<User, 'email'> & {
   password?: string;
+  role: RoleOptions;
 };
 
 export type ChangePasswordPayload = Pick<User, 'email'> & {

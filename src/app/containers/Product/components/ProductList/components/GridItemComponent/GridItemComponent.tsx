@@ -16,13 +16,13 @@ const GridItemComponent = ({ data }: IProps): JSX.Element => {
   const { isMobile } = useContext(AppContext);
 
   const goToProductDetail = (slug: string) => {
-    navigate(`/product/${encodeURIComponent(slug)}`);
+    navigate(`/product/${data.type}/${encodeURIComponent(slug)}`);
   };
 
   const productId = encodeURIComponent(data?.slug as string)
 
   return (
-    <Link to={`/product/${productId}`}>
+    <Link to={`/product/${data.type}/${productId}`}>
       <div
         className={`gridItem ${isMobile && 'gridItem-mobile'}`}
         // onClick={() => (isMobile ? goToProductDetail(data?.slug as string) : undefined)}

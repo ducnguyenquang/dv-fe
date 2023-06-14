@@ -1,6 +1,6 @@
 import { Button, Card, Form, Input, Select, Upload } from 'antd';
 import { ROLE_DROPDOWN_OPTIONS } from 'constants/user';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useContext } from 'react';
 import { usersHooks } from 'app/containers/Admin/User';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import ImgCrop from 'antd-img-crop';
@@ -10,6 +10,7 @@ import { User } from 'models/user';
 import './Information.less';
 import { useNavigate } from 'react-router-dom';
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
+import { Context as AppContext } from 'app/context/appContext';
 
 const { Option } = Select;
 const formItemLayout = {
@@ -45,13 +46,14 @@ const tailFormItemLayout = {
 
 const Information = (): JSX.Element => {
   const [form] = Form.useForm();
-  const currentUserData: any = localStorage.getItem('CurrentUser')
+  const { currentUser: currentUserData, avatarUser } = useContext(AppContext);
+
   const [currentUser, setCurrentUser] = useState<User>();
   const intl = useIntl();
   const navigate = useNavigate();
   const { mutateAsync: updateUser, isLoading: isLoadingUpdateUser } = usersHooks.useUpdateUser();
-  const [fileList, setFileList] = useState<UploadFile[]>(currentUser?.images ? currentUser?.images : []);
-
+  const [fileList, setFileList] = useState<UploadFile[]>(avatarUser ? avatarUser : []);
+  
   const onFinish = useCallback(async (values: any) => {
     await updateUser({
       ...values,
@@ -64,12 +66,12 @@ const Information = (): JSX.Element => {
   }, [updateUser, currentUser]);
 
   useEffect(() => {
-    if (currentUserData && !currentUser) {
-      const user = JSON.parse(currentUserData)
+    if (currentUserData) {
+      const user = currentUserData
       setCurrentUser(user);
-      setFileList(user?.images);
+      setFileList(avatarUser);
     }
-  }, [currentUser, currentUserData]);
+  }, [avatarUser, currentUser, currentUserData]);
 
 
   return (

@@ -1,10 +1,9 @@
 .links {
   width: 30%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-right: 2%;
-  .linkColumn {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px; 
+  &-items {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -12,3 +11,17 @@
     line-height: 32px;
   }
 }
+// .links {
+//   width: 30%;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   margin-right: 2%;
+//   .linkColumn {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: flex-start;
+//     text-align: left;
+//     line-height: 32px;
+//   }
+// }

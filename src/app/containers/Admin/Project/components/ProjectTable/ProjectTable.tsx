@@ -1,9 +1,9 @@
-import { Button, Space, Popconfirm, Card, Input, InputRef, Tooltip } from 'antd';
+import { Button, Space, Popconfirm, Card, Input, InputRef, Tooltip, Switch } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import { projectsHooks, projectsActions } from 'app/containers/Admin/Project';
 import { ServiceTable } from 'common/components/ServiceTable';
 import { PAGE, PAGE_SIZE } from 'constants/products';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -19,6 +19,8 @@ interface DataType {
   description: string;
   summary: string;
   _id: string;
+  isHidden: boolean;
+  order: number;
 }
 
 type DataIndex = keyof DataType;
@@ -47,6 +49,7 @@ const ProjectTable = (): JSX.Element => {
   });
 
   const { mutateAsync: deleteProject, isLoading: isLoadingDeleteProject } = projectsHooks.useDeleteProject();
+  const { mutateAsync: updateProject, isLoading: isLoadingUpdateProject } = projectsHooks.useUpdateProject();
 
   useEffect(() => {
     if (data && !isLoading && !isLoadingDeleteProject) {
@@ -103,13 +106,15 @@ const ProjectTable = (): JSX.Element => {
     handleSearch(searchData, confirm, dataIndex);
   };
 
-  // const onSwitchChange = async (item: DataType, checked: boolean) => {
-  //   await updateProject({
-  //     ...item,
-  //     id: item._id,
-  //     isHidden: checked,
-  //   });
-  // };
+  const onUpdateProject = useCallback(
+    async (data: any, value: any) => {
+      await updateProject({
+        ...data,
+        isHidden: value,
+      });
+    },
+    [updateProject]
+  );
 
   const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<DataType> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -191,6 +196,29 @@ const ProjectTable = (): JSX.Element => {
       showSorterTooltip: false,
       sortDirections: ['descend', 'ascend'],
       render: (_, record) => <>{decodeURIComponent(record.slug)}</>,
+    },
+    {
+      title: intl.formatMessage({ id: 'product.order' }),
+      dataIndex: 'order',
+      key: 'order',
+      ...getColumnSearchProps('order'),
+      sorter: (a, b) => a.order - b.order,
+      showSorterTooltip: false,
+      sortDirections: ['descend', 'ascend'],
+      width: 120,
+    },
+    {
+      title: intl.formatMessage({ id: 'product.isHidden' }),
+      dataIndex: 'isHidden',
+      key: 'isHidden',
+      render: (_, record) => (
+        <Switch
+          disabled={isLoadingUpdateProject}
+          defaultChecked={record.isHidden}
+          onChange={checked => onUpdateProject(record, checked)}
+        />
+      ),
+      width: 130,
     },
     {
       title: intl.formatMessage({ id: 'project.action' }),

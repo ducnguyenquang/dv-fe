@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, Suspense, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 
@@ -6,7 +6,12 @@ import { GlobalStyle } from '../styles/global-styles';
 import './app.less';
 import { AdminTemplate, Template } from 'app/containers/Template';
 
-import { AdminLogin, AdminSignUp, AdminChangePassword } from 'app/containers/Admin/Authentication';
+import {
+  AdminLogin,
+  AdminSignUp,
+  AdminChangePassword,
+  authenticationSelectors,
+} from 'app/containers/Admin/Authentication';
 import { AdminProductTable, AdminProductAdd, AdminProductUpdate } from 'app/containers/Admin/Product';
 import { AdminCategoryTable, AdminCategoryAdd, AdminCategoryUpdate } from 'app/containers/Admin/Category';
 import { AdminUserTable, AdminUserAdd, AdminUserUpdate } from 'app/containers/Admin/User';
@@ -18,8 +23,12 @@ import {
   EmailTemplateTable as AdminEmailTemplateTable,
   EmailTemplateAdding as AdminEmailTemplateAdd,
   EmailTemplateUpdating as AdminEmailTemplateUpdate,
-  SkuTable as AdminSkuTable, SkuAdding as AdminSkuAdd, SkuUpdating as AdminSkuUpdate,
-  RoutePathTable as AdminRoutePathTable, RoutePathAdding as AdminRoutePathAdd, RoutePathUpdating as AdminRoutePathUpdate
+  SkuTable as AdminSkuTable,
+  SkuAdding as AdminSkuAdd,
+  SkuUpdating as AdminSkuUpdate,
+  RoutePathTable as AdminRoutePathTable,
+  RoutePathAdding as AdminRoutePathAdd,
+  RoutePathUpdating as AdminRoutePathUpdate,
 } from 'app/containers/Admin/Setting';
 import { AdminPopupMenuTable, AdminPopupMenuAdd, AdminPopupMenuUpdate } from 'app/containers/Admin/PopupMenu';
 import {
@@ -30,12 +39,13 @@ import {
 import { AdminProjectTable, AdminProjectAdd, AdminProjectUpdate } from 'app/containers/Admin/Project';
 import { AdminSupportTable, AdminSupportAdd, AdminSupportUpdate } from 'app/containers/Admin/Support';
 import { AdminTopMenuTable, AdminTopMenuAdd, AdminTopMenuUpdate } from 'app/containers/Admin/TopMenu';
+import { AdminContactTable, AdminContactAdd, AdminContactUpdate } from 'app/containers/Admin/Contact';
 
 import {
   AdminSettingPageTemplate,
   AdminSettingPageHomePage,
   AdminSettingPageProductCategory,
-  // settingPagesHooks,
+  AdminSettingPageContact,
 } from 'app/containers/Admin/SettingPage';
 import { AdminPageTable, AdminPageAdd, AdminPageUpdate } from 'app/containers/Admin/Page';
 
@@ -52,9 +62,8 @@ import { Faq } from 'app/containers/Faq';
 import { SiteMap } from 'app/containers/SiteMap';
 import { PageContent } from 'app/containers/Page';
 
-
 import { ConfigProvider } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LanguageProvider from './components/LanguageProvider/LanguageProvider';
 import { Slide, ToastContainer } from 'react-toastify';
 import { MaintenancePage } from 'app/containers/CommonPages/MaintenancePage';
@@ -67,8 +76,10 @@ import { Context as AppContext } from './context/appContext';
 import { ProjectDetail } from './containers/DashBoard/components/Projects/components/ProjectDetail';
 import { useEffect, useState } from 'react';
 import { templatesHooks } from 'app/containers/Template';
+import { UserLogin, UserAccount, UserPurchase } from 'app/containers/User';
 
 import { lazyLoad } from 'utils/lazyLoad';
+import { storage } from 'utils';
 
 // const HomePage = lazyLoad('app/containers/DashBoard/components/DashBoard/HomePage', 'HomePage');
 
@@ -89,9 +100,22 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
   const { isLandscape, isPortrait } = props;
   const orientation = isLandscape ? ORIENTATION.LANDSCAPE : ORIENTATION.PORTRAIT;
   const dispatch = useDispatch();
-  const [cookieIsAccepted, setCookieIsAccepted] = React.useState(localStorage.getItem('acceptCookie'));
+  const [cookieIsAccepted, setCookieIsAccepted] = useState(localStorage.getItem('acceptCookie'));
   const [settingTemplate, setSettingTemplate] = useState();
 
+  const tokenData = useSelector(authenticationSelectors.getAccessToken);
+  const currentUserData = useSelector(authenticationSelectors.getCurrentUser);
+  const clientTokenData = useSelector(authenticationSelectors.getClientAccessToken);
+  const clientCurrentUserData = useSelector(authenticationSelectors.getClientCurrentUser);
+  const avatarUserData = useSelector(authenticationSelectors.getAvatarUser);
+  localStorage.clear();
+  const [currentUser, setCurrentUser] = useState(currentUserData ? JSON.parse(currentUserData) : undefined);
+  const [avatarUser, setAvatarUser] = useState(avatarUserData ? JSON.parse(avatarUserData) : undefined);
+  const [token, setToken] = useState(tokenData ? tokenData : '');
+  const TYPE_TEMPLATE = {
+    CLIENT: 'client',
+    ADMIN: 'admin',
+  };
   const onAcceptCookie = () => {
     const acceptCookieVal = 'true';
     localStorage.setItem('acceptCookie', acceptCookieVal);
@@ -111,20 +135,53 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
   useEffect(() => {
     if (templateData && !isLoadingTemplateData) {
       setSettingTemplate(templateData.data);
-      // setDataSource(templateData.data);
-      // const bgColor = templateData.data?.find((item: any) => item.name === SETTINGS.BACKGROUND_COLOR);
-      // const layout = templateData.data?.find((item: any) => item.name === SETTINGS.LAYOUT_STRUCTURE);
-
-      // if (bgColor) {
-      //   setBackgroundColor(bgColor?.value as string);
-      // }
-      // if (layout) {
-      //   setLayoutStructure(layout?.value as string);
-      // }
     }
   }, [isLoadingTemplateData, templateData]);
 
-  // const logoIcon =
+  useEffect(() => {
+    if (currentUserData) {
+      // const currentUserData = localStorage.getItem('CurrentUser');
+      setCurrentUser(JSON.parse(currentUserData));
+    }
+
+    if (tokenData) {
+      // const currentUserData = localStorage.getItem('CurrentUser');
+      setToken(tokenData);
+    }
+
+    if (avatarUserData) {
+      setAvatarUser(JSON.parse(avatarUserData));
+    }
+  }, [avatarUserData, currentUserData, tokenData]);
+
+  const getStringToObject = useCallback((data: string) => {
+    return data ? JSON.parse(data) : undefined;
+  }, []);
+
+  const getContextData = useCallback(
+    (page: string) => {
+      return {
+        orientation,
+        isMobile,
+        settingTemplate,
+        currentUser:
+          page === TYPE_TEMPLATE.ADMIN ? getStringToObject(currentUserData) : getStringToObject(clientCurrentUserData),
+        avatarUser,
+        token: page === TYPE_TEMPLATE.ADMIN ? token : clientTokenData,
+      };
+    },
+    [
+      orientation,
+      settingTemplate,
+      TYPE_TEMPLATE.ADMIN,
+      getStringToObject,
+      currentUserData,
+      clientCurrentUserData,
+      avatarUser,
+      token,
+      clientTokenData,
+    ]
+  );
 
   const getTemplate = ({
     content,
@@ -134,7 +191,7 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
     hasAdvertisement = false,
   }: TemplateType) => {
     return (
-      <AppContext.Provider value={{ orientation, isMobile, settingTemplate }}>
+      <AppContext.Provider value={getContextData(TYPE_TEMPLATE.CLIENT)}>
         <Template
           leftMenu={leftMenu}
           content={content}
@@ -148,10 +205,14 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
 
   const getAdminTemplate = ({ content }: AdminTemplateType) => {
     return (
-      <AppContext.Provider value={{ orientation, isMobile, settingTemplate }}>
+      <AppContext.Provider value={getContextData(TYPE_TEMPLATE.ADMIN)}>
         <AdminTemplate content={content} />
       </AppContext.Provider>
     );
+  };
+
+  const getAppContext = (child: any) => {
+    return <AppContext.Provider value={getContextData(TYPE_TEMPLATE.CLIENT)}>{child}</AppContext.Provider>;
   };
 
   return (
@@ -174,16 +235,15 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
             pauseOnFocusLoss={false}
             limit={10}
           />
-          <React.Suspense fallback={<p>Loading page...</p>}>
+          <Suspense fallback={<p>Loading page...</p>}>
             <Routes>
-              <Route
-                path={'/'}
-                element={getTemplate({ content: <HomePage />, hasAdvertisement: true })}
-              />
+              <Route path={'/'} element={getTemplate({ content: <HomePage />, hasAdvertisement: true })} />
+              <Route path="*" element={getTemplate({ content: <EmptyPage />, leftMenu: <SupportMenu /> })} />
+              <Route path="/admin/*" element={getAdminTemplate({ content: <EmptyPage /> })} />
               <Route path={'/electrical-cable'} element={getTemplate({ content: <ElectricalCable /> })} />
               <Route path={'/led-light'} element={getTemplate({ content: <LedLight /> })} />
               <Route path={'/admin'} element={getAdminTemplate({ content: <AdminProductTable /> })} />
-              <Route path={'/admin/login'} element={<AdminLogin />} />
+              <Route path={'/admin/login'} element={getAppContext(<AdminLogin />)} />
               <Route path={'/admin/signup'} element={<AdminSignUp />} />
               <Route path={'/admin/changePassword'} element={<AdminChangePassword />} />
               <Route path={'/admin/products'} element={getAdminTemplate({ content: <AdminProductTable /> })} />
@@ -201,7 +261,7 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
               <Route path={'/admin/brands'} element={getAdminTemplate({ content: <AdminBrandTable /> })} />
               <Route path={'/admin/brand/:id'} element={getAdminTemplate({ content: <AdminBrandUpdate /> })} />
               <Route path={'/admin/brand/add'} element={getAdminTemplate({ content: <AdminBrandAdd /> })} />
-              
+
               <Route
                 path={'/admin/setting/emailTemplate'}
                 element={getAdminTemplate({ content: <AdminEmailTemplateTable /> })}
@@ -214,18 +274,9 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
                 path={'/admin/setting/emailTemplate/add'}
                 element={getAdminTemplate({ content: <AdminEmailTemplateAdd /> })}
               />
-              <Route
-                path={'/admin/setting/sku'}
-                element={getAdminTemplate({ content: <AdminSkuTable /> })}
-              />
-              <Route
-                path={'/admin/setting/sku/:id'}
-                element={getAdminTemplate({ content: <AdminSkuUpdate /> })}
-              />
-              <Route
-                path={'/admin/setting/sku/add'}
-                element={getAdminTemplate({ content: <AdminSkuAdd /> })}
-              />
+              <Route path={'/admin/setting/sku'} element={getAdminTemplate({ content: <AdminSkuTable /> })} />
+              <Route path={'/admin/setting/sku/:id'} element={getAdminTemplate({ content: <AdminSkuUpdate /> })} />
+              <Route path={'/admin/setting/sku/add'} element={getAdminTemplate({ content: <AdminSkuAdd /> })} />
               <Route
                 path={'/admin/setting/routePath'}
                 element={getAdminTemplate({ content: <AdminRoutePathTable /> })}
@@ -285,6 +336,9 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
               <Route path={'/admin/projects'} element={getAdminTemplate({ content: <AdminProjectTable /> })} />
               <Route path={'/admin/project/:id'} element={getAdminTemplate({ content: <AdminProjectUpdate /> })} />
               <Route path={'/admin/project/add'} element={getAdminTemplate({ content: <AdminProjectAdd /> })} />
+              <Route path={'/admin/contacts'} element={getAdminTemplate({ content: <AdminContactTable /> })} />
+              <Route path={'/admin/contact/:id'} element={getAdminTemplate({ content: <AdminContactUpdate /> })} />
+              <Route path={'/admin/contact/add'} element={getAdminTemplate({ content: <AdminContactAdd /> })} />
 
               <Route
                 path={'/admin/setting-page/template'}
@@ -299,6 +353,10 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
                 element={getAdminTemplate({ content: <AdminSettingPageProductCategory /> })}
               />
               <Route
+                path={'/admin/setting-page/contact'}
+                element={getAdminTemplate({ content: <AdminSettingPageContact /> })}
+              />
+              <Route
                 path={'/product'}
                 element={getTemplate({
                   content: <ProductList />,
@@ -306,7 +364,7 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
                 })}
               />
               <Route
-                path={'/product/:id'}
+                path={'/product/:type/:id'}
                 element={getTemplate({ content: <ProductDetail />, leftMenu: <SupportMenu />, hasBreadcrumb: true })}
               />
               <Route
@@ -314,21 +372,20 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
                 element={getTemplate({ content: <ProjectDetail />, leftMenu: <SupportMenu />, hasBreadcrumb: true })}
               />
               <Route
-                path={'/electrical-cable/:category/product'}
+                path={'/:type/:category/product'}
                 element={getTemplate({
                   content: <ProductList />,
                   leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
                 })}
               />
-              <Route
-                path={'/led-light/:category/product'}
+              {/* <Route
+                path={'/:type/:category/product'}
                 element={getTemplate({
                   content: <ProductList />,
                   leftMenu: <ProductFilter extendChildren={<SupportMenu />} />,
                 })}
-              />
-              
-              
+              /> */}
+
               <Route path={'/cart'} element={getTemplate({ content: <Cart />, leftMenu: <SupportMenu /> })} />
               <Route path={'/contact'} element={getTemplate({ content: <Contact />, leftMenu: <SupportMenu /> })} />
               <Route path={'/aboutUs'} element={getTemplate({ content: <AboutUs />, leftMenu: <SupportMenu /> })} />
@@ -346,18 +403,25 @@ function App(props: { isLandscape: boolean; isPortrait: boolean }) {
                 path={'/pricing'}
                 element={getTemplate({ content: <MaintenancePage />, leftMenu: <SupportMenu /> })}
               />
-              <Route
-                path={'/project'}
-                element={getTemplate({ content: <ProjectList />, leftMenu: <SupportMenu /> })}
-              />
+              <Route path={'/project'} element={getTemplate({ content: <ProjectList />, leftMenu: <SupportMenu /> })} />
               <Route
                 path={'/page/:id'}
                 element={getTemplate({ content: <PageContent />, leftMenu: <SupportMenu />, hasBreadcrumb: false })}
               />
-              <Route path="*" element={getTemplate({ content: <EmptyPage />, leftMenu: <SupportMenu /> })} />
-              <Route path="/admin/*" element={getAdminTemplate({ content: <EmptyPage /> })} />
+              <Route
+                path={'/user/login'}
+                element={getTemplate({ content: <UserLogin />, leftMenu: <SupportMenu />, hasBreadcrumb: false })}
+              />
+              <Route
+                path={'/user/account'}
+                element={getTemplate({ content: <UserAccount />, leftMenu: <SupportMenu />, hasBreadcrumb: false })}
+              />
+              <Route
+                path={'/user/purchase'}
+                element={getTemplate({ content: <UserPurchase />, leftMenu: <SupportMenu />, hasBreadcrumb: false })}
+              />
             </Routes>
-          </React.Suspense>
+          </Suspense>
           {/* {cookieIsAccepted !== 'true' && <CookieBanner onOk={onAcceptCookie} />} */}
         </LanguageProvider>
         <GlobalStyle />

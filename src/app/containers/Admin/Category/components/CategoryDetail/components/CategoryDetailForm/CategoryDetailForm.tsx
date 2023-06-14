@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, Select, Upload, UploadFile, UploadProps } from 'antd';
+import { Button, Card, Form, Input, InputNumber, Select, Switch, Upload, UploadFile, UploadProps } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/lib/upload';
 import ImageUpload from 'app/components/ImageUpload/ImageUpload';
@@ -217,6 +217,25 @@ const CategoryDetailForm = ({ isUpdate, onFinish, initialValues, isLoading }: IP
               </ImgCrop>
             </Form.Item> */}
             <ImageUpload fileList={fileList} setFileList={setFileList} imageNumber={1} />
+          </Form.Item>
+          <Form.Item
+            name="order"
+            label={intl.formatMessage({ id: 'setting.topMenu.order' })}
+            rules={[
+              {
+                required: true,
+                message: intl.formatMessage(
+                  { id: 'common.validation.require.field' },
+                  { name: intl.formatMessage({ id: 'setting.topMenu.order' }) }
+                ),
+              },
+            ]}
+            hasFeedback
+          >
+            <InputNumber defaultValue={initialValues?.order || 0} />
+          </Form.Item>
+          <Form.Item name="isHidden" label={intl.formatMessage({ id: 'product.isHidden' })}>
+            <Switch defaultChecked={initialValues?.isHidden} />
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" loading={isLoading}>

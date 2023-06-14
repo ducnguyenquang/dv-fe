@@ -14,7 +14,7 @@ export const useTemplates = (params: CommonQueryPayload): UseQueryResult<any> =>
     },
     {
       keepPreviousData: true,
-      cacheTime: 0,
+      // cacheTime: 0,
       onError: (error: ErrorResponse) => {
         if (error?.response?.errors?.length) {
           apiErrorHandler(error?.response?.errors);

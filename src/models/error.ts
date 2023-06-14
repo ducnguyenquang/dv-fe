@@ -8,5 +8,6 @@ export interface Error {
 export interface ErrorResponse {
   response: {
     errors: Array<Error>;
+    data?: string;
   };
 }

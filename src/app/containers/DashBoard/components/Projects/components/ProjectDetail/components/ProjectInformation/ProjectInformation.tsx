@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom';
 import ProjectGallery from '../ProjectGallery/ProjectGallery';
 import './ProjectInformation.less';
 import { pdfjs } from 'react-pdf';
-import { projectsHooks } from 'app/containers/Admin/Project';
 import { Descriptions, Rate } from 'antd';
 
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
 import { ORIENTATION } from 'constants/common';
+import { templatesHooks } from 'app/containers/Template';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -19,7 +19,7 @@ const ProjectInformation = (): JSX.Element => {
   const { isMobile, orientation } = useContext(AppContext);
 
 
-  const { data: projectDetailData, isLoading: isLoadingProjectDetail } = projectsHooks.useProject({ id });
+  const { data: projectDetailData, isLoading: isLoadingProjectDetail } = templatesHooks.useProject({ id });
 
   useEffect(() => {
     if (projectDetailData && !isLoadingProjectDetail) {

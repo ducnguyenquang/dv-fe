@@ -12,6 +12,8 @@ import { getProduct } from './getProduct';
 import { getProjects } from './getProjects';
 import { getProject } from './getProject';
 import { getSupports } from './getSupports';
+import { createContact } from './createContact';
+import { getSearches } from './getSearches';
 
 export const templateKeys = {
   all: ['template'] as const,
@@ -36,4 +38,6 @@ export const templatesApi = {
   getProjects,
   getProject,
   getSupports,
+  createContact,
+  getSearches,
 };

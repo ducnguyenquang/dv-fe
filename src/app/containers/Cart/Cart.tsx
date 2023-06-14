@@ -15,7 +15,7 @@ import { numberWithCommas } from 'utils/string';
 const Cart = (): JSX.Element => {
   const intl = useIntl();
   const navigate = useNavigate();
-  const { mutateAsync: createOrder, isLoading: isLoadingCreateOrder } = ordersHooks.useCreateOrder();
+  const { mutateAsync: createOrder, isLoading: isLoadingCreateOrder } = ordersHooks.useCreateClienOrder();
 
   const [cart, setCart] = useState<CartModel>();
   const [cities, setCities] = useState(getCities());
@@ -88,8 +88,6 @@ const Cart = (): JSX.Element => {
   };
 
   const onProductsChecked = (isChecked: boolean, item: any) => {
-    console.log('==== productsChecked', productsChecked);
-    console.log('==== item', item);
     if (isChecked) {
       if (!productsChecked.includes(item)) {
         productsChecked.push(item);
@@ -137,23 +135,10 @@ const Cart = (): JSX.Element => {
     };
 
   const getTotalPrice = () => {
-    console.log('==== productsChecked', productsChecked);
-
     setTotalPrice( productsChecked.reduce((sum, product) => {
-      console.log('==== sum', sum);
-      console.log('==== product', product);
       return sum + parseInt(product.price) * parseInt(product.quantity);
     }, 0));
   };
-
-  // useEffect(() => {
-  //   if (productsChecked) {
-  //     setTotalPrice(getTotalPrice(productsChecked));
-  //   }
-  // }, [getTotalPrice, productsChecked]);
-
-  // console.log('==== totalPrice', totalPrice);
-  console.log('==== productsChecked', productsChecked);
 
   return (
     <div className="cart">
@@ -174,13 +159,13 @@ const Cart = (): JSX.Element => {
         ) : (
           <Empty description={intl.formatMessage({ id: 'common.empty.data' })} />
         )}
-        <div className="total">
+        {cart?.orderItems && <div className="total">
           <div className="pricing">
             <div className="pricingTitle">{intl.formatMessage({ id: 'cart.summary.pricing.title' })}:</div>
             <div className="pricing">{numberWithCommas(totalPrice + '')}</div>
             {/* {data?.price ? numberWithCommas(data?.price + '') : intl.formatMessage({ id: 'common.price.contactPlease' })} */}
           </div>
-        </div>
+        </div>}
       </div>
       <div className="customerInfo">
         <div className="title">{intl.formatMessage({ id: 'cart.customer.title' })}</div>

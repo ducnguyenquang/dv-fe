@@ -2,7 +2,7 @@ import { Form, Input, Select, Button, Card, Tooltip } from 'antd';
 import layout from 'antd/lib/layout';
 import { useIntl } from 'react-intl';
 import { getCities, getWards } from 'utils/location/location';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   HomeFilled,
   ShopFilled,
@@ -17,9 +17,14 @@ import {
 import './Contact.less';
 import { Context as AppContext } from 'app/context/appContext';
 import { useContext } from 'react';
+import { templatesHooks } from 'app/containers/Template';
+import { useNavigate } from 'react-router-dom';
+import { PAGE_NAME, SETTINGS } from 'constants/common';
 
 const Contact = (): JSX.Element => {
   const intl = useIntl();
+  const navigate = useNavigate();
+
   const [cities, setCities] = useState(getCities());
   const [wards, setWards] = useState<any[]>();
 
@@ -32,6 +37,50 @@ const Contact = (): JSX.Element => {
 
   const { isMobile, orientation } = useContext(AppContext);
 
+  const { data: templateData, isLoading: isLoadingTemplateData } = templatesHooks.useTemplates({
+    search: {
+      group: PAGE_NAME.P_CONTACT,
+      name: SETTINGS.COMPANY_INFORMATION,
+    },
+    pagination: {
+      limit: 10,
+      offset: 0,
+    },
+  });
+
+  console.log('==== templateData', templateData);
+   
+
+  // useEffect(() => {
+  //   if (templateData && !isLoadingTemplateData) {
+  //     const leftImage = templateData.data?.find((item: any) => item.name === SETTINGS.COMPANY_INFORMATION);
+
+  //     if (leftImage) {
+  //       setLeftImage(leftImage?.valueImages?.[0]?.url as string);
+  //     }
+  //     if (leftText) {
+  //       setLeftText(leftText?.value);
+  //     }
+  //     if (rightImage) {
+  //       setRightImage(rightImage?.valueImages?.[0]?.url as string);
+  //     }
+  //     if (rightText) {
+  //       setRightText(rightText?.value);
+  //     }
+  //   }
+  // }, [isLoadingTemplateData, templateData]);
+
+  const { mutateAsync: createContact, isLoading: isLoadingCreateContact } = templatesHooks.useCreateContact();
+
+  const onFinish = useCallback(async (values: any) => {
+    console.log('==== Contact values', values);
+    // return;
+    
+    await createContact(values).then(() => {
+      navigate('/');
+    });
+    
+  },[createContact, navigate]);
 
   return (
     <div className={`contact ${isMobile && 'contact-mobile'} `}>
@@ -45,24 +94,24 @@ const Contact = (): JSX.Element => {
           title={intl.formatMessage({ id: 'contact.customer.title' })}
           {...layout}
           name="nest-messages"
-          // onFinish={onFinish}
+          onFinish={onFinish}
         >
           <Form.Item
-            name={['customer', 'name']}
+            name={['name']}
             label={intl.formatMessage({ id: 'contact.customer.name' })}
             rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name={['customer', 'phone']}
+            name={['phone']}
             label={intl.formatMessage({ id: 'contact.customer.phone' })}
             rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name={['customer', 'city']}
+            name={['city']}
             label={intl.formatMessage({ id: 'contact.customer.city' })}
             rules={[{ required: true }]}
           >
@@ -81,7 +130,7 @@ const Contact = (): JSX.Element => {
             </Select>
           </Form.Item>
           <Form.Item
-            name={['customer', 'ward']}
+            name={['ward']}
             label={intl.formatMessage({ id: 'contact.customer.ward' })}
             rules={[{ required: true }]}
           >
@@ -100,41 +149,46 @@ const Contact = (): JSX.Element => {
             </Select>
           </Form.Item>
           <Form.Item
-            name={['customer', 'address']}
+            name={['address']}
             label={intl.formatMessage({ id: 'contact.customer.address' })}
             rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name={['customer', 'email']}
+            name={'email'}
             label={intl.formatMessage({ id: 'contact.customer.email' })}
             rules={[{ type: 'email', required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name={['customer', 'topic']}
+            name={['topic']}
             label={intl.formatMessage({ id: 'contact.customer.topic' })}
             rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name={'content'}
+            name={'description'}
             label={intl.formatMessage({ id: 'contact.customer.content' })}
             rules={[{ required: true }]}
           >
             <Input.TextArea />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" disabled={isLoadingCreateContact}>
               {intl.formatMessage({ id: 'contact.button.send' })}
             </Button>
             <Button type="ghost">{intl.formatMessage({ id: 'contact.button.reset' })}</Button>
           </Form.Item>
         </Form>
       </div>
+      {templateData?.data && templateData?.data.length > 0 ? (
+        <div className="companyInfo"
+          dangerouslySetInnerHTML={{ __html: templateData?.data?.[0]?.value }}
+        />
+      ) : (
       <Card title={intl.formatMessage({ id: 'contact.company.title' })} className="companyInfo">
         <p>
           <Tooltip title={intl.formatMessage({ id: 'contact.company.address' })}>
@@ -212,7 +266,7 @@ const Contact = (): JSX.Element => {
           </Tooltip>
           www.leddaiviet.com - www.daiviet-e.com
         </p>
-      </Card>
+      </Card>)}
     </div>
   );
 };

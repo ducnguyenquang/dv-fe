@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import { productsActions, productsSelectors } from 'app/containers/Product';
 // import Sider from 'antd/lib/layout/Sider';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import './FilterApplied.less';
@@ -20,7 +20,9 @@ const FilterApplied = (): JSX.Element => {
     const allFilters = [];
     if (productFilter) {
       for (const [key, value] of Object.entries(productFilter)) {
-        if (value) {
+        console.log('==== value', value);
+
+        if (value && (value as any[]).length > 0) {
           allFilters.push(
             <div className="filter">
               <div className="title">{intl.formatMessage({ id: `filter.${key}` })}</div>
@@ -34,19 +36,28 @@ const FilterApplied = (): JSX.Element => {
     }
     return allFilters;
   };
+  console.log('==== productFilter', productFilter);
 
-  return (
-    productFilter && (
-      <div className="filterApplied">
-        <h1>
-          {intl.formatMessage({ id: 'filter.title' })}:
-          <Button type="ghost" onClick={onReset}>
-            {intl.formatMessage({ id: 'common.button.cancel' })}
-          </Button>
-        </h1>
-        <div className="filterBlock">{renderFilter()}</div>
-      </div>
-    )
+  const isFilters = useMemo(() => {
+    let result = false;
+    if (productFilter && (productFilter?.brands as any[])?.length > 0) {
+      result = true;
+    }
+    return result;
+  }, [productFilter]);
+
+  return isFilters ? (
+    <div className="filterApplied">
+      <h1>
+        {intl.formatMessage({ id: 'filter.title' })}:
+        <Button type="ghost" onClick={onReset}>
+          {intl.formatMessage({ id: 'common.button.cancel' })}
+        </Button>
+      </h1>
+      <div className="filterBlock">{renderFilter()}</div>
+    </div>
+  ) : (
+    <></>
   );
 };
 

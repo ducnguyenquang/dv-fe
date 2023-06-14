@@ -16,9 +16,7 @@ const ProductFilter = ({extendChildren}: IProps): JSX.Element => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  const productFilter = useSelector(productsSelectors.getFilters);
-
-  // const [filters, setFilters] = React.useState<ProductFiltersId>();
+  const productFilter = useSelector(productsSelectors.getFiltersApply);
   const [filters, setFilters] = useState<ProductFilters>();
   const [isShowLedAttribute, setIsShowLedAttribute] = useState(false);
 
@@ -42,7 +40,7 @@ const ProductFilter = ({extendChildren}: IProps): JSX.Element => {
       const data = brands.map(item => JSON.parse(item));
       setFilters({
         ...filters,
-        brands: data ? data : undefined,
+        brands: data && data.length > 0 ? data : [],
       });
     },
     [filters]
@@ -70,14 +68,14 @@ const ProductFilter = ({extendChildren}: IProps): JSX.Element => {
     },
     [filters]
   );
-
+  
   useEffect(() => {
-    if (productFilter) {
+    // if (productFilter) {
       const isShowLedAttribute: any = productFilter?.types?.filter(item => /den\-led/gi.test(item._id));
 
       setFilters(productFilter);
       setIsShowLedAttribute(isShowLedAttribute?.length > 0);
-    }
+    // }
   }, [productFilter]);
 
   const onApply = useCallback(() => {
@@ -96,9 +94,9 @@ const ProductFilter = ({extendChildren}: IProps): JSX.Element => {
     <div className="productFilter">
       <Card className='' title={intl.formatMessage({ id: 'filter.title' })} bordered={false}>
         <Collapse>
-          <Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.brandFilter.title' })} key="brand">
+          {<Collapse.Panel header={intl.formatMessage({ id: 'template.leftMenu.brandFilter.title' })} key="brand">
             <BrandFilter onBrandSelected={onBrandSelected} defaultValue={filters?.brands} />
-          </Collapse.Panel>
+          </Collapse.Panel>}
           {isShowLedAttribute && (
             <Collapse.Panel
               header={intl.formatMessage({ id: 'template.leftMenu.ledAttributeFilter.title' })}

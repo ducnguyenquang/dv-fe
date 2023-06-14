@@ -31,6 +31,7 @@ export const initialState = {
     count: 0,
   },
   accessToken: storage.getAccessToken(),
+  currentUser: storage.getCurrentUser(),
   // karcherEquipment: null,
   // originEquipmentDetail: {},
   // fileViewType: EquipmentFileView.LIST,
@@ -62,10 +63,14 @@ const usersSlice = createSlice({
     // deselectAllEquipment: state => {
     //   state.selectedEquipment = [];
     // },
-    // setAccessToken: (state, { payload }) => {
-    //   storage.setAccessToken(JSON.stringify(payload));
-    //   state.accessToken = payload;
-    // },
+    setAccessToken: (state, { payload }) => {
+      storage.setAccessToken(JSON.stringify(payload));
+      state.accessToken = payload;
+    },
+    setCurrentUser: (state, { payload }) => {
+      storage.setCurrentUser(JSON.stringify(payload));
+      state.currentUser = payload;
+    },
     // setKarcherEquipment: (state, { payload }) => {
     //   state.karcherEquipment = payload;
     // },

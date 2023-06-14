@@ -46,7 +46,7 @@ const CartItem = ({ data, onDelete, onItemsChecked, onQuantityChange }: IProps):
             />
           </div>
         }
-        title={<Link to={`/product/${data?.product?.slug}`}>{data?.product?.name}</Link>}
+        title={<Link to={`/product/${data?.product?.type}/${data?.product?.slug}`}>{data?.product?.name}</Link>}
         description={
           <>
             <div className="specsBlock">
